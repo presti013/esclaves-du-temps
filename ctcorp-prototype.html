@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Corp — Le Temps est notre Matière Première</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@300;400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --deep: #070C18;
+  --navy: #0D1626;
+  --steel: #1A2A3F;
+  --border: #1E3050;
+  --muted: #2A4060;
+  --accent: #C9A84C;
+  --accent2: #4A9FD4;
+  --text: #D0DCE8;
+  --text-dim: #6A8A9A;
+  --white: #F0F4F8;
+  --danger: #8B2020;
+  --success: #1A5C3A;
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Barlow', sans-serif;
+  --font-cond: 'Barlow Condensed', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   TICKER
+═══════════════════════════════════════ */
+#ticker {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 0;
+  overflow: hidden;
+  font-family: var(--font-cond);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 100;
+}
+#ticker-inner {
+  display: flex;
+  gap: 60px;
+  white-space: nowrap;
+  animation: scroll-ticker 30s linear infinite;
+}
+#ticker span.up { color: #2A8A5A; }
+#ticker span.down { color: #8B3030; }
+#ticker span.label { color: var(--accent); }
+@keyframes scroll-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+nav {
+  background: rgba(7, 12, 24, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white);
+}
+.nav-logo span {
+  color: var(--accent);
+}
+.nav-logo .logo-icon {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--white);
+  border-bottom-color: var(--accent);
+}
+
+.nav-cta {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--deep);
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: #E0BA60; }
+
+/* ═══════════════════════════════════════
+   SECTIONS SYSTEM
+═══════════════════════════════════════ */
+.page-section {
+  display: none;
+  min-height: calc(100vh - 110px);
+}
+.page-section.active { display: block; }
+
+/* ═══════════════════════════════════════
+   HOME — HERO
+═══════════════════════════════════════ */
+#home {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px 40px;
+  position: relative;
+}
+
+/* Grid background */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.25;
+}
+
+/* Radial glow */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '——';
+  opacity: 0.5;
+  margin: 0 12px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-family: var(--font-cond);
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 1;
+}
+.hero-stat {
+  background: var(--navy);
+  padding: 24px;
+  text-align: center;
+}
+.hero-stat .number {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.hero-stat .label {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+.btn-primary {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--deep);
+  border: none;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-primary:hover { background: #E0BA60; transform: translateY(-1px); }
+
+.btn-secondary {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* Announcement banner */
+.announcement {
+  background: var(--accent);
+  color: var(--deep);
+  text-align: center;
+  padding: 12px 40px;
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+/* Home features */
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin: 0;
+}
+.feature-card {
+  background: var(--navy);
+  padding: 40px;
+  border-top: 3px solid transparent;
+  transition: border-color 0.3s;
+}
+.feature-card:hover { border-top-color: var(--accent); }
+.feature-num {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+.feature-card h3 {
+  font-family: var(--font-cond);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.feature-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* Productivity counter */
+#productivity-wrap {
+  background: var(--steel);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.prod-label {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+#prod-counter {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+#prod-counter.glitch {
+  animation: glitch-text 0.3s steps(2) 3;
+  color: #FF4444;
+}
+@keyframes glitch-text {
+  0% { transform: translate(0); clip-path: none; }
+  20% { transform: translate(-3px, 1px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+/* ═══════════════════════════════════════
+   SOLUTIONS
+═══════════════════════════════════════ */
+.section-header {
+  padding: 60px 60px 40px;
+  border-bottom: 1px solid var(--border);
+}
+.section-eyebrow {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.section-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  padding: 1px;
+  margin: 40px;
+}
+.solution-card {
+  background: var(--navy);
+  padding: 32px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+.solution-card:hover { background: var(--steel); }
+.solution-card::after {
+  content: '→';
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  color: var(--accent);
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.solution-card:hover::after { opacity: 1; transform: translateX(4px); }
+.sol-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+}
+.solution-card h3 {
+  font-family: var(--font-cond);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.solution-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+.sol-tag {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--muted);
+  color: var(--text-dim);
+}
+.sol-tag.premium { border-color: var(--accent); color: var(--accent); }
+.sol-tag.classified { border-color: var(--danger); color: #C44040; }
+
+/* Product detail overlay */
+.product-detail {
+  display: none;
+  padding: 40px 60px;
+  animation: fadeIn 0.2s ease;
+}
+.product-detail.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.detail-back {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  transition: color 0.2s;
+}
+.detail-back:hover { color: var(--accent); }
+.detail-back::before { content: '←'; }
+
+.detail-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 48px;
+}
+.detail-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.detail-tagline {
+  font-family: var(--font-cond);
+  font-size: 16px;
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+}
+.detail-body {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.detail-specs {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-cond);
+  font-size: 14px;
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-key { color: var(--text-dim); letter-spacing: 0.05em; }
+.spec-val { color: var(--white); font-weight: 500; }
+.spec-val.red { color: #C44040; }
+
+/* Small print warning */
+.small-print {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* Canal Sigma link */
+.sigma-link {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sigma-link:hover { color: var(--text-dim); }
+
+/* ═══════════════════════════════════════
+   CARRIÈRES
+═══════════════════════════════════════ */
+.careers-banner {
+  background: var(--steel);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.careers-banner p {
+  font-family: var(--font-cond);
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.careers-banner strong { color: var(--accent); }
+.careers-stat {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.careers-stat span { color: var(--success); font-size: 20px; }
+
+.careers-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  min-height: 70vh;
+}
+.careers-sidebar {
+  border-right: 1px solid var(--border);
+  padding: 32px 24px;
+}
+.sidebar-title {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 10px 12px;
+  font-family: var(--font-cond);
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.filter-btn:hover { color: var(--text); border-left-color: var(--muted); }
+.filter-btn.active { color: var(--white); border-left-color: var(--accent); background: rgba(201,168,76,0.06); }
+.filter-count {
+  float: right;
+  background: var(--muted);
+  color: var(--text-dim);
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.filter-btn.active .filter-count { background: var(--accent); color: var(--deep); }
+
+.careers-main {
+  padding: 32px 40px;
+}
+.jobs-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.job-card {
+  background: var(--navy);
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.job-card:hover { background: var(--steel); }
+.job-card.hidden { display: none; }
+.job-title {
+  font-family: var(--font-cond);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.job-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.job-tag {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--muted);
+  color: var(--text-dim);
+}
+.job-tag.compression { border-color: #8B4040; color: #C08080; }
+.job-tag.tissage { border-color: #3A7AAA; color: #80AACF; }
+.job-tag.aegis { border-color: #4A6040; color: #80A080; }
+.job-tag.premium { border-color: var(--accent); color: var(--accent); }
+
+.job-salary {
+  text-align: right;
+  min-width: 140px;
+}
+.salary-amount {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.salary-note {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 2px;
+}
+.apply-btn {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--deep);
+  background: var(--accent);
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.apply-btn:hover { background: #E0BA60; }
+
+/* Simulateur de salaire */
+.simulator {
+  background: var(--steel);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  padding: 36px;
+  margin: 32px 0;
+}
+.sim-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.sim-sub {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  letter-spacing: 0.04em;
+}
+.sim-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.sim-field label {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.sim-field input, .sim-field select {
+  width: 100%;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sim-field input:focus, .sim-field select:focus {
+  border-color: var(--accent);
+}
+.sim-field select option { background: var(--navy); }
+
+.sim-btn {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--deep);
+  border: none;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sim-btn:hover { background: #E0BA60; }
+
+.sim-result {
+  display: none;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.sim-result.visible { display: block; }
+.sim-result.error-state {
+  border-color: #8B2020;
+  background: rgba(139,32,32,0.1);
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 16px;
+}
+.result-cell {
+  background: var(--navy);
+  padding: 16px 20px;
+}
+.result-cell .r-label {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.result-cell .r-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.result-cell .r-value.dimmed {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+.result-footnote {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.error-msg {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: #C44040;
+  letter-spacing: 0.05em;
+}
+
+/* Processus de recrutement */
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+.process-step {
+  background: var(--navy);
+  padding: 24px;
+}
+.step-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.2);
+  display: block;
+  margin-bottom: 12px;
+}
+.step-title {
+  font-family: var(--font-cond);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.step-body {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════
+   CHRONOVISION
+═══════════════════════════════════════ */
+.cv-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin: 40px;
+}
+.cv-main-article {
+  background: var(--navy);
+  padding: 40px;
+}
+.cv-sidebar-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+.cv-side-article {
+  background: var(--navy);
+  padding: 24px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cv-side-article:hover { background: var(--steel); }
+.cv-label {
+  font-family: var(--font-cond);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.cv-art-title {
+  font-family: var(--font-cond);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+.cv-art-body {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+.cv-date {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  letter-spacing: 0.05em;
+}
+.cv-big-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.cv-section-label {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--deep);
+  font-family: var(--font-cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+.cv-roman-link {
+  display: inline-block;
+  margin-top: 24px;
+  background: var(--steel);
+  border: 1px solid var(--border);
+  padding: 16px 24px;
+  text-decoration: none;
+  color: var(--text);
+  font-family: var(--font-cond);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.cv-roman-link:hover { border-color: var(--accent); color: var(--white); }
+.cv-roman-link strong { display: block; color: var(--accent); font-size: 17px; margin-bottom: 4px; font-family: var(--font-display); }
+
+/* ═══════════════════════════════════════
+   ESPACE CLIENT
+═══════════════════════════════════════ */
+.client-login {
+  max-width: 480px;
+  margin: 80px auto;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  padding: 48px;
+}
+.login-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.login-sub {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+  letter-spacing: 0.04em;
+}
+.form-field {
+  margin-bottom: 20px;
+}
+.form-field label {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.form-field input {
+  width: 100%;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-field input:focus { border-color: var(--accent); }
+.biometric-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+}
+.bio-icon {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.bio-text {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.login-footer {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* Dashboard mock */
+.dashboard {
+  display: none;
+  padding: 40px;
+  animation: fadeIn 0.3s ease;
+}
+.dashboard.visible { display: block; }
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+}
+.dash-greeting {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--white);
+  letter-spacing: 0.05em;
+}
+.dash-greeting span { color: var(--accent); }
+.dash-id {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.dash-widgets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 24px;
+}
+.dash-widget {
+  background: var(--navy);
+  padding: 24px;
+}
+.w-label {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.w-value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.w-value.red { color: #C44040; }
+.w-value.green { color: #2A8A5A; }
+.w-sub {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.alert-box {
+  background: rgba(139,32,32,0.15);
+  border: 1px solid var(--danger);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.alert-icon {
+  color: #C44040;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.alert-text {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.signalement-form {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-top: 24px;
+}
+.sig-title {
+  font-family: var(--font-cond);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.sig-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.sig-textarea {
+  width: 100%;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+}
+.sig-textarea:focus { border-color: var(--accent); }
+
+/* ═══════════════════════════════════════
+   OVERLAYS — Easter Eggs
+═══════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(7,12,24,0.96);
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.overlay.active { display: flex; }
+
+/* 403 Classified */
+.overlay-403 {
+  border: 1px solid var(--danger);
+  max-width: 520px;
+  width: 90%;
+  padding: 48px;
+  position: relative;
+  text-align: center;
+}
+.overlay-403::before {
+  content: 'CANAL SIGMA / v.9.14.03';
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: var(--danger);
+  opacity: 0.6;
+  letter-spacing: 0.1em;
+}
+.err-code {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 900;
+  color: var(--danger);
+  opacity: 0.4;
+  display: block;
+  margin-bottom: 8px;
+}
+.err-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: #C44040;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.err-body {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.glitched-line {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-top: 16px;
+  animation: text-flicker 4s infinite;
+}
+@keyframes text-flicker {
+  0%, 95%, 100% { opacity: 0.3; }
+  96% { opacity: 1; color: #80C080; }
+  97% { opacity: 0.2; }
+  98% { opacity: 0.9; color: #80C080; }
+}
+
+/* DEUSFALL overlay */
+.overlay-deusfall {
+  background: #000;
+  flex-direction: column;
+  gap: 0;
+}
+#deusfall-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.3em;
+  color: #fff;
+  opacity: 0;
+  text-align: center;
+  transition: opacity 2s ease;
+}
+#deusfall-text.visible { opacity: 1; }
+
+/* Footer */
+footer {
+  background: var(--navy);
+  border-top: 1px solid var(--border);
+  padding: 32px 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+.foot-col h4 {
+  font-family: var(--font-cond);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.foot-col a {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.foot-col a:hover { color: var(--white); }
+.foot-bottom {
+  background: var(--deep);
+  border-top: 1px solid var(--border);
+  padding: 16px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-cond);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.foot-bottom a {
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.foot-bottom a:hover { color: var(--text-dim); }
+
+/* ═══════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════ */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 60px;
+}
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 60px;
+}
+.tab-btn {
+  font-family: var(--font-cond);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--white); border-bottom-color: var(--accent); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.section-padding { padding: 0 60px; }
+.mt-40 { margin-top: 40px; }
+.mb-24 { margin-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div id="ticker">
+  <div id="ticker-inner">
+    <span><span class="label">CTC</span> 1 CTC = 0.0043 EUR &nbsp;&nbsp; <span class="up">▲ +2.1%</span></span>
+    <span><span class="label">PRODUCTIVITÉ GLOBALE</span> <span class="up">+14.7%</span> T4 2034</span>
+    <span><span class="label">TISSAGES ACTIFS</span> 2,014,880,443 unités</span>
+    <span><span class="label">CT-MODA</span> 4,200,000 pièces / semaine</span>
+    <span><span class="label">CENTRES NYX</span> 500 sites — 10M utilisateurs quotidiens</span>
+    <span><span class="label">BONNE ANNÉE 2035</span> CT Corp vous remercie de votre contribution</span>
+    <span><span class="label">CTC</span> 1 CTC = 0.0043 EUR &nbsp;&nbsp; <span class="up">▲ +2.1%</span></span>
+    <span><span class="label">PRODUCTIVITÉ GLOBALE</span> <span class="up">+14.7%</span> T4 2034</span>
+    <span><span class="label">TISSAGES ACTIFS</span> 2,014,880,443 unités</span>
+    <span><span class="label">CT-MODA</span> 4,200,000 pièces / semaine</span>
+    <span><span class="label">CENTRES NYX</span> 500 sites — 10M utilisateurs quotidiens</span>
+    <span><span class="label">BONNE ANNÉE 2035</span> CT Corp vous remercie de votre contribution</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showSection('home')">
+    <div class="logo-icon">CT</div>
+    CT<span>CORP</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showSection('home')" id="nav-home" class="active">Accueil</a></li>
+    <li><a onclick="showSection('solutions')" id="nav-solutions">Solutions</a></li>
+    <li><a onclick="showSection('carrieres')" id="nav-carrieres">Carrières</a></li>
+    <li><a onclick="showSection('chronovision')" id="nav-chronovision">ChronoVision</a></li>
+    <li><a onclick="showSection('client')" id="nav-client">Espace Client</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showSection('carrieres')">Postuler</button>
+</nav>
+
+<!-- ═══════════════════ HOME ═══════════════════ -->
+<section id="home" class="page-section active">
+
+  <div class="announcement">
+    ✦ Bonne Année 2035 — CT Corp vous remercie de votre contribution au progrès de l'humanité ✦
+    &nbsp;&nbsp;&nbsp;
+    ✦ CT-NET 2.0 déploiement en cours — Tissages v.4.0+ requis &nbsp;<strong style="cursor:pointer;text-decoration:underline" onclick="showSection('solutions')">En savoir plus →</strong>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">CT Corp — Exercice 2035</div>
+    <h1 class="hero-title">Le Temps est notre<br><em>Matière Première.</em></h1>
+    <p class="hero-sub">Vous êtes notre Investissement.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="number">2.0B+</span>
+        <span class="label">Tissages déployés</span>
+      </div>
+      <div class="hero-stat">
+        <span class="number">×100</span>
+        <span class="label">Compression standard</span>
+      </div>
+      <div class="hero-stat">
+        <span class="number">47</span>
+        <span class="label">Gouvernements partenaires</span>
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="showSection('solutions')">Nos Solutions</button>
+      <button class="btn-secondary" onclick="showSection('carrieres')">Rejoindre CT Corp</button>
+    </div>
+  </div>
+
+  <!-- Productivity counter -->
+  <div id="productivity-wrap">
+    <span class="prod-label">Unités de production comptabilisées aujourd'hui</span>
+    <span id="prod-counter">8,420,194,003</span>
+    <span class="prod-label" style="color: var(--accent); font-size:10px; letter-spacing:0.2em">● TEMPS RÉEL</span>
+  </div>
+
+  <!-- Features -->
+  <div class="home-features">
+    <div class="feature-card">
+      <div class="feature-num">01 / COMPRESSION</div>
+      <h3>Maîtrisez votre temps de travail</h3>
+      <p>La compression temporelle vous permet d'accomplir en quelques heures réelles ce que vous percevrez comme des semaines d'activité enrichissante. Productivité maximale, satisfaction garantie.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02 / TISSAGE</div>
+      <h3>Interface neuronale de confiance</h3>
+      <p>Nos Tissages Synaptiques, approuvés par 47 gouvernements partenaires, vous connectent à l'écosystème CT Corp. Discrets, efficaces, et désormais disponibles pour tous les niveaux d'engagement.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03 / CREDITS-TEMPS</div>
+      <h3>Une monnaie pour l'avenir</h3>
+      <p>Le Crédit-Temps Corporatif (CTC) est la devise la plus stable du monde post-2030. Récompense directe de votre contribution temporelle. Dépensez-le dans l'ensemble de notre écosystème.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════ SOLUTIONS ═══════════════════ -->
+<section id="solutions" class="page-section">
+
+  <div id="solutions-grid-view">
+    <div class="section-header">
+      <div class="section-eyebrow">Catalogue Produits</div>
+      <h2 class="section-title">Nos Solutions</h2>
+      <p class="section-desc">CT Corp propose un écosystème intégré de technologies temporelles, cognitives et commerciales. Chaque solution est certifiée par le Conseil de Conformité Chronologique.</p>
+    </div>
+
+    <div class="solutions-grid">
+
+      <div class="solution-card" onclick="showProduct('tissages')">
+        <div class="sol-icon">TS</div>
+        <h3>Tissages Synaptiques</h3>
+        <p>Interface neuronale bidirectionnelle pour une intégration optimale dans l'écosystème CT Corp. Disponible en version Standard et Premium 4.0.</p>
+        <span class="sol-tag">Standard / Premium</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('compression')">
+        <div class="sol-icon">GFT</div>
+        <h3>Compression Temporelle</h3>
+        <p>Générateurs de Flux Temporel industriels et personnels. Ratios ×50, ×80, ×100. Usage professionnel, médical et résidentiel.</p>
+        <span class="sol-tag">Professionnel</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('eternia')">
+        <div class="sol-icon">E∞</div>
+        <h3>Eternia</h3>
+        <p>Nano-maroquinerie de luxe ultra. Vieillie par compression temporelle. Stabilisée par nanites. N'altère jamais. N'oublie jamais.</p>
+        <span class="sol-tag premium">Luxe Ultra</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('ctmoda')">
+        <div class="sol-icon">CT</div>
+        <h3>CT-Moda</h3>
+        <p>Speed Fashion européenne. 4 millions de pièces par semaine. Livraison 24h. Fabriqué sur le continent. Zéro délai maritime.</p>
+        <span class="sol-tag">Grand public</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('nyx')">
+        <div class="sol-icon">NYX</div>
+        <h3>Projet Nyx</h3>
+        <p>Centres d'Ultra-Sommeil. 8 heures de récupération physiologique complète en 5 minutes de temps réel. Disponible en Cités-Vitrines et Zones sélectionnées.</p>
+        <span class="sol-tag premium">Premium</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('chronoloop')">
+        <div class="sol-icon">CL</div>
+        <h3>ChronoLoop Express</h3>
+        <p>Transport interurbain sous micro-compression embarquée. Paris–Moscou en 10 minutes perçues. 12 lignes actives. 3 heures réelles.</p>
+        <span class="sol-tag">Infrastructure</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('paradis')">
+        <div class="sol-icon">VR</div>
+        <h3>Paradis Temporel</h3>
+        <p>Cabines de Réalité Virtuelle haute immersion. Accessible dans toutes les Zones Grises. 10 CTC / heure. Programme de fidélité ChronomaxCard inclus.</p>
+        <span class="sol-tag">Zones Grises</span>
+      </div>
+
+      <div class="solution-card" onclick="showProduct('ctc')">
+        <div class="sol-icon">₵</div>
+        <h3>Crédits-Temps Corporatifs</h3>
+        <p>Monnaie officielle de l'écosystème CT Corp. Indexée sur la productivité globale. Convertisseur, portefeuille numérique et historique de compression.</p>
+        <span class="sol-tag">Finance</span>
+      </div>
+
+      <div class="solution-card" onclick="openSigma()">
+        <div class="sol-icon" style="border-color: var(--muted); color: var(--muted);">Σ</div>
+        <h3 style="color: var(--text-dim);">Canal Sigma</h3>
+        <p style="color: var(--muted);">Spécifications techniques avancées. Maintenance firmware. Accès Niveau Delta exclusif.</p>
+        <span class="sol-tag classified">Classification Delta</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Product detail views -->
+  <div id="product-tissages" class="product-detail">
+    <div class="section-padding mt-40">
+      <div class="detail-back" onclick="showProductGrid()">Catalogue Produits</div>
+      <div class="detail-hero">
+        <div>
+          <h2 class="detail-title">Tissages Synaptiques</h2>
+          <p class="detail-tagline">"L'interface qui vous comprend."</p>
+          <p class="detail-body">Le Tissage Synaptique est la première interface neuronale approuvée par le Conseil de Conformité Chronologique. Implanté lors d'une procédure ambulatoire de 20 minutes, il assure une intégration transparente dans l'écosystème CT Corp. La version 4.0 introduit une bande passante cognitivo-temporelle 3× supérieure et une tolérance aux environnements de haute compression.</p>
+          <p class="detail-body">Nos équipes médicales certifiées assurent un suivi post-implantation complet. Le Tissage Synaptique est remis à zéro automatiquement lors des mises à jour firmware trimestrielles.</p>
+          <a class="sigma-link" onclick="openSigma()">Spécifications techniques avancées (Niveau Delta) →</a>
+          <p class="small-print">* CT Corp décline toute responsabilité quant aux effets de la synchronisation prolongée sur les structures mémoricielles à long terme. La version 3.0 et antérieure n'est plus supportée depuis le 01.01.2035. En cas de dysfonctionnement, contacter le support cognitif CT Corp sous 72 heures. Le firmware peut être mis à jour à distance sans notification préalable du porteur si les conditions de sécurité réseau l'exigent.</p>
+        </div>
+        <div class="detail-specs">
+          <div class="spec-row"><span class="spec-key">Version actuelle</span><span class="spec-val">4.1 (déc. 2034)</span></div>
+          <div class="spec-row"><span class="spec-key">Procédure</span><span class="spec-val">Ambulatoire, 20 min</span></div>
+          <div class="spec-row"><span class="spec-key">Compatibilité</span><span class="spec-val">Compression ×50 à ×100</span></div>
+          <div class="spec-row"><span class="spec-key">Bande passante</span><span class="spec-val">Confidentiel</span></div>
+          <div class="spec-row"><span class="spec-key">Mise à jour</span><span class="spec-val">Trimestrielle (automatique)</span></div>
+          <div class="spec-row"><span class="spec-key">Rétractabilité</span><span class="spec-val red">Non disponible</span></div>
+          <div class="spec-row"><span class="spec-key">Prix</span><span class="spec-val">Inclus dans contrat</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="product-eternia" class="product-detail">
+    <div class="section-padding mt-40">
+      <div class="detail-back" onclick="showProductGrid()">Catalogue Produits</div>
+      <div class="detail-hero">
+        <div>
+          <h2 class="detail-title">Eternia</h2>
+          <p class="detail-tagline">"Vieilli par le temps. Affranchi du temps."</p>
+          <p class="detail-body">Eternia est la ligne de maroquinerie de luxe ultra de CT Corp. Chaque pièce est soumise à un vieillissement accéléré par compression temporelle contrôlée — un cuir Eternia a authentiquement 15 ans de patine moléculaire. Ce n'est pas une imitation. Les fibres de collagène se sont réarrangées, les tanins ont migré. L'authenticité est littérale.</p>
+          <p class="detail-body">Une fois la patine parfaite atteinte, des nanites de surface sont appliquées. La pièce est alors figée dans cet état optimal pour l'éternité. Auto-réparable. Hydrophobe. Immune aux UV.</p>
+          <p class="detail-body">Eternia s'appuie sur les maisons Bianchi, Moretti et Ferrante — trois maisons florentines rachetées par CT Corp en 2031 après les crises successives de la filière mode traditionnelle.</p>
+        </div>
+        <div class="detail-specs">
+          <div class="spec-row"><span class="spec-key">Patine équivalente</span><span class="spec-val">15 ans authentiques</span></div>
+          <div class="spec-row"><span class="spec-key">Compression fabrication</span><span class="spec-val">×50 (précision)</span></div>
+          <div class="spec-row"><span class="spec-key">Durée de vie</span><span class="spec-val">Indéfinie</span></div>
+          <div class="spec-row"><span class="spec-key">Auto-réparation</span><span class="spec-val">Nanites actives</span></div>
+          <div class="spec-row"><span class="spec-key">Prix d'entrée</span><span class="spec-val">25 000 CTC</span></div>
+          <div class="spec-row"><span class="spec-key">Disponibilité</span><span class="spec-val">Cités-Vitrines exclusif</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="product-generic" class="product-detail">
+    <div class="section-padding mt-40">
+      <div class="detail-back" onclick="showProductGrid()">Catalogue Produits</div>
+      <p style="color:var(--text-dim); font-family:var(--font-cond); font-size:14px; margin-top:20px;">Page produit en cours de déploiement. Merci de contacter votre conseiller CT Corp.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════ CARRIÈRES ═══════════════════ -->
+<section id="carrieres" class="page-section">
+
+  <div class="careers-banner">
+    <p><strong>94%</strong> de nos collaborateurs renouvellent leur contrat d'engagement temporel. Rejoignez l'écosystème CT Corp dès aujourd'hui.</p>
+    <div class="careers-stat"><span>312</span> postes ouverts</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('offres')">Offres d'emploi</button>
+    <button class="tab-btn" onclick="switchTab('simulateur')">Simulateur de salaire</button>
+    <button class="tab-btn" onclick="switchTab('processus')">Processus de recrutement</button>
+    <button class="tab-btn" onclick="switchTab('pourquoi')">Pourquoi CT Corp</button>
+  </div>
+
+  <!-- TAB: Offres -->
+  <div id="tab-offres" class="tab-content active">
+    <div class="careers-layout">
+      <div class="careers-sidebar">
+        <div class="sidebar-title">Filtrer par type</div>
+        <button class="filter-btn active" onclick="filterJobs('all', this)">Tous les postes <span class="filter-count">12</span></button>
+        <button class="filter-btn" onclick="filterJobs('compression', this)">Compression Standard <span class="filter-count">5</span></button>
+        <button class="filter-btn" onclick="filterJobs('precision', this)">Compression Précision <span class="filter-count">2</span></button>
+        <button class="filter-btn" onclick="filterJobs('tissage', this)">Tissage Requis <span class="filter-count">2</span></button>
+        <button class="filter-btn" onclick="filterJobs('aegis', this)">Aegis-CD <span class="filter-count">2</span></button>
+        <button class="filter-btn" onclick="filterJobs('premium', this)">Cités-Vitrines <span class="filter-count">1</span></button>
+
+        <div class="sidebar-title" style="margin-top:24px">Localisation</div>
+        <button class="filter-btn">Prato (FiberCore)</button>
+        <button class="filter-btn">Gdańsk (Complexe n°6)</button>
+        <button class="filter-btn">Bruxelles (La Spirale)</button>
+        <button class="filter-btn">Toutes zones</button>
+      </div>
+
+      <div class="careers-main">
+        <div class="jobs-list">
+
+          <div class="job-card" data-cat="compression">
+            <div>
+              <div class="job-title">Opérateur de Production — CT-Moda</div>
+              <div class="job-meta">
+                <span class="job-tag compression">Compression ×100</span>
+                <span class="job-tag">Prato / FiberCore</span>
+                <span class="job-tag">Temps plein</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">18 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="compression">
+            <div>
+              <div class="job-title">Agent Logistique — Complexe n°6</div>
+              <div class="job-meta">
+                <span class="job-tag compression">Compression ×100</span>
+                <span class="job-tag">Gdańsk</span>
+                <span class="job-tag">Temps plein</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">16 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="compression">
+            <div>
+              <div class="job-title">Technicien Maintenance GFT</div>
+              <div class="job-meta">
+                <span class="job-tag compression">Compression ×80</span>
+                <span class="job-tag">Multisite</span>
+                <span class="job-tag">Profil technique</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">22 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="compression">
+            <div>
+              <div class="job-title">Coordinateur de Bulle — Niveau 2</div>
+              <div class="job-meta">
+                <span class="job-tag compression">Compression ×100</span>
+                <span class="job-tag">Toutes zones</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">20 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="compression">
+            <div>
+              <div class="job-title">Opérateur CT-Nutri — Distribution</div>
+              <div class="job-meta">
+                <span class="job-tag compression">Compression ×80</span>
+                <span class="job-tag">Zones Grises</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">14 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="precision">
+            <div>
+              <div class="job-title">Artisan Maroquinier — Ligne Eternia</div>
+              <div class="job-meta">
+                <span class="job-tag" style="border-color:var(--accent);color:var(--accent)">Compression ×50</span>
+                <span class="job-tag">Prato — Aile Est</span>
+                <span class="job-tag">Qualification exigée</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">28 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="precision">
+            <div>
+              <div class="job-title">Technicien Nanites — Stabilisation Eternia</div>
+              <div class="job-meta">
+                <span class="job-tag" style="border-color:var(--accent);color:var(--accent)">Compression ×50</span>
+                <span class="job-tag">Prato — Aile Est</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">30 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="tissage">
+            <div>
+              <div class="job-title">Coordinateur Données Neurologiques</div>
+              <div class="job-meta">
+                <span class="job-tag tissage">Tissage Obligatoire</span>
+                <span class="job-tag">Zones Grises</span>
+                <span class="job-tag">Habilitation requise</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">35 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="tissage">
+            <div>
+              <div class="job-title">Analyste Comportemental — Zone Grise</div>
+              <div class="job-meta">
+                <span class="job-tag tissage">Tissage Obligatoire</span>
+                <span class="job-tag">Multisite</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">38 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="aegis">
+            <div>
+              <div class="job-title">Agent Aegis-CD — Surveillance Périmétrique</div>
+              <div class="job-meta">
+                <span class="job-tag aegis">Aegis-CD</span>
+                <span class="job-tag tissage">Tissage J+1</span>
+                <span class="job-tag">Formation 6 semaines</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">40 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="aegis">
+            <div>
+              <div class="job-title">Officier Protocole d'Urgence — Aegis-CD</div>
+              <div class="job-meta">
+                <span class="job-tag aegis">Aegis-CD</span>
+                <span class="job-tag tissage">Tissage J+1</span>
+                <span class="job-tag">Expérience requise</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">45 CTC/h</span>
+              <span class="salary-note">Temps subjectif</span>
+              <button class="apply-btn">Postuler</button>
+            </div>
+          </div>
+
+          <div class="job-card" data-cat="premium">
+            <div>
+              <div class="job-title">Ingénieur Systèmes — La Spirale, Bruxelles</div>
+              <div class="job-meta">
+                <span class="job-tag premium">Cités-Vitrines</span>
+                <span class="job-tag">Pas de compression</span>
+                <span class="job-tag">CTC Premium</span>
+              </div>
+            </div>
+            <div class="job-salary">
+              <span class="salary-amount">200 CTC/h</span>
+              <span class="salary-note">Temps réel</span>
+              <button class="apply-btn">Candidature classifiée</button>
+            </div>
+          </div>
+
+        </div>
+
+        <p style="font-family:var(--font-cond);font-size:11px;color:var(--muted);margin-top:16px;letter-spacing:0.05em;">
+          * Tous les salaires sont exprimés en temps subjectif sauf mention contraire. CT Corp ne saurait être tenu responsable de la discordance entre temps subjectif perçu et durée réelle de l'engagement. Le Contrat d'Engagement Temporel est soumis aux conditions générales disponibles sur demande auprès de votre référent RH.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Simulateur -->
+  <div id="tab-simulateur" class="tab-content">
+    <div style="padding:40px 60px">
+      <div class="simulator">
+        <div class="sim-title">Simulateur de Rémunération CTC</div>
+        <div class="sim-sub">Estimez votre potentiel de rémunération selon votre poste et votre taux de compression.</div>
+        <div class="sim-inputs">
+          <div class="sim-field">
+            <label>Taux de compression</label>
+            <input type="number" id="sim-taux" placeholder="ex: 100" min="1" max="100">
+          </div>
+          <div class="sim-field">
+            <label>Heures réelles / semaine</label>
+            <input type="number" id="sim-heures" placeholder="ex: 40" min="1" max="80">
+          </div>
+          <div class="sim-field">
+            <label>Catégorie de poste</label>
+            <select id="sim-categorie">
+              <option value="18">Opérateur Production (18 CTC/h)</option>
+              <option value="22">Technicien GFT (22 CTC/h)</option>
+              <option value="28">Artisan Eternia (28 CTC/h)</option>
+              <option value="38">Analyste Comportemental (38 CTC/h)</option>
+              <option value="45">Officier Aegis-CD (45 CTC/h)</option>
+            </select>
+          </div>
+        </div>
+        <button class="sim-btn" onclick="calculateSalary()">Calculer mon potentiel</button>
+
+        <div id="sim-result" class="sim-result">
+          <div class="result-grid">
+            <div class="result-cell">
+              <div class="r-label">Salaire hebdomadaire CTC</div>
+              <div class="r-value" id="res-weekly">—</div>
+            </div>
+            <div class="result-cell">
+              <div class="r-label">Temps subjectif vécu / semaine</div>
+              <div class="r-value" id="res-subjective">—</div>
+            </div>
+            <div class="result-cell">
+              <div class="r-label">Salaire mensuel estimé</div>
+              <div class="r-value" id="res-monthly">—</div>
+            </div>
+            <div class="result-cell">
+              <div class="r-label">Équivalent EUR approximatif</div>
+              <div class="r-value dimmed" id="res-eur">—</div>
+            </div>
+          </div>
+          <p class="result-footnote" id="res-note">* Calcul effectué sur la base du temps subjectif. Le temps réel de travail et son impact physiologique ne sont pas inclus dans ce simulateur. Pour une estimation complète incluant les avantages CT Corp (logement, CT-Nutri, accès Paradis Temporel), consultez votre référent RH.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Processus -->
+  <div id="tab-processus" class="tab-content">
+    <div style="padding:40px 60px">
+      <h3 style="font-family:var(--font-cond);font-size:22px;color:var(--white);letter-spacing:0.05em;margin-bottom:8px;">Notre processus de recrutement</h3>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:32px;">Simple, rapide, efficace. Votre intégration dans l'écosystème CT Corp prend en moyenne 72 heures.</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <span class="step-num">01</span>
+          <div class="step-title">Dépôt de candidature</div>
+          <div class="step-body">Formulaire en ligne. Identité, compétences, préférences de zone. Traitement automatique par Kassandra sous 2h.</div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">02</span>
+          <div class="step-title">Bilan Tissage</div>
+          <div class="step-body">Évaluation de compatibilité neuronale. Présenté comme "check-up médical standard". Résultats transmis directement à votre future direction RH.</div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">03</span>
+          <div class="step-title">Test d'Aptitude Chronologique</div>
+          <div class="step-body">45 minutes. Évalue votre tolérance à la désorientation temporelle, vos capacités d'adaptation et votre "fidélité institutionnelle".</div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">04</span>
+          <div class="step-title">Signature du Contrat</div>
+          <div class="step-body">Contrat d'Engagement Temporel. Durée : "variable selon performance". Le CET est un document de 247 pages. Délai de signature : 30 minutes.</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);line-height:1.6;">* Le Bilan Tissage conditionne l'ensemble du processus. CT Corp se réserve le droit de ne pas communiquer les résultats au candidat. L'implantation du Tissage Synaptique est obligatoire pour tous les postes en compression. Elle est effectuée lors de la signature du contrat. Toute résiliation anticipée du CET est soumise à des pénalités de déconnexion temporelle définies à l'Annexe 14, paragraphes 88 à 103.</p>
+    </div>
+  </div>
+
+  <!-- TAB: Pourquoi CT Corp -->
+  <div id="tab-pourquoi" class="tab-content">
+    <div style="padding:40px 60px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)">
+        <div style="background:var(--navy);padding:32px">
+          <div style="font-family:var(--font-display);font-size:11px;color:var(--accent);letter-spacing:0.2em;margin-bottom:12px">LOGEMENT</div>
+          <h3 style="font-family:var(--font-cond);font-size:18px;color:var(--white);margin-bottom:10px;letter-spacing:0.04em;">Résidences Connectées</h3>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.7;">Chaque collaborateur bénéficie d'un accès garanti à nos résidences connectées situées à proximité immédiate des complexes de production. Rotation optimisée.</p>
+          <p style="font-size:11px;color:var(--muted);margin-top:12px;">4 m² / occupant. Rotation par shifts.</p>
+        </div>
+        <div style="background:var(--navy);padding:32px">
+          <div style="font-family:var(--font-display);font-size:11px;color:var(--accent);letter-spacing:0.2em;margin-bottom:12px">ALIMENTATION</div>
+          <h3 style="font-family:var(--font-cond);font-size:18px;color:var(--white);margin-bottom:10px;letter-spacing:0.04em;">Restauration CT-Nutri</h3>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.7;">L'intégralité des apports nutritionnels journaliers garantis via notre gamme CT-Nutri. Disponible 24h/24, intégrée dans votre rémunération.</p>
+          <p style="font-size:11px;color:var(--muted);margin-top:12px;">Déduite automatiquement du salaire CTC.</p>
+        </div>
+        <div style="background:var(--navy);padding:32px">
+          <div style="font-family:var(--font-display);font-size:11px;color:var(--accent);letter-spacing:0.2em;margin-bottom:12px">LOISIRS</div>
+          <h3 style="font-family:var(--font-cond);font-size:18px;color:var(--white);margin-bottom:10px;letter-spacing:0.04em;">Paradis Temporel Intégré</h3>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.7;">Accès aux cabines Paradis Temporel dans tous nos complexes. Parce que vous méritez une pause. 10 CTC/heure. Programme de fidélité disponible.</p>
+          <p style="font-size:11px;color:var(--muted);margin-top:12px;">L'équivalent d'un salaire journalier.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:32px;background:var(--navy);border:1px solid var(--border);padding:28px">
+        <h3 style="font-family:var(--font-cond);font-size:16px;color:var(--white);letter-spacing:0.05em;margin-bottom:20px;">Ce que disent nos collaborateurs</h3>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px">
+          <blockquote style="font-size:13px;color:var(--text-dim);line-height:1.7;font-style:italic;border-left:2px solid var(--accent);padding-left:16px;">"Je n'aurais jamais pensé à quel point le temps peut être productif. CT Corp m'a donné une structure que je n'avais pas avant."<br><cite style="font-style:normal;color:var(--muted);font-family:var(--font-cond);font-size:11px;letter-spacing:0.05em;display:block;margin-top:8px;">— M.K., Opérateur FiberCore, Prato. Engagement : 14e mois.</cite></blockquote>
+          <blockquote style="font-size:13px;color:var(--text-dim);line-height:1.7;font-style:italic;border-left:2px solid var(--accent);padding-left:16px;">"Les avantages résidentiels sont vraiment bien pensés. On est proche de tout. Je recommande CT Corp à quiconque veut donner du sens à son temps."<br><cite style="font-style:normal;color:var(--muted);font-family:var(--font-cond);font-size:11px;letter-spacing:0.05em;display:block;margin-top:8px;">— A.R., Coordinatrice Bulle Niveau 2. Engagement : 8e mois.</cite></blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════ CHRONOVISION ═══════════════════ -->
+<section id="chronovision" class="page-section">
+
+  <div class="section-header">
+    <div class="section-eyebrow">Média officiel CT Corp</div>
+    <h2 class="section-title">ChronoVision</h2>
+    <p class="section-desc">L'information vérifiée. Le monde tel qu'il avance. Diffusé dans l'ensemble des résidences CT Corp et des Cités-Vitrines sous licence.</p>
+  </div>
+
+  <div class="cv-grid">
+    <div class="cv-main-article">
+      <span class="cv-section-label">À la une</span>
+      <h2 class="cv-big-title">Bilan 2034 : Une année de productivité record pour l'écosystème CT Corp</h2>
+      <p class="cv-art-body" style="font-size:15px;margin-bottom:16px;line-height:1.8;">L'exercice 2034 s'est conclu avec une progression de productivité globale de 14,7%, portée par l'accélération du déploiement des Tissages version 4.0 et l'ouverture de trois nouveaux complexes en Europe centrale. La présidente Svetlana Gerasimova a salué "la contribution extraordinaire de l'ensemble des collaborateurs temporels".</p>
+      <p class="cv-art-body" style="font-size:14px;line-height:1.8;">L'incident du 27 décembre, qualifié de "dysfonctionnement technique mineur de NAOS-9 rapidement résolu", n'a pas affecté les résultats annuels. CT-NET 2.0 est désormais en phase de déploiement progressif sur l'ensemble des Tissages actifs. Le Directoire assure une "reprise normale de toutes les fonctions cognitivo-productives sous 7 jours".</p>
+      <div class="cv-date">ChronoVision — 02.01.2035 — Source : Directoire CT Corp</div>
+
+      <div style="height:1px;background:var(--border);margin:32px 0"></div>
+
+      <span class="cv-section-label" style="background:var(--steel);color:var(--accent)">Fiction / Roman</span>
+      <h2 class="cv-big-title" style="font-size:20px;margin-top:12px;">Esclaves du Temps — L'univers qui donne vie à ce site</h2>
+      <p class="cv-art-body" style="font-size:14px;line-height:1.8;margin-bottom:12px;">Ce site est l'interface fictive de CT Corp, la mégacorporation antagoniste du roman de science-fiction <em>Esclaves du Temps</em>. Dans ce monde dystopique situé en 2029–2034, la compression temporelle est devenue le principal instrument d'exploitation humaine.</p>
+      <p class="cv-art-body" style="font-size:13px;color:var(--muted);line-height:1.7;">Kael Mironen, NAOS-9, Sena Valkova, Vaedran Ilarion — leurs histoires se déroulent dans cet univers où chaque heure de travail cache des semaines de vie volées.</p>
+      <div class="cv-roman-link">
+        <strong>Esclaves du Temps</strong>
+        Un roman de science-fiction dystopique. Trois actes. Trente chapitres. Un monde trop proche du nôtre.
+      </div>
+    </div>
+
+    <div class="cv-sidebar-articles">
+      <div class="cv-side-article">
+        <div class="cv-label">Économie</div>
+        <div class="cv-art-title">Le CTC résiste : +2,1% en cette première semaine 2035</div>
+        <p class="cv-art-body">Malgré les rumeurs de déstabilisation du réseau NAOS-9, la monnaie CT Corp maintient sa trajectoire haussière...</p>
+        <div class="cv-date">03.01.2035</div>
+      </div>
+      <div class="cv-side-article">
+        <div class="cv-label">Société</div>
+        <div class="cv-art-title">La Vie des Éveillés — Saison 4 : découvrez les Cités-Vitrines de l'intérieur</div>
+        <p class="cv-art-body">La réalité de nos cadres supérieurs. Architecture de verre, soins premium, espaces verts. Un horizon accessible à tous, avec les bons contrats.</p>
+        <div class="cv-date">31.12.2034</div>
+      </div>
+      <div class="cv-side-article">
+        <div class="cv-label">Sécurité</div>
+        <div class="cv-art-title">Incident du 27 décembre : retour à la normale confirmé par Aegis-CD</div>
+        <p class="cv-art-body">"Les perturbations observées dans certains secteurs résultent d'une anomalie technique isolée. Aucun fait extérieur n'est en cause", précise le porte-parole d'Aegis-CD.</p>
+        <div class="cv-date">29.12.2034</div>
+      </div>
+      <div class="cv-side-article">
+        <div class="cv-label">Innovation</div>
+        <div class="cv-art-title">CT-NET 2.0 : "Une mise à jour comme les autres", selon la direction technique</div>
+        <p class="cv-art-body">Le déploiement progressif du protocole CT-NET 2.0 sur les Tissages v.3.0+ débutera cette semaine. Imperceptible pour les porteurs. Efficace pour tous.</p>
+        <div class="cv-date">02.01.2035</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════ ESPACE CLIENT ═══════════════════ -->
+<section id="client" class="page-section">
+
+  <div id="login-view">
+    <div class="client-login">
+      <div class="login-title">Espace Client CT Corp</div>
+      <div class="login-sub">Connectez-vous via votre Tissage Synaptique ou vos identifiants de contrat.</div>
+
+      <div class="form-field">
+        <label>Identifiant de Contrat (CET-ID)</label>
+        <input type="text" placeholder="CET-2034-XXXXXX" id="login-id">
+      </div>
+
+      <div class="form-field">
+        <label>Code d'Accès Cognitif</label>
+        <input type="password" placeholder="••••••••" id="login-pw">
+      </div>
+
+      <div class="form-field">
+        <label>Authentification Tissage (recommandée)</label>
+        <div class="biometric-field">
+          <div class="bio-icon">TS</div>
+          <span class="bio-text">Activer la lecture biométrique Tissage v.4.0 →</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%;text-align:center" onclick="showDashboard()">Accéder à mon espace</button>
+      <p class="login-footer">En vous connectant, vous acceptez que CT Corp enregistre votre activité de navigation, vos patterns cognitifs déclarés et vos préférences comportementales à des fins d'optimisation de service. Conformément au RGPD Temporel (2031), ces données peuvent être utilisées pour ajuster les paramètres de votre Contrat d'Engagement Temporel sans notification préalable.</p>
+    </div>
+  </div>
+
+  <div id="dashboard-view" class="dashboard">
+    <div class="dash-header">
+      <div>
+        <div class="dash-greeting">Bienvenue, <span>Collaborateur T-8814</span></div>
+        <div class="dash-id">CET-2034-881422 &nbsp;|&nbsp; Statut : Actif &nbsp;|&nbsp; Tissage v.4.0 ● EN LIGNE</div>
+      </div>
+      <button class="btn-secondary" onclick="showLogin()" style="font-size:11px;padding:8px 16px">Déconnexion</button>
+    </div>
+
+    <div class="dash-widgets">
+      <div class="dash-widget">
+        <div class="w-label">Solde CTC</div>
+        <div class="w-value">1,247</div>
+        <div class="w-sub">+18 CTC aujourd'hui</div>
+      </div>
+      <div class="dash-widget">
+        <div class="w-label">Mois compressé vécu</div>
+        <div class="w-value red">+14 mois</div>
+        <div class="w-sub">Depuis signature CET</div>
+      </div>
+      <div class="dash-widget">
+        <div class="w-label">Temps réel écoulé</div>
+        <div class="w-value green">8j 4h</div>
+        <div class="w-sub">Depuis signature CET</div>
+      </div>
+      <div class="dash-widget">
+        <div class="w-label">Conformité Tissage</div>
+        <div class="w-value">98.4%</div>
+        <div class="w-sub">Firmware : À jour</div>
+      </div>
+    </div>
+
+    <div class="alert-box">
+      <div class="alert-icon">!</div>
+      <div class="alert-text">Mise à jour CT-NET 2.0 disponible pour votre Tissage. Cette mise à jour sera appliquée automatiquement dans les 72 heures. Aucune action requise de votre part. Vous ne ressentirez rien.</div>
+    </div>
+
+    <div class="signalement-form">
+      <div class="sig-title">Signalement de comportement non-conforme</div>
+      <div class="sig-sub">Vous avez observé un comportement déviant dans votre zone ? CT Corp vous récompense pour votre vigilance. Les signalements validés ouvrent droit à des crédits CTC supplémentaires.</div>
+      <textarea class="sig-textarea" placeholder="Décrivez le comportement observé, la zone, l'heure approximative..."></textarea>
+      <br><br>
+      <button class="sim-btn">Soumettre le signalement</button>
+      <span style="font-size:11px;color:var(--muted);margin-left:16px;font-family:var(--font-cond);">Anonymat garanti*</span>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;">* L'anonymat du déclarant ne peut être garanti en cas de procédure judiciaire ou administrative initiée par CT Corp ou ses partenaires gouvernementaux.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="foot-col">
+    <h4>Solutions</h4>
+    <a onclick="showSection('solutions')">Tissages Synaptiques</a>
+    <a onclick="showSection('solutions')">Compression Temporelle</a>
+    <a onclick="showSection('solutions')">Eternia</a>
+    <a onclick="showSection('solutions')">Projet Nyx</a>
+    <a onclick="showSection('solutions')">ChronoLoop Express</a>
+  </div>
+  <div class="foot-col">
+    <h4>Carrières</h4>
+    <a onclick="showSection('carrieres')">Offres d'emploi</a>
+    <a onclick="switchTabAndShow('simulateur')">Simulateur de salaire</a>
+    <a onclick="switchTabAndShow('processus')">Processus de recrutement</a>
+    <a onclick="switchTabAndShow('pourquoi')">Pourquoi CT Corp</a>
+  </div>
+  <div class="foot-col">
+    <h4>Institutionnel</h4>
+    <a>À propos de CT Corp</a>
+    <a>La Spirale — Bruxelles</a>
+    <a>Gouvernance & Directoire</a>
+    <a>47 Gouvernements partenaires</a>
+    <a>Presse & Relations investisseurs</a>
+  </div>
+  <div class="foot-col">
+    <h4>Support</h4>
+    <a>Centre d'aide Tissage</a>
+    <a>Conversion CTC</a>
+    <a>Contact RH</a>
+    <a onclick="showSection('client')">Espace Client</a>
+    <a style="color:var(--muted);font-size:11px" onclick="openSigma()">Spéc. techniques avancées</a>
+  </div>
+</footer>
+<div class="foot-bottom">
+  <span>© 2035 CT Corp — Tous droits réservés. L'Axe de la Perpétuité.</span>
+  <div style="display:flex;gap:24px">
+    <a>RGPD Temporel</a>
+    <a>Conditions d'engagement</a>
+    <a>Politique de données cognitives</a>
+    <a onclick="triggerDeusfall()" style="color:transparent;user-select:none">.</a>
+  </div>
+</div>
+
+<!-- ═══════════════════ OVERLAYS ═══════════════════ -->
+
+<!-- 403 Canal Sigma -->
+<div id="overlay-sigma" class="overlay">
+  <div style="position:relative">
+    <div class="overlay-403">
+      <span class="err-code">403</span>
+      <div class="err-title">ACCÈS REFUSÉ</div>
+      <p class="err-body">
+        Cette ressource est classifiée <strong style="color:#C44040">DELTA</strong>.<br>
+        Votre niveau d'habilitation actuel ne permet pas l'accès aux spécifications du Canal Sigma.<br><br>
+        Toute tentative non autorisée d'accès aux protocoles de maintenance firmware est consignée et transmise à Kassandra.
+      </p>
+      <div class="glitched-line" id="sigma-glitch">
+        /// ΣIGMA.NODE.14 — write_enabled — canal_actif — destination: tissu_neural ///
+      </div>
+      <div style="height:1px;background:var(--danger);opacity:0.3;margin:24px 0"></div>
+      <button class="btn-secondary" onclick="closeOverlay('overlay-sigma')" style="font-size:11px;padding:8px 20px">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEUSFALL -->
+<div id="overlay-deusfall" class="overlay overlay-deusfall" onclick="closeOverlay('overlay-deusfall')">
+  <div id="deusfall-text"></div>
+</div>
+
+<script>
+// ── SECTION NAVIGATION ──────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+  // Reset product detail view
+  if (name === 'solutions') showProductGrid();
+}
+
+// ── TAB SYSTEM ──────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  // activate correct button
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(name)) {
+      b.classList.add('active');
+    }
+  });
+}
+
+function switchTabAndShow(tabName) {
+  showSection('carrieres');
+  setTimeout(() => switchTab(tabName), 50);
+}
+
+// ── JOB FILTER ──────────────────────────────────────
+function filterJobs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.job-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// ── SALARY SIMULATOR ────────────────────────────────
+function calculateSalary() {
+  const taux = parseInt(document.getElementById('sim-taux').value);
+  const heures = parseInt(document.getElementById('sim-heures').value);
+  const rate = parseFloat(document.getElementById('sim-categorie').value);
+  const result = document.getElementById('sim-result');
+
+  // Easter egg: 147
+  if (taux === 147) {
+    result.className = 'sim-result visible error-state';
+    result.innerHTML = `
+      <p class="error-msg">⚠ ERREUR SYSTÈME — RÉFÉRENCE INTERDITE</p>
+      <p style="font-family:var(--font-cond);font-size:13px;color:var(--muted);margin-top:12px;letter-spacing:0.05em;">
+        Code de compression non reconnu dans la base de données CT Corp.<br>
+        L'incident a été consigné. Un technicien Kassandra examinera votre requête.
+      </p>`;
+    setTimeout(() => {
+      result.className = 'sim-result';
+      document.getElementById('sim-taux').value = '';
+    }, 3500);
+    return;
+  }
+
+  if (!taux || !heures || taux < 1 || heures < 1) {
+    alert('Veuillez renseigner tous les champs.');
+    return;
+  }
+
+  const subjectiveHours = heures * taux;
+  const weeklyCtc = heures * rate;
+  const monthlyCtc = weeklyCtc * 4.33;
+  const eur = (weeklyCtc * 0.0043).toFixed(2);
+
+  document.getElementById('res-weekly').textContent = weeklyCtc.toLocaleString('fr-FR') + ' CTC';
+  document.getElementById('res-subjective').textContent = subjectiveHours.toLocaleString('fr-FR') + 'h';
+  document.getElementById('res-monthly').textContent = Math.round(monthlyCtc).toLocaleString('fr-FR') + ' CTC';
+  document.getElementById('res-eur').textContent = '≈ ' + eur + ' EUR';
+  document.getElementById('res-note').textContent = `* Calcul effectué sur la base du temps subjectif pour ${heures}h réelles à compression ×${taux}. Vous vivrez ${subjectiveHours}h de travail tout en recevant le salaire de ${heures}h. Le temps réel de travail et son impact physiologique ne sont pas inclus dans ce simulateur.`;
+
+  result.className = 'sim-result visible';
+}
+
+// ── PRODUCT VIEWS ────────────────────────────────────
+function showProduct(id) {
+  document.getElementById('solutions-grid-view').style.display = 'none';
+  document.querySelectorAll('.product-detail').forEach(d => d.classList.remove('active'));
+  const target = document.getElementById('product-' + id);
+  if (target) {
+    target.classList.add('active');
+  } else {
+    document.getElementById('product-generic').classList.add('active');
+  }
+}
+
+function showProductGrid() {
+  document.getElementById('solutions-grid-view').style.display = 'block';
+  document.querySelectorAll('.product-detail').forEach(d => d.classList.remove('active'));
+}
+
+// ── CLIENT SPACE ─────────────────────────────────────
+function showDashboard() {
+  document.getElementById('login-view').style.display = 'none';
+  document.getElementById('dashboard-view').classList.add('visible');
+}
+function showLogin() {
+  document.getElementById('login-view').style.display = 'block';
+  document.getElementById('dashboard-view').classList.remove('visible');
+}
+
+// ── OVERLAYS ─────────────────────────────────────────
+function openSigma() {
+  document.getElementById('overlay-sigma').classList.add('active');
+}
+function closeOverlay(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// Deusfall easter egg
+function triggerDeusfall() {
+  const ov = document.getElementById('overlay-deusfall');
+  const txt = document.getElementById('deusfall-text');
+  ov.classList.add('active');
+  txt.textContent = '';
+  txt.classList.remove('visible');
+  setTimeout(() => {
+    txt.textContent = 'Colonne.';
+    txt.classList.add('visible');
+  }, 8000);
+  // click to close (handled on overlay itself)
+}
+
+// ── PRODUCTIVITY COUNTER (Easter Egg) ────────────────
+let prodBase = 8420194003;
+let timeOnPage = 0;
+let glitchTriggered = false;
+
+const counter = document.getElementById('prod-counter');
+setInterval(() => {
+  prodBase += Math.floor(Math.random() * 4700 + 1200);
+  counter.textContent = prodBase.toLocaleString('fr-FR');
+}, 1100);
+
+setInterval(() => {
+  timeOnPage += 1;
+  // After 3 minutes, flash glitch once
+  if (timeOnPage === 180 && !glitchTriggered) {
+    glitchTriggered = true;
+    const orig = counter.textContent;
+    counter.textContent = 'ERROR: HUMAN_UNIT_CRITICAL';
+    counter.classList.add('glitch');
+    setTimeout(() => {
+      counter.textContent = orig;
+      counter.classList.remove('glitch');
+    }, 1800);
+  }
+}, 1000);
+
+// ── SIGMA GLITCH TEXT ─────────────────────────────────
+// The glitch text in the 403 overlay randomly shows/hides a decoded word
+const sigmaMsg = document.getElementById('sigma-glitch');
+if (sigmaMsg) {
+  setInterval(() => {
+    const variants = [
+      '/// ΣIGMA.NODE.14 — write_enabled — canal_actif — destination: tissu_neural ///',
+      '/// ΣIGMA.NODE.14 — write_enabled — ÉCHO — canal_actif — destination: tissu_neural ///',
+      '/// ΣIGMA.NODE.14 — write_enabled — canal_actif — destination: tissu_neural ///',
+    ];
+    sigmaMsg.textContent = variants[Math.floor(Math.random() * variants.length)];
+  }, 2800);
+}
+
+// ── KEYBOARD EASTER EGG: type "GENESIS" ──────────────
+let keyBuffer = '';
+document.addEventListener('keydown', e => {
+  keyBuffer += e.key.toUpperCase();
+  if (keyBuffer.length > 10) keyBuffer = keyBuffer.slice(-10);
+  if (keyBuffer.includes('GENESIS')) {
+    keyBuffer = '';
+    // Quick flash: console-style message overlay
+    const flash = document.createElement('div');
+    flash.style.cssText = `
+      position:fixed;bottom:32px;right:32px;z-index:9999;
+      background:rgba(7,12,24,0.96);border:1px solid #2A8A5A;
+      padding:16px 24px;font-family:'Orbitron',monospace;font-size:12px;
+      color:#2A8A5A;letter-spacing:0.1em;
+      animation:fadeIn 0.3s ease;
+    `;
+    flash.textContent = '> GENESIS_PROTOCOL :: NANITES_ACTIVE // K.MIRONEN';
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 4000);
+  }
+});
+
+</script>
+</body>
+</html>
