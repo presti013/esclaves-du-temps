@@ -992,7 +992,7 @@ function launchMission(idx) {
   // Reset mission state
   if (idx === 0) {
     m.stages_done = [false, false, false, false, false];
-    mState = { cwd:'~', decrypted:false, injected:false, connected:false };
+    mState = { cwd:'~', decrypted:false, injected:false, connected:true };
   }
   if (idx === 1) {
     m.modifyDone = false; m.verifyDone = false; m.commitDone = false;
@@ -1054,6 +1054,12 @@ function launchMission(idx) {
     });
     setTimeout(() => {
       print('sep', '─'.repeat(52));
+      if (currentMission === 0) {
+        print('ok', '> Connexion sigma.ctcorp.ch établie via compte maintenance compromis.');
+        print('ok', '> Répertoires disponibles : maintenance/  logs/  tmp/');
+        completeObj(0);
+        advanceStage();
+      }
       print('info', '// Terminal prêt. Tape "help" pour la liste des commandes.');
       print('sep', '─'.repeat(52));
     }, m.briefing.length * 600 + 200);
@@ -1176,7 +1182,6 @@ function handleM0(cmd, args, m) {
     if (args.length < 2) { print('error', 'Usage: decrypt [clé] [fichier]'); return; }
     const key = args[0].toUpperCase();
     const file = args[1];
-    if (!mState.connected) { print('error', 'Non connecté au serveur.'); addKass(8); return; }
     if (file !== m.decryptTarget.file) { print('error', 'decrypt: fichier cible inconnu.'); addKass(10); return; }
     if (key !== m.decryptTarget.key) {
       print('error', 'decrypt: clé incorrecte. Échec du déchiffrement.');
@@ -1210,7 +1215,6 @@ function handleM0(cmd, args, m) {
     return;
   }
   // If connected, auto-complete connection objective
-  if (!mState.connected) { print('warn', 'Connecte-toi d\'abord : ssh sigma.ctcorp.ch'); return; }
   print('error', cmd + ': commande inconnue. Tape "help".');
   addKass(3);
 }
