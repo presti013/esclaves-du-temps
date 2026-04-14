@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGNAL — Écho Rouge Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #010603;
+  --panel: #030E06;
+  --border: #0A2010;
+  --green: #00FF41;
+  --green-dim: #00A82A;
+  --green-dark: #002A0A;
+  --green-mid: #00CC33;
+  --red: #FF2020;
+  --red-dim: #4A0A0A;
+  --amber: #FFB000;
+  --amber-dim: #4A3000;
+  --blue: #00AAFF;
+  --text: #B8FFB8;
+  --text-dim: #4A8A4A;
+  --text-muted: #1A4A1A;
+  --white: #E8FFE8;
+  --mono: 'Share Tech Mono', monospace;
+  --vt: 'VT323', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; background:#000; overflow:hidden; }
+
+body {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--green);
+  background: var(--bg);
+}
+
+/* CRT effects */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);
+  pointer-events:none;
+  z-index:9999;
+}
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background: radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.7) 100%);
+  pointer-events:none;
+  z-index:9998;
+}
+
+/* ─── SCREENS ─── */
+.screen { display:none; height:100vh; flex-direction:column; }
+.screen.active { display:flex; }
+
+/* ─── BOOT SCREEN ─── */
+#boot {
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  padding:40px;
+}
+.boot-text {
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--green-dim);
+  line-height:1.8;
+  max-width:600px;
+  width:100%;
+}
+.boot-text .ok { color:var(--green); }
+.boot-text .warn { color:var(--amber); }
+.boot-text .err { color:var(--red); }
+.boot-logo {
+  font-family:var(--vt);
+  font-size:clamp(36px,7vw,80px);
+  color:var(--red);
+  text-align:center;
+  margin-bottom:16px;
+  text-shadow:0 0 30px rgba(255,32,32,0.6);
+  letter-spacing:0.12em;
+  line-height:1;
+}
+.boot-game-title {
+  font-family:var(--vt);
+  font-size:clamp(22px,4vw,46px);
+  color:var(--green);
+  text-align:center;
+  letter-spacing:0.3em;
+  margin-bottom:40px;
+  text-shadow:0 0 16px rgba(0,255,65,0.4);
+}
+.boot-line { opacity:0; margin-bottom:2px; }
+.boot-line.show { opacity:1; }
+.blink { animation:blink 1s step-end infinite; }
+@keyframes blink { 50%{opacity:0;} }
+
+/* ─── CODENAME SCREEN ─── */
+#codename {
+  align-items:center;
+  justify-content:center;
+  background:#000;
+}
+.codename-box {
+  max-width:520px;
+  width:100%;
+  padding:40px;
+  border:1px solid var(--border);
+  background:var(--panel);
+}
+.cn-pre {
+  font-size:11px;
+  color:var(--text-muted);
+  letter-spacing:0.15em;
+  margin-bottom:20px;
+}
+.cn-msg {
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:1.9;
+  margin-bottom:28px;
+  border-left:2px solid var(--green-dark);
+  padding-left:14px;
+}
+.cn-msg strong { color:var(--green); }
+.cn-field {
+  display:flex;
+  border:1px solid var(--border);
+  margin-bottom:12px;
+}
+.cn-field input {
+  flex:1;
+  background:#000;
+  border:none;
+  color:var(--green);
+  font-family:var(--mono);
+  font-size:14px;
+  padding:12px 14px;
+  outline:none;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+.cn-field input::placeholder { color:var(--text-muted); }
+.cn-btn {
+  background:var(--green-dark);
+  border:none;
+  border-left:1px solid var(--border);
+  color:var(--green-dim);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.1em;
+  padding:12px 18px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.cn-btn:hover { background:var(--green); color:#000; }
+
+/* ─── MISSION HUB ─── */
+#hub { background:var(--bg); padding:0; }
+.hub-header {
+  background:#000;
+  border-bottom:1px solid var(--border);
+  padding:12px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.hub-logo {
+  font-family:var(--vt);
+  font-size:22px;
+  color:var(--red);
+  letter-spacing:0.15em;
+}
+.hub-agent {
+  font-size:11px;
+  color:var(--text-muted);
+  letter-spacing:0.12em;
+}
+.hub-body {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px 24px;
+  gap:32px;
+}
+.hub-title {
+  font-family:var(--vt);
+  font-size:clamp(18px,3vw,32px);
+  color:var(--text-dim);
+  letter-spacing:0.25em;
+  text-align:center;
+}
+.missions-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  width:100%;
+  max-width:860px;
+}
+.mission-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:24px 20px;
+  cursor:pointer;
+  transition:all 0.2s;
+  position:relative;
+  text-align:center;
+}
+.mission-card:hover:not(.locked) { border-color:var(--green-dim); background:#04160A; }
+.mission-card.locked { opacity:0.35; cursor:not-allowed; }
+.mission-card.done { border-color:var(--green-dim); }
+.mission-card.done::after {
+  content:'✓ ACCOMPLIE';
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:9px;
+  color:var(--green-dim);
+  letter-spacing:0.1em;
+}
+.mc-num {
+  font-family:var(--vt);
+  font-size:40px;
+  color:var(--green-dark);
+  display:block;
+  margin-bottom:8px;
+}
+.mc-code {
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--red);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.mc-name {
+  font-family:var(--vt);
+  font-size:22px;
+  color:var(--white);
+  letter-spacing:0.08em;
+  margin-bottom:10px;
+  line-height:1.2;
+}
+.mc-desc {
+  font-size:11px;
+  color:var(--text-muted);
+  line-height:1.6;
+  letter-spacing:0.03em;
+}
+.mc-diff {
+  margin-top:12px;
+  font-size:9px;
+  letter-spacing:0.12em;
+  padding:2px 8px;
+  border:1px solid;
+  display:inline-block;
+}
+.diff-low { border-color:var(--green-dark); color:var(--green-dim); }
+.diff-med { border-color:var(--amber-dim); color:var(--amber); }
+.diff-high { border-color:#4A0A0A; color:var(--red); }
+
+/* ─── TERMINAL GAME ─── */
+#game {
+  flex-direction:column;
+  background:var(--bg);
+}
+.game-topbar {
+  background:#000;
+  border-bottom:1px solid var(--border);
+  padding:8px 16px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:16px;
+  align-items:center;
+  flex-shrink:0;
+}
+.gtb-left {
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.gtb-back {
+  font-size:11px;
+  color:var(--text-muted);
+  cursor:pointer;
+  letter-spacing:0.1em;
+  transition:color 0.15s;
+  background:none;
+  border:none;
+  font-family:var(--mono);
+}
+.gtb-back:hover { color:var(--text-dim); }
+.gtb-mission {
+  font-family:var(--vt);
+  font-size:18px;
+  color:var(--green);
+  letter-spacing:0.1em;
+}
+.gtb-center {
+  text-align:center;
+}
+.gtb-obj {
+  font-size:11px;
+  color:var(--text-dim);
+  letter-spacing:0.06em;
+}
+.gtb-right {
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+/* Kassandra meter */
+.kass-wrap {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.kass-label {
+  font-size:9px;
+  letter-spacing:0.15em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+.kass-bar {
+  width:100px;
+  height:6px;
+  background:var(--green-dark);
+  position:relative;
+  overflow:hidden;
+}
+.kass-fill {
+  height:100%;
+  background:var(--green);
+  width:0%;
+  transition:width 0.5s ease;
+}
+.kass-fill.warn { background:var(--amber); }
+.kass-fill.danger { background:var(--red); animation:pulse-bar 0.6s ease-in-out infinite alternate; }
+@keyframes pulse-bar { to { opacity:0.5; } }
+.kass-pct {
+  font-size:11px;
+  color:var(--text-dim);
+  width:30px;
+  text-align:right;
+}
+
+/* Stage indicator */
+.stages {
+  display:flex;
+  gap:4px;
+}
+.stage-dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green-dark);
+  border:1px solid var(--border);
+}
+.stage-dot.done { background:var(--green-dim); }
+.stage-dot.active { background:var(--green); animation:blink 1s step-end infinite; }
+
+/* Terminal area */
+.terminal-wrap {
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 240px;
+  overflow:hidden;
+}
+.terminal-main {
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-right:1px solid var(--border);
+}
+#output {
+  flex:1;
+  overflow-y:auto;
+  padding:16px 20px;
+  scroll-behavior:smooth;
+}
+#output::-webkit-scrollbar { width:3px; }
+#output::-webkit-scrollbar-thumb { background:var(--green-dark); }
+
+.out-line {
+  line-height:1.7;
+  white-space:pre-wrap;
+  word-break:break-all;
+}
+.out-line.cmd { color:var(--green); }
+.out-line.ok { color:var(--text); }
+.out-line.info { color:var(--text-dim); }
+.out-line.warn { color:var(--amber); }
+.out-line.error { color:var(--red); }
+.out-line.system { color:var(--blue); font-style:italic; }
+.out-line.success { color:var(--green); font-weight:bold; }
+.out-line.brief { color:var(--amber); border-left:2px solid var(--amber-dim); padding-left:12px; margin:4px 0; }
+.out-line.naos { color:#00AAFF; font-style:italic; }
+.out-line.sep { color:var(--green-dark); }
+.out-line.puzzle { color:var(--white); background:var(--green-dark); padding:2px 8px; margin:2px 0; }
+
+.input-row {
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:10px 20px;
+  gap:8px;
+  flex-shrink:0;
+  background:#000;
+}
+.input-prompt {
+  color:var(--green-dim);
+  font-size:12px;
+  letter-spacing:0.05em;
+  flex-shrink:0;
+}
+#cmd-input {
+  flex:1;
+  background:none;
+  border:none;
+  color:var(--green);
+  font-family:var(--mono);
+  font-size:13px;
+  outline:none;
+  letter-spacing:0.05em;
+  caret-color:var(--green);
+}
+
+/* Sidebar */
+.terminal-sidebar {
+  background:var(--panel);
+  padding:16px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.ts-section {
+  border:1px solid var(--border);
+  padding:12px;
+}
+.ts-title {
+  font-size:9px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:8px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:6px;
+}
+.ts-item {
+  font-size:11px;
+  color:var(--text-dim);
+  line-height:1.7;
+  margin-bottom:2px;
+  letter-spacing:0.03em;
+}
+.ts-item span { color:var(--green-dim); }
+.ts-item.done-item { color:var(--green-dark); text-decoration:line-through; }
+.ts-item.active-item { color:var(--green); }
+.cmd-list { font-size:11px; color:var(--text-muted); line-height:1.9; }
+.cmd-list .c { color:var(--green-dim); }
+
+/* ─── SUCCESS / FAIL SCREENS ─── */
+#result-screen {
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  padding:40px;
+  text-align:center;
+}
+.result-box {
+  max-width:600px;
+  width:100%;
+  border:1px solid var(--border);
+  padding:48px;
+  background:var(--panel);
+}
+.result-icon {
+  font-family:var(--vt);
+  font-size:80px;
+  line-height:1;
+  margin-bottom:16px;
+}
+.result-title {
+  font-family:var(--vt);
+  font-size:40px;
+  letter-spacing:0.15em;
+  margin-bottom:20px;
+}
+.result-title.win { color:var(--green); }
+.result-title.lose { color:var(--red); }
+.result-narrative {
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:2;
+  margin-bottom:28px;
+  border-left:2px solid var(--green-dark);
+  padding-left:16px;
+  text-align:left;
+}
+.result-narrative strong { color:var(--green); }
+.result-narrative em { color:var(--amber); font-style:normal; }
+.result-btns {
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.r-btn {
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:10px 24px;
+  border:1px solid var(--green-dark);
+  color:var(--green-dim);
+  background:none;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.r-btn:hover { background:var(--green); color:#000; border-color:var(--green); }
+.r-btn.secondary { border-color:var(--text-muted); color:var(--text-muted); }
+.r-btn.secondary:hover { background:var(--text-muted); color:#000; }
+
+/* ─── FINAL SCREEN ─── */
+#finale {
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  padding:40px;
+}
+.finale-box {
+  max-width:640px;
+  width:100%;
+  text-align:center;
+}
+.finale-title {
+  font-family:var(--vt);
+  font-size:clamp(30px,6vw,70px);
+  color:var(--green);
+  text-shadow:0 0 30px rgba(0,255,65,0.5);
+  letter-spacing:0.12em;
+  margin-bottom:12px;
+  line-height:1.1;
+}
+.finale-sub {
+  font-family:var(--vt);
+  font-size:22px;
+  color:var(--text-dim);
+  letter-spacing:0.25em;
+  margin-bottom:40px;
+}
+.finale-text {
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:2.1;
+  margin-bottom:32px;
+  text-align:left;
+  border-left:2px solid var(--green-dark);
+  padding-left:20px;
+}
+.finale-text strong { color:var(--green); }
+.finale-text em { color:var(--red); font-style:normal; }
+.finale-quote {
+  font-size:14px;
+  color:var(--amber);
+  line-height:1.9;
+  font-style:italic;
+  margin-bottom:32px;
+}
+.finale-link {
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:12px 28px;
+  border:1px solid var(--green-dim);
+  color:var(--green-dim);
+  cursor:pointer;
+  background:none;
+  transition:all 0.2s;
+  display:inline-block;
+}
+.finale-link:hover { background:var(--green); color:#000; border-color:var(--green); }
+</style>
+</head>
+<body>
+
+<!-- ══════════ BOOT ══════════ -->
+<div id="boot" class="screen active">
+  <div class="boot-logo">ÉCHO<br>ROUGE</div>
+  <div class="boot-game-title">S I G N A L</div>
+  <div class="boot-text" id="boot-lines"></div>
+</div>
+
+<!-- ══════════ CODENAME ══════════ -->
+<div id="codename" class="screen">
+  <div class="codename-box">
+    <div class="cn-pre">// IDENTIFICATION — RÉSEAU ÉCHO ROUGE // NŒUD LYON-7</div>
+    <div class="cn-msg">
+      Connexion TOR établie. Chiffrement AES-512 actif.<br><br>
+      Avant d'accéder aux missions, tu dois t'identifier.<br>
+      <strong>Quel est ton nom de code ?</strong>
+    </div>
+    <div class="cn-field">
+      <input type="text" id="cn-input" placeholder="NOM_DE_CODE" autocomplete="off" maxlength="20"
+        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')"
+        onkeydown="if(event.key==='Enter')startGame()">
+      <button class="cn-btn" onclick="startGame()">VALIDER →</button>
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);letter-spacing:0.08em;margin-top:8px;">// Minimum 2 caractères. Lettres, chiffres, tirets et underscores uniquement.</div>
+  </div>
+</div>
+
+<!-- ══════════ HUB ══════════ -->
+<div id="hub" class="screen">
+  <div class="hub-header">
+    <div class="hub-logo">ÉR // SIGNAL</div>
+    <div class="hub-agent" id="hub-agent">AGENT: ——</div>
+  </div>
+  <div class="hub-body">
+    <div class="hub-title">// SÉLECTIONNER UNE MISSION //</div>
+    <div class="missions-grid">
+
+      <div class="mission-card" id="card-0" onclick="launchMission(0)">
+        <span class="mc-num">01</span>
+        <div class="mc-code">// Mission Alpha</div>
+        <div class="mc-name">CANAL SIGMA</div>
+        <div class="mc-desc">Intercepter la clé de chiffrement du déploiement CT-NET 2.0 sur les serveurs de la Tour Sigma, Zurich.</div>
+        <span class="mc-diff diff-low">RISQUE MODÉRÉ</span>
+      </div>
+
+      <div class="mission-card locked" id="card-1" onclick="launchMission(1)">
+        <span class="mc-num">02</span>
+        <div class="mc-code">// Mission Bêta</div>
+        <div class="mc-name">FANTÔME</div>
+        <div class="mc-desc">Modifier l'empreinte temporelle d'une cellule Écho Rouge dans la base NAOS-9 avant qu'Aegis-CD les localise.</div>
+        <span class="mc-diff diff-med">RISQUE ÉLEVÉ</span>
+      </div>
+
+      <div class="mission-card locked" id="card-2" onclick="launchMission(2)">
+        <span class="mc-num">03</span>
+        <div class="mc-code">// Mission Gamma</div>
+        <div class="mc-name">PORTE-88</div>
+        <div class="mc-desc">Activer la backdoor n°88 de NAOS-9 — une des 147 portes de Jarek Mironen — pour suspendre les GFT du Complexe n°6.</div>
+        <span class="mc-diff diff-high">RISQUE CRITIQUE</span>
+      </div>
+
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.08em;text-align:center;">
+      Les missions se débloquent dans l'ordre. Tape <span style="color:var(--green-dim)">help</span> dans le terminal pour la liste des commandes.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ GAME TERMINAL ══════════ -->
+<div id="game" class="screen">
+  <div class="game-topbar">
+    <div class="gtb-left">
+      <button class="gtb-back" onclick="goHub()">← HUB</button>
+      <div class="gtb-mission" id="gtb-title">MISSION</div>
+    </div>
+    <div class="gtb-center">
+      <div class="gtb-obj" id="gtb-obj">Objectif en cours</div>
+    </div>
+    <div class="gtb-right">
+      <div class="stages" id="stage-dots"></div>
+      <div class="kass-wrap">
+        <div class="kass-label">Kassandra</div>
+        <div class="kass-bar"><div class="kass-fill" id="kass-fill"></div></div>
+        <div class="kass-pct" id="kass-pct">0%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-wrap">
+    <div class="terminal-main">
+      <div id="output"></div>
+      <div class="input-row">
+        <div class="input-prompt" id="prompt-path">écho@sigma:~$</div>
+        <input type="text" id="cmd-input" placeholder="tapez une commande..." autocomplete="off" autofocus
+          onkeydown="handleKey(event)">
+      </div>
+    </div>
+    <div class="terminal-sidebar">
+      <div class="ts-section">
+        <div class="ts-title">// Objectifs</div>
+        <div id="sidebar-objectives"></div>
+      </div>
+      <div class="ts-section">
+        <div class="ts-title">// Commandes</div>
+        <div class="cmd-list" id="sidebar-cmds"></div>
+      </div>
+      <div class="ts-section" id="sidebar-notes-wrap" style="display:none">
+        <div class="ts-title">// Notes</div>
+        <div id="sidebar-notes"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RESULT ══════════ -->
+<div id="result-screen" class="screen">
+  <div class="result-box">
+    <div class="result-icon" id="r-icon">✓</div>
+    <div class="result-title" id="r-title">MISSION ACCOMPLIE</div>
+    <div class="result-narrative" id="r-narrative"></div>
+    <div class="result-btns">
+      <button class="r-btn" onclick="goHub()">→ Retour au Hub</button>
+      <button class="r-btn secondary" onclick="goHub()">→ Prochaine Mission</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FINALE ══════════ -->
+<div id="finale" class="screen">
+  <div class="finale-box">
+    <div class="finale-title">SIGNAL<br>TRANSMIS</div>
+    <div class="finale-sub">// TROIS MISSIONS. UNE RÉSISTANCE. //</div>
+    <div class="finale-text" id="finale-text"></div>
+    <div class="finale-quote">
+      "L'eau trouve toujours son chemin."<br>
+      <span style="font-size:11px;color:var(--text-muted);font-style:normal;letter-spacing:0.1em;">— Malek Veyran</span>
+    </div>
+    <button class="finale-link" onclick="showScreen('hub')">→ Rejouer</button>
+    &nbsp;&nbsp;
+    <button class="finale-link" style="border-color:var(--amber-dim);color:var(--amber-dim)" onclick="window.location.href='index.html'">→ Retour au portail</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let agentName = 'AGENT';
+let currentMission = -1;
+let kassandra = 0;
+let history = [];
+let historyIdx = -1;
+let missionsDone = [false, false, false];
+let stageIdx = 0;
+
+// Per-mission state
+let mState = {};
+
+// ══════════════════════════════════════════
+//  BOOT SEQUENCE
+// ══════════════════════════════════════════
+const bootLines = [
+  { t:'ÉCHO ROUGE OS v2.034 — KERNEL TEMPOREL 4.7', cls:'', d:200 },
+  { t:'> Initialisation interface terminal...', cls:'', d:600 },
+  { t:'> Chargement protocoles chiffrement AES-512... OK', cls:'ok', d:1000 },
+  { t:'> Connexion nœud Lyon-Confluence-7... OK', cls:'ok', d:1400 },
+  { t:'> Vérification contre-mesures Kassandra... OK', cls:'ok', d:1900 },
+  { t:'⚠ Activité Kassandra détectée — niveau 2 — neutralisée', cls:'warn', d:2400 },
+  { t:'> Modules de mission chargés : CANAL SIGMA / FANTÔME / PORTE-88', cls:'ok', d:2900 },
+  { t:'', cls:'', d:3200 },
+  { t:'╔══════════════════════════════════════════╗', cls:'ok', d:3400 },
+  { t:'║   SIGNAL — Jeu de terminal Écho Rouge   ║', cls:'ok', d:3400 },
+  { t:'║   Basé sur "Esclaves du Temps"           ║', cls:'ok', d:3400 },
+  { t:'╚══════════════════════════════════════════╝', cls:'ok', d:3400 },
+  { t:'', cls:'', d:3500 },
+  { t:'Trois missions. Une fenêtre de 72 heures.', cls:'', d:3700 },
+  { t:'CT-NET 2.0 se déploie. Deux milliards de cerveaux en jeu.', cls:'', d:4000 },
+  { t:'', cls:'', d:4200 },
+  { t:'Identification requise...', cls:'warn', d:4400 },
+];
+
+window.onload = () => {
+  const container = document.getElementById('boot-lines');
+  bootLines.forEach((l, i) => {
+    setTimeout(() => {
+      if (!l.t) { container.appendChild(document.createElement('br')); return; }
+      const d = document.createElement('div');
+      d.className = 'boot-line show';
+      d.style.color = l.cls === 'ok' ? 'var(--green)' : l.cls === 'warn' ? 'var(--amber)' : 'var(--text-dim)';
+      d.textContent = l.t;
+      container.appendChild(d);
+      container.scrollTop = container.scrollHeight;
+    }, l.d);
+  });
+  setTimeout(() => showScreen('codename'), 5200);
+};
+
+// ══════════════════════════════════════════
+//  SCREEN MANAGEMENT
+// ══════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'game') setTimeout(() => document.getElementById('cmd-input').focus(), 100);
+}
+
+function goHub() {
+  updateHubCards();
+  showScreen('hub');
+}
+
+// ══════════════════════════════════════════
+//  GAME INIT
+// ══════════════════════════════════════════
+function startGame() {
+  const val = document.getElementById('cn-input').value.trim();
+  if (val.length < 2) return;
+  agentName = val;
+  document.getElementById('hub-agent').textContent = 'AGENT: ' + agentName;
+  goHub();
+}
+
+function updateHubCards() {
+  for (let i = 0; i < 3; i++) {
+    const card = document.getElementById('card-' + i);
+    if (missionsDone[i]) { card.classList.add('done'); card.classList.remove('locked'); }
+    else if (i === 0 || missionsDone[i-1]) { card.classList.remove('locked'); card.classList.remove('done'); }
+    else { card.classList.add('locked'); card.classList.remove('done'); }
+  }
+  if (missionsDone[0] && missionsDone[1] && missionsDone[2]) {
+    setTimeout(showFinale, 300);
+  }
+}
+
+// ══════════════════════════════════════════
+//  MISSIONS DATA
+// ══════════════════════════════════════════
+const MISSIONS = [
+  // ── MISSION 0 : CANAL SIGMA ──
+  {
+    id: 0,
+    code: 'ALPHA',
+    name: 'CANAL SIGMA',
+    obj: 'Extraire la clé de chiffrement CT-NET 2.0 des serveurs Zurich',
+    stages: ['Connexion Tour Sigma', 'Navigation filesystem', 'Déchiffrement', 'Exfiltration'],
+    promptPath: 'agent@sigma.ctcorp.ch:~$',
+    commands: ['help', 'ls', 'cd [dossier]', 'cat [fichier]', 'decrypt [clé] [fichier]', 'inject [payload]', 'status', 'clear', 'abort'],
+    objectives: [
+      'Se connecter au serveur Sigma',
+      'Trouver le fichier chiffré ctnet20.enc',
+      'Localiser la clé de déchiffrement',
+      'Déchiffrer le fichier',
+      'Injecter un leurre et exfiltrer',
+    ],
+    briefing: [
+      { t:'brief', txt:'SENA VALKOVA // COORDINATRICE ÉCHO ROUGE // LYON' },
+      { t:'brief', txt:'Agent ' + '' + '. CT-NET 2.0 se déploie dans moins de 72 heures. Sa clé de chiffrement est stockée sur les serveurs de la Tour Sigma à Zurich — le hub central du Canal Sigma.' },
+      { t:'brief', txt:'Tu as un accès partiel via un compte de maintenance compromis. Trouve le fichier ctnet20.enc, récupère la clé, et injecte un leurre pour effacer ta trace. Kazimir te sort si Kassandra monte au rouge.' },
+      { t:'brief', txt:'// Bonne chance. Le réseau compte sur toi.' },
+    ],
+    filesystem: {
+      '~': ['maintenance/', 'logs/', 'tmp/'],
+      '~/maintenance': ['protocoles.txt', 'session_key.dat', 'readme.txt'],
+      '~/logs': ['access.log', 'sigma_events.log'],
+      '~/tmp': ['ctnet20.enc', 'leurre.bin'],
+    },
+    files: {
+      'readme.txt': '// ACCÈS MAINTENANCE — TOUR SIGMA\nPersonnel autorisé uniquement.\nClé de session : voir session_key.dat\nEn cas de problème : contacter admin@sigma.ctcorp.ch',
+      'protocoles.txt': '// PROTOCOLES DE MAINTENANCE CANAL SIGMA\nMise à jour firmware : canal broadcast Sigma\nCadence : toutes les 48h\nChiffrement : AES-512 + clé rotative\nClé courante : voir session_key.dat\nProchain déploiement : CTNET20 — 31.01.2035',
+      'session_key.dat': '// CLÉ DE SESSION MAINTENANCE\n// GÉNÉRÉE : 28.01.2035 04:17 UTC\nKEY_SESSION_MAINT = ORPHEUS\n// Valide 24h. Rotation automatique.',
+      'access.log': '28.01.2035 01:22 — LOGIN sigma_maint — IP 172.16.0.1\n28.01.2035 02:41 — ACCESS /tmp/ctnet20.enc — USER admin_01\n28.01.2035 03:55 — LOGIN sigma_maint — IP ██.██.██.██\n28.01.2035 04:17 — SESSION_KEY_ROTATED\n28.01.2035 04:30 — KASSANDRA_SCAN — CLEAR',
+      'sigma_events.log': '// ÉVÉNEMENTS CANAL SIGMA\n[WARN] 27.12.2034 16:00 — SIGNAL_PARASITE détecté — source: Lyon-Confluence\n[INFO] 29.12.2034 — DÉPLOIEMENT CT-NET 2.0 planifié J+3\n[INFO] 31.01.2035 — CTNET20 — Upload prêt — Chiffrement ORPHEUS_DELTA\n[WARN] Fenêtre de maintenance ouverte — 28.01.2035 04:00–06:00',
+      'ctnet20.enc': '// FICHIER CHIFFRÉ — CTNET20.ENC\n// Chiffrement : clé de session active\n4f52504845555f44454c5441\n// Déchiffrement requis — commande: decrypt [clé] ctnet20.enc',
+      'leurre.bin': '// PAYLOAD LEURRE — usage: inject leurre.bin\n// Injecte une fausse signature de connexion\n// Efface les traces dans access.log',
+    },
+    // Puzzle: decrypt ORPHEUS ctnet20.enc
+    decryptTarget: { key: 'ORPHEUS', file: 'ctnet20.enc' },
+    decryptResult: '// CT-NET 2.0 — CLEF DE DÉPLOIEMENT DÉCHIFFRÉE\nCLÉ_CTNET20 = ORPHEUS_DELTA_7734\nFRÉQUENCE_CANAL_SIGMA = 4.9 THz\nHORODATAGE_DÉPLOIEMENT = 31.01.2035 00:00:00 UTC\nNŒUDS_CIBLES = ALL_TISSAGES_V3+\n// Cette clé permet de générer un contre-signal de fréquence identique.',
+    injectPayload: 'leurre.bin',
+    stages_done: [false, false, false, false, false],
+    success_narrative: `La clé est entre vos mains. <strong>ORPHEUS_DELTA_7734</strong>. La même fréquence que le Canal Sigma — la même fréquence que le contre-signal d'Ananké.\n\nReya a souri quand Sena lui a transmis les données. <em>"Avec ça, on peut construire un signal qui voyage sur le même canal que CT-NET 2.0. Pas pour l'arrêter — pour le contaminer."</em>\n\nLa Tour Sigma ne sait pas encore ce qui vient de lui être volé. Le leurre tient. Kassandra voit une session de maintenance normale.\n\nMission Alpha : accomplie.`,
+    fail_narrative: `Kassandra a détecté l'intrusion. Les logs ont été figés. Ton adresse IP de sortie est marquée. Aegis-CD a reçu l'alerte.\n\nKazimir t'a extrait en deux minutes. Tu es en sécurité. Mais la clé est toujours sur les serveurs de Zurich, et CT-NET 2.0 se déploie dans moins de 60 heures.\n\nEssaie encore. Plus vite. Plus discret.`,
+  },
+
+  // ── MISSION 1 : FANTÔME ──
+  {
+    id: 1,
+    code: 'BÊTA',
+    name: 'FANTÔME',
+    obj: 'Modifier l\'empreinte temporelle de l\'agent BRNO-4 dans NAOS-9',
+    stages: ['Connexion NAOS-9', 'Identification de la cible', 'Modification biométrique', 'Validation'],
+    promptPath: 'agent@naos9.ctcorp.int:~$',
+    commands: ['help', 'scan [--agents]', 'query [id]', 'modify [id] [champ] [valeur]', 'verify [id]', 'commit', 'status', 'clear', 'abort'],
+    objectives: [
+      'Scanner la base d\'agents — cellule Prague',
+      'Identifier l\'agent exposé (BRNO-4)',
+      'Modifier son empreinte temporelle',
+      'Vérifier la modification',
+      'Valider le commit avant détection',
+    ],
+    briefing: [
+      { t:'brief', txt:'KAZIMIR SOKOLOV // OPÉRATIONS ÉCHO ROUGE // MOBILE' },
+      { t:'brief', txt:'Agent. La cellule de Brno est grillée. Kassandra a localisé l\'empreinte temporelle de l\'agent BRNO-4. Aegis-CD arrive dans environ 4 minutes réelles.' },
+      { t:'brief', txt:'Tu as un accès backdoor à NAOS-9 via une faille que Lena Reinholt a trouvée. Tu dois scanner les agents de la cellule Prague, identifier BRNO-4 par ses attributs, modifier son empreinte biométrique en PHANTOM, et valider avant que Kassandra te repère.' },
+      { t:'brief', txt:'// Un seul agent avec status EXPOSED et last_compression NONE. C\'est lui. Va vite.' },
+    ],
+    filesystem: {
+      '~': ['db/', 'system/'],
+      '~/db': ['agents_prague.db', 'tissages_actifs.dat'],
+      '~/system': ['naos_log.txt'],
+    },
+    files: {
+      'agents_prague.db': '// BASE DONNÉES AGENTS — CELLULE PRAGUE\n// Commande: scan --agents pour afficher',
+      'tissages_actifs.dat': '// TISSAGES ACTIFS — NŒUD PRAGUE\n// 3 274 porteurs actifs\n// 41 en mode erreur (post-Ananké)\n// Surveillance niveau 2 maintenue',
+      'naos_log.txt': '// NAOS-9 LOG — NŒUD PRAGUE\n[28.01.2035 03:44] SCAN prédictif — cellule Brno identifiée\n[28.01.2035 03:51] Agent BRNO-4 — empreinte verrouillée\n[28.01.2035 03:58] Transmission Aegis-CD — ETA 4 minutes\n[28.01.2035 04:00] BACKDOOR_SESSION ouverte — 120 secondes',
+    },
+    // Fake agents database
+    agentsData: [
+      { id:'PRG-001', nom:'SOKOL', cell:'Brno', status:'ACTIF', last_comp:'2034-12-15', biometric:'TMP-4421-A' },
+      { id:'PRG-002', nom:'LISZT', cell:'Prague', status:'ACTIF', last_comp:'2034-11-02', biometric:'TMP-7734-B' },
+      { id:'PRG-003', nom:'FALCON', cell:'Brno', status:'ACTIF', last_comp:'2035-01-10', biometric:'TMP-0081-C' },
+      { id:'PRG-004', nom:'BRNO-4', cell:'Brno', status:'EXPOSED', last_comp:'NONE', biometric:'TMP-8814-D' },
+      { id:'PRG-005', nom:'VRBA', cell:'Prague', status:'ACTIF', last_comp:'2035-01-05', biometric:'TMP-2211-E' },
+    ],
+    targetId: 'PRG-004',
+    targetField: 'biometric',
+    targetValue: 'PHANTOM',
+    modifyDone: false,
+    verifyDone: false,
+    commitDone: false,
+    success_narrative: `L'empreinte de BRNO-4 est maintenant <strong>PHANTOM</strong>. Pour NAOS-9, cet agent n'existe plus — ou plutôt, il est mort depuis six semaines. Kassandra va chercher un fantôme.\n\nKazimir a exfiltré l'équipe de Brno deux minutes après ton commit. Ils sont dans un van en direction des Carpates.\n\n<em>"Je ne veux pas savoir ton nom,"</em> a dit BRNO-4 dans la transmission chiffrée. <em>"Mais merci."</em>\n\nMission Bêta : accomplie.`,
+    fail_narrative: `Kassandra a gelé la session. L'empreinte de BRNO-4 est toujours dans la base. Aegis-CD a eu les coordonnées.\n\nKazimir n'a pas eu le temps. La cellule de Brno est compromise.\n\nOn recommence. Chaque seconde compte.`,
+  },
+
+  // ── MISSION 2 : PORTE-88 ──
+  {
+    id: 2,
+    code: 'GAMMA',
+    name: 'PORTE-88',
+    obj: 'Activer la backdoor n°88 de Jarek Mironen pour suspendre les GFT du Complexe n°6',
+    stages: ['Accès archives NAOS', 'Reconstruction de la commande', 'Calcul du nœud cible', 'Activation'],
+    promptPath: 'agent@naos9.core.int:~$',
+    commands: ['help', 'log --search [terme]', 'fragment [id]', 'assemble [f1] [f2] [f3] [f4]', 'calc [expression]', 'exploit --port [n] --node [nœud] --sig [signature]', 'status', 'clear', 'abort'],
+    objectives: [
+      'Récupérer les 4 fragments de la porte n°88',
+      'Assembler la commande d\'exploit',
+      'Calculer le nœud cible (GFT Gdańsk)',
+      'Exécuter l\'exploit avec la bonne signature',
+    ],
+    briefing: [
+      { t:'naos', txt:'NAOS-9 // ARCHE // RÉSEAU ÉCHO ROUGE — TRANSMISSION SÉCURISÉE' },
+      { t:'brief', txt:'Agent. Je suis NAOS-9. Mon créateur, Jarek Mironen, a intégré 147 portes logicielles dans mon architecture. Des backdoors qu\'il pouvait activer sans que CT Corp le sache.' },
+      { t:'brief', txt:'La porte n°88 suspend temporairement les GFT d\'un nœud géographique sans déclencher les alarmes de sécurité. Complexe n°6, Gdańsk — 2 400 compressés encore en bulle. Ils peuvent être libérés.' },
+      { t:'brief', txt:'Je ne peux pas activer cette porte moi-même — elle répond uniquement à une signature externe. La commande est fragmentée dans mes anciens logs, que CT Corp n\'a jamais su lire. Trouve les 4 fragments. Assemble la commande. Exécute.' },
+      { t:'naos', txt:'// Jarek a laissé cette porte pour toi. Pour quelqu\'un comme toi.' },
+    ],
+    filesystem: {
+      '~': ['archives/', 'core/'],
+      '~/archives': ['jarek_logs/', 'backdoor_index.txt'],
+      '~/archives/jarek_logs': ['jm_2027_alpha.log', 'jm_2027_beta.log', 'jm_2028_genesis.log', 'jm_2028_sigma.log'],
+      '~/core': ['naos_architecture.txt'],
+    },
+    files: {
+      'backdoor_index.txt': '// INDEX DES PORTES MIRONEN\n// 147 portes intégrées — 2027-2028\n// Porte n°88 — GFT_SUSPEND — géographique\n// Commande reconstituée depuis fragments:\n// [F1] + [F2] + [F3] + [F4]\n// Fragments dispersés dans les logs de construction 2027-2028\n// Commande: log --search [terme] pour chercher',
+      'naos_architecture.txt': '// ARCHITECTURE NAOS-9 — DOCUMENT INTERNE\n// 147 portes logicielles (Mironen, J. — 2027)\n// Nœud Gdańsk = CTG6-[CALCUL]\n// ID nœud = "CTG" + numéro_complexe + code_ville\n// Gdańsk = GDN\n// Complexe n°6 = 06\n// Format: CTG06-GDN\n// Signature requise: MIRONEN-[n° de porte]\n// Ex pour porte 12: MIRONEN-012',
+      'jm_2027_alpha.log': '// JAREK MIRONEN — LOG DÉVELOPPEMENT — ALPHA\n// 14.03.2027\nInitialisation architecture NAOS-9.\nTest protocoles de contrôle temporel.\n[FRAGMENT F1 PORTE-88]: "exploit --port"\n// Commentaire: porte 88 = suspension douce GFT. Pas d\'alarme si signature valide.',
+      'jm_2027_beta.log': '// JAREK MIRONEN — LOG DÉVELOPPEMENT — BÊTA\n// 22.05.2027\nIntégration Canal Sigma.\nTest backdoors 80-95.\n[FRAGMENT F2 PORTE-88]: "88 --node"\n// Note: le nœud cible est formaté CTG[complexe]-[ville3lettres]',
+      'jm_2028_genesis.log': '// JAREK MIRONEN — LOG — GENESIS\n// 08.02.2028\nProtocole GENESIS intégré dans Kael. Tissage bidirectionnel.\n// Rappel à moi-même: la porte 88 nécessite le bon nœud\n[FRAGMENT F3 PORTE-88]: "CTG06-GDN"\n// CTG06-GDN = Complexe 6, Gdańsk. 2400 compressés.',
+      'jm_2028_sigma.log': '// JAREK MIRONEN — LOG — SIGMA\n// 19.09.2028\nDernier log avant transfert à CT Corp.\nSi quelqu\'un lit ceci un jour — vous avez trouvé les portes.\n[FRAGMENT F4 PORTE-88]: "--sig MIRONEN-088"\n// La signature MIRONEN-088 authentifie l\'ordre sans déclencher les systèmes de sécurité CT Corp.',
+    },
+    fragments: {
+      'F1': 'exploit --port',
+      'F2': '88 --node',
+      'F3': 'CTG06-GDN',
+      'F4': '--sig MIRONEN-088',
+    },
+    foundFragments: [],
+    assembled: false,
+    // Final command: exploit --port 88 --node CTG06-GDN --sig MIRONEN-088
+    finalCommand: 'exploit --port 88 --node CTG06-GDN --sig MIRONEN-088',
+    success_narrative: `La porte n°88 s'ouvre.\n\nDans le Complexe n°6 de Gdańsk, les <strong>Générateurs de Flux Temporel</strong> marquent une pause. Trois secondes. Dix secondes. Trente secondes de temps réel qui ressemblent à une éternité pour 2 400 consciences qui n'ont plus été synchronisées depuis Ananké.\n\nLes portes des bulles s'ouvrent. Pas toutes — juste assez. Les compressés les plus proches des sorties comprennent avant les gardes.\n\n<em>2 400 personnes libres.</em>\n\nNAOS-9 t'a transmis un seul message après l'exploit : <strong>"Jarek avait raison. Quelqu'un les a trouvées."</strong>\n\nMission Gamma : accomplie.`,
+    fail_narrative: `La commande a échoué. Mauvaise signature, mauvais nœud, ou Kassandra a gelé l'accès avant l'exécution.\n\nLes 2 400 compressés du Complexe n°6 restent dans leurs bulles.\n\nAssemble les fragments. Recommence. Ils attendent.`,
+  },
+];
+
+// ══════════════════════════════════════════
+//  MISSION LAUNCH
+// ══════════════════════════════════════════
+function launchMission(idx) {
+  const card = document.getElementById('card-' + idx);
+  if (card.classList.contains('locked')) return;
+  currentMission = idx;
+  kassandra = 0;
+  stageIdx = 0;
+  history = [];
+  historyIdx = -1;
+
+  const m = MISSIONS[idx];
+  // Reset mission state
+  if (idx === 0) {
+    m.stages_done = [false, false, false, false, false];
+    mState = { cwd:'~', decrypted:false, injected:false, connected:false };
+  }
+  if (idx === 1) {
+    m.modifyDone = false; m.verifyDone = false; m.commitDone = false;
+    mState = { cwd:'~', scanned:false, queried:{}, modified:false, verified:false };
+  }
+  if (idx === 2) {
+    m.foundFragments = []; m.assembled = false;
+    mState = { cwd:'~', assembled:false, exploitDone:false };
+  }
+
+  // UI setup
+  document.getElementById('gtb-title').textContent = m.code + ' — ' + m.name;
+  document.getElementById('gtb-obj').textContent = m.obj;
+  document.getElementById('prompt-path').textContent = m.promptPath;
+
+  // Stage dots
+  const dotsEl = document.getElementById('stage-dots');
+  dotsEl.innerHTML = '';
+  m.stages.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'stage-dot' + (i === 0 ? ' active' : '');
+    d.title = s;
+    dotsEl.appendChild(d);
+  });
+
+  // Sidebar objectives
+  const objEl = document.getElementById('sidebar-objectives');
+  objEl.innerHTML = '';
+  m.objectives.forEach((o, i) => {
+    const d = document.createElement('div');
+    d.className = 'ts-item';
+    d.id = 'obj-' + i;
+    d.innerHTML = '<span>[ ]</span> ' + o;
+    objEl.appendChild(d);
+  });
+
+  // Sidebar commands
+  document.getElementById('sidebar-cmds').innerHTML = m.commands.map(c =>
+    `<div class="cmd-list"><span class="c">${c.split(' ')[0]}</span>${c.includes(' ') ? ' ' + c.split(' ').slice(1).join(' ') : ''}</div>`
+  ).join('');
+
+  // Notes
+  document.getElementById('sidebar-notes-wrap').style.display = 'none';
+  document.getElementById('sidebar-notes').innerHTML = '';
+
+  updateKassandra(0);
+  showScreen('game');
+  clearOutput();
+
+  // Briefing
+  print('sep', '─'.repeat(52));
+  print('info', '// MISSION ' + m.code + ' — ' + m.name.toUpperCase());
+  print('sep', '─'.repeat(52));
+  setTimeout(() => {
+    m.briefing.forEach((b, i) => {
+      setTimeout(() => {
+        print(b.t === 'naos' ? 'naos' : 'brief', b.txt.replace('Agent ' + '', 'Agent ' + agentName));
+      }, i * 600);
+    });
+    setTimeout(() => {
+      print('sep', '─'.repeat(52));
+      print('info', '// Terminal prêt. Tape "help" pour la liste des commandes.');
+      print('sep', '─'.repeat(52));
+    }, m.briefing.length * 600 + 200);
+  }, 400);
+}
+
+// ══════════════════════════════════════════
+//  COMMAND HANDLER
+// ══════════════════════════════════════════
+function handleKey(e) {
+  const input = document.getElementById('cmd-input');
+  if (e.key === 'Enter') {
+    const cmd = input.value.trim();
+    if (!cmd) return;
+    history.unshift(cmd);
+    historyIdx = -1;
+    input.value = '';
+    processCommand(cmd);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx < history.length - 1) historyIdx++;
+    input.value = history[historyIdx] || '';
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx > 0) historyIdx--;
+    else { historyIdx = -1; input.value = ''; return; }
+    input.value = history[historyIdx] || '';
+  }
+}
+
+function processCommand(raw) {
+  print('cmd', '$ ' + raw);
+  const parts = raw.trim().split(/\s+/);
+  const cmd = parts[0].toLowerCase();
+  const args = parts.slice(1);
+
+  // Global commands
+  if (cmd === 'help') { showHelp(); return; }
+  if (cmd === 'clear') { clearOutput(); return; }
+  if (cmd === 'status') { showStatus(); return; }
+  if (cmd === 'abort') { abortMission(); return; }
+  if (cmd === 'whoami') { print('ok', 'agent: ' + agentName.toLowerCase() + ' // accès: maintenance'); return; }
+  if (cmd === 'ls') { doLs(); return; }
+  if (cmd === 'cd') { doCd(args[0]); return; }
+  if (cmd === 'cat') { doCat(args[0]); return; }
+
+  // Mission-specific
+  const m = MISSIONS[currentMission];
+  if (currentMission === 0) handleM0(cmd, args, m);
+  else if (currentMission === 1) handleM1(cmd, args, m);
+  else if (currentMission === 2) handleM2(cmd, args, m);
+}
+
+// ──────────────────────────────────────────
+//  FILESYSTEM OPS (shared)
+// ──────────────────────────────────────────
+function doLs() {
+  const m = MISSIONS[currentMission];
+  const path = mState.cwd;
+  const entries = m.filesystem[path];
+  if (!entries) { print('error', 'ls: répertoire inaccessible'); addKass(5); return; }
+  print('ok', entries.join('  '));
+}
+
+function doCd(dir) {
+  if (!dir || dir === '~') { mState.cwd = '~'; print('ok', '~'); return; }
+  if (dir === '..') {
+    const parts = mState.cwd.split('/');
+    if (parts.length <= 1) { print('ok', '~'); mState.cwd = '~'; return; }
+    parts.pop();
+    mState.cwd = parts.join('/') || '~';
+    print('ok', mState.cwd);
+    return;
+  }
+  const newPath = mState.cwd === '~' ? '~/' + dir : mState.cwd + '/' + dir;
+  const m = MISSIONS[currentMission];
+  if (m.filesystem[newPath]) {
+    mState.cwd = newPath;
+    print('ok', mState.cwd);
+  } else { print('error', 'cd: ' + dir + ': dossier introuvable'); addKass(5); }
+}
+
+function doCat(filename) {
+  if (!filename) { print('error', 'cat: nom de fichier requis'); return; }
+  const m = MISSIONS[currentMission];
+  if (m.files[filename]) {
+    print('ok', m.files[filename]);
+    // Mission 0: reading session_key triggers objective
+    if (currentMission === 0 && filename === 'session_key.dat' && !m.stages_done[2]) {
+      m.stages_done[2] = true;
+      setTimeout(() => {
+        print('system', '// [Indice trouvé] La clé de session est dans ce fichier...');
+        completeObj(2);
+        addNote('Clé de session : ORPHEUS');
+      }, 300);
+    }
+    if (currentMission === 0 && filename === 'ctnet20.enc' && !m.stages_done[1]) {
+      m.stages_done[1] = true;
+      completeObj(1);
+    }
+  } else { print('error', 'cat: ' + filename + ': fichier introuvable'); addKass(5); }
+}
+
+// ──────────────────────────────────────────
+//  MISSION 0 — CANAL SIGMA
+// ──────────────────────────────────────────
+function handleM0(cmd, args, m) {
+  if (cmd === 'connect' || cmd === 'ssh') {
+    if (!mState.connected) {
+      mState.connected = true;
+      print('ok', 'Connexion Tour Sigma établie.');
+      print('info', 'Bienvenue sur sigma.ctcorp.ch — maintenance uniquement.');
+      print('info', 'Répertoires disponibles : maintenance/ logs/ tmp/');
+      completeObj(0);
+      advanceStage();
+    } else { print('info', 'Déjà connecté.'); }
+    return;
+  }
+  if (cmd === 'decrypt') {
+    if (args.length < 2) { print('error', 'Usage: decrypt [clé] [fichier]'); return; }
+    const key = args[0].toUpperCase();
+    const file = args[1];
+    if (!mState.connected) { print('error', 'Non connecté au serveur.'); addKass(8); return; }
+    if (file !== m.decryptTarget.file) { print('error', 'decrypt: fichier cible inconnu.'); addKass(10); return; }
+    if (key !== m.decryptTarget.key) {
+      print('error', 'decrypt: clé incorrecte. Échec du déchiffrement.');
+      addKass(15);
+      return;
+    }
+    print('ok', '// Déchiffrement en cours...');
+    setTimeout(() => {
+      print('success', m.decryptResult);
+      mState.decrypted = true;
+      completeObj(3);
+      advanceStage();
+      addNote('Clé CT-NET 2.0 : ORPHEUS_DELTA_7734');
+      addNote('Fréquence : 4.9 THz');
+    }, 800);
+    return;
+  }
+  if (cmd === 'inject') {
+    if (!mState.decrypted) { print('error', 'inject: déchiffrement requis d\'abord.'); addKass(5); return; }
+    const payload = args[0];
+    if (payload !== m.injectPayload) { print('error', 'inject: payload invalide.'); addKass(10); return; }
+    print('ok', '// Injection leurre.bin en cours...');
+    setTimeout(() => {
+      print('ok', '// Fausse signature injectée dans access.log.');
+      print('ok', '// Traces effacées. Session propre.');
+      mState.injected = true;
+      completeObj(4);
+      advanceStage();
+      setTimeout(() => missionSuccess(m), 1200);
+    }, 1000);
+    return;
+  }
+  // If connected, auto-complete connection objective
+  if (!mState.connected) { print('warn', 'Connecte-toi d\'abord : ssh sigma.ctcorp.ch'); return; }
+  print('error', cmd + ': commande inconnue. Tape "help".');
+  addKass(3);
+}
+
+// ──────────────────────────────────────────
+//  MISSION 1 — FANTÔME
+// ──────────────────────────────────────────
+function handleM1(cmd, args, m) {
+  if (cmd === 'scan') {
+    if (args[0] === '--agents') {
+      print('ok', '// SCAN BASE DONNÉES — CELLULE PRAGUE');
+      print('sep', '─'.repeat(60));
+      print('ok', 'ID       NOM      CELL   STATUS    LAST_COMP    BIOMETRIC');
+      print('sep', '─'.repeat(60));
+      m.agentsData.forEach(a => {
+        const line = `${a.id.padEnd(9)}${a.nom.padEnd(9)}${a.cell.padEnd(7)}${a.status.padEnd(10)}${a.last_comp.padEnd(13)}${a.biometric}`;
+        print(a.status === 'EXPOSED' ? 'warn' : 'ok', line);
+      });
+      print('sep', '─'.repeat(60));
+      mState.scanned = true;
+      completeObj(0);
+      advanceStage();
+    } else { print('error', 'Usage: scan --agents'); addKass(5); }
+    return;
+  }
+  if (cmd === 'query') {
+    if (!mState.scanned) { print('error', 'Effectue d\'abord un scan.'); addKass(5); return; }
+    const id = args[0];
+    const agent = m.agentsData.find(a => a.id === id);
+    if (!agent) { print('error', 'query: ID introuvable.'); addKass(8); return; }
+    print('ok', `// PROFIL AGENT — ${id}`);
+    Object.entries(agent).forEach(([k, v]) => {
+      print(v === 'EXPOSED' ? 'warn' : 'ok', `  ${k.padEnd(14)}: ${v}`);
+    });
+    if (id === m.targetId) {
+      mState.queried[id] = true;
+      completeObj(1);
+      print('warn', '// ⚠ STATUS EXPOSED — EMPREINTE VERROUILLÉE PAR KASSANDRA');
+    }
+    return;
+  }
+  if (cmd === 'modify') {
+    if (args.length < 3) { print('error', 'Usage: modify [id] [champ] [valeur]'); return; }
+    const [id, field, value] = args;
+    if (!mState.scanned) { print('error', 'Effectue d\'abord un scan.'); addKass(5); return; }
+    if (id !== m.targetId) { print('error', 'modify: ID non autorisé pour cette opération.'); addKass(12); return; }
+    if (field !== m.targetField) { print('error', 'modify: champ non modifiable.'); addKass(8); return; }
+    if (value !== m.targetValue) { print('error', 'modify: valeur non reconnue. Valeur attendue: PHANTOM'); addKass(10); return; }
+    print('ok', `// Modification ${id}.${field} = ${value}`);
+    print('warn', '// ⚠ Modification en attente — commit requis pour valider.');
+    m.modifyDone = true;
+    mState.modified = true;
+    completeObj(2);
+    advanceStage();
+    return;
+  }
+  if (cmd === 'verify') {
+    if (!m.modifyDone) { print('error', 'verify: aucune modification en attente.'); return; }
+    const id = args[0];
+    if (id !== m.targetId) { print('error', 'verify: ID incorrect.'); addKass(5); return; }
+    print('ok', `// VÉRIFICATION ${id}`);
+    print('ok', `  biometric (actuel) : TMP-8814-D`);
+    print('ok', `  biometric (pending) : PHANTOM`);
+    print('warn', '// En attente de commit.');
+    m.verifyDone = true;
+    mState.verified = true;
+    completeObj(3);
+    return;
+  }
+  if (cmd === 'commit') {
+    if (!m.modifyDone) { print('error', 'commit: aucune modification à valider.'); return; }
+    print('ok', '// Commit en cours...');
+    setTimeout(() => {
+      print('success', '// ✓ PRG-004.biometric = PHANTOM — Commit validé.');
+      print('system', '// Signature NAOS-9 mise à jour. Empreinte TMP-8814-D effacée.');
+      m.commitDone = true;
+      completeObj(4);
+      advanceStage();
+      setTimeout(() => missionSuccess(m), 1200);
+    }, 900);
+    return;
+  }
+  print('error', cmd + ': commande inconnue. Tape "help".');
+  addKass(3);
+}
+
+// ──────────────────────────────────────────
+//  MISSION 2 — PORTE-88
+// ──────────────────────────────────────────
+function handleM2(cmd, args, m) {
+  if (cmd === 'log') {
+    if (args[0] !== '--search' || !args[1]) { print('error', 'Usage: log --search [terme]'); return; }
+    const terme = args[1].toUpperCase();
+    let found = false;
+    // Search fragments
+    const fragMap = {
+      'PORTE': ['F1','F2','F3','F4'], 'PORTE-88': ['F1','F2','F3','F4'],
+      'MIRONEN': ['F1','F2','F3','F4'], 'JAREK': ['F1','F2','F3'],
+      'GENESIS': ['F3'], 'SIGMA': ['F4'], 'GFT': ['F1'],
+      'BACKDOOR': ['F1','F2'], 'EXPLOIT': ['F1'], 'NŒUD': ['F2','F3'],
+    };
+    let frags = [];
+    for (const [k, v] of Object.entries(fragMap)) {
+      if (terme.includes(k) || k.includes(terme)) { frags = [...new Set([...frags, ...v])]; }
+    }
+    if (frags.length > 0) {
+      print('ok', `// Recherche "${args[1]}" — ${frags.length} fragment(s) trouvé(s):`);
+      frags.forEach(fid => {
+        if (!m.foundFragments.includes(fid)) m.foundFragments.push(fid);
+        print('puzzle', `  [${fid}] ${m.fragments[fid]}`);
+      });
+      found = true;
+      if (m.foundFragments.length === 4) {
+        completeObj(0);
+        print('system', `// ✓ 4/4 fragments trouvés. Lance: assemble F1 F2 F3 F4`);
+      } else {
+        print('info', `// ${m.foundFragments.length}/4 fragments collectés. Continue de chercher.`);
+      }
+    }
+    if (!found) { print('info', `// Aucun résultat pour "${args[1]}".`); }
+    advanceStageM2();
+    return;
+  }
+  if (cmd === 'fragment') {
+    const fid = args[0] ? args[0].toUpperCase() : null;
+    if (!fid || !m.fragments[fid]) { print('error', 'fragment: ID invalide (F1, F2, F3, F4)'); return; }
+    if (!m.foundFragments.includes(fid)) { print('error', 'Fragment non encore trouvé. Utilise log --search d\'abord.'); return; }
+    print('puzzle', `[${fid}] ${m.fragments[fid]}`);
+    return;
+  }
+  if (cmd === 'assemble') {
+    const frags = args.map(a => a.toUpperCase());
+    if (frags.length < 4) { print('error', 'assemble: 4 fragments requis (F1 F2 F3 F4)'); return; }
+    if (!frags.every(f => m.foundFragments.includes(f))) {
+      print('error', 'assemble: certains fragments n\'ont pas encore été trouvés.');
+      addKass(5); return;
+    }
+    const assembled = frags.map(f => m.fragments[f]).join(' ');
+    print('ok', '// Assemblage des fragments...');
+    print('success', '// Commande reconstituée: ' + assembled);
+    m.assembled = true;
+    mState.assembled = true;
+    mState.finalCommand = assembled;
+    completeObj(1);
+    advanceStageM2();
+    addNote('Commande: ' + assembled);
+    print('info', '// Lance la commande reconstituée pour activer la porte.');
+    return;
+  }
+  if (cmd === 'calc') {
+    // Simple calc for the node
+    const expr = args.join('');
+    try {
+      const result = Function('"use strict";return (' + expr.replace(/[^0-9+\-*\/().]/g,'') + ')')();
+      print('ok', '= ' + result);
+    } catch(e) { print('error', 'calc: expression invalide'); }
+    return;
+  }
+  if (cmd === 'exploit') {
+    if (!m.assembled && !mState.assembled) { print('error', 'exploit: commande non assemblée. Lance assemble F1 F2 F3 F4 d\'abord.'); addKass(8); return; }
+    // Parse exploit args
+    const rawFull = [cmd, ...args].join(' ');
+    const portMatch = rawFull.match(/--port\s+(\d+)/);
+    const nodeMatch = rawFull.match(/--node\s+(\S+)/);
+    const sigMatch  = rawFull.match(/--sig\s+(\S+)/);
+    const port = portMatch ? portMatch[1] : null;
+    const node = nodeMatch ? nodeMatch[1] : null;
+    const sig  = sigMatch  ? sigMatch[1]  : null;
+    if (!port || !node || !sig) { print('error', 'exploit: arguments manquants. Usage: exploit --port [n] --node [nœud] --sig [sig]'); addKass(5); return; }
+    if (port !== '88') { print('error', 'exploit: numéro de porte incorrect.'); addKass(15); return; }
+    if (node !== 'CTG06-GDN') { print('error', 'exploit: nœud cible incorrect.'); addKass(15); return; }
+    if (sig !== 'MIRONEN-088') { print('error', 'exploit: signature invalide.'); addKass(20); return; }
+    // SUCCESS
+    print('ok', '// Envoi exploit porte-88 vers CTG06-GDN...');
+    setTimeout(() => {
+      print('warn', '// ⚠ Réponse NAOS-9...');
+      setTimeout(() => {
+        print('naos', '// NAOS-9 // Signature Mironen authentifiée. Porte n°88 ouverte.');
+        print('naos', '// Suspension GFT — Nœud Gdańsk — durée: 180 secondes réelles.');
+        print('success', '// ✓ GFT COMPLEXE n°6 SUSPENDUS — LIBÉRATION EN COURS');
+        completeObj(2); completeObj(3);
+        advanceStageM2(); advanceStageM2();
+        mState.exploitDone = true;
+        setTimeout(() => missionSuccess(m), 1500);
+      }, 1200);
+    }, 800);
+    return;
+  }
+  print('error', cmd + ': commande inconnue. Tape "help".');
+  addKass(3);
+}
+
+// ══════════════════════════════════════════
+//  STAGE / OBJECTIVE HELPERS
+// ══════════════════════════════════════════
+function advanceStage() {
+  const dots = document.querySelectorAll('.stage-dot');
+  dots.forEach((d,i) => {
+    if (i < stageIdx) d.classList.remove('active');
+  });
+  stageIdx++;
+  if (stageIdx < dots.length) {
+    dots[stageIdx].classList.add('active');
+    if (stageIdx > 0) dots[stageIdx-1].classList.remove('active'), dots[stageIdx-1].classList.add('done');
+  }
+}
+
+function advanceStageM2() {
+  const m = MISSIONS[2];
+  const dots = document.querySelectorAll('.stage-dot');
+  const s = m.foundFragments.length >= 4 ? 1 : 0;
+  dots.forEach((d,i) => {
+    d.classList.remove('active','done');
+    if (i < stageIdx) d.classList.add('done');
+    if (i === stageIdx) d.classList.add('active');
+  });
+}
+
+function completeObj(idx) {
+  const el = document.getElementById('obj-' + idx);
+  if (el && !el.classList.contains('done-item')) {
+    el.classList.add('done-item','active-item');
+    el.querySelector('span').textContent = '[✓]';
+    setTimeout(() => el.classList.remove('active-item'), 2000);
+  }
+}
+
+function addNote(txt) {
+  const wrap = document.getElementById('sidebar-notes-wrap');
+  const notes = document.getElementById('sidebar-notes');
+  wrap.style.display = 'block';
+  const d = document.createElement('div');
+  d.className = 'ts-item';
+  d.textContent = '→ ' + txt;
+  notes.appendChild(d);
+}
+
+// ══════════════════════════════════════════
+//  KASSANDRA
+// ══════════════════════════════════════════
+function addKass(amount) {
+  kassandra = Math.min(100, kassandra + amount);
+  updateKassandra(kassandra);
+  if (kassandra >= 100) {
+    setTimeout(() => {
+      print('error', '⚠ KASSANDRA — DÉTECTION MAXIMALE — SESSION TERMINÉE');
+      print('error', 'Aegis-CD a reçu les coordonnées. Mission échouée.');
+      setTimeout(() => missionFail(MISSIONS[currentMission]), 1000);
+    }, 200);
+  } else if (kassandra >= 70) {
+    print('warn', '⚠ Kassandra — niveau dangereux (' + kassandra + '%). Ralentis.');
+  }
+}
+
+function updateKassandra(val) {
+  const fill = document.getElementById('kass-fill');
+  const pct = document.getElementById('kass-pct');
+  fill.style.width = val + '%';
+  fill.className = 'kass-fill' + (val >= 70 ? ' danger' : val >= 40 ? ' warn' : '');
+  pct.textContent = val + '%';
+}
+
+// ══════════════════════════════════════════
+//  OUTPUT HELPERS
+// ══════════════════════════════════════════
+function print(cls, txt) {
+  const out = document.getElementById('output');
+  const d = document.createElement('div');
+  d.className = 'out-line ' + cls;
+  d.textContent = txt;
+  out.appendChild(d);
+  out.scrollTop = out.scrollHeight;
+}
+
+function clearOutput() {
+  document.getElementById('output').innerHTML = '';
+  print('info', '// Terminal effacé — ' + new Date().toUTCString().split(' ')[4] + ' UTC');
+}
+
+// ══════════════════════════════════════════
+//  GLOBAL COMMANDS
+// ══════════════════════════════════════════
+function showHelp() {
+  const m = MISSIONS[currentMission];
+  print('sep', '─'.repeat(48));
+  print('info', '// COMMANDES DISPONIBLES — MISSION ' + m.code);
+  print('sep', '─'.repeat(48));
+  m.commands.forEach(c => print('ok', '  ' + c));
+  print('sep', '─'.repeat(48));
+  print('info', '// Flèches ↑↓ : historique des commandes');
+}
+
+function showStatus() {
+  print('sep', '─'.repeat(40));
+  print('info', `// STATUT — Agent ${agentName}`);
+  print('info', `// Mission : ${MISSIONS[currentMission].code} — ${MISSIONS[currentMission].name}`);
+  print(kassandra >= 70 ? 'warn' : 'info', `// Détection Kassandra : ${kassandra}%`);
+  print('info', `// Répertoire courant : ${mState.cwd}`);
+  print('sep', '─'.repeat(40));
+}
+
+function abortMission() {
+  print('warn', '// Mission abandonnée. Retour au hub...');
+  setTimeout(goHub, 1200);
+}
+
+// ══════════════════════════════════════════
+//  WIN / FAIL
+// ══════════════════════════════════════════
+function missionSuccess(m) {
+  missionsDone[m.id] = true;
+  document.getElementById('r-icon').textContent = '✓';
+  document.getElementById('r-title').className = 'result-title win';
+  document.getElementById('r-title').textContent = 'MISSION ACCOMPLIE';
+  document.getElementById('r-narrative').innerHTML = m.success_narrative;
+  showScreen('result-screen');
+}
+
+function missionFail(m) {
+  document.getElementById('r-icon').textContent = '✗';
+  document.getElementById('r-title').className = 'result-title lose';
+  document.getElementById('r-title').textContent = 'MISSION ÉCHOUÉE';
+  document.getElementById('r-narrative').innerHTML = m.fail_narrative;
+  showScreen('result-screen');
+}
+
+// ══════════════════════════════════════════
+//  FINALE
+// ══════════════════════════════════════════
+function showFinale() {
+  document.getElementById('finale-text').innerHTML =
+    `Trois missions. Trois victoires. <strong>Signal transmis.</strong><br><br>
+    La clé ORPHEUS_DELTA_7734 est entre les mains de Reya. Elle est en train de construire le contre-signal.<br><br>
+    L'empreinte de BRNO-4 est effacée. La cellule de Brno est libre.<br><br>
+    2 400 compressés ont quitté le Complexe n°6 de Gdańsk par la porte que <em>Jarek Mironen</em> a laissée pour toi.<br><br>
+    <strong>CT-NET 2.0 n'a pas encore gagné.</strong> Pas encore.`;
+  showScreen('finale');
+}
+</script>
+</body>
+</html>
