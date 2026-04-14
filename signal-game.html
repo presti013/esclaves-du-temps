@@ -837,7 +837,7 @@ const MISSIONS = [
     obj: 'Extraire la clé de chiffrement CT-NET 2.0 des serveurs Zurich',
     stages: ['Connexion Tour Sigma', 'Navigation filesystem', 'Déchiffrement', 'Exfiltration'],
     promptPath: 'agent@sigma.ctcorp.ch:~$',
-    commands: ['help', 'ls', 'cd [dossier]', 'cat [fichier]', 'decrypt [clé] [fichier]', 'inject [payload]', 'status', 'clear', 'abort'],
+    commands: ['help', 'ssh [serveur]', 'connect [serveur]', 'ls', 'cd [dossier]', 'cat [fichier]', 'decrypt [clé] [fichier]', 'inject [payload]', 'status', 'clear', 'abort'],
     objectives: [
       'Se connecter au serveur Sigma',
       'Trouver le fichier chiffré ctnet20.enc',
