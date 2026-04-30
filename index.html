@@ -396,6 +396,90 @@ body {
   #portals { grid-template-columns: repeat(2, 1fr); }
   .title-main { font-size: 28px; }
 }
+
+/* ── MUSIC MODAL ── */
+#music-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 48px;
+  backdrop-filter: blur(6px);
+}
+#music-overlay.active { display: flex; }
+
+.music-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px, 2vw, 22px);
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.music-platforms {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  justify-content: center;
+}
+
+.platform-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: brightness(0.7) saturate(0.6);
+}
+.platform-btn:hover {
+  transform: translateY(-6px) scale(1.06);
+  filter: brightness(1) saturate(1);
+}
+
+.platform-logo {
+  width: clamp(80px, 14vw, 140px);
+  height: clamp(80px, 14vw, 140px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* SoundCloud logo SVG inline */
+.platform-logo.sc { background: #FF5500; box-shadow: 0 0 40px rgba(255,85,0,0.4); }
+.platform-logo.sp { background: #1DB954; box-shadow: 0 0 40px rgba(29,185,84,0.4); }
+
+.platform-logo svg { width: 60%; height: 60%; }
+
+.platform-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(11px, 1.5vw, 15px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.music-close {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+  opacity: 0.5;
+}
+.music-close:hover { opacity: 1; color: var(--white); }
 </style>
 </head>
 <body>
@@ -436,13 +520,13 @@ body {
     </a>
 
     <!-- 2. Bande-son -->
-    <a class="portal-card card-music" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener">
+    <div class="portal-card card-music" onclick="openMusic()" style="cursor:pointer">
       <div class="card-num">02 / ACCÈS</div>
       <div class="card-icon">🎵</div>
       <div class="card-title">Bande Originale</div>
-      <div class="card-desc">L'univers sonore d'Esclaves du Temps<br>sur SoundCloud</div>
+      <div class="card-desc">L'univers sonore d'Esclaves du Temps<br>Disponible sur deux plateformes</div>
       <div class="card-cta">Écouter →</div>
-    </a>
+    </div>
 
     <!-- 3. CT Corp -->
     <a class="portal-card card-ctcorp" href="ctcorp-prototype.html" target="_blank">
@@ -520,6 +604,53 @@ function enterEcho() {
   sessionStorage.setItem('er_codename', val);
   window.open('echo-rouge-v2.html?agent=' + encodeURIComponent(val), '_blank');
   closeEcho();
+}
+</script>
+
+<!-- MUSIC MODAL -->
+<div id="music-overlay" onclick="if(event.target===this)closeMusic()">
+  <div class="music-title">Bande Originale — Esclaves du Temps</div>
+
+  <div class="music-platforms">
+
+    <!-- SoundCloud -->
+    <a class="platform-btn" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener">
+      <div class="platform-logo sc">
+        <!-- SoundCloud icon SVG -->
+        <svg viewBox="0 0 56 56" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 32.5c0 3.6 2.9 6.5 6.5 6.5h1.3V26.4c-.7-.3-1.4-.4-2-.4C4.2 26 2 29 2 32.5z"/>
+          <path d="M12.3 38.9h1.5V24.2c-.5-.2-1-.3-1.5-.3-.5 0-1 .1-1.5.3v14.7h1.5z"/>
+          <path d="M16.3 38.9h1.5V22.8c-.5-.3-1-.5-1.5-.5s-1 .2-1.5.5v16.1h1.5z"/>
+          <path d="M20.3 38.9h1.5V21.5c-.5-.4-1-.6-1.5-.6s-1 .2-1.5.6v17.4h1.5z"/>
+          <path d="M24.3 38.9h1.5V20.4c-.5-.5-1-.7-1.5-.7s-1 .3-1.5.7v18.5h1.5z"/>
+          <path d="M28.8 16.5c-.5 0-1 .1-1.5.3v22.1h15.2c3.6 0 6.5-2.9 6.5-6.5 0-3.3-2.5-6.1-5.7-6.5-.2-5.2-4.4-9.4-9.7-9.4h-4.8z"/>
+        </svg>
+      </div>
+      <div class="platform-label">SoundCloud</div>
+    </a>
+
+    <!-- Spotify -->
+    <a class="platform-btn" href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener">
+      <div class="platform-logo sp">
+        <!-- Spotify icon SVG -->
+        <svg viewBox="0 0 56 56" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M28 4C14.7 4 4 14.7 4 28s10.7 24 24 24 24-10.7 24-24S41.3 4 28 4zm11 34.6c-.4.7-1.4.9-2.1.4-5.7-3.5-12.9-4.3-21.4-2.4-.8.2-1.6-.3-1.8-1.1-.2-.8.3-1.6 1.1-1.8 9.3-2.1 17.3-1.2 23.7 2.7.8.5 1 1.5.5 2.2zm2.9-6.5c-.5.9-1.7 1.2-2.6.6-6.5-4-16.4-5.2-24.1-2.8-.9.3-1.9-.2-2.2-1.1-.3-.9.2-1.9 1.1-2.2 8.7-2.7 19.7-1.4 27.2 3.2 1 .6 1.3 1.7.6 2.3zm.3-6.8c-7.8-4.6-20.7-5-28.2-2.8-1.2.4-2.4-.3-2.8-1.5-.4-1.2.3-2.4 1.5-2.8 8.6-2.6 22.9-2.1 31.9 3.2 1.1.6 1.4 2 .8 3.1-.7 1.1-2 1.5-3.2.8z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Spotify</div>
+    </a>
+
+  </div>
+
+  <button class="music-close" onclick="closeMusic()">[ Fermer ]</button>
+</div>
+
+<script>
+function openMusic() {
+  document.getElementById('music-overlay').classList.add('active');
+}
+function closeMusic() {
+  document.getElementById('music-overlay').classList.remove('active');
 }
 </script>
 </body>
