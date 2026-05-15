@@ -668,5 +668,65 @@ function closeMusic() {
   document.getElementById('music-overlay').classList.remove('active');
 }
 </script>
+
+<!-- ── EE-IDX-2 : notification NAOS-9 à 03:47 ─────────────── -->
+<style>
+#fugue-notif {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: rgba(1,1,2,0.95);
+  border: 1px solid #37564a;
+  padding: 11px 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #5e8a72;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  text-decoration: none;
+  display: block;
+}
+#fugue-notif.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+</style>
+<a id="fugue-notif" href="naos-9-fugue.html">#&gt; Cycle de maintenance détecté. Anomalie créative en cours.</a>
+
+<script>
+// ── EE-IDX-2 : timer 03:47 ───────────────────────────────────
+(function () {
+  function tryShow() {
+    const now = new Date();
+    if (now.getHours() === 3 && now.getMinutes() === 47) {
+      const el = document.getElementById('fugue-notif');
+      if (el && !el.dataset.shown) {
+        el.dataset.shown = '1';
+        el.classList.add('visible');
+        setTimeout(() => el.classList.remove('visible'), 4000);
+      }
+    }
+  }
+  tryShow();
+  setInterval(tryShow, 60000);
+}());
+
+// ── EE-IDX-3 : taper "FUGUE" au clavier ─────────────────────
+let _fb = '';
+document.addEventListener('keydown', e => {
+  _fb += e.key.toUpperCase();
+  if (_fb.length > 10) _fb = _fb.slice(-10);
+  if (_fb.includes('FUGUE')) {
+    _fb = '';
+    window.location.href = 'naos-9-fugue.html';
+  }
+});
+</script>
 </body>
 </html>
