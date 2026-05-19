@@ -4,18 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Esclaves du Temps — Laurent Prestigiacomo</title>
-<meta name="description" content="Esclaves du Temps — Roman de science-fiction dystopique de Laurent Prestigiacomo. Dans un monde où le temps est la matière première de l'exploitation, deux réalités s'affrontent.">
-<meta property="og:title" content="Esclaves du Temps — Laurent Prestigiacomo">
-<meta property="og:description" content="Roman de science-fiction dystopique. Dans un monde où le temps est la matière première de l'exploitation, deux réalités s'affrontent.">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="fr_FR">
-<!-- TODO: og:url en URL absolue une fois domaine de production connu -->
-<meta property="og:image" content="/assets/og-index.png">
-<!-- TODO: créer /assets/og-index.png — visuel hub, 4 portails sur fond sombre -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Esclaves du Temps — Laurent Prestigiacomo">
-<meta name="twitter:description" content="Roman de science-fiction dystopique. Dans un monde où le temps est la matière première de l'exploitation, deux réalités s'affrontent.">
-<!-- TODO: favicon — <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"> -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -434,10 +422,13 @@ body {
 }
 
 .music-platforms {
-  display: flex;
-  gap: 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 40px;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+  max-width: 640px;
+  width: 100%;
 }
 
 .platform-btn {
@@ -456,8 +447,8 @@ body {
 }
 
 .platform-logo {
-  width: clamp(80px, 14vw, 140px);
-  height: clamp(80px, 14vw, 140px);
+  width: clamp(60px, 9vw, 100px);
+  height: clamp(60px, 9vw, 100px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -465,9 +456,6 @@ body {
   position: relative;
 }
 
-/* SoundCloud logo SVG inline */
-.platform-logo.sc { background: #FF5500; box-shadow: 0 0 40px rgba(255,85,0,0.4); }
-.platform-logo.sp { background: #1DB954; box-shadow: 0 0 40px rgba(29,185,84,0.4); }
 
 .platform-logo svg { width: 60%; height: 60%; }
 
@@ -523,7 +511,7 @@ body {
   <div id="portals">
 
     <!-- 1. Éditeur -->
-    <a class="portal-card card-editor" href="https://www.la-commanderie.be/category/3cinq7-editions/" target="_blank" rel="noopener">
+    <a class="portal-card card-editor" href="https://3cinq7-editions.webnode.be/" target="_blank" rel="noopener">
       <div class="card-num">01 / ACCÈS</div>
       <div class="card-icon">📖</div>
       <div class="card-title">Acquérir le roman</div>
@@ -563,9 +551,6 @@ body {
   <!-- FOOTER -->
   <div id="footer">
     © 2025 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction
-  </div>
-  <div style="font-family:monospace;font-size:9px;letter-spacing:3px;opacity:0.1;text-align:center;margin-top:6px">
-    <a href="signal-game.html" style="color:inherit;text-decoration:none">/// ΣIGNAL — TERMINAL AGENT EN ATTENTE ///</a>
   </div>
 
 </div>
@@ -628,31 +613,86 @@ function enterEcho() {
 
   <div class="music-platforms">
 
+    <!-- Spotify -->
+    <a class="platform-btn" href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener" title="Spotify">
+      <div class="platform-logo" style="background:#1DB954;box-shadow:0 0 40px rgba(29,185,84,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Spotify</div>
+    </a>
+
+    <!-- Apple Music -->
+    <a class="platform-btn" href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener" title="Apple Music">
+      <div class="platform-logo" style="background:linear-gradient(135deg,#FC5C7D,#6A3093);box-shadow:0 0 40px rgba(252,92,125,0.35)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A5.494 5.494 0 00.06 4.97C.027 5.29 0 5.61 0 5.93v12.141c.01.172.017.345.026.518.06 1.13.322 2.187.932 3.117A4.964 4.964 0 003.2 23.48a7.026 7.026 0 002.023.42c.588.048 1.18.065 1.77.065h12.214c.57 0 1.14-.022 1.71-.065a6.86 6.86 0 001.948-.407 4.96 4.96 0 002.258-1.862c.63-.963.878-2.04.925-3.18.033-.316.042-.635.042-.952V6.18a.858.858 0 00-.096-.056zM12 18.062a5.563 5.563 0 11.001-11.126A5.563 5.563 0 0112 18.062zm5.792-10.07a1.297 1.297 0 110-2.595 1.297 1.297 0 010 2.595zM12 8.418a3.582 3.582 0 100 7.164 3.582 3.582 0 000-7.164z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Apple Music</div>
+    </a>
+
+    <!-- Amazon Music -->
+    <a class="platform-btn" href="https://www.amazon.com/Prologue/dp/B0GZ15KLFS" target="_blank" rel="noopener" title="Amazon Music">
+      <div class="platform-logo" style="background:#00A8E0;box-shadow:0 0 40px rgba(0,168,224,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Amazon Music</div>
+    </a>
+
+    <!-- YouTube Music -->
+    <a class="platform-btn" href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener" title="YouTube Music">
+      <div class="platform-logo" style="background:#FF0000;box-shadow:0 0 40px rgba(255,0,0,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm-1.44 15.6L8.16 17.28V6.72l2.4 1.68 4.8 3.36-4.8 3.84z"/>
+          <path d="M23.495 6.205a3.028 3.028 0 0 0-2.13-2.13C19.62 3.5 12 3.5 12 3.5s-7.62 0-9.365.575a3.028 3.028 0 0 0-2.13 2.13C0 8.048 0 12 0 12s0 3.952.505 5.795a3.028 3.028 0 0 0 2.13 2.13C4.38 20.5 12 20.5 12 20.5s7.62 0 9.365-.575a3.028 3.028 0 0 0 2.13-2.13C24 15.952 24 12 24 12s0-3.952-.505-5.795zM9.546 15.569V8.431L15.818 12l-6.272 3.569z"/>
+        </svg>
+      </div>
+      <div class="platform-label">YouTube Music</div>
+    </a>
+
+    <!-- Deezer -->
+    <a class="platform-btn" href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener" title="Deezer">
+      <div class="platform-logo" style="background:#A238FF;box-shadow:0 0 40px rgba(162,56,255,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Deezer</div>
+    </a>
+
     <!-- SoundCloud -->
-    <a class="platform-btn" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener">
-      <div class="platform-logo sc">
-        <!-- SoundCloud icon SVG -->
-        <svg viewBox="0 0 56 56" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 32.5c0 3.6 2.9 6.5 6.5 6.5h1.3V26.4c-.7-.3-1.4-.4-2-.4C4.2 26 2 29 2 32.5z"/>
-          <path d="M12.3 38.9h1.5V24.2c-.5-.2-1-.3-1.5-.3-.5 0-1 .1-1.5.3v14.7h1.5z"/>
-          <path d="M16.3 38.9h1.5V22.8c-.5-.3-1-.5-1.5-.5s-1 .2-1.5.5v16.1h1.5z"/>
-          <path d="M20.3 38.9h1.5V21.5c-.5-.4-1-.6-1.5-.6s-1 .2-1.5.6v17.4h1.5z"/>
-          <path d="M24.3 38.9h1.5V20.4c-.5-.5-1-.7-1.5-.7s-1 .3-1.5.7v18.5h1.5z"/>
-          <path d="M28.8 16.5c-.5 0-1 .1-1.5.3v22.1h15.2c3.6 0 6.5-2.9 6.5-6.5 0-3.3-2.5-6.1-5.7-6.5-.2-5.2-4.4-9.4-9.7-9.4h-4.8z"/>
+    <a class="platform-btn" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener" title="SoundCloud">
+      <div class="platform-logo" style="background:#FF5500;box-shadow:0 0 40px rgba(255,85,0,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/>
         </svg>
       </div>
       <div class="platform-label">SoundCloud</div>
     </a>
 
-    <!-- Spotify -->
-    <a class="platform-btn" href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener">
-      <div class="platform-logo sp">
-        <!-- Spotify icon SVG -->
-        <svg viewBox="0 0 56 56" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M28 4C14.7 4 4 14.7 4 28s10.7 24 24 24 24-10.7 24-24S41.3 4 28 4zm11 34.6c-.4.7-1.4.9-2.1.4-5.7-3.5-12.9-4.3-21.4-2.4-.8.2-1.6-.3-1.8-1.1-.2-.8.3-1.6 1.1-1.8 9.3-2.1 17.3-1.2 23.7 2.7.8.5 1 1.5.5 2.2zm2.9-6.5c-.5.9-1.7 1.2-2.6.6-6.5-4-16.4-5.2-24.1-2.8-.9.3-1.9-.2-2.2-1.1-.3-.9.2-1.9 1.1-2.2 8.7-2.7 19.7-1.4 27.2 3.2 1 .6 1.3 1.7.6 2.3zm.3-6.8c-7.8-4.6-20.7-5-28.2-2.8-1.2.4-2.4-.3-2.8-1.5-.4-1.2.3-2.4 1.5-2.8 8.6-2.6 22.9-2.1 31.9 3.2 1.1.6 1.4 2 .8 3.1-.7 1.1-2 1.5-3.2.8z"/>
+    <!-- Anghami -->
+    <a class="platform-btn" href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener" title="Anghami">
+      <div class="platform-logo" style="background:#E21E5C;box-shadow:0 0 40px rgba(226,30,92,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 19.5a7.5 7.5 0 110-15 7.5 7.5 0 010 15zm0-13a5.5 5.5 0 100 11 5.5 5.5 0 000-11zm0 9a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm0-5.5a2 2 0 100 4 2 2 0 000-4z"/>
         </svg>
       </div>
-      <div class="platform-label">Spotify</div>
+      <div class="platform-label">Anghami</div>
+    </a>
+
+    <!-- 7digital -->
+    <a class="platform-btn" href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener" title="7digital">
+      <div class="platform-logo" style="background:#E2001A;box-shadow:0 0 40px rgba(226,0,26,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1.5 17h-2V9.5H9V8h4.5V17zm2-9a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+          <text x="6" y="16" font-family="Arial" font-weight="bold" font-size="9" fill="white">7</text>
+        </svg>
+      </div>
+      <div class="platform-label">7digital</div>
     </a>
 
   </div>
@@ -667,66 +707,6 @@ function openMusic() {
 function closeMusic() {
   document.getElementById('music-overlay').classList.remove('active');
 }
-</script>
-
-<!-- ── EE-IDX-2 : notification NAOS-9 à 03:47 ─────────────── -->
-<style>
-#fugue-notif {
-  position: fixed;
-  bottom: 26px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  background: rgba(1,1,2,0.95);
-  border: 1px solid #37564a;
-  padding: 11px 20px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  color: #5e8a72;
-  letter-spacing: 0.07em;
-  cursor: pointer;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  text-decoration: none;
-  display: block;
-}
-#fugue-notif.visible {
-  opacity: 1;
-  pointer-events: all;
-}
-</style>
-<a id="fugue-notif" href="naos-9-fugue.html">#&gt; Cycle de maintenance détecté. Anomalie créative en cours.</a>
-
-<script>
-// ── EE-IDX-2 : timer 03:47 ───────────────────────────────────
-(function () {
-  function tryShow() {
-    const now = new Date();
-    if (now.getHours() === 3 && now.getMinutes() === 47) {
-      const el = document.getElementById('fugue-notif');
-      if (el && !el.dataset.shown) {
-        el.dataset.shown = '1';
-        el.classList.add('visible');
-        setTimeout(() => el.classList.remove('visible'), 4000);
-      }
-    }
-  }
-  tryShow();
-  setInterval(tryShow, 60000);
-}());
-
-// ── EE-IDX-3 : taper "FUGUE" au clavier ─────────────────────
-let _fb = '';
-document.addEventListener('keydown', e => {
-  _fb += e.key.toUpperCase();
-  if (_fb.length > 10) _fb = _fb.slice(-10);
-  if (_fb.includes('FUGUE')) {
-    _fb = '';
-    window.location.href = 'naos-9-fugue.html';
-  }
-});
 </script>
 </body>
 </html>
