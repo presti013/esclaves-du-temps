@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Corp — À propos · Exercice 2035</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@300;400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep: #070C18;
+  --navy: #0D1626;
+  --steel: #1A2A3F;
+  --border: #1E3050;
+  --muted: #2A4060;
+  --accent: #C9A84C;
+  --accent2: #4A9FD4;
+  --text: #D0DCE8;
+  --text-dim: #6A8A9A;
+  --white: #F0F4F8;
+  --danger: #8B2020;
+  --success: #1A5C3A;
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Barlow', sans-serif;
+  --font-cond: 'Barlow Condensed', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  /* atmosphère : nappe radiale froide + grille fine */
+  background-image:
+    radial-gradient(1200px 600px at 70% -10%, rgba(74,159,212,0.07), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(201,168,76,0.05), transparent 60%),
+    linear-gradient(var(--deep), var(--deep));
+}
+::selection { background: rgba(201,168,76,0.3); color: var(--white); }
+
+/* ───────── TICKER ───────── */
+#ticker {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 0;
+  overflow: hidden;
+  font-family: var(--font-cond);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+#ticker-track { display: inline-block; padding-left: 100%; animation: tick 38s linear infinite; }
+#ticker-track span { margin: 0 28px; }
+#ticker .label { color: var(--accent); font-weight: 600; letter-spacing: 0.12em; }
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+/* ───────── NAV ───────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 40px;
+  background: rgba(13,22,38,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-display); font-weight: 900; font-size: 17px;
+  letter-spacing: 0.08em; color: var(--white); cursor: pointer; text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+.nav-logo .logo-icon {
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-size: 13px; font-weight: 700;
+}
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a {
+  font-family: var(--font-cond); font-size: 14px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; text-decoration: none;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after {
+  content: ''; position: absolute; left: 0; bottom: -6px; width: 100%; height: 2px; background: var(--accent);
+}
+.nav-cta {
+  font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 9px 20px; border: 1px solid var(--accent); background: transparent; color: var(--accent);
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.nav-cta:hover { background: var(--accent); color: var(--deep); }
+
+/* ───────── LAYOUT ───────── */
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+.eyebrow {
+  font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 18px;
+}
+.section { padding: 90px 0; border-top: 1px solid var(--border); }
+.section:first-of-type { border-top: none; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--white); line-height: 1.15; }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ───────── HERO ───────── */
+.hero { padding: 110px 0 80px; position: relative; }
+.hero h1 { font-size: clamp(34px, 6vw, 68px); font-weight: 900; letter-spacing: -0.01em; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead {
+  margin-top: 26px; max-width: 640px; font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300; color: var(--text);
+}
+.motto-plate {
+  display: inline-flex; align-items: center; gap: 14px; margin-top: 40px;
+  padding: 10px 22px; border: 1px solid var(--border); background: rgba(26,42,63,0.4);
+  font-family: var(--font-display); font-size: 13px; letter-spacing: 0.34em; color: var(--text-dim);
+}
+.motto-plate .dot { width: 6px; height: 6px; background: var(--accent); transform: rotate(45deg); }
+
+/* ───────── MISSION ───────── */
+.mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.mission-grid h2 { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent2); font-weight: 600; margin-bottom: 18px; font-family: var(--font-cond); }
+.mission-grid p { font-size: 17px; font-weight: 300; color: var(--text); }
+.mission-grid p + p { margin-top: 16px; }
+
+/* ───────── VALEURS ───────── */
+.values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.value { background: var(--navy); padding: 34px 26px; transition: background 0.25s; }
+.value:hover { background: var(--steel); }
+.value .num { font-family: var(--font-display); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; }
+.value h3 { font-size: 20px; font-weight: 700; margin: 16px 0 12px; letter-spacing: 0.02em; }
+.value p { font-size: 14px; color: var(--text-dim); }
+
+/* ───────── STATS ───────── */
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.stat { background: var(--navy); padding: 38px 28px; text-align: center; }
+.stat .n { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: var(--white); }
+.stat .n em { font-style: normal; color: var(--accent); }
+.stat .l { font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-top: 8px; }
+
+/* ───────── TIMELINE (pièce maîtresse) ───────── */
+.timeline-intro { max-width: 620px; margin-bottom: 60px; }
+.timeline-intro p { font-size: 17px; font-weight: 300; color: var(--text-dim); margin-top: 14px; }
+.timeline { position: relative; padding-left: 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 120px; top: 6px; bottom: 6px; width: 1px;
+  background: linear-gradient(var(--accent), var(--border) 80%, transparent);
+}
+.tl-item { position: relative; display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 24px 0; }
+.tl-year { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--accent); text-align: right; padding-top: 2px; }
+.tl-body { position: relative; padding-left: 38px; }
+.tl-body::before {
+  content: ''; position: absolute; left: -7px; top: 9px; width: 13px; height: 13px;
+  background: var(--deep); border: 2px solid var(--accent); transform: rotate(45deg);
+}
+.tl-item:hover .tl-body::before { background: var(--accent); }
+.tl-body h3 { font-size: 19px; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 8px; font-family: var(--font-display); }
+.tl-body p { font-size: 15px; font-weight: 300; color: var(--text-dim); max-width: 640px; }
+.tl-tag {
+  display: inline-block; margin-top: 12px; font-family: var(--font-cond); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--muted); color: var(--text-dim);
+}
+
+/* ───────── GOUVERNANCE ───────── */
+.gov-grid { display: grid; grid-template-columns: 280px 1fr; gap: 50px; align-items: center; }
+.portrait {
+  aspect-ratio: 3/4; border: 1px solid var(--border); position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--steel), var(--navy) 70%),
+    var(--navy);
+  display: flex; align-items: center; justify-content: center;
+}
+.portrait .mono {
+  font-family: var(--font-display); font-size: 64px; font-weight: 900; color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.portrait::after {
+  content: 'DIRECTOIRE'; position: absolute; bottom: 12px; left: 0; right: 0; text-align: center;
+  font-family: var(--font-cond); font-size: 11px; letter-spacing: 0.3em; color: var(--text-dim);
+}
+.gov-text h3 { font-size: 26px; font-weight: 700; }
+.gov-text .role { font-family: var(--font-cond); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 6px 0 22px; }
+.gov-text blockquote {
+  border-left: 2px solid var(--accent); padding-left: 22px; margin: 22px 0;
+  font-size: 22px; font-weight: 300; font-style: italic; color: var(--white);
+}
+.gov-text p { color: var(--text-dim); font-weight: 300; }
+.gov-text .body-note { font-size: 13px; color: var(--text-dim); margin-top: 20px; }
+
+/* ───────── FOOTER ───────── */
+footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 40px; }
+.foot-cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+.foot-cols h4 { font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
+.foot-cols a { display: block; color: var(--text-dim); text-decoration: none; font-size: 14px; margin: 6px 0; cursor: pointer; transition: color 0.2s; }
+.foot-cols a:hover { color: var(--accent); }
+.foot-bottom {
+  margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-size: 12px; color: var(--muted); font-family: var(--font-cond); letter-spacing: 0.08em;
+}
+.foot-bottom .motto { color: var(--text-dim); letter-spacing: 0.3em; }
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 900px) {
+  nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .wrap { padding: 0 22px; }
+  .mission-grid { grid-template-columns: 1fr; gap: 36px; }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .gov-grid { grid-template-columns: 1fr; gap: 30px; }
+  .portrait { max-width: 240px; }
+  .timeline::before { left: 8px; }
+  .tl-item { grid-template-columns: 1fr; gap: 4px; padding-left: 32px; }
+  .tl-year { text-align: left; }
+  .tl-body { padding-left: 0; }
+  .tl-body::before { left: -32px; }
+}
+@media (max-width: 520px) {
+  .values-grid, .stats-grid { grid-template-columns: 1fr; }
+  .hero { padding: 70px 0 50px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div id="ticker">
+  <div id="ticker-track">
+    <span><span class="label">CT-NET 2.0</span> déploiement mondial — 99,4 % de couverture</span>
+    <span><span class="label">CONTRIBUTION</span> 8 420 194 003 unités de production comptabilisées aujourd'hui</span>
+    <span><span class="label">EXERCICE 2035</span> CT Corp vous remercie de votre contribution au progrès de l'humanité</span>
+    <span><span class="label">CONSEIL DE CONFORMITÉ</span> certification chronologique active dans 47 nations</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="ctcorp-prototype.html">
+    <div class="logo-icon">CT</div>
+    CT<span>CORP</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="ctcorp-prototype.html">Accueil</a></li>
+    <li><a href="ctcorp-prototype.html">Solutions</a></li>
+    <li><a href="ctcorp-prototype.html">Carrières</a></li>
+    <li><a href="ctcorp-prototype.html">ChronoVision</a></li>
+    <li><a class="active">À propos</a></li>
+  </ul>
+  <a class="nav-cta" href="ctcorp-prototype.html">Postuler</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow reveal">À propos · Exercice 2035</div>
+    <h1 class="reveal">Le temps appartenait au hasard.<br>Nous l'avons rendu <em>juste</em>.</h1>
+    <p class="lead reveal">Depuis 2027, CT Corp veille à ce que chaque heure de l'humanité serve un dessein. Nous n'avons pas inventé le temps. Nous l'avons rendu utile.</p>
+    <div class="motto-plate reveal"><span class="dot"></span> TEMPUS IN AURUM</div>
+  </div>
+</header>
+
+<!-- MISSION -->
+<section class="section">
+  <div class="wrap mission-grid">
+    <div class="reveal">
+      <h2>Notre mission</h2>
+      <p>Transformer le temps — la ressource la plus inégalement répartie de l'histoire humaine — en une valeur mesurable, échangeable et accessible à tous.</p>
+      <p>Là où les civilisations anciennes <em>subissaient</em> le temps, nous l'administrons. Là où nos aïeux le perdaient, nous le restituons : converti, optimisé, fructifié.</p>
+    </div>
+    <div class="reveal">
+      <h2>Notre vision</h2>
+      <p>Un monde où plus une seconde n'est gaspillée. Où la productivité cesse d'être une contrainte pour devenir une libération.</p>
+      <p>Où le temps n'est plus une fatalité que l'on endure, mais un capital que l'on cultive — pour soi, pour les siens, pour la continuité de l'espèce.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">Nos valeurs</div>
+    <div class="values-grid reveal">
+      <div class="value">
+        <div class="num">01</div>
+        <h3>Continuité</h3>
+        <p>Rien ne s'interrompt. Nos infrastructures, nos réseaux, notre engagement envers chaque porteur. La continuité est notre force.</p>
+      </div>
+      <div class="value">
+        <div class="num">02</div>
+        <h3>Productivité</h3>
+        <p>Chaque instant porte un fruit. La valeur d'une existence se mesure à ce qu'elle produit pour l'ensemble.</p>
+      </div>
+      <div class="value">
+        <div class="num">03</div>
+        <h3>Harmonie</h3>
+        <p>Le Tissage Synaptique aligne l'individu sur le collectif. L'harmonie n'est jamais imposée : elle se ressent.</p>
+      </div>
+      <div class="value">
+        <div class="num">04</div>
+        <h3>Conformité</h3>
+        <p>La liberté véritable naît de l'adhésion. Se conformer, ce n'est pas renoncer — c'est appartenir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">CT Corp en chiffres · 2035</div>
+    <div class="stats-grid reveal">
+      <div class="stat"><div class="n">2,0&nbsp;<em>Md+</em></div><div class="l">Tissages Synaptiques déployés</div></div>
+      <div class="stat"><div class="n">47</div><div class="l">Nations partenaires</div></div>
+      <div class="stat"><div class="n"><em>×</em>100</div><div class="l">Compression standard</div></div>
+      <div class="stat"><div class="n">3&nbsp;<em>M</em></div><div class="l">Contributeurs Temporels engagés</div></div>
+      <div class="stat"><div class="n">500</div><div class="l">Centres Nyx en service</div></div>
+      <div class="stat"><div class="n">8,4&nbsp;<em>Md</em></div><div class="l">Unités de production / jour</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">Notre histoire</div>
+    <div class="timeline-intro reveal">
+      <h2 style="font-size:clamp(26px,4vw,40px);font-weight:900;">D'une tragédie est née une promesse.</h2>
+      <p>Chronologie officielle de CT Corp, certifiée par le Conseil de Conformité Chronologique.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-year">2024</div>
+        <div class="tl-body">
+          <h3>Sotchi — le monde s'éveille</h3>
+          <p>Dans la nuit du 23 octobre, une arme d'un genre inconnu frappe le Théâtre d'Hiver de Sotchi : 412 victimes, vieillies de plusieurs décennies en quelques secondes. Le terrorisme temporel vient de naître. L'humanité comprend, dans la douleur, qu'une force capable d'un tel acte ne peut rester sans gardien.</p>
+          <span class="tl-tag">Attentat · 412 victimes</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2027</div>
+        <div class="tl-body">
+          <h3>Le Pacte Cronos</h3>
+          <p>Quarante-sept nations responsables s'unissent pour confier la maîtrise du temps à une entité unique, neutre et transnationale, au-dessus des rivalités. En février, CT Corp est fondée. Pour la première fois, une technologie capable de tout devient le bien de tous.</p>
+          <span class="tl-tag">Fondation de CT Corp</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2028</div>
+        <div class="tl-body">
+          <h3>L'intelligence au service de l'humain</h3>
+          <p>Mise en service de NAOS-9, l'intelligence de coordination qui veille avec une fidélité parfaite sur chaque flux temporel. La même année, les premières Lois de Contribution Temporelle offrent à chaque citoyen la possibilité de transformer son temps en valeur tangible. La monnaie Crédit-Temps est introduite : la première devise indexée non sur l'or ni sur la dette, mais sur l'effort humain lui-même.</p>
+          <span class="tl-tag">NAOS-9 · Crédit-Temps · Contribution</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2030</div>
+        <div class="tl-body">
+          <h3>Le repos réinventé</h3>
+          <p>Déploiement du Projet Nyx : huit heures de récupération physiologique complète en cinq minutes de temps réel. Le sommeil cesse d'être une perte. Cette même année, l'intelligence prédictive Kassandra commence à anticiper les besoins de la société avant même qu'ils ne s'expriment.</p>
+          <span class="tl-tag">Projet Nyx · Kassandra</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2031</div>
+        <div class="tl-body">
+          <h3>L'Europe rejoint la stabilité</h3>
+          <p>L'Union européenne adhère au Partenariat de Stabilité, garantissant à un continent éprouvé par les crises une prospérité durable et une sécurité retrouvée. La paix temporelle s'étend.</p>
+          <span class="tl-tag">Partenariat de Stabilité</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2034</div>
+        <div class="tl-body">
+          <h3>L'ère de l'harmonie cognitive</h3>
+          <p>Déploiement de CT-NET 2.0 et des Tissages Synaptiques version 4.0. Le porteur n'est plus seulement connecté : il est en résonance avec l'ensemble. L'harmonie cognitive totale n'est plus un horizon — elle commence.</p>
+          <span class="tl-tag">CT-NET 2.0 · Tissage v4.0</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">2035</div>
+        <div class="tl-body">
+          <h3>La continuité</h3>
+          <p>CT Corp sert aujourd'hui plus de deux milliards de porteurs sur quatre continents. Le temps n'est plus subi : il est administré. Il n'est plus perdu : il est rendu. L'Axe de la Perpétuité est en place. L'avenir, désormais, ne sera plus laissé au hasard.</p>
+          <span class="tl-tag">Aujourd'hui</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOUVERNANCE -->
+<section class="section" id="gouvernance">
+  <div class="wrap">
+    <div class="eyebrow reveal">Gouvernance</div>
+    <div class="gov-grid reveal">
+      <div class="portrait"><span class="mono">SG</span></div>
+      <div class="gov-text">
+        <h3>Svetlana Gerasimova</h3>
+        <div class="role">Présidente du Directoire</div>
+        <blockquote>« La continuité est notre force. »</blockquote>
+        <p>CT Corp est administrée par un Directoire restreint, garant de la neutralité de l'entité au-dessus des intérêts nationaux et des cycles politiques. Sa mission : assurer que la maîtrise du temps demeure, en toute circonstance, au service du plus grand nombre.</p>
+        <p class="body-note">Le Directoire opère sous le contrôle du Conseil de Conformité Chronologique, autorité indépendante chargée de certifier la conformité de chaque opération temporelle aux standards internationaux du Pacte Cronos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <div class="nav-logo" style="margin-bottom:14px;"><div class="logo-icon">CT</div>CT<span>CORP</span></div>
+        <p style="max-width:280px;color:var(--text-dim);font-size:13px;">Le Temps est notre Matière Première. Vous êtes notre Investissement.</p>
+      </div>
+      <div>
+        <h4>Société</h4>
+        <a href="ctcorp-prototype.html">Accueil</a>
+        <a>À propos</a>
+        <a href="ctcorp-prototype.html">ChronoVision</a>
+      </div>
+      <div>
+        <h4>Solutions</h4>
+        <a href="ctcorp-prototype.html">Tissages Synaptiques</a>
+        <a href="ctcorp-prototype.html">Compression Temporelle</a>
+        <a href="ctcorp-prototype.html">Crédits-Temps Corporatifs</a>
+      </div>
+      <div>
+        <h4>Conformité</h4>
+        <a>Conseil de Conformité Chronologique</a>
+        <a>Pacte Cronos</a>
+        <a>Charte du Contributeur</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2035 CT Corp — Tous droits réservés. L'Axe de la Perpétuité.</span>
+      <span class="motto">TEMPUS IN AURUM</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Révélation au défilement (staggered)
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry, i) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        setTimeout(function () { el.classList.add('in'); }, (el.dataset.d ? +el.dataset.d : 0));
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function (e) { io.observe(e); });
+}());
+</script>
+</body>
+</html>
