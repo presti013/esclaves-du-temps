@@ -9,13 +9,10 @@
 <meta property="og:description" content="Réseau de Résistance Temporelle. Connexion chiffrée. Nœud Lyon-7 actif.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
-<!-- TODO: og:url en URL absolue une fois domaine de production connu -->
 <meta property="og:image" content="/assets/og-echo-rouge.png">
-<!-- TODO: créer /assets/og-echo-rouge.png — terminal vert sur noir, logo ÉCHO ROUGE -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Écho Rouge — Réseau de Résistance Temporelle">
 <meta name="twitter:description" content="Réseau de Résistance Temporelle. Connexion chiffrée. Nœud Lyon-7 actif.">
-<!-- TODO: favicon — <link rel="icon" type="image/svg+xml" href="/assets/favicon-echo.svg"> -->
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -1056,7 +1053,6 @@ footer a:hover { color: var(--green-dim); }
 </head>
 <body>
 
-<!-- ═══════════════════ PORTAIL TOR ═══════════════════ -->
 <div id="portal">
   <div class="portal-header">TOR NETWORK // NŒUD ÉCHO-7.1 // CHIFFREMENT AES-512 ACTIF</div>
   <div class="portal-logo">ÉCHO<br>ROUGE</div>
@@ -1080,10 +1076,8 @@ footer a:hover { color: var(--green-dim); }
   </div>
 </div>
 
-<!-- ═══════════════════ SITE PRINCIPAL ═══════════════════ -->
 <div id="site">
 
-  <!-- Status bar -->
   <div id="statusbar">
     <div class="sb-left">
       <span><span class="sb-dot"></span>TOR // NŒUD ÉCHO-7 // ACTIF</span>
@@ -1096,7 +1090,6 @@ footer a:hover { color: var(--green-dim); }
     </div>
   </div>
 
-  <!-- Nav -->
   <nav>
     <div class="nav-logo" onclick="showSection('home')">
       <span class="logo-mark">ÉR</span>
@@ -1108,6 +1101,7 @@ footer a:hover { color: var(--green-dim); }
       <li><a onclick="showSection('marche')" id="nav-marche"><span class="nav-prefix">03/</span>Marché</a></li>
       <li><a onclick="showSection('contrats')" id="nav-contrats"><span class="nav-prefix">04/</span>Contrats</a></li>
       <li><a href="signal-game.html" target="_blank" id="nav-game" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">05/</span>Terminal</a></li>
+      <li><a href="mini-jeu-escape.html" target="_blank" id="nav-escape" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">06/</span>Escape Game</a></li>
     </ul>
     <div class="nav-right">
       <span class="threat-level">⚠ MENACE: MODÉRÉE</span>
@@ -1115,7 +1109,6 @@ footer a:hover { color: var(--green-dim); }
     </div>
   </nav>
 
-  <!-- ═══════════ HOME ═══════════ -->
   <section id="home" class="page-section active">
     <div class="terminal-hero">
 
@@ -1142,7 +1135,7 @@ footer a:hover { color: var(--green-dim); }
           Fondé en 2031 par <em>Sena Valkova</em>, Sofia-Prague.<br>
           22 cellules actives. 5 cellules silencieuses.<br><br>
 
-          Tu es ici parce que quelqu'un t'a fait confiance.<br>
+          Tu es ici because quelqu'un t'a fait confiance.<br>
           <strong>Ne les déçois pas.</strong>
         </div>
 
@@ -1223,7 +1216,6 @@ footer a:hover { color: var(--green-dim); }
     </div>
   </section>
 
-  <!-- ═══════════ PROPAGANDE ═══════════ -->
   <section id="propagande" class="page-section">
     <div class="section-bar">
       <div class="section-tag">VÉRITÉ <span>// archives déclassifiées</span></div>
@@ -1251,9 +1243,7 @@ footer a:hover { color: var(--green-dim); }
 
       <div class="content-main">
 
-        <!-- VIEW: Index -->
         <div id="prop-view-index">
-          <!-- Featured -->
           <div class="prop-hero">
             <span class="prop-tag">// document prioritaire — 15.11.2026</span>
             <div class="prop-title">MANIFESTE POUR LA RÉSISTANCE TEMPORELLE</div>
@@ -1268,12 +1258,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="prop-stamp">HASH: 7e4f2a1b-r3d-s0tch1 // INTÉGRITÉ: ✓ VÉRIFIÉE // DIFFUSION: RÉSEAU DÉCENTRALISÉ</div>
           </div>
 
-          <!-- Doc grid -->
           <div class="doc-grid">
             <div class="doc-card" onclick="openModal('kremlin')">
               <span class="doc-type">// Document CIA — déclassifié partiel</span>
               <div class="doc-title">Opération KREMLIN SUNSET<br>Analyse Après-Action</div>
-              <div class="doc-excerpt">Mémo interne : "KREMLIN SUNSET est un tournant. Le partenaire d'aujourd'hui est le rival de demain — et il vient de nous montrer qu'il n'a absolument aucune limite."</div>
+              <div class="doc-excerpt">Mémo interne : "KREMLIN SUNSET is un tournant. Le partenaire d'aujourd'hui est le rival de demain — et il vient de nous montrer qu'il n'a absolument aucune limite."</div>
               <div class="doc-meta">Source : CIA / Pupitre Russie-EUR // Oct. 2024</div>
               <span class="doc-tag">SOTCHI</span> <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">CLASSIFIÉ</span>
             </div>
@@ -1319,7 +1308,6 @@ footer a:hover { color: var(--green-dim); }
             </div>
           </div>
 
-          <!-- Timeline -->
           <div style="margin-top:32px">
             <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px">// CHRONOLOGIE DE LA CHUTE — Faits vérifiés</div>
             <div class="timeline">
@@ -1369,7 +1357,6 @@ footer a:hover { color: var(--green-dim); }
           </div>
         </div>
 
-        <!-- VIEW: Manifeste complet -->
         <div id="prop-view-manifeste" class="manifeste-full">
           <div class="m-back" onclick="closeManifeste()">Retour aux archives</div>
           <div class="prop-stamp" style="margin-bottom:16px">DOCUMENT CLANDESTIN — RÉSEAU ÉCHO ROUGE — 15.11.2026<br>COMPILÉ PAR DIMITAR ET IRINA VALKOVA, JOURNALISTES D'INVESTIGATION<br>RETROUVÉ DANS LES ARCHIVES NUMÉRIQUES POST-ANANKÉ</div>
@@ -1401,7 +1388,6 @@ footer a:hover { color: var(--green-dim); }
     </div>
   </section>
 
-  <!-- ═══════════ MARCHÉ ═══════════ -->
   <section id="marche" class="page-section">
     <div class="section-bar">
       <div class="section-tag">MARCHÉ <span>// sous le manteau</span></div>
@@ -1675,7 +1661,6 @@ footer a:hover { color: var(--green-dim); }
     </div>
   </section>
 
-  <!-- ═══════════ CONTRATS ═══════════ -->
   <section id="contrats" class="page-section">
     <div class="section-bar">
       <div class="section-tag">CONTRATS <span>// missions actives</span></div>
@@ -1844,7 +1829,6 @@ footer a:hover { color: var(--green-dim); }
 
 </div>
 
-<!-- MODAUX -->
 <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">[ FERMER ]</button>
@@ -1982,7 +1966,7 @@ const modals = {
     <div class="m-h2">2. Notre rôle (Op. SILENT SKY)</div>
     <div class="m-p">Support passif. Fenêtre de 15 minutes de blackout SIGINT dans un rayon de 5 km. Zéro communication. Zéro trace. Pleine dénégation plausible.</div>
     <div class="m-h2">3. Conclusion</div>
-    <div class="m-quote">"KREMLIN SUNSET est un tournant. Il marque la fin de l'ère des luttes post-soviétiques et le début d'une gouvernance justifiée par une menace technologique fabriquée. Le partenaire d'aujourd'hui est le rival de demain — et il vient de nous montrer qu'il n'a absolument aucune limite."</div>`,
+    <div class="m-quote">"KREMLIN SUNSET is un tournant. Il marque la fin de l'ère des luttes post-soviétiques et le début d'une gouvernance justifiée par une menace technologique fabriquée. Le partenaire d'aujourd'hui est le rival de demain — et il vient de nous montrer qu'il n'a absolument aucune limite."</div>`,
 
   codex: `
     <div class="prop-stamp" style="margin-bottom:16px">MAXIME "M@X_VRV" VERVILLE // JOURNAL CRYPTÉ // SERVEUR MORT<br>"Si vous lisez ceci, je suis probablement mort."</div>
