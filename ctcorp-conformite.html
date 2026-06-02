@@ -1108,6 +1108,14 @@
     el.classList.toggle('open');
   }
 
+  // Activation via ancre URL
+(function() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash === 'ccc' || hash === 'pacte' || hash === 'charte') {
+    showPage(hash);
+  }
+})();
+  
   // Keyboard shortcut: type NAOS → console message
   let typed = '';
   document.addEventListener('keypress', e => {
