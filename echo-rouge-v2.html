@@ -865,6 +865,77 @@ nav {
   letter-spacing: 0.03em;
 }
 
+
+/* ═══════════════════════════════════════
+   MARCHÉ — VUE DÉTAIL ITEM
+═══════════════════════════════════════ */
+.market-detail { display: none; animation: fadeIn 0.2s ease; }
+.market-detail.active { display: block; }
+.md-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.md-image img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+.md-noimg {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: var(--text-muted); font-size: 11px; letter-spacing: 0.12em; text-align: center;
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(0,255,65,0.025) 18px, rgba(0,255,65,0.025) 36px),
+    #000;
+}
+.md-noimg .ni-frame {
+  border: 1px dashed var(--green-dark); padding: 14px 22px;
+  font-family: var(--font-vt); font-size: 16px; color: var(--green-dim);
+}
+.md-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 8px; }
+.md-title {
+  font-family: var(--font-courier); font-size: 20px; font-weight: 700;
+  color: var(--white); line-height: 1.35; letter-spacing: 0.02em;
+}
+.md-price { text-align: right; flex-shrink: 0; min-width: 140px; }
+.md-ref {
+  font-size: 10px; color: var(--text-muted); letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.md-section-title {
+  font-family: var(--font-vt); font-size: 19px; color: var(--green);
+  margin: 26px 0 10px; letter-spacing: 0.08em;
+  border-left: 3px solid var(--green-dim); padding-left: 12px;
+}
+.md-p { font-size: 13px; color: var(--text); line-height: 1.85; margin-bottom: 12px; }
+.md-p strong { color: var(--green); }
+.md-p em { color: var(--red); font-style: normal; }
+.md-specs { display: grid; grid-template-columns: 160px 1fr; gap: 6px 16px; margin: 10px 0; }
+.md-specs .sk { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; padding-top: 1px; }
+.md-specs .sv { font-size: 12px; color: var(--text); line-height: 1.5; }
+.md-warnings {
+  border: 1px solid var(--amber-dim);
+  background: rgba(255, 176, 0, 0.04);
+  padding: 20px 22px; margin-top: 26px;
+}
+.md-warnings .w-title {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 12px;
+  border-bottom: 1px solid var(--amber-dim); padding-bottom: 8px;
+}
+.w-item {
+  font-size: 12px; color: var(--text); line-height: 1.7;
+  padding: 5px 0 5px 22px; position: relative;
+}
+.w-item::before { content: '⚠'; position: absolute; left: 0; top: 5px; color: var(--amber); font-size: 11px; }
+.md-dry {
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid var(--amber-dim);
+  font-size: 12px; color: var(--red); font-style: italic; line-height: 1.7;
+}
+.md-footer { margin-top: 26px; display: flex; gap: 12px; align-items: center; }
+
 /* ═══════════════════════════════════════
    CONTRATS (JOBS)
 ═══════════════════════════════════════ */
@@ -1419,6 +1490,7 @@ footer a:hover { color: var(--green-dim); }
       </div>
 
       <div class="content-main">
+        <div id="market-catalog">
         <div class="market-banner">Marché non surveillé — toutes transactions chiffrées end-to-end. CTC traçable : refusé. Délation : peine de mort sociale permanente.</div>
 
         <div class="market-cats">
@@ -1431,7 +1503,7 @@ footer a:hover { color: var(--green-dim); }
 
         <div class="listings" id="market-listings">
 
-          <div class="listing" data-cat="nanites">
+          <div class="listing" data-cat="nanites" onclick="openItem('icare')">
             <div>
               <div class="listing-title">Nanites ICARE — lot de 500 unités — Fréquence libre</div>
               <div class="listing-desc">Nanites récupérées post-Ananké, complexe Casablanca. Fréquence non enregistrée dans la base NAOS. Idéales pour Tissages de substitution ou modif biologique légère. Conditionnement hermétique.</div>
@@ -1444,11 +1516,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">450 CÉ</span>
               <span class="price-unit">/ lot 500 u.</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="nanites">
+          <div class="listing" data-cat="nanites" onclick="openItem('stabilisant-ctr7')">
             <div>
               <div class="listing-title">Stabilisant Biologique — CTR-7 modifié</div>
               <div class="listing-desc">Combinaison anti-radiation temporelle, version modifiée. Protection jusqu'à ×120 de compression. Usage interne. Ne figure pas dans les inventaires CT Corp. Source : Prato, exfiltré par I Tessitori.</div>
@@ -1460,11 +1532,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">180 CÉ</span>
               <span class="price-unit">/ unité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="nanites">
+          <div class="listing" data-cat="nanites" onclick="openItem('anticoagulant')">
             <div>
               <div class="listing-title">Anticoagulant Temporel — usage post-compression</div>
               <div class="listing-desc">Réduit les effets de désorientation et de syndrome de décompression chez les ex-compressés. Produit artisanal, zone Carpates. 94% d'efficacité déclarée. Non certifié CT Corp — c'est le but.</div>
@@ -1476,11 +1548,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">60 CÉ</span>
               <span class="price-unit">/ dose 30j</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="nanites">
+          <div class="listing" data-cat="nanites" onclick="openItem('fantome-temporel')">
             <div>
               <div class="listing-title">Brouilleur Signature Biologique — "Fantôme Temporel"</div>
               <div class="listing-desc">Masque l'empreinte temporelle unique de l'individu. Rend l'identification par NAOS-9 impossible pendant 6 à 18 heures selon dosage. Injecteur discret. Développé par un transfuge du projet ORPHEUS.</div>
@@ -1492,11 +1564,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">220 CÉ</span>
               <span class="price-unit">/ dose 12h</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="firmware">
+          <div class="listing" data-cat="firmware" onclick="openItem('patch-sigma')">
             <div>
               <div class="listing-title">Patch Firmware Tissage v3.x — Désactivation Canal Sigma</div>
               <div class="listing-desc">Coupe la transmission vers Kassandra sans déclencher d'alerte pendant 48 à 72h. Compatible v3.0 à v3.9. Incompatible v4.0+. À appliquer avant le déploiement CT-NET 2.0. Fenêtre critique : maintenant.</div>
@@ -1508,11 +1580,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">90 CÉ</span>
               <span class="price-unit">/ licence</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="firmware">
+          <div class="listing" data-cat="firmware" onclick="openItem('exploit-sigma')">
             <div>
               <div class="listing-title">Exploit Tissage v4.0 — Accès lecture seule Canal Sigma</div>
               <div class="listing-desc">Permet de lire les transmissions Canal Sigma sans les bloquer. Usage renseignement uniquement. N'interrompt pas la transmission — à combiner avec le patch désactivation pour usage complet. Développé par Lena Reinholt.</div>
@@ -1524,11 +1596,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">340 CÉ</span>
               <span class="price-unit">/ licence</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="firmware">
+          <div class="listing" data-cat="firmware" onclick="openItem('clone-temporel')">
             <div>
               <div class="listing-title">Émulateur Signature Biologique — "Clone Temporel"</div>
               <div class="listing-desc">Injecte une empreinte temporelle de substitution dans le Tissage. NAOS-9 détecte une autre personne à votre place. Durée limitée. Empreintes disponibles : base de données de 400 individus décédés post-Ananké.</div>
@@ -1540,11 +1612,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">600 CÉ</span>
               <span class="price-unit">/ identité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="identite">
+          <div class="listing" data-cat="identite" onclick="openItem('identite-zones-grises')">
             <div>
               <div class="listing-title">Identité Complète — Niveau Zones Grises</div>
               <div class="listing-desc">CET-ID, historique de compression fictif, biométrie synchronisée, logement assigné. Convaincant sous Kassandra niveau standard. Délai : 72h. Ne passe pas l'audit Kassandra niveau maximal (Cités-Vitrines).</div>
@@ -1556,11 +1628,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">300 CÉ</span>
               <span class="price-unit">/ identité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="identite">
+          <div class="listing" data-cat="identite" onclick="openItem('identite-cite-vitrine')">
             <div>
               <div class="listing-title">Identité Cité-Vitrine — Niveau Cadre CT Corp</div>
               <div class="listing-desc">Accès aux zones premium. Passe l'audit Kassandra standard. Ne passe pas l'audit niveau La Spirale (Bruxelles). Délai : 2 semaines. Vérification biométrique incluse. Seuls 3 artisans sur le réseau savent faire ça.</div>
@@ -1572,11 +1644,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">1 200 CÉ</span>
               <span class="price-unit">/ identité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="identite">
+          <div class="listing" data-cat="identite" onclick="openItem('passeport-memoire')">
             <div>
               <div class="listing-title">Passeport Mémoire — Passeur de Mémoire certifié</div>
               <div class="listing-desc">Transmission biologique d'informations chiffrées. Intraçable. Le Passeur mémorise votre message, le transporte physiquement, le restitue à destination. Capacité : jusqu'à 50 ko d'information complexe. Technique mnémotechnique certifiée Écho Rouge.</div>
@@ -1587,11 +1659,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">80 CÉ</span>
               <span class="price-unit">/ message</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="hardware">
+          <div class="listing" data-cat="hardware" onclick="openItem('brouilleur-nid')">
             <div>
               <div class="listing-title">Brouilleur EM portable — "Le Nid" — mod. Sofia</div>
               <div class="listing-desc">Brouille les drones de surveillance dans un rayon de 80m. Développé par la cellule Le Nid (tour télécom, Sofia). Autonomie 6h. Poids 400g. Détecté par Kassandra si utilisé plus de 20 min consécutifs.</div>
@@ -1603,11 +1675,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">250 CÉ</span>
               <span class="price-unit">/ unité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="hardware">
+          <div class="listing" data-cat="hardware" onclick="openItem('terminal-mesh')">
             <div>
               <div class="listing-title">Terminal Mesh décentralisé — Gardiens du Signal</div>
               <div class="listing-desc">Communication hors réseau CT Corp. Chiffrement pair à pair. Portée 40 km avec relais Gardiens du Signal. Compatible protocole Écho Rouge. Maintenance assurée par les Gardiens. 0% de métadonnées.</div>
@@ -1619,11 +1691,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">400 CÉ</span>
               <span class="price-unit">/ terminal</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="hardware">
+          <div class="listing" data-cat="hardware" onclick="openItem('combinaison-ctr7')">
             <div>
               <div class="listing-title">Combinaison CTR-7 complète — Protection radiation temporelle</div>
               <div class="listing-desc">Combinaison réservée aux techniciens CT Corp. Exfiltrée du complexe FiberCore, Prato. Taille M. Protection zone GFT actif jusqu'à 50m. Une seule unité disponible. Urgence opérationnelle uniquement.</div>
@@ -1635,11 +1707,11 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">800 CÉ</span>
               <span class="price-unit">/ unité</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
-          <div class="listing" data-cat="hardware">
+          <div class="listing" data-cat="hardware" onclick="openItem('la-larme')">
             <div>
               <div class="listing-title">Générateur de Flux Temporel portable — "La Larme"</div>
               <div class="listing-desc">GFT miniaturisé, compression ×3 maximum. Crée une bulle de 2m³. Usage : fuite, extraction, opérations courtes. Instable au-delà de 4 minutes. Prototype unique construit par Vaedran Ilarion. Pas de mode d'emploi. Bonne chance.</div>
@@ -1651,12 +1723,18 @@ footer a:hover { color: var(--green-dim); }
             <div class="listing-price">
               <span class="price-amount">2 000 CÉ</span>
               <span class="price-unit">/ prototype</span>
-              <button class="order-btn">CONTACTER →</button>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACTER →</button>
             </div>
           </div>
 
         </div>
         <div class="market-disclaimer">* Toutes les transactions sont irréversibles. Écho Rouge ne garantit pas la livraison dans les zones de niveau d'alerte Kassandra maximal. En cas d'arrestation, le réseau nie toute implication. Vous ne connaissez pas nos noms. Nous ne connaissons pas les vôtres. C'est pour ça qu'on est encore vivants.</div>
+        </div><!-- /market-catalog -->
+
+        <div id="market-detail" class="market-detail">
+          <div class="m-back" onclick="closeItemDetail()">Retour au catalogue</div>
+          <div id="md-content"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1908,6 +1986,7 @@ function startClock() {
 
 // ── NAVIGATION ───────────────────────────────────
 function showSection(name) {
+  if (document.getElementById('market-detail')) closeItemDetail();
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   document.getElementById(name).classList.add('active');
@@ -2023,6 +2102,356 @@ function openModal(key) {
 }
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('active');
+}
+
+
+// ── MARCHÉ — FICHES DÉTAILLÉES ───────────────────
+const marketItems = {
+
+  'icare': {
+    ref: 'ÉR-MKT-N01', cat: 'Nanites & Bio',
+    title: 'Nanites ICARE — lot de 500 unités — Fréquence libre',
+    price: '450 CÉ', unit: '/ lot 500 u.',
+    tags: '<span class="l-tag hot">Rare</span> <span class="l-tag">Casablanca</span> <span class="l-tag safe">Testé</span>',
+    tech: `<div class="md-p">Nanites de génération Tissage récupérées dans les décombres du complexe WeavePort de Casablanca, trois jours après Ananké. Leur particularité — et leur valeur : la fréquence de synchronisation n'a jamais été enregistrée dans la base NAOS. Pour les systèmes de CT Corp, ces unités <strong>n'existent pas</strong>. Pas de pistage Kassandra, pas de Canal Sigma, pas de recalibrage CT-NET 2.0.</div>
+      <div class="md-p">Usage recommandé : assemblage de Tissages de substitution par un Horloger, ou modifications biologiques légères (renforcement nerveux périphérique, interface capteur). Les 500 unités d'un lot partagent la même fréquence : un lot = un porteur.</div>
+      <div class="md-specs">
+        <span class="sk">Conditionnement</span><span class="sv">Capsule hermétique sous argon, scellé Écho Rouge intact</span>
+        <span class="sk">Viabilité</span><span class="sv">14 mois à compter du reconditionnement (01.2035)</span>
+        <span class="sk">Conservation</span><span class="sv">Sous 8 °C, à l'abri de tout champ GFT</span>
+        <span class="sk">Compatibilité</span><span class="sv">Protocoles Tissage v2.x et v3.x — non testé sur v4.0</span>
+      </div>`,
+    prov: `Exfiltration Route Méditerranéenne, via les caches du Cartel à Casablanca. Lot testé sur trois porteurs volontaires de la cellule de Sofia — aucun rejet à 30 jours. Trois porteurs. Pas cinq cents.`,
+    warnings: [
+      "Ne jamais injecter chez un porteur dont le Tissage CT Corp est encore actif : le conflit de protocole entre deux fréquences provoque une cascade inflammatoire synaptique, irréversible en 48 h.",
+      "Implantation par un Horloger qualifié uniquement. L'auto-injection est la première cause de perte de lots — et de porteurs.",
+      "Une fréquence libre reste une fréquence : un balayage spectral Aegis-CD à moins de 10 m peut détecter une émission non répertoriée. Évitez les checkpoints pendant 72 h post-implantation.",
+      "Capsule ouverte = compte à rebours. Les nanites non implantées se dégradent en 6 h à l'air libre."
+    ],
+    dry: "Une nanite libre ne demande la permission à personne. À partir de l'injection, vous non plus."
+  },
+
+  'stabilisant-ctr7': {
+    ref: 'ÉR-MKT-N02', cat: 'Nanites & Bio',
+    title: 'Stabilisant Biologique — CTR-7 modifié',
+    price: '180 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">Critique</span> <span class="l-tag">I Tessitori</span>',
+    tech: `<div class="md-p">Suspension injectable dérivée du polymère actif des combinaisons CTR-7 — la protection que CT Corp réserve à ses techniciens. Les chimistes d'I Tessitori ont isolé le composé absorbant la radiation temporelle et l'ont rendu assimilable par voie intramusculaire. Résultat : une <strong>protection biologique interne</strong> contre les effets d'un différentiel de compression jusqu'à ×120.</div>
+      <div class="md-p">Conçu pour les opérations où la combinaison est impossible : infiltration en tenue civile, extraction de compressés en bulle active, traversée rapide d'une zone d'exclusion.</div>
+      <div class="md-specs">
+        <span class="sk">Voie</span><span class="sv">Intramusculaire — auto-injecteur fourni</span>
+        <span class="sk">Latence</span><span class="sv">Efficace 20 min après injection</span>
+        <span class="sk">Durée</span><span class="sv">Protection nominale 6 h, décroissance rapide ensuite</span>
+        <span class="sk">Traçabilité</span><span class="sv">Absent des inventaires CT Corp — c'est le but</span>
+      </div>`,
+    prov: `Production artisanale, laboratoire clandestin d'I Tessitori, Prato. Formulation issue de l'analyse des combinaisons exfiltrées du complexe FiberCore. Chaque lot est numéroté à la main.`,
+    warnings: [
+      "Ceci n'est pas une combinaison. En zone GFT active (rayon 50 m), le stabilisant retarde le vieillissement accéléré — il ne l'annule pas. Au-delà de 45 minutes d'exposition, la protection s'effondre.",
+      "Contre-indiqué chez les porteurs de Tissage v4.0 : interaction documentée avec le Canal Sigma, pics de fièvre et perte de coordination.",
+      "Effets secondaires constatés : tremblements des extrémités (4 h), goût métallique persistant, déshydratation sévère. Buvez avant, pendant, après.",
+      "Jamais deux doses en moins de 7 jours. La saturation du composé est hépatotoxique."
+    ],
+    dry: "Six heures de protection. La radiation temporelle, elle, ne fait pas de pause."
+  },
+
+  'anticoagulant': {
+    ref: 'ÉR-MKT-N03', cat: 'Nanites & Bio',
+    title: 'Anticoagulant Temporel — usage post-compression',
+    price: '60 CÉ', unit: '/ dose 30j',
+    tags: '<span class="l-tag safe">Zone Carpates</span> <span class="l-tag">Artisanal</span>',
+    tech: `<div class="md-p">Traitement de fond contre le syndrome de décompression — le mal silencieux des libérés d'Ananké. Désorientation chronique, micro-caillots, perception temporelle fragmentée : le corps d'un ex-compressé a vécu des années que le monde n'a pas comptées, et il le fait payer.</div>
+      <div class="md-p">Cette formulation artisanale, mise au point dans la Zone Rouge des Carpates pour les vagues de libérés de Prato et Gdańsk, fluidifie la circulation et atténue les épisodes de dissociation. <strong>94 % d'efficacité déclarée</strong> sur les symptômes légers à modérés.</div>
+      <div class="md-specs">
+        <span class="sk">Posologie</span><span class="sv">1 prise orale / 24 h, de préférence le matin</span>
+        <span class="sk">Conditionnement</span><span class="sv">Plaquette de 30 doses, emballage neutre</span>
+        <span class="sk">Certification</span><span class="sv">Aucune. Non certifié CT Corp — c'est le but</span>
+      </div>`,
+    prov: `Laboratoires des Friches, Zone Rouge des Carpates. Distribution gratuite sur place pour les libérés ; le prix demandé ici finance la production.`,
+    warnings: [
+      "Le « 94 % » est le chiffre du producteur, sur cohorte non documentée. Écho Rouge ne l'a pas vérifié. Les retours terrain sont bons — ce ne sont que des retours.",
+      "Dosage strict : jamais deux prises en 24 h. Le surdosage transforme un anticoagulant en hémorragie qui attend son heure.",
+      "Incompatible avec l'alcool et les stimulants de shift. Choisissez.",
+      "En cas de crise sévère (perte de conscience, saignements), trouvez un médecin de Friche ou un Horloger. Pas un centre médical CT Corp : un syndrome de décompression dans leurs fichiers, c'est un libéré localisé."
+    ],
+    dry: "Le syndrome ne pardonne pas. Les fichiers médicaux de CT Corp non plus."
+  },
+
+  'fantome-temporel': {
+    ref: 'ÉR-MKT-N04', cat: 'Nanites & Bio',
+    title: 'Brouilleur Signature Biologique — « Fantôme Temporel »',
+    price: '220 CÉ', unit: '/ dose 12h',
+    tags: '<span class="l-tag hot">Top vendeur</span> <span class="l-tag rare">Source ORPHEUS</span>',
+    tech: `<div class="md-p">Chaque être humain porte une empreinte temporelle unique — la signature biologique que NAOS-9 et Kassandra utilisent pour vous identifier à travers n'importe quel capteur, n'importe quelle foule. Le « Fantôme Temporel » la <strong>brouille à la source</strong> : un cocktail de marqueurs métaboliques qui rend votre empreinte illisible pendant 6 à 18 heures selon le dosage.</div>
+      <div class="md-p">Développé par un transfuge du projet ORPHEUS qui connaissait les algorithmes d'identification de l'intérieur. C'est l'outil de référence pour les déplacements en zone surveillée — d'où son statut de meilleur vendeur du catalogue.</div>
+      <div class="md-specs">
+        <span class="sk">Administration</span><span class="sv">Injecteur sous-cutané discret, format stylo</span>
+        <span class="sk">Latence</span><span class="sv">Effet complet 30 min après injection</span>
+        <span class="sk">Durée</span><span class="sv">6 h (demi-dose) à 18 h (dose pleine)</span>
+      </div>`,
+    prov: `Synthèse assurée par deux laboratoires du réseau, formule d'origine ORPHEUS. Le transfuge à l'origine du produit ne prend plus aucun contact. On le comprend.`,
+    warnings: [
+      "Une signature qui disparaît est elle-même un événement. Kassandra corrèle : si votre empreinte s'éteint régulièrement aux mêmes heures, aux mêmes endroits, le trou devient votre signature.",
+      "Le produit masque l'empreinte temporelle — pas votre visage, pas votre démarche, pas vos papiers. Les caméras optiques s'en moquent.",
+      "Intervalle minimal de 72 h entre deux doses. En deçà, le foie encaisse et l'efficacité chute sous 50 %.",
+      "Ne jamais combiner avec l'Émulateur « Clone Temporel » : deux altérations simultanées de signature créent un artefact que NAOS-9 classe en anomalie prioritaire."
+    ],
+    dry: "Vous serez invisible. Pas intouchable."
+  },
+
+  'patch-sigma': {
+    ref: 'ÉR-MKT-F01', cat: 'Firmware & Tissages',
+    title: 'Patch Firmware Tissage v3.x — Désactivation Canal Sigma',
+    price: '90 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag hot">URGENT</span> <span class="l-tag">v3.x uniquement</span>',
+    tech: `<div class="md-p">Le Canal Sigma est le canal d'écriture caché de votre Tissage — la porte par laquelle Kassandra lit, et par laquelle CT-NET 2.0 s'apprête à écrire. Ce patch <strong>coupe la transmission sortante</strong> sans déclencher l'alerte d'intégrité du firmware : pour les serveurs CT Corp, votre Tissage répond normalement. Il n'envoie simplement plus rien d'utile.</div>
+      <div class="md-p">Silence garanti 48 à 72 h par application. Compatible firmwares v3.0 à v3.9. <em>Incompatible v4.0 et ultérieurs.</em> Avec le déploiement CT-NET 2.0 en cours, la fenêtre d'application se referme : un Tissage resetté repasse en v4.x et le patch devient inutile.</div>
+      <div class="md-specs">
+        <span class="sk">Application</span><span class="sv">Injection locale via interface Horloger — 40 secondes</span>
+        <span class="sk">Durée d'effet</span><span class="sv">48 à 72 h, variable selon la version exacte du firmware</span>
+        <span class="sk">Détectabilité</span><span class="sv">Nulle à distance ; visible lors d'un audit physique du Tissage</span>
+      </div>`,
+    prov: `Développement interne Écho Rouge, sur base des schémas Canal Sigma exfiltrés. Distribution prioritaire absolue ordonnée par la coordination — d'où le prix, volontairement plancher.`,
+    warnings: [
+      "Fenêtre critique : à appliquer AVANT le reset CT-NET 2.0 de votre Tissage (J+3 à J+7). Après reset, le firmware passe en v4.x et toute tentative d'application provoque un blocage matériel — et une alerte automatique.",
+      "L'application dure 40 secondes et ne doit jamais être interrompue. Un patch partiel laisse le Tissage dans un état que les diagnostics CT Corp signalent immédiatement.",
+      "Au terme des 72 h, la transmission reprend sans aucun signe perceptible pour le porteur. Notez l'heure d'application. Re-patchez avant l'échéance ou considérez-vous écouté.",
+      "Le patch coupe l'émission, pas la collecte : les données s'accumulent localement et partiront au premier rétablissement. Combinez avec une purge mémoire si l'enjeu le justifie."
+    ],
+    dry: "72 heures de silence. Comptez-les. Personne ne le fera pour vous."
+  },
+
+  'exploit-sigma': {
+    ref: 'ÉR-MKT-F02', cat: 'Firmware & Tissages',
+    title: 'Exploit Tissage v4.0 — Accès lecture seule Canal Sigma',
+    price: '340 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag rare">Lena Reinholt</span> <span class="l-tag">v4.0</span>',
+    tech: `<div class="md-p">L'outil de renseignement le plus précieux du catalogue. Cet exploit ouvre un <strong>accès en lecture seule</strong> sur les transmissions Canal Sigma d'un Tissage v4.0 : vous voyez ce que CT Corp collecte, ce que Kassandra demande, et — depuis décembre — les trames de déploiement CT-NET 2.0 elles-mêmes.</div>
+      <div class="md-p">Il n'interrompt rien : la transmission continue, intacte, vers les serveurs CT Corp. C'est sa force (indétectable en flux) et sa limite (il ne protège personne). Développé par Lena Reinholt, transfuge CT Corp, qui a écrit une partie du protocole original.</div>
+      <div class="md-specs">
+        <span class="sk">Cible</span><span class="sv">Firmware v4.0 exclusivement</span>
+        <span class="sk">Mode</span><span class="sv">Lecture passive — aucune écriture, aucun blocage</span>
+        <span class="sk">Usage type</span><span class="sv">Contrat #ÉR-H-001 (cartographie CT-NET 2.0)</span>
+      </div>`,
+    prov: `Code source signé Lena Reinholt, 2031, adapté v4.0 par la cellule de Prague. Licence délivrée avec clé unique par opérateur — pas de copie, pas de revente.`,
+    warnings: [
+      "Cet outil ne protège PAS. Pendant que vous lisez le Canal Sigma, le Canal Sigma continue de parler de vous. Pour un usage complet, combinez avec le patch de désactivation v3.x sur un second Tissage.",
+      "Les journaux d'interception se stockent hors ligne uniquement. Un log Sigma retrouvé sur un terminal connecté identifie l'opérateur, la cible et la cellule.",
+      "La signature de l'exploit est connue d'Aegis-CD depuis janvier 2035. Un correctif CT Corp peut tomber à tout moment : considérez chaque licence comme périssable.",
+      "Six heures d'interception continue maximum — au-delà, la corrélation de latence devient détectable par Kassandra."
+    ],
+    dry: "Lire par-dessus l'épaule de Kassandra a un prix. Assurez-vous qu'elle ne lise pas par-dessus la vôtre."
+  },
+
+  'clone-temporel': {
+    ref: 'ÉR-MKT-F03', cat: 'Firmware & Tissages',
+    title: 'Émulateur Signature Biologique — « Clone Temporel »',
+    price: '600 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag hot">Extrême</span> <span class="l-tag">Risque détection</span>',
+    tech: `<div class="md-p">Là où le « Fantôme Temporel » efface, le « Clone Temporel » <strong>remplace</strong>. L'émulateur injecte dans votre Tissage l'empreinte temporelle d'un autre individu : pour NAOS-9, ce n'est plus vous qui franchissez ce checkpoint — c'est quelqu'un d'autre. Quelqu'un qui ne risque rien.</div>
+      <div class="md-p">Les empreintes proviennent d'une base de 400 individus décédés post-Ananké, dont la mort n'a pas encore été consolidée dans les registres CT Corp. Le chaos administratif de janvier est votre couverture. Il ne durera pas.</div>
+      <div class="md-specs">
+        <span class="sk">Support</span><span class="sv">Module d'émulation greffé au Tissage par un Horloger</span>
+        <span class="sk">Durée d'usage</span><span class="sv">4 h maximum par activation</span>
+        <span class="sk">Attribution</span><span class="sv">L'empreinte est choisie par le réseau, jamais par le client</span>
+      </div>`,
+    prov: `Base d'empreintes constituée par recoupement des registres de décès des Zones Grises et des données exfiltrées de trois complexes. Chaque empreinte n'est vendue qu'une fois.`,
+    warnings: [
+      "Si le décès de votre empreinte est consolidé dans les registres pendant que vous l'utilisez, NAOS-9 voit un mort marcher. Alerte immédiate, traque prioritaire. Le réseau retire les empreintes consolidées — avec un délai qu'il ne contrôle pas.",
+      "4 heures maximum par activation. Au-delà, la dérive entre l'empreinte émulée et vos constantes réelles devient détectable.",
+      "Une double détection — vous sous émulation ici, votre vraie signature captée ailleurs (objet personnel, prélèvement ancien) — classe le dossier en falsification d'identité temporelle. Catégorie Alpha.",
+      "Incompatible avec le « Fantôme Temporel ». Une signature à la fois."
+    ],
+    dry: "Vous empruntez la vie d'un mort. Rendez-la propre."
+  },
+
+  'identite-zones-grises': {
+    ref: 'ÉR-MKT-I01', cat: 'Identités & Papiers',
+    title: 'Identité Complète — Niveau Zones Grises',
+    price: '300 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag safe">72h</span> <span class="l-tag">Zones Grises</span>',
+    tech: `<div class="md-p">Le standard du réseau pour disparaître dans la masse. Le forfait comprend : <strong>CET-ID complet</strong>, historique de compression fictif cohérent sur cinq ans (complexes, ratios, périodes de repos), biométrie synchronisée avec les bases régionales, et logement assigné réel dans une Zone Grise au choix du client.</div>
+      <div class="md-p">Calibrée pour tenir sous un contrôle Kassandra de niveau standard — celui des patrouilles, des checkpoints de quartier et des vérifications d'embauche. Suffisante pour vivre, travailler, circuler.</div>
+      <div class="md-specs">
+        <span class="sk">Délai</span><span class="sv">72 h après validation du gabarit</span>
+        <span class="sk">Couverture</span><span class="sv">Audit Kassandra standard : oui. Audit niveau maximal (Cités-Vitrines) : non</span>
+        <span class="sk">Livraison</span><span class="sv">Cellule de contact ou Passeur de Mémoire (fragments d'activation)</span>
+      </div>`,
+    prov: `Atelier d'identités du réseau — artisans formés sur les schémas CET-ID exfiltrés. Chaque historique de compression est unique : aucun gabarit n'est réutilisé.`,
+    warnings: [
+      "L'identité ne ment pas à votre place. Apprenez votre légende — complexes, dates, noms de contremaîtres — avant la livraison, pas après le premier contrôle.",
+      "Rupture totale avec l'ancienne vie : une seule connexion à une ancienne adresse, un ancien contact, un ancien terminal, et les deux identités se contaminent.",
+      "Ne tentez jamais un accès Cité-Vitrine avec ce niveau. L'audit maximal croise des bases que ce gabarit ne couvre pas.",
+      "En cas de contrôle approfondi qui tourne mal : brûlez l'identité, pas la couverture du réseau. Vous ne connaissez aucun nom. C'est vrai, et c'est votre meilleure défense."
+    ],
+    dry: "Une identité tient tant que son porteur tient. L'inverse n'est pas garanti."
+  },
+
+  'identite-cite-vitrine': {
+    ref: 'ÉR-MKT-I02', cat: 'Identités & Papiers',
+    title: 'Identité Cité-Vitrine — Niveau Cadre CT Corp',
+    price: '1 200 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag rare">Rare</span> <span class="l-tag hot">2 semaines</span>',
+    tech: `<div class="md-p">Le sommet de l'artisanat du réseau. Une identité de <strong>cadre intermédiaire CT Corp</strong> : accès aux zones premium des Cités-Vitrines, historique de carrière corporatif, profil CTC crédible, vérification biométrique complète incluse. Elle passe l'audit Kassandra standard — celui qui filtre l'entrée des bulles.</div>
+      <div class="md-p">Elle ne passe pas l'audit de niveau La Spirale (Bruxelles) : le siège européen croise des bases RH internes auxquelles personne n'a accès. Trois artisans sur tout le réseau savent produire ce gabarit. Le délai de deux semaines n'est pas négociable — c'est le temps que mettent les fausses années de carrière à infuser dans les bonnes bases.</div>
+      <div class="md-specs">
+        <span class="sk">Délai</span><span class="sv">2 semaines, incompressibles</span>
+        <span class="sk">Couverture</span><span class="sv">Cités-Vitrines : oui. La Spirale et étages Directoire : non</span>
+        <span class="sk">Inclus</span><span class="sv">Biométrie, profil CTC, historique carrière, garde-robe conseillée</span>
+      </div>`,
+    prov: `Un des trois artisans. Lequel — vous ne le saurez pas. Le gabarit est détruit après livraison : pas de duplicata, pas de seconde chance.`,
+    warnings: [
+      "Un cadre CT Corp a un train de vie. Dépenses CTC cohérentes, agenda rempli, cercle social plausible : l'identité fournit le costume, pas le comportement. Une incohérence de conduite suffit à déclencher un audit approfondi.",
+      "Jamais d'accès aux étages Directoire ni à La Spirale, quelle que soit l'urgence. Le gabarit n'y survit pas, et son artisan non plus.",
+      "Perte ou compromission : signalez immédiatement par Passeur. L'artisan brûle ce qui reste du dossier — il n'existera aucun duplicata.",
+      "Cette identité vaut 1 200 CÉ au catalogue et dix fois plus pour Aegis-CD. Le porteur devient une cible en soi. Discrétion absolue sur son existence, y compris au sein du réseau."
+    ],
+    dry: "Le costume est parfait. Reste à savoir le porter."
+  },
+
+  'passeport-memoire': {
+    ref: 'ÉR-MKT-I03', cat: 'Identités & Papiers',
+    title: 'Passeport Mémoire — Passeur de Mémoire certifié',
+    price: '80 CÉ', unit: '/ message',
+    tags: '<span class="l-tag safe">100% intraçable</span>',
+    tech: `<div class="md-p">La plus ancienne technologie de transmission au monde : un cerveau humain qui marche d'un point A à un point B. Le Passeur mémorise votre message par techniques mnémotechniques certifiées Écho Rouge, le transporte physiquement, le restitue mot pour mot à destination. <strong>Pas de signal. Pas de trace. Pas de métadonnées.</strong> Kassandra surveille tout ce qui émet — ceci n'émet rien.</div>
+      <div class="md-p">Capacité : jusqu'à 50 ko d'information complexe — codes de chiffrement, schémas techniques, listes de contacts, coordonnées. Pour les contenus critiques, le réseau propose la <strong>fragmentation mémorielle</strong> : plusieurs Passeurs portent chacun un fragment, et seule leur réunion reconstitue le message. Une cryptographie purement biologique.</div>
+      <div class="md-specs">
+        <span class="sk">Capacité</span><span class="sv">Jusqu'à 50 ko d'information structurée</span>
+        <span class="sk">Restitution</span><span class="sv">Verbatim, vérifiée par somme de contrôle mnémonique</span>
+        <span class="sk">Option</span><span class="sv">Fragmentation multi-Passeurs (+40 CÉ par fragment)</span>
+      </div>`,
+    prov: `Passeurs formés et certifiés par le réseau. Itinéraires inter-strates et inter-pays, en coordination avec la Route Méditerranéenne pour les liaisons sud.`,
+    warnings: [
+      "Si un Passeur est capturé et soumis à l'Effacement Mémoriel (programme Tabula Rasa), le message est perdu — et potentiellement extrait avant effacement. Pour toute donnée critique, exigez la fragmentation multi-Passeurs.",
+      "Le délai n'est pas garanti. Le Passeur marche, contourne, attend. Un message urgent à heure fixe relève d'un autre outil — ou d'un autre plan.",
+      "Ne donnez jamais au Passeur le contexte de ce qu'il porte. Il mémorise une séquence, pas un sens. Ce qu'il ignore ne peut pas être extrait.",
+      "Un message, un Passeur, une fois. Ne confiez jamais deux messages liés au même porteur."
+    ],
+    dry: "Le Passeur ne sait pas ce qu'il transporte. C'est sa protection. Et la vôtre."
+  },
+
+  'brouilleur-nid': {
+    ref: 'ÉR-MKT-H01', cat: 'Hardware & Équipement',
+    title: 'Brouilleur EM portable — « Le Nid » — mod. Sofia',
+    price: '250 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag">Le Nid, Sofia</span> <span class="l-tag safe">Testé terrain</span>',
+    tech: `<div class="md-p">Conçu, assemblé et éprouvé par la cellule du Nid, dans la tour télécom abandonnée de Sofia. Ce brouilleur électromagnétique neutralise les liaisons de contrôle des <strong>drones de surveillance dans un rayon de 80 m</strong> : les unités affectées passent en mode retour-base ou vol stationnaire aveugle. Le modèle « mod. Sofia » est la troisième itération — celle qui a couvert les évacuations de l'hiver.</div>
+      <div class="md-specs">
+        <span class="sk">Rayon effectif</span><span class="sv">80 m (drones de patrouille standard Aegis-CD)</span>
+        <span class="sk">Autonomie</span><span class="sv">6 h en cycles d'usage recommandés</span>
+        <span class="sk">Masse</span><span class="sv">400 g, format thermos, bandoulière incluse</span>
+        <span class="sk">Alimentation</span><span class="sv">Cellule lithium artisanale, rechargeable sur secteur 220 V</span>
+      </div>`,
+    prov: `Production Le Nid, Sofia. Chaque unité est testée en conditions réelles avant mise au catalogue — « testé terrain » n'est pas un argument de vente, c'est le protocole.`,
+    warnings: [
+      "Plus de 20 minutes d'émission consécutive = détection Kassandra quasi certaine. Un trou électromagnétique de 80 m est une signature en soi. Cycles de 15 min maximum, pause de 10 min.",
+      "Inefficace contre les capteurs optiques passifs et l'observation humaine. Le brouilleur aveugle les drones — pas les fenêtres.",
+      "La cellule lithium est artisanale : pas de choc violent, pas d'exposition à la chaleur, pas de perçage. Une cellule percée brûle à 800 °C.",
+      "N'activez jamais le brouilleur à proximité d'un Terminal Mesh allié actif : il brouille aussi vos propres communications."
+    ],
+    dry: "80 mètres de silence radio. Tout ce qui a des yeux continue de voir."
+  },
+
+  'terminal-mesh': {
+    ref: 'ÉR-MKT-H02', cat: 'Hardware & Équipement',
+    title: 'Terminal Mesh décentralisé — Gardiens du Signal',
+    price: '400 CÉ', unit: '/ terminal',
+    tags: '<span class="l-tag rare">Gardiens du Signal</span> <span class="l-tag safe">0 métadonnée</span>',
+    tech: `<div class="md-p">Communiquer hors du réseau CT Corp : c'est exactement ce pour quoi les Gardiens du Signal existent. Ce terminal se raccorde à leur <strong>maillage décentralisé</strong> — chiffrement pair à pair, routage opportuniste, portée de 40 km via les relais nomades que les Gardiens entretiennent à travers l'Europe. Compatible protocole Écho Rouge natif.</div>
+      <div class="md-p">Aucune métadonnée n'est générée, stockée ni routée : pas d'expéditeur, pas de destinataire, pas d'horodatage exploitable. Là où Kassandra analyse des graphes de communication, le mesh ne lui offre aucun graphe.</div>
+      <div class="md-specs">
+        <span class="sk">Portée</span><span class="sv">40 km avec relais Gardiens ; 2-5 km en direct terminal-à-terminal</span>
+        <span class="sk">Chiffrement</span><span class="sv">Pair à pair, clés éphémères, protocole ÉR natif</span>
+        <span class="sk">Maintenance</span><span class="sv">Assurée par les Gardiens aux points de passage convenus</span>
+        <span class="sk">Appairage</span><span class="sv">Clé physique unique fournie à la livraison</span>
+      </div>`,
+    prov: `Assemblage Gardiens du Signal, composants récupérés et requalifiés. L'achat inclut l'accès au maillage — pas sa propriété. Le réseau appartient à ceux qui le maintiennent.`,
+    warnings: [
+      "Le mesh dépend du maillage des Gardiens : des zones blanches existent et se déplacent avec les relais. Vérifiez la couverture de votre zone d'opération avant d'en dépendre.",
+      "Ne raccordez JAMAIS le terminal à un équipement CT Corp, même hors ligne. La contamination firmware est le seul vecteur connu de compromission du mesh.",
+      "Le contenu est illisible, mais le volume de trafic reste observable par triangulation. Messages courts, émissions espacées.",
+      "En cas de compromission : détruisez physiquement la clé d'appairage. Sans elle, le terminal n'est qu'une boîte vide — avec elle, c'est une porte d'entrée."
+    ],
+    dry: "Le réseau de CT Corp sait tout. Celui-ci ne sait rien — même pas qui vous êtes. C'est le but."
+  },
+
+  'combinaison-ctr7': {
+    ref: 'ÉR-MKT-H03', cat: 'Hardware & Équipement',
+    title: 'Combinaison CTR-7 complète — Protection radiation temporelle',
+    price: '800 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">1 unité</span> <span class="l-tag rare">Prato</span>',
+    tech: `<div class="md-p">L'équipement que CT Corp réserve exclusivement à ses techniciens — parce que la Corporation sait précisément ce que la radiation temporelle fait à un corps non protégé. Cette CTR-7 complète (combinaison, casque, gants, scellés) a été <strong>exfiltrée du complexe FiberCore de Prato</strong> par I Tessitori pendant le chaos post-Ananké.</div>
+      <div class="md-p">Protection nominale en zone GFT actif jusqu'à 50 m du générateur — le rayon exact du vieillissement accéléré. Indispensable pour toute opération en complexe actif : la procédure de désactivation progressive d'un GFT (voir contrat #ÉR-S-001, Gdańsk) exige 40 minutes à l'intérieur. Sans CTR-7, ces 40 minutes coûtent des années.</div>
+      <div class="md-specs">
+        <span class="sk">Taille</span><span class="sv">M — non ajustable</span>
+        <span class="sk">Protection</span><span class="sv">Zone GFT actif jusqu'à 50 m, exposition continue 45 min max</span>
+        <span class="sk">État</span><span class="sv">Scellés intacts, joints contrôlés par I Tessitori au 01.2035</span>
+        <span class="sk">Disponibilité</span><span class="sv">Une seule unité. Urgence opérationnelle uniquement</span>
+      </div>`,
+    prov: `Exfiltration I Tessitori, FiberCore, Prato. La seule CTR-7 du catalogue — et probablement la seule en circulation hors inventaire CT Corp en Europe de l'Ouest.`,
+    warnings: [
+      "45 minutes d'exposition continue maximum, conformément aux protocoles CT Corp eux-mêmes. La combinaison atténue la radiation temporelle — elle ne l'annule pas.",
+      "Contrôle des joints obligatoire avant chaque usage : la poussière temporelle dégrade les scellés. Un joint de poignet défaillant vieillit la main de son porteur pendant que le reste du corps ne sent rien.",
+      "Taille M non ajustable. Une combinaison flottante crée des poches d'air aux jonctions — autant de points de rupture du scellé. Si elle ne vous va pas, elle ne vous protège pas.",
+      "Après usage en zone active : décontamination complète avant retour. Ne rapportez jamais une CTR-7 exposée dans une planque habitée — la poussière temporelle voyage avec le tissu."
+    ],
+    dry: "Une unité. Taille M. Si ce n'est pas la vôtre, ce n'est pas la vôtre."
+  },
+
+  'la-larme': {
+    ref: 'ÉR-MKT-H04', cat: 'Hardware & Équipement',
+    title: 'Générateur de Flux Temporel portable — « La Larme »',
+    price: '2 000 CÉ', unit: '/ prototype',
+    tags: '<span class="l-tag rare">Prototype unique</span> <span class="l-tag hot">Instable</span>',
+    tech: `<div class="md-p">L'objet le plus cher du catalogue, et de loin le plus dangereux. « La Larme » est un GFT miniaturisé — la technologie qui exige normalement une centrale nucléaire, réduite à un cylindre transportable par <strong>Vaedran Ilarion</strong> lui-même. Compression ×3 maximum, bulle de 2 m³ : trois minutes vécues pour une minute écoulée dehors.</div>
+      <div class="md-p">Usage prévu : fuite, extraction, opérations courtes — gagner du temps quand il n'y en a plus. Une personne dans la bulle dispose de quelques minutes subjectives supplémentaires pour crocheter, soigner, désamorcer, disparaître. Le prototype est unique. Il n'existe <em>aucun mode d'emploi</em> : son constructeur n'en a jamais rédigé, et il n'est plus joignable.</div>
+      <div class="md-specs">
+        <span class="sk">Compression</span><span class="sv">×3 maximum — verrouillage matériel</span>
+        <span class="sk">Volume de bulle</span><span class="sv">2 m³ — une personne accroupie et son équipement</span>
+        <span class="sk">Stabilité</span><span class="sv">4 minutes d'activation continue. Pas une de plus</span>
+        <span class="sk">Alimentation</span><span class="sv">Cellule dédiée, 3 activations avant recharge spécialisée</span>
+      </div>`,
+    prov: `Construit par Vaedran Ilarion. Le réseau ne dira ni quand, ni où, ni pourquoi il a été mis au catalogue. Le prix reflète moins sa valeur que la volonté de filtrer les acheteurs.`,
+    warnings: [
+      "Instable au-delà de 4 minutes : l'effondrement d'une bulle active expose son occupant à un cisaillement temporel — le différentiel ×3 se résorbe en un instant à travers les tissus. Coupez à 3 min 30. Toujours.",
+      "Jamais à proximité d'une masse d'eau importante : l'effet de résonance documenté sur les GFT s'applique aussi aux micro-bulles, de façon imprévisible.",
+      "Radiation temporelle résiduelle dans un rayon de 3 m pendant plusieurs minutes après extinction. Ne laissez personne s'approcher immédiatement.",
+      "Aucun support technique n'existe. En cas de comportement anormal — vibration, halo, distorsion visuelle des bords de bulle — coupez et abandonnez l'objet. Aucune mission ne vaut ce qu'il fait à un corps."
+    ],
+    dry: "Quatre minutes. Vaedran le savait. Maintenant, vous aussi."
+  }
+};
+
+function openItem(id) {
+  const it = marketItems[id];
+  if (!it) return;
+  const imgPath = 'assets/marche/er-' + id + '.png';
+  let h = '';
+  h += '<div class="md-image">';
+  h += '<div class="md-noimg"><div class="ni-frame">// VISUEL EN COURS DE TRANSMISSION</div><div>' + imgPath + ' — 16:9</div></div>';
+  h += '<img src="' + imgPath + '" alt="' + it.title.replace(/"/g, '&quot;') + '" onerror="this.style.display=\'none\'">';
+  h += '</div>';
+  h += '<div class="md-ref">' + it.ref + ' // ' + it.cat.toUpperCase() + ' // ÉCHO-ROUGE / MARCHÉ / FICHE</div>';
+  h += '<div class="md-header"><div><div class="md-title">' + it.title + '</div><div class="listing-tags" style="margin-top:10px">' + it.tags + '</div></div>';
+  h += '<div class="md-price"><span class="price-amount">' + it.price + '</span><span class="price-unit">' + it.unit + '</span>';
+  h += '<button class="order-btn" style="margin-top:10px;padding:8px 16px;font-size:11px">CONTACTER →</button></div></div>';
+  h += '<div class="md-section-title">// FICHE TECHNIQUE</div>' + it.tech;
+  h += '<div class="md-section-title">// PROVENANCE</div><div class="md-p">' + it.prov + '</div>';
+  h += '<div class="md-warnings"><div class="w-title">⚠ Avertissements d\'usage — lecture obligatoire avant contact</div>';
+  it.warnings.forEach(w => { h += '<div class="w-item">' + w + '</div>'; });
+  h += '<div class="md-dry">' + it.dry + '</div></div>';
+  h += '<div class="md-footer"><button class="order-btn" style="padding:10px 24px;font-size:12px" onclick="event.stopPropagation()">CONTACTER LE VENDEUR →</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// transaction chiffrée — CTC refusé — aucune garantie en zone Kassandra maximale</span></div>';
+  document.getElementById('md-content').innerHTML = h;
+  document.getElementById('market-catalog').style.display = 'none';
+  document.getElementById('market-detail').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeItemDetail() {
+  document.getElementById('market-detail').classList.remove('active');
+  document.getElementById('market-catalog').style.display = 'block';
+  window.scrollTo(0, 0);
 }
 
 // ── EASTER EGG : NAOS-9 ──────────────────────────
