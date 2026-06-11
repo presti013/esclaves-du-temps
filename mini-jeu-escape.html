@@ -3,28 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esclaves du Temps - L'Extraction</title>
+    <title>ÉCHO ROUGE — PROTOCOLE EXODUS (MINI-JEU)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #020804;
+            --bg2: #04100A;
+            --panel: #071408;
+            --border: #0D2A14;
+            --green: #00FF41;
+            --green-dim: #00A82A;
+            --green-dark: #003D10;
+            --red: #FF2020;
+            --red-dim: #8B1010;
+            --amber: #FFB000;
+            --text: #B8FFB8;
+            --text-dim: #5A8A5A;
+            --font-mono: 'Share Tech Mono', monospace;
+            --font-vt: 'VT323', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: #0b0c10;
-            color: #66fcf1;
-            font-family: 'Courier New', Courier, monospace;
+            background: var(--bg);
+            color: var(--green);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Effet CRT Scanlines & Vignette */
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+            pointer-events: none; z-index: 9999;
+        }
+
+        h1 {
+            font-family: var(--font-vt);
+            font-size: 36px;
+            color: var(--red);
+            text-shadow: 0 0 10px rgba(255,32,32,0.5);
+            margin-bottom: 5px;
+            letter-spacing: 0.1em;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* Structure principale en colonnes */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 800px 320px;
+            gap: 20px;
+            max-width: 1140px;
+            width: 100%;
+        }
+
+        /* Colonne de gauche : Jeu */
         #naos-hud {
-            width: 800px;
-            background: rgba(31, 40, 51, 0.9);
-            border: 2px solid #45f3ff;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(69, 243, 255, 0.3);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            font-size: 13px;
         }
 
         #naos-log {
@@ -33,34 +86,123 @@
         }
 
         canvas {
-            border: 3px solid #1f2833;
-            background-color: #121212;
-            margin-top: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--border);
+            background-color: #010502;
+            box-shadow: 0 0 20px rgba(0,0,0,0.9);
+            display: block;
         }
 
         .ui-text {
             display: flex;
             justify-content: space-between;
-            width: 800px;
-            font-size: 14px;
-            margin-top: 5px;
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            padding: 0 5px;
+        }
+
+        /* Colonne de droite : High Scores */
+        .sidebar-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-family: var(--font-vt);
+            font-size: 22px;
+            color: var(--green);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .score-table th {
+            text-align: left;
+            color: var(--text-dim);
+            font-size: 11px;
+            padding-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .score-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(13, 42, 20, 0.5);
+            color: var(--text);
+        }
+
+        .score-row.highlight td {
+            color: var(--green);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+
+        .score-rank { width: 10%; color: var(--text-dim) !important; }
+        .score-name { width: 60%; font-family: 'Courier Prime', monospace; }
+        .score-time { width: 30%; text-align: right; color: var(--amber); }
+
+        .instructions {
+            margin-top: auto;
+            font-size: 11px;
+            color: var(--text-dim);
+            line-height: 1.6;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
         }
     </style>
 </head>
 <body>
 
-    <div id="naos-hud">
-        <span style="color: #ff4545;">#> [NAOS-9 — LOG OPÉRATIONNEL] :</span> 
-        <span id="naos-log">Initiation Protocole EXODUS...</span>
-    </div>
+    <h1>COMPLEXE N°6 — L'EXTRACTION</h1>
+    <div class="subtitle">Simulation Tactique // Infiltration Réseau Écho Rouge</div>
 
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
+    <div class="game-layout">
+        
+        <div class="main-column">
+            <div id="naos-hud">
+                <span style="color: var(--red);">#> [NAOS-9 — LOG OPÉRATIONNEL] :</span> 
+                <span id="naos-log">Initialisation du couplage nerveux...</span>
+            </div>
 
-    <div class="ui-text">
-        <span>SUJET: EL-03 (KAEL)</span>
-        <span id="game-timer">TEMPS : 0.0s</span>
-        <span id="game-score">SCORE : --</span>
+            <canvas id="gameCanvas" width="800" height="480"></canvas>
+
+            <div class="ui-text">
+                <span>IDENTIFIANT : <span id="player-id-display" style="color: var(--green)">——</span></span>
+                <span id="game-timer">CHRONO : 0.0s</span>
+                <span id="game-status" style="color: var(--amber)">STATUT : EN RECONNAISSANCE</span>
+            </div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="panel-title">// Top 10 — Réseau Écho</div>
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th class="score-rank">N°</th>
+                        <th class="score-name">Agent</th>
+                        <th class="score-time" style="text-align: right;">Temps</th>
+                    </tr>
+                </thead>
+                <tbody id="highscore-body">
+                    </tbody>
+            </table>
+
+            <div class="instructions">
+                <strong>COMMANDES :</strong> Use les flèches directionnelles (ou Z,Q,S,D) pour guider vos mouvements.<br><br>
+                <strong>MISSION :</strong> Atteignez la zone d'extraction verte (le véhicule de Kazimir) sans couper les champs de vision rouges de la patrouille Aegis-CD.
+            </div>
+        </div>
+
     </div>
 
 <script>
@@ -68,213 +210,247 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const naosLog = document.getElementById('naos-log');
 const timerDisplay = document.getElementById('game-timer');
-const scoreDisplay = document.getElementById('game-score');
+const statusDisplay = document.getElementById('game-status');
+const playerIdDisplay = document.getElementById('player-id-display');
+const highscoreBody = document.getElementById('highscore-body');
 
-// Paramètres de jeu
+// ── CAPTURE DE L'AGENT CONNECTÉ SUR ECHO-ROUGE-V2 ──
+const params = new URLSearchParams(window.location.search);
+let agentName = params.get('agent');
+
+if (!agentName && window.opener) {
+    try {
+        const openerParams = new URLSearchParams(window.opener.location.search);
+        agentName = openerParams.get('agent');
+    } catch(e) { /* Protection cross-origin si applicable */ }
+}
+if (!agentName) {
+    agentName = sessionStorage.getItem('er_codename') || 'AGENT_INCONNU';
+}
+playerIdDisplay.innerText = agentName;
+
+// ── LOGIQUE DES HIGH SCORES (MODE ILLUSION AUTOMATIQUE) ──
+const defaultScores = [
+    { name: "Sena_Valkova", time: 14.2 },
+    { name: "Kazimir", time: 18.5 },
+    { name: "Agent_Prague", time: 22.1 },
+    { name: "TC-07", time: 25.8 },
+    { name: "Agent_Sofia", time: 29.4 },
+    { name: "Agent_Lyon7", time: 33.1 },
+    { name: "Mourad", time: 36.7 },
+    { name: "Agent_Gdańsk", time: 41.2 },
+    { name: "Dimitar", time: 45.5 },
+    { name: "Irina", time: 49.8 }
+];
+
+function getHighScores() {
+    let scores = localStorage.getItem('echo_rouge_highscores');
+    if (!scores) {
+        localStorage.setItem('echo_rouge_highscores', JSON.stringify(defaultScores));
+        return defaultScores;
+    }
+    return JSON.parse(scores);
+}
+
+function saveNewScore(name, time) {
+    let scores = getHighScores();
+    scores.push({ name: name, time: parseFloat(time) });
+    scores.sort((a, b) => a.time - b.time);
+    scores = scores.slice(0, 10); // Garde uniquement le top 10
+    localStorage.setItem('echo_rouge_highscores', JSON.stringify(scores));
+    displayHighScores();
+}
+
+function displayHighScores() {
+    const scores = getHighScores();
+    highscoreBody.innerHTML = '';
+    scores.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.className = 'score-row';
+        if (item.name === agentName) {
+            row.classList.add('highlight');
+        }
+        row.innerHTML = `
+            <td class="score-rank">${index + 1}</td>
+            <td class="score-name">${item.name}</td>
+            <td class="score-time">${item.time.toFixed(1)}s</td>
+        `;
+        highscoreBody.appendChild(row);
+    });
+}
+
+// ── CONFIGURATION DES COMPOSANTS DU JEU ──
 let gameActive = true;
 let startTime = Date.now();
 let elapsedTime = 0;
 
-// Variables du Joueur (Kael - Style Among Us, un petit ovale/bonhomme)
-const player = {
-    x: 50,
-    y: 250,
-    radius: 12,
-    speed: 3,
-    color: '#45f3ff'
-};
+const player = { x: 45, y: 240, radius: 11, speed: 2.8, color: '#00FF41' };
 
-// Murs du Complexe n°6 (Labyrinthe simple pour simuler les couloirs)
+const extractionZone = { x: 740, y: 210, w: 40, h: 60, color: '#00A82A' };
+
 const walls = [
-    {x: 0, y: 0, w: 800, h: 20},
-    {x: 0, y: 480, w: 800, h: 20},
-    {x: 0, y: 0, w: 20, h: 500},
-    {x: 780, y: 0, w: 20, h: 500},
-    // Obstacles intérieurs (générateurs et couloirs)
-    {x: 150, y: 20, w: 40, h: 300},
-    {x: 150, y: 400, w: 40, h: 80},
-    {x: 300, y: 150, w: 50, h: 330},
-    {x: 450, y: 20, w: 40, h: 250},
-    {x: 600, y: 200, w: 40, h: 280}
+    {x: 0, y: 0, w: 800, h: 15},
+    {x: 0, y: 465, w: 800, h: 15},
+    {x: 0, y: 0, w: 15, h: 480},
+    {x: 785, y: 0, w: 15, h: 480},
+    // Obstacles couloirs et machines du complexe
+    {x: 140, y: 15, w: 40, h: 280},
+    {x: 140, y: 380, w: 40, h: 100},
+    {x: 290, y: 130, w: 45, h: 350},
+    {x: 440, y: 15, w: 45, h: 240},
+    {x: 590, y: 200, w: 45, h: 280}
 ];
 
-// Zone d'extraction (Kazimir et le véhicule de maintenance)
-const extractionZone = {
-    x: 730,
-    y: 220,
-    w: 40,
-    h: 60,
-    color: '#39ff14'
-};
-
-// Gardes de l'Aegis-CD
 const guards = [
-    { x: 230, y: 50, direction: 1, speed: 1, rangeY: [50, 430], vision: 75 },
-    { x: 390, y: 400, direction: -1, speed: 1, rangeY: [50, 440], vision: 80 },
-    { x: 530, y: 80, direction: 1, speed: 1, rangeY: [40, 450], vision: 70 },
-    { x: 690, y: 300, direction: -1, speed: 1, rangeY: [100, 420], vision: 85 }
+    { x: 215, y: 40, direction: 1, speed: 1.8, rangeY: [40, 420], vision: 75 },
+    { x: 370, y: 410, direction: -1, speed: 2.3, rangeY: [50, 430], vision: 80 },
+    { x: 520, y: 60, direction: 1, speed: 2.8, rangeY: [40, 440], vision: 70 },
+    { x: 675, y: 320, direction: -1, speed: 1.9, rangeY: [90, 410], vision: 85 }
 ];
 
-// Gestion des touches du clavier
 const keys = {};
-window.addEventListener('keydown', e => keys[e.key] = true);
-window.addEventListener('keyup', e => keys[e.key] = false);
+window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
-// Détection de collision cercle/rectangle (pour les murs)
 function checkWallCollision(rect, circle) {
     let closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
     let closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
     let distanceX = circle.x - closestX;
     let distanceY = circle.y - closestY;
-    let distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-    return distanceSquared < (circle.radius * circle.radius);
+    return (distanceX * distanceX + distanceY * distanceY) < (circle.radius * circle.radius);
 }
 
-// IA NAOS-9 : Analyse la distance du danger et met à jour le HUD
 function updateNaosAI(minDistance) {
     if (minDistance < 60) {
-        naosLog.innerText = "DANGER IMMINENT ! Capteurs biologiques en alerte. Ralentissez !";
-        naosLog.style.color = "#ff4545"; // Rouge
-    } else if (minDistance < 130) {
-        naosLog.innerText = "ATTENTION : Patrouille Aegis en approche. Synchronisation requise.";
-        naosLog.style.color = "#ffa500"; // Orange
+        naosLog.innerText = "DANGER IMMINENT ! Ralentissez les pulsations des nanites de votre système nerveux.";
+        naosLog.style.color = "var(--red)";
+    } else if (minDistance < 120) {
+        naosLog.innerText = "ATTENTION : Patrouille Aegis en approche. Synchronisation temporelle requise.";
+        naosLog.style.color = "var(--amber)";
     } else {
-        naosLog.innerText = "Voie libre. Trajectoire conforme vers la Zone Morte 7-K.";
-        naosLog.style.color = "#39ff14"; // Vert
+        naosLog.innerText = "Voie libre. Trajectoire conforme. Maintenez le rythme vers la Zone Morte 7-K.";
+        naosLog.style.color = "var(--green)";
     }
 }
 
-// Boucle principale du jeu
+// ── BOUCLE DE LOGIQUE & MISE À JOUR ──
 function update() {
     if (!gameActive) return;
 
-    // Calcul du temps écoulé
     elapsedTime = ((Date.now() - startTime) / 1000).toFixed(1);
-    timerDisplay.innerText = `TEMPS : ${elapsedTime}s`;
+    timerDisplay.innerText = `CHRONO : ${elapsedTime}s`;
 
-    // Sauvegarde de l'ancienne position pour la physique des collisions
     const oldX = player.x;
     const oldY = player.y;
 
-    // Déplacements
-    if (keys['ArrowUp'] || keys['z']) player.y -= player.speed;
-    if (keys['ArrowDown'] || keys['s']) player.y += player.speed;
-    
-    // Vérification collision murs sur l'axe Y
-    for (let wall of walls) {
-        if (checkWallCollision(wall, player)) { player.y = oldY; break; }
-    }
+    if (keys['arrowup'] || keys['z']) player.y -= player.speed;
+    if (keys['arrowdown'] || keys['s']) player.y += player.speed;
+    for (let wall of walls) { if (checkWallCollision(wall, player)) { player.y = oldY; break; } }
 
-    if (keys['ArrowLeft'] || keys['q']) player.x -= player.speed;
-    if (keys['ArrowRight'] || keys['d']) player.x += player.speed;
+    if (keys['arrowleft'] || keys['q']) player.x -= player.speed;
+    if (keys['arrowright'] || keys['d']) player.x += player.speed;
+    for (let wall of walls) { if (checkWallCollision(wall, player)) { player.x = oldX; break; } }
 
-    // Vérification collision murs sur l'axe X
-    for (let wall of walls) {
-        if (checkWallCollision(wall, player)) { player.x = oldX; break; }
-    }
-
-    // Mise à jour et logique des gardes + calcul de la distance minimale de Kael au danger
     let minDistanceToGuard = 9999;
 
     for (let guard of guards) {
         guard.y += guard.speed * guard.direction;
-        if (guard.y < guard.rangeY[0] || guard.y > guard.rangeY[1]) {
-            guard.direction *= -1; // Demi-tour
-        }
+        if (guard.y < guard.rangeY[0] || guard.y > guard.rangeY[1]) guard.direction *= -1;
 
-        // Distance entre Kael et ce garde
         let dx = player.x - guard.x;
         let dy = player.y - guard.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < minDistanceToGuard) {
-            minDistanceToGuard = distance;
-        }
+        if (distance < minDistanceToGuard) minDistanceToGuard = distance;
 
-        // Condition de défaite : Si Kael entre dans le rayon de vision du garde
+        // ÉCHEC : Capturé par la patrouille
         if (distance < guard.vision) {
             gameActive = false;
-            naosLog.innerText = "[ALERTE] Sujet détecté par l'Aegis-CD. Protocole échoué.";
-            naosLog.style.color = "#ff4545";
-            alert("Repéré ! Les gardes vous ont capturé. Le champ de compression temporelle vous renvoie en cellule.");
-            resetGame();
+            statusDisplay.innerText = "STATUT : COMPROMIS";
+            statusDisplay.style.color = "var(--red)";
+            naosLog.innerText = "[ALERTE] Éjection forcée : les verrous temporels vous renvoient en cellule.";
+            naosLog.style.color = "var(--red)";
+            setTimeout(() => { alert("Repéré ! La patrouille Aegis-CD vous a localisé."); resetGame(); }, 50);
             return;
         }
     }
 
-    // Mettre à jour les conseils de NAOS-9
     updateNaosAI(minDistanceToGuard);
 
-    // Condition de victoire : Atteindre le véhicule de Kazimir
+    // VICTOIRE : Atteindre le véhicule
     if (player.x + player.radius > extractionZone.x && 
         player.y > extractionZone.y && player.y < extractionZone.y + extractionZone.h) {
         gameActive = false;
-        let finalScore = Math.max(100, 1000 - Math.floor(elapsedTime * 15));
-        naosLog.innerText = "Extraction réussie. Kazimir a démarré le moteur. Bien joué Kael.";
-        naosLog.style.color = "#39ff14";
-        scoreDisplay.innerText = `SCORE FINAL : ${finalScore} pts`;
-        alert(`Victoire ! Vous vous êtes échappé en ${elapsedTime} secondes. Score : ${finalScore} points.`);
+        statusDisplay.innerText = "STATUT : EXTRAIT";
+        statusDisplay.style.color = "var(--green)";
+        naosLog.innerText = "Extraction validée. Le moteur tourne. Quittez la zone immédiatement.";
+        naosLog.style.color = "var(--green)";
+        
+        saveNewScore(agentName, elapsedTime);
+        setTimeout(() => { alert(`Félicitations Agent ${agentName} ! Vous vous êtes extrait en ${elapsedTime} secondes.`); resetGame(); }, 50);
     }
 }
 
-// Rendu Graphique
+// ── BOUCLE DE RENDU GRAPHIQUE ──
 function draw() {
-    // Nettoyage du canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Dessiner les murs
-    ctx.fillStyle = '#1f2833';
-    for (let wall of walls) {
-        ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
-    }
+    // Murs
+    ctx.fillStyle = varColor('--border');
+    for (let wall of walls) ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
 
-    // Dessiner la zone d'extraction (Le van de Kazimir)
+    // Zone d'extraction (Van)
     ctx.fillStyle = extractionZone.color;
     ctx.fillRect(extractionZone.x, extractionZone.y, extractionZone.w, extractionZone.h);
     ctx.fillStyle = '#000';
-    ctx.font = '10px Courier';
-    ctx.fillText('VAN', extractionZone.x + 10, extractionZone.y + 35);
+    ctx.font = '10px "Share Tech Mono"';
+    ctx.fillText('EVAC', extractionZone.x + 8, extractionZone.y + 35);
 
-    // Dessiner les Gardes (Cercle avec zone d'alerte rouge style Among Us)
+    // Gardes & Champs de vision
     for (let guard of guards) {
-        // Champ de vision
         ctx.beginPath();
         ctx.arc(guard.x, guard.y, guard.vision, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 69, 69, 0.15)';
+        ctx.fillStyle = 'rgba(255, 32, 32, 0.12)';
         ctx.fill();
 
-        // Le garde lui-même
         ctx.beginPath();
-        ctx.arc(guard.x, guard.y, 10, 0, Math.PI * 2);
-        ctx.fillStyle = '#ff4545';
+        ctx.arc(guard.x, guard.y, 9, 0, Math.PI * 2);
+        ctx.fillStyle = varColor('--red');
         ctx.fill();
     }
 
-    // Dessiner Kael (Avatar style Among Us simplifié : un corps cyan et une visière noire)
+    // Avatar Joueur (Forme minimaliste style combinaison d'infiltration)
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
     ctx.fillStyle = player.color;
     ctx.fill();
-    // Petite visière
+    
+    // Visière noire tactique
     ctx.fillStyle = '#000';
-    ctx.fillRect(player.x + 2, player.y - 5, 6, 6);
+    ctx.fillRect(player.x + 1, player.y - 4, 5, 5);
+}
+
+function varColor(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 function resetGame() {
-    player.x = 50;
-    player.y = 250;
+    player.x = 45;
+    player.y = 240;
     startTime = Date.now();
     gameActive = true;
+    statusDisplay.innerText = "STATUT : EN MISSION";
+    statusDisplay.style.color = "var(--amber)";
 }
 
-// Boucle de jeu fluide
 function gameLoop() {
     update();
     draw();
     requestAnimationFrame(gameLoop);
 }
 
-// Lancement
+// Initialisation
+displayHighScores();
 gameLoop();
 </script>
 </body>
