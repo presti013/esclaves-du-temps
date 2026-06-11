@@ -284,7 +284,7 @@ let gameActive = true;
 let startTime = Date.now();
 let elapsedTime = 0;
 
-const player = { x: 45, y: 240, radius: 11, speed: 2.8, color: '#00FF41' };
+const player = { x: 45, y: 240, radius: 11, speed: 3.5, color: '#00FF41' };
 
 const extractionZone = { x: 740, y: 210, w: 40, h: 60, color: '#00A82A' };
 
@@ -302,10 +302,10 @@ const walls = [
 ];
 
 const guards = [
-    { x: 215, y: 40, direction: 1, speed: 1.8, rangeY: [40, 420], vision: 75 },
-    { x: 370, y: 410, direction: -1, speed: 2.3, rangeY: [50, 430], vision: 80 },
-    { x: 520, y: 60, direction: 1, speed: 2.8, rangeY: [40, 440], vision: 70 },
-    { x: 675, y: 320, direction: -1, speed: 1.9, rangeY: [90, 410], vision: 85 }
+    { x: 215, y: 40, direction: 1, speed: 1, rangeY: [40, 420], vision: 75 },
+    { x: 370, y: 410, direction: -1, speed: 1, rangeY: [50, 430], vision: 70 },
+    { x: 520, y: 60, direction: 1, speed: 1, rangeY: [40, 440], vision: 70 },
+    { x: 675, y: 320, direction: -1, speed: 1, rangeY: [90, 410], vision: 85 }
 ];
 
 const keys = {};
