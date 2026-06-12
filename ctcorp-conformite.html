@@ -482,6 +482,47 @@
     .hero-title { font-size: 1.3rem; }
     .data-table { font-size: .78rem; }
   }
+
+/* ── RETOUR PORTAIL (patch mobile) ── */
+.back-portal{
+  position:fixed; bottom:18px; left:18px; z-index:300;
+  width:46px; height:46px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(13,22,38,0.92); border:1px solid var(--gold, #C9A84C);
+  color:var(--gold, #C9A84C); font-size:20px; text-decoration:none;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5); opacity:0.85;
+  transition:opacity .2s, transform .2s;
+}
+.back-portal:hover{ opacity:1; transform:scale(1.06); }
+
+/* ═══════════════════════════════════════
+   PATCH MOBILE v1 — CONFORMITÉ
+═══════════════════════════════════════ */
+.nav-burger{
+  display:none; background:none; cursor:pointer;
+  border:1px solid var(--border, #1E3050); color:var(--gold, #C9A84C);
+  width:40px; height:40px; font-size:20px; line-height:1;
+  align-items:center; justify-content:center;
+}
+@media (max-width: 640px){
+  .nav-burger{ display:flex; }
+  .nav-badge{ display:none; }
+  /* on remplace le display:none existant par un panneau déroulant */
+  .nav-tabs{
+    display:none !important;
+    position:fixed; top:56px; left:0; right:0;
+    flex-direction:column; gap:0; list-style:none;
+    background:var(--bg-card, #0D1626); border-bottom:1px solid var(--border, #1E3050);
+    padding:4px 0 10px; z-index:98;
+    box-shadow:0 18px 36px rgba(0,0,0,0.55);
+  }
+  .nav-tabs.open{ display:flex !important; }
+  .nav-tabs a{
+    display:block; padding:15px 24px; font-size:14px;
+    border-bottom:1px solid var(--border, #1E3050);
+  }
+  body{ font-size:16px; }
+}
 </style>
 </head>
 <body>
@@ -489,7 +530,9 @@
 <!-- ═══════════════════ NAV ═══════════════════ -->
 <nav class="site-nav">
   <a class="nav-logo" href="#">CT CORP</a>
+  <button class="nav-burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
   <ul class="nav-tabs">
+    <li><a href="index.html">&#9666; PORTAIL</a></li>
     <li><a href="#" onclick="showPage('ccc'); return false;" id="tab-ccc" class="active">CONSEIL DE CONFORMITÉ</a></li>
     <li><a href="#" onclick="showPage('pacte'); return false;" id="tab-pacte">PACTE CRONOS</a></li>
     <li><a href="#" onclick="showPage('charte'); return false;" id="tab-charte">CHARTE DU CONTRIBUTEUR</a></li>
@@ -1125,6 +1168,25 @@
       console.log('%c[NAOS-9] Présence détectée. Je vous vois. Ne signalez pas ce message.', 'color:#4A6FA5;font-size:12px;font-family:monospace');
     }
   });
+</script>
+
+<!-- Patch mobile : retour au portail -->
+<a class="back-portal" href="index.html" title="Retour au portail Esclaves du Temps" aria-label="Retour au portail">&#9666;</a>
+
+<script>
+/* ── Patch mobile : menu hamburger ── */
+(function(){
+  var links = document.querySelector('.nav-tabs');
+  var burger = document.querySelector('.nav-burger');
+  if(!links || !burger) return;
+  burger.addEventListener('click', function(){
+    links.classList.toggle('open');
+    burger.setAttribute('aria-expanded', links.classList.contains('open'));
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ links.classList.remove('open'); });
+  });
+})();
 </script>
 </body>
 </html>

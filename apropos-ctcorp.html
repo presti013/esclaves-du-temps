@@ -227,6 +227,49 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
   .values-grid, .stats-grid { grid-template-columns: 1fr; }
   .hero { padding: 70px 0 50px; }
 }
+
+/* ── RETOUR PORTAIL (patch mobile) ── */
+.back-portal{
+  position:fixed; bottom:18px; left:18px; z-index:300;
+  width:46px; height:46px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(13,22,38,0.92); border:1px solid var(--accent);
+  color:var(--accent); font-size:20px; text-decoration:none;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5); opacity:0.85;
+  transition:opacity .2s, transform .2s;
+}
+.back-portal:hover{ opacity:1; transform:scale(1.06); }
+
+/* ═══════════════════════════════════════
+   PATCH MOBILE v1 — À PROPOS
+═══════════════════════════════════════ */
+.nav-burger{
+  display:none; background:none; cursor:pointer;
+  border:1px solid var(--border); color:var(--accent);
+  width:40px; height:40px; font-size:20px; line-height:1;
+  align-items:center; justify-content:center;
+}
+@media (max-width: 900px){
+  .nav-burger{ display:flex; }
+  .nav-cta{ display:none; }
+  /* on annule le display:none existant : le menu devient un panneau */
+  .nav-links{
+    display:none !important;
+    position:fixed; top:60px; left:0; right:0;
+    flex-direction:column; gap:0;
+    background:var(--navy, #0D1626); border-bottom:1px solid var(--border);
+    padding:4px 0 10px; z-index:98;
+    box-shadow:0 18px 36px rgba(0,0,0,0.55);
+  }
+  .nav-links.open{ display:flex !important; }
+  .nav-links a{
+    display:block; padding:15px 24px; font-size:15px;
+    border-bottom:1px solid var(--border);
+  }
+  body{ font-size:16px; }
+  .section{ padding:56px 0; }
+  .timeline-intro p{ font-size:15px; }
+}
 </style>
 </head>
 <body>
@@ -247,7 +290,9 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
     <div class="logo-icon">CT</div>
     CT<span>CORP</span>
   </a>
+  <button class="nav-burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
   <ul class="nav-links">
+    <li><a href="index.html">&#9666; Portail</a></li>
     <li><a href="ctcorp-prototype.html">Accueil</a></li>
     <li><a href="ctcorp-prototype.html">Solutions</a></li>
     <li><a href="ctcorp-prototype.html">Carrières</a></li>
@@ -473,6 +518,25 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
   }, { threshold: 0.12 });
   els.forEach(function (e) { io.observe(e); });
 }());
+</script>
+
+<!-- Patch mobile : retour au portail -->
+<a class="back-portal" href="index.html" title="Retour au portail Esclaves du Temps" aria-label="Retour au portail">&#9666;</a>
+
+<script>
+/* ── Patch mobile : menu hamburger ── */
+(function(){
+  var links = document.querySelector('.nav-links');
+  var burger = document.querySelector('.nav-burger');
+  if(!links || !burger) return;
+  burger.addEventListener('click', function(){
+    links.classList.toggle('open');
+    burger.setAttribute('aria-expanded', links.classList.contains('open'));
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ links.classList.remove('open'); });
+  });
+})();
 </script>
 </body>
 </html>
