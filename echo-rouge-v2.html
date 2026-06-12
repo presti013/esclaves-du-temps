@@ -937,6 +937,19 @@ nav {
 .md-footer { margin-top: 26px; display: flex; gap: 12px; align-items: center; }
 
 
+
+.cc-risk.low { color: var(--green); border-color: var(--green-dark); background: rgba(0,255,65,0.06); }
+/* ═══════════════════════════════════════
+   CONTRATS — VUE DÉTAIL
+═══════════════════════════════════════ */
+.contract-detail { display: none; animation: fadeIn 0.2s ease; }
+.contract-detail.active { display: block; }
+.cd-banner {
+  width: 100%; aspect-ratio: 16 / 6; border: 1px solid var(--border);
+  background: #020804; margin-bottom: 24px; overflow: hidden;
+}
+.cd-banner svg { width: 100%; height: 100%; display: block; }
+
 /* ═══════════════════════════════════════
    MARCHÉ — SOUS-PAGES PAIEMENT / LIVRAISON
 ═══════════════════════════════════════ */
@@ -1866,7 +1879,7 @@ footer a:hover { color: var(--green-dim); }
       <div class="content-sidebar">
         <div class="sidebar-group">
           <div class="sg-title">// Type de mission</div>
-          <a class="sb-link active" onclick="filterContracts('all', this)"><span class="sl-prefix">›</span>Toutes les missions <span class="sb-badge">7</span></a>
+          <a class="sb-link active" onclick="filterContracts('all', this)"><span class="sl-prefix">›</span>Toutes les missions <span class="sb-badge">8</span></a>
           <a class="sb-link" onclick="filterContracts('hack', this)"><span class="sl-prefix">›</span>Hacking & Intrusion</a>
           <a class="sb-link" onclick="filterContracts('sabotage', this)"><span class="sl-prefix">›</span>Sabotage & GFT</a>
           <a class="sb-link" onclick="filterContracts('espionnage', this)"><span class="sl-prefix">›</span>Espionnage & Exfil</a>
@@ -1874,27 +1887,28 @@ footer a:hover { color: var(--green-dim); }
         </div>
         <div class="sidebar-group">
           <div class="sg-title">// Niveau de risque</div>
-          <a class="sb-link">› Faible</a>
-          <a class="sb-link">› Modéré</a>
-          <a class="sb-link">› Élevé</a>
-          <a class="sb-link" style="color:var(--red)">› Critique</a>
+          <a class="sb-link" onclick="filterContractsBy('risk','low',this)" style="cursor:pointer">› Faible <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','med',this)" style="cursor:pointer">› Modéré <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','high',this)" style="cursor:pointer">› Élevé <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','critical',this)" style="color:var(--red);cursor:pointer">› Critique <span class="sb-badge">2</span></a>
         </div>
         <div class="sidebar-group">
           <div class="sg-title">// Commanditaires</div>
-          <a class="sb-link">› Écho Rouge (interne)</a>
-          <a class="sb-link">› Cartel des Terres Libres</a>
-          <a class="sb-link">› I Tessitori (Prato)</a>
-          <a class="sb-link">› Zone Rouge Carpates</a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','er',this)" style="cursor:pointer">› Écho Rouge (interne) <span class="sb-badge">4</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','cartel',this)" style="cursor:pointer">› Cartel des Terres Libres <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','tessitori',this)" style="cursor:pointer">› I Tessitori (Prato) <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','carpates',this)" style="cursor:pointer">› Zone Rouge Carpates <span class="sb-badge">1</span></a>
         </div>
       </div>
 
       <div class="content-main">
+        <div id="contracts-catalog">
         <div class="contracts-intro">
           Toutes les missions listées ici ont été <strong>vérifiées et approuvées par un coordinateur ÉR</strong>. Chaque candidat est soumis à une vérification d'identité via protocole Passeur de Mémoire avant toute attribution. La compromission d'une mission entraîne l'éviction définitive du réseau. <strong>Il n'y a pas de deuxième chance.</strong>
         </div>
 
         <div class="contract-tabs">
-          <button class="ct-tab active" onclick="filterContracts('all', this)">Tout (7)</button>
+          <button class="ct-tab active" onclick="filterContracts('all', this)">Tout (8)</button>
           <button class="ct-tab" onclick="filterContracts('hack', this)">Hacking</button>
           <button class="ct-tab" onclick="filterContracts('sabotage', this)">Sabotage</button>
           <button class="ct-tab" onclick="filterContracts('espionnage', this)">Espionnage</button>
@@ -1903,7 +1917,7 @@ footer a:hover { color: var(--green-dim); }
 
         <div class="contract-list">
 
-          <div class="contract-card" data-cat="hack">
+          <div class="contract-card" data-cat="hack" data-risk="critical" data-sponsor="er" onclick="openContract('h001')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-H-001 — Interception CT-NET 2.0 : cartographie du déploiement firmware</div>
               <span class="cc-risk critical">CRITIQUE</span>
@@ -1915,10 +1929,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag red">Canal Sigma</span>
               <span class="cc-payout">800 CÉ <span>+ données partagées</span></span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="hack">
+          <div class="contract-card" data-cat="hack" data-risk="high" data-sponsor="er" onclick="openContract('h002')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-H-002 — Exfiltration base de données Kassandra — cellules Écho Budapest/Varsovie</div>
               <span class="cc-risk high">ÉLEVÉ</span>
@@ -1929,10 +1943,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag">Renseignement</span>
               <span class="cc-payout">500 CÉ</span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="hack">
+          <div class="contract-card" data-cat="hack" data-risk="med" data-sponsor="er" onclick="openContract('h003')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-H-003 — Injection signal parasite dans ChronoVision — cellule Prague</div>
               <span class="cc-risk med">MODÉRÉ</span>
@@ -1943,10 +1957,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag">Propagande</span>
               <span class="cc-payout">200 CÉ</span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="sabotage">
+          <div class="contract-card" data-cat="sabotage" data-risk="critical" data-sponsor="er" onclick="openContract('s001')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-S-001 — Désactivation GFT — Complexe n°6, Gdańsk, aile ouest</div>
               <span class="cc-risk critical">CRITIQUE</span>
@@ -1958,10 +1972,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag red">CTR-7 requis</span>
               <span class="cc-payout">1 500 CÉ <span>+ extraction garantie</span></span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="sabotage">
+          <div class="contract-card" data-cat="sabotage" data-risk="high" data-sponsor="cartel" onclick="openContract('s002')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-S-002 — Perturbation infrastructure CT-NET 2.0 — nœud relais Bruxelles</div>
               <span class="cc-risk high">ÉLEVÉ</span>
@@ -1973,10 +1987,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag">Cartel</span>
               <span class="cc-payout">1 200 CÉ</span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="espionnage">
+          <div class="contract-card" data-cat="espionnage" data-risk="high" data-sponsor="cartel" onclick="openContract('e001')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-E-001 — Infiltration WeavePort Casablanca — cartographie post-Ananké</div>
               <span class="cc-risk high">ÉLEVÉ</span>
@@ -1988,10 +2002,10 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag amber">Casablanca</span>
               <span class="cc-payout">700 CÉ</span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
 
-          <div class="contract-card" data-cat="extraction">
+          <div class="contract-card" data-cat="extraction" data-risk="med" data-sponsor="carpates" onclick="openContract('x001')" style="cursor:pointer">
             <div class="cc-header">
               <div class="cc-title">#ÉR-X-001 — Extraction : 3 compressés libérés — Zone Grise, Lyon 7e</div>
               <span class="cc-risk med">MODÉRÉ</span>
@@ -2002,13 +2016,35 @@ footer a:hover { color: var(--green-dim); }
               <span class="cc-tag">Lyon</span>
               <span class="cc-payout">350 CÉ <span>+ logistique fournie</span></span>
             </div>
-            <button class="apply-contract">// POSTULER</button>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
           </div>
+
+          <div class="contract-card" data-cat="espionnage" data-risk="low" data-sponsor="tessitori" onclick="openContract('r001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ÉR-R-001 — Récupération matériel — aile désaffectée FiberCore, Prato</div>
+              <span class="cc-risk low">FAIBLE</span>
+            </div>
+            <div class="cc-body">L'aile sud de FiberCore est à l'abandon depuis Ananké. À l'intérieur : composants Tissage, filtres CTR brut, outillage de précision — un stock qu'I Tessitori veut récupérer avant que CT Corp ne réinventorie le site. Surveillance minimale : un passage de drone toutes les 4 heures, aucune patrouille au sol. Profil requis : porteur discret, bonne condition physique. Connaissance de Prato un plus.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Récupération</span>
+              <span class="cc-tag">Prato</span>
+              <span class="cc-tag safe">Premier contrat accepté</span>
+              <span class="cc-payout">150 CÉ <span>+ accès prioritaire catalogue</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// POSTULER</button>
+          </div>
+
 
         </div>
 
         <div class="market-disclaimer" style="margin-top:16px">
           // Écho Rouge ne paie qu'à mission accomplie et vérifiée. Tout candidat arrêté ne connaît aucun nom, aucune adresse, aucune structure du réseau — c'est ainsi que le réseau est construit. Vous en savez toujours moins que vous ne le croyez. C'est votre protection.
+        </div>
+        </div><!-- /contracts-catalog -->
+
+        <div id="contract-detail" class="contract-detail">
+          <div class="m-back" onclick="closeContractDetail()">Retour aux missions</div>
+          <div id="cd-content"></div>
         </div>
       </div>
     </div>
@@ -2106,6 +2142,7 @@ function startClock() {
 function showSection(name) {
   if (document.getElementById('market-detail')) closeItemDetail();
   if (document.getElementById('market-info-page')) closeInfoPage();
+  if (document.getElementById('contract-detail')) closeContractDetail();
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   document.getElementById(name).classList.add('active');
@@ -2224,6 +2261,252 @@ function closeModal() {
 }
 
 
+
+
+// ── CONTRATS — FILTRE PAR RISQUE / COMMANDITAIRE ──────────
+function filterContractsBy(dim, val, btn) {
+  document.querySelectorAll('.ct-tab, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.contract-card').forEach(el => {
+    if (el.dataset[dim] === val) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── CONTRATS — BANDEAUX SVG ───────────────────────────────
+function ctBanner(kind) {
+  const base = (inner) => `<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgv-${kind}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#031208"/><stop offset="1" stop-color="#010402"/>
+      </linearGradient>
+      <pattern id="scan-${kind}" width="3" height="3" patternUnits="userSpaceOnUse">
+        <rect width="3" height="1.2" fill="#00ff41" opacity="0.035"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="300" fill="url(#bgv-${kind})"/>
+    ${inner}
+    <rect width="800" height="300" fill="url(#scan-${kind})"/>
+    <rect x="2" y="2" width="796" height="296" fill="none" stroke="#0a5028" stroke-width="1" opacity="0.5"/>
+  </svg>`;
+
+  const G='#00ff41', GD='#1f7a3f', R='#ff2020', A='#ffb000', W='#cfeede';
+
+  if (kind==='h001') return base(`
+    <g opacity="0.85" font-family="monospace">
+      ${[...Array(11)].map((_,i)=>`<text x="${40+i*70}" y="${60+(i%4)*55}" fill="${G}" font-size="11" opacity="${0.2+0.07*(i%5)}">${['1010','0x4F','SIGMA','1101','NULL','0xA3','READ','0011'][i%8]}</text>`).join('')}
+      <rect x="300" y="110" width="200" height="80" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="400" y="145" fill="${G}" font-size="18" text-anchor="middle" font-family="monospace" letter-spacing="3">CT-NET 2.0</text>
+      <text x="400" y="170" fill="${A}" font-size="11" text-anchor="middle" font-family="monospace">DEPLOIEMENT // CARTOGRAPHIE</text>
+      <line x1="200" y1="150" x2="300" y2="150" stroke="${G}" stroke-width="1" stroke-dasharray="4 4"/>
+      <line x1="500" y1="150" x2="600" y2="150" stroke="${R}" stroke-width="1" stroke-dasharray="4 4"/>
+      <circle cx="600" cy="150" r="6" fill="${R}"/><circle cx="200" cy="150" r="6" fill="${G}"/>
+    </g>`);
+
+  if (kind==='h002') return base(`
+    <g font-family="monospace">
+      <text x="400" y="90" fill="${R}" font-size="40" text-anchor="middle" letter-spacing="8" opacity="0.9">SILENCE</text>
+      <text x="250" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">BUDAPEST</text>
+      <text x="550" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">VARSOVIE</text>
+      <text x="250" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <text x="550" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <line x1="180" y1="220" x2="620" y2="220" stroke="${R}" stroke-width="1" opacity="0.4"/>
+      <text x="400" y="245" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">KASSANDRA // EXFILTRATION REQUISE</text>
+    </g>`);
+
+  if (kind==='h003') return base(`
+    <g font-family="monospace">
+      ${[...Array(8)].map((_,i)=>`<rect x="${60+i*90}" y="80" width="70" height="140" fill="none" stroke="${GD}" stroke-width="1" opacity="0.4"/>`).join('')}
+      <rect x="330" y="80" width="140" height="140" fill="${R}" opacity="0.12"/>
+      <rect x="330" y="80" width="140" height="140" fill="none" stroke="${R}" stroke-width="1.5"/>
+      <text x="400" y="140" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">SIGNAL</text>
+      <text x="400" y="160" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">PARASITE</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CHRONOVISION // 02:00 - 04:00</text>
+    </g>`);
+
+  if (kind==='s001') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="150" r="70" fill="none" stroke="${R}" stroke-width="2" opacity="0.7"/>
+      <circle cx="400" cy="150" r="100" fill="none" stroke="${R}" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
+      <circle cx="400" cy="150" r="45" fill="${R}" opacity="0.1"/>
+      <text x="400" y="145" fill="${R}" font-size="20" text-anchor="middle" letter-spacing="3">GFT</text>
+      <text x="400" y="168" fill="${W}" font-size="12" text-anchor="middle">COMPLEXE N°6</text>
+      <text x="120" y="270" fill="${A}" font-size="11" letter-spacing="2">GDAŃSK // 2400 COMPRESSÉS</text>
+      <text x="680" y="270" fill="${R}" font-size="11" text-anchor="end" letter-spacing="2">CTR-7 REQUIS</text>
+    </g>`);
+
+  if (kind==='s002') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="140" r="10" fill="${R}"/>
+      ${[...Array(11)].map((_,i)=>{const a=i*(360/11)*Math.PI/180;const x=400+Math.cos(a)*120;const y=140+Math.sin(a)*90;return `<circle cx="${x}" cy="${y}" r="5" fill="${i===0?A:GD}"/><line x1="400" y1="140" x2="${x}" y2="${y}" stroke="${GD}" stroke-width="0.8" opacity="0.5"/>`;}).join('')}
+      <text x="400" y="270" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">NŒUD BRUXELLES // 28% DES TISSAGES</text>
+      <text x="400" y="110" fill="${R}" font-size="10" text-anchor="middle">CIBLE</text>
+    </g>`);
+
+  if (kind==='e001') return base(`
+    <g font-family="monospace">
+      <path d="M150 200 Q250 120 400 160 T650 140" fill="none" stroke="${GD}" stroke-width="1.5" opacity="0.6"/>
+      ${[[200,180],[330,150],[470,165],[600,140]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${A}" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="2" fill="${A}"/>`).join('')}
+      <text x="400" y="100" fill="${W}" font-size="20" text-anchor="middle" letter-spacing="3">WEAVEPORT</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CASABLANCA // ÉTAT INCONNU</text>
+    </g>`);
+
+  if (kind==='x001') return base(`
+    <g font-family="monospace">
+      <circle cx="180" cy="150" r="30" fill="none" stroke="${R}" stroke-width="1.5" opacity="0.7"/>
+      <text x="180" y="155" fill="${R}" font-size="10" text-anchor="middle">LYON 7e</text>
+      <circle cx="620" cy="150" r="30" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="620" y="148" fill="${G}" font-size="9" text-anchor="middle">ZONE</text>
+      <text x="620" y="160" fill="${G}" font-size="9" text-anchor="middle">ROUGE</text>
+      <line x1="215" y1="150" x2="585" y2="150" stroke="${G}" stroke-width="1.5" stroke-dasharray="8 6"/>
+      <polygon points="585,144 600,150 585,156" fill="${G}"/>
+      ${[1,2,3].map(i=>`<circle cx="${360+i*25}" cy="120" r="6" fill="${W}" opacity="0.7"/>`).join('')}
+      <text x="400" y="250" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">EXTRACTION // 3 LIBÉRÉS // KASSANDRA 12.3%</text>
+    </g>`);
+
+  if (kind==='r001') return base(`
+    <g font-family="monospace">
+      ${[...Array(5)].map((_,i)=>`<rect x="${180+i*90}" y="120" width="60" height="60" fill="none" stroke="${GD}" stroke-width="1.2" opacity="0.6"/><rect x="${190+i*90}" y="130" width="40" height="8" fill="${G}" opacity="0.25"/>`).join('')}
+      <text x="400" y="95" fill="${W}" font-size="18" text-anchor="middle" letter-spacing="3">FIBERCORE — AILE SUD</text>
+      <text x="400" y="230" fill="${G}" font-size="11" text-anchor="middle" letter-spacing="2">PRATO // SURVEILLANCE MINIMALE</text>
+      <text x="400" y="252" fill="${A}" font-size="10" text-anchor="middle">PREMIER CONTRAT ACCEPTÉ</text>
+    </g>`);
+
+  return base('');
+}
+
+// ── CONTRATS — FICHES DÉTAILLÉES ──────────────────────────
+const contractData = {
+  'h001': {
+    ref:'#ÉR-H-001', risk:'CRITIQUE', riskClass:'critical',
+    title:'Interception CT-NET 2.0 — cartographie du déploiement firmware',
+    sponsor:'Écho Rouge (interne)', type:'Hacking & Intrusion',
+    payout:'800 CÉ + données partagées',
+    brief:`CT-NET 2.0 est la mise à jour qui transforme le Tissage de mouchard passif en organe de contrôle actif. Une fois déployée, elle referme la fenêtre de toute résistance firmware. Cette mission consiste à <strong>cartographier en temps réel les vagues de déploiement</strong> — quelles cellules, quels délais, quelles priorités du Directoire — pour permettre au réseau de placer son contre-patch dans la fenêtre de 72 h qui précède chaque reset.`,
+    objectives:['Établir un accès lecture seule au Canal Sigma via l\'exploit Lena Reinholt (disponible au Marché).','Identifier l\'ordre de déploiement par zone géographique et par cellule.','Relever les délais exacts entre annonce et reset effectif du firmware.','Transmettre la cartographie à la coordination avant chaque fenêtre de 72 h.'],
+    requirements:[['Accès','Canal Sigma, niveau lecture'],['Matériel','Exploit v4.0 Lena Reinholt (Marché)'],['Durée','6 h d\'interception continue'],['Profil','Hackeur confirmé, sang-froid sous corrélation Kassandra']],
+    risks:['Interception prolongée : au-delà de 6 h continues, la corrélation de latence rend l\'opérateur détectable par Kassandra.','L\'exploit ne protège pas : pendant la lecture, le Canal Sigma continue de transmettre les données de l\'opérateur. Second Tissage patché obligatoire.','La signature de l\'exploit est connue d\'Aegis-CD depuis janvier. Un correctif CT Corp peut neutraliser l\'accès à tout moment, mission en cours comprise.'],
+    dry:'Vous lisez par-dessus l\'épaule de Kassandra. Le jour où elle tourne la tête, vous avez six secondes pour ne plus être là.'
+  },
+  'h002': {
+    ref:'#ÉR-H-002', risk:'ÉLEVÉ', riskClass:'high',
+    title:'Exfiltration base Kassandra — cellules Budapest / Varsovie',
+    sponsor:'Écho Rouge (interne)', type:'Hacking & Intrusion',
+    payout:'500 CÉ',
+    brief:`Budapest et Varsovie ne répondent plus. Dix-huit jours de silence. Trois hypothèses : compromission d\'Aegis-CD, raid physique, ou rupture de communication. Tant qu\'on ne sait pas, <strong>chaque nom connu de ces cellules est une bombe à retardement</strong> — si elles sont tombées, leurs contacts seront utilisés comme appâts. Cette mission doit accéder au module de prédiction Kassandra régional pour ces deux zones et établir la vérité avant que le réseau ne saigne.`,
+    objectives:['Accéder au module de prédiction Kassandra pour les secteurs Budapest et Varsovie.','Déterminer la cause du silence : raid, compromission, ou panne.','Identifier les noms compromis avant qu\'ils servent d\'appâts.','Établir s\'il reste des membres à extraire — ou à prévenir.'],
+    requirements:[['Accès','Module prédictif Kassandra régional'],['Profil','Hackeur + analyste renseignement'],['Couverture','Aucun contact physique avec les cellules cibles'],['Urgence','Maximale — chaque jour aggrave l\'exposition']],
+    risks:['Si les cellules sont compromises, leur infrastructure numérique est probablement un piège tendu par Aegis-CD. Toute connexion peut être tracée à rebours.','Accéder à Kassandra, même en lecture, sur une zone sous surveillance active, déclenche un risque de contre-détection élevé.','La vérité peut être pire que le silence : confirmer une compromission impose des décisions que personne ne veut prendre.'],
+    dry:'On cherche des fantômes. Le danger, c\'est qu\'ils nous cherchent peut-être aussi.'
+  },
+  'h003': {
+    ref:'#ÉR-H-003', risk:'MODÉRÉ', riskClass:'med',
+    title:'Injection signal parasite dans ChronoVision — cellule Prague',
+    sponsor:'Écho Rouge (interne)', type:'Hacking & Intrusion',
+    payout:'200 CÉ',
+    brief:`ChronoVision est le flux que regardent les compressés pendant leurs rares heures de repos non comprimé — le robinet d\'images douces que CT Corp ouvre pour anesthésier. Cette mission consiste à <strong>injecter 4 à 7 secondes de signal non-CT Corp</strong> dans ce flux, sur une zone grise cible. Le contenu est fourni par la cellule de Prague. L\'objectif n\'est pas technique : c\'est de fissurer, l\'espace d\'une poignée de secondes, l\'illusion que CT Corp contrôle tout ce qu\'on voit.`,
+    objectives:['Accéder physiquement ou logiquement au relais ChronoVision de la zone cible.','Injecter le contenu fourni (4 à 7 secondes) pendant la diffusion nocturne.','Privilégier l\'impact psychologique : être vu compte plus que durer.','Se retirer sans laisser de trace exploitable sur le relais.'],
+    requirements:[['Fenêtre','Diffusion nocturne 02:00 - 04:00'],['Contenu','Fourni par la cellule Prague — non modifiable'],['Profil','Hackeur, accès relais média'],['Discrétion','Retrait propre impératif']],
+    risks:['Le relais média est moins surveillé qu\'un nœud Tissage, mais une injection laisse une fenêtre temporelle exploitable : agir vite, partir vite.','Le contenu diffusé peut déclencher une réaction disproportionnée d\'Aegis-CD dans la zone — prévenir la cellule locale avant diffusion.','Une injection ratée ou trop longue grille le relais pour de futures opérations.'],
+    dry:'Quatre secondes de vérité dans un océan de mensonge. Ce n\'est pas grand-chose. C\'est tout ce qu\'il faut pour que quelqu\'un doute.'
+  },
+  's001': {
+    ref:'#ÉR-S-001', risk:'CRITIQUE', riskClass:'critical',
+    title:'Désactivation GFT — Complexe n°6, Gdańsk, aile ouest',
+    sponsor:'Écho Rouge (interne)', type:'Sabotage & GFT',
+    payout:'1 500 CÉ + extraction garantie',
+    brief:`Le Complexe n°6 de Gdańsk tourne encore. Ananké a libéré le monde, mais pas l\'aile ouest : <strong>2 400 personnes sont toujours en bulle</strong>, vieillissant à ×100 pendant que dehors la révolution a déjà eu lieu. Les libérer exige de désactiver leurs GFT — mais un arrêt brutal tue par décompression. La procédure de désactivation progressive existe. Elle exige un technicien à l\'intérieur, en combinaison CTR-7, pendant 40 minutes. Au cœur de la zone de radiation temporelle.`,
+    objectives:['S\'introduire dans l\'aile ouest du Complexe n°6 en combinaison CTR-7.','Appliquer la procédure de désactivation progressive des GFT (fournie).','Maintenir la présence 40 minutes sans interruption de séquence.','Permettre la décompression sûre des 2 400 compressés.'],
+    requirements:[['Matériel','Combinaison CTR-7 complète (Marché) — vitale'],['Durée','40 min à l\'intérieur de la zone active'],['Profil','Technicien / Horloger formé aux GFT'],['Soutien','Extraction garantie par le réseau post-mission']],
+    risks:['Exposition à la radiation temporelle : la CTR-7 protège 45 minutes maximum. La marge sur 40 minutes de procédure est nulle. Un retard tue.','Un arrêt brutal des GFT — par erreur, panique ou défaillance — provoque le vieillissement instantané des 2 400 compressés. L\'enjeu n\'est pas votre seule vie.','Le complexe peut être encore gardé. La procédure suppose un accès dégagé qui n\'est pas garanti.','Mission classée suicide potentielle. Le réseau ne ment pas là-dessus.'],
+    dry:'Quarante minutes. Deux mille quatre cents vies. Et une combinaison qui en tient quarante-cinq. Faites le calcul avant de postuler.'
+  },
+  's002': {
+    ref:'#ÉR-S-002', risk:'ÉLEVÉ', riskClass:'high',
+    title:'Perturbation infrastructure CT-NET 2.0 — nœud relais Bruxelles',
+    sponsor:'Cartel des Terres Libres', type:'Sabotage & GFT',
+    payout:'1 200 CÉ',
+    brief:`Le déploiement CT-NET 2.0 transite par 12 nœuds physiques. Celui de Bruxelles en couvre 28 % à lui seul. Une <strong>surcharge physique ciblée</strong> — provoquant 4 à 6 heures d\'indisponibilité — retarderait significativement le verrouillage des Tissages européens, ouvrant une fenêtre pour le contre-patch. Le Cartel des Terres Libres commandite. La cible est un bâtiment de Cité-Vitrine : la difficulté n\'est pas technique, elle est sociale.`,
+    objectives:['Pénétrer le nœud relais sous couverture de cadre Cité-Vitrine.','Provoquer une surcharge des systèmes de refroidissement du nœud.','Garantir 4 à 6 h d\'indisponibilité sans destruction permanente (qui alerterait davantage).','Évacuer l\'équipe avant rétablissement et enquête.'],
+    requirements:[['Équipe','3 personnes minimum'],['Profils','Électronicien, expert refroidissement, couverture Cité-Vitrine'],['Identité','Niveau cadre CT Corp (Marché) recommandée'],['Commanditaire','Cartel des Terres Libres']],
+    risks:['Une Cité-Vitrine est sous Kassandra niveau maximal. Une seule incohérence de comportement chez un membre de l\'équipe déclenche un audit.','La coordination à trois multiplie les points de défaillance : la compromission d\'un seul membre expose les deux autres.','Une surcharge mal calibrée peut causer des dégâts permanents — donc une enquête approfondie, donc une traque.'],
+    dry:'Le plus dur n\'est pas de griller le nœud. C\'est de porter le costume assez bien pour qu\'on vous laisse approcher.'
+  },
+  'e001': {
+    ref:'#ÉR-E-001', risk:'ÉLEVÉ', riskClass:'high',
+    title:'Infiltration WeavePort Casablanca — cartographie post-Ananké',
+    sponsor:'Cartel des Terres Libres', type:'Espionnage & Exfil',
+    payout:'700 CÉ',
+    brief:`Depuis Ananké, le complexe WeavePort de Casablanca est une zone de non-droit : mafias algériennes, milices locales, agents du Cartel s\'y disputent les décombres. Quelque part dans ce chaos, entre <strong>2 000 et 5 000 compressés</strong> attendent une libération que personne n\'organise. Cette mission ne demande pas d\'agir — seulement de comprendre : qui contrôle quoi, où sont les compressés, quels canaux permettront une évacuation future.`,
+    objectives:['S\'infiltrer sous couverture de journaliste ou d\'agent logistique CT Corp local.','Cartographier le contrôle réel du complexe : factions, territoires, rapports de force.','Localiser et estimer le nombre de compressés encore captifs.','Identifier les canaux sûrs pour une évacuation ultérieure.'],
+    requirements:[['Couverture','Journaliste ou logisticien CT Corp local'],['Profil','Agent de terrain, observation, langues'],['Zone','Casablanca — instable, multi-factions'],['Commanditaire','Cartel des Terres Libres']],
+    risks:['Aucune faction ne contrôle le complexe : les allégeances changent d\'un jour à l\'autre, une couverture valable le matin peut être grillée le soir.','Être pris pour un agent d\'une faction rivale est aussi dangereux qu\'être démasqué comme résistant.','La cartographie est une donnée précieuse — donc une cible. Sa perte ou son interception compromet l\'évacuation future de milliers de personnes.'],
+    dry:'On ne vous demande pas de les sauver. On vous demande de revenir avec la carte qui le permettra. C\'est plus lourd à porter qu\'il n\'y paraît.'
+  },
+  'x001': {
+    ref:'#ÉR-X-001', risk:'MODÉRÉ', riskClass:'med',
+    title:'Extraction — 3 compressés libérés, Zone Grise, Lyon 7e',
+    sponsor:'Zone Rouge Carpates', type:'Extraction humaine',
+    payout:'350 CÉ + logistique fournie',
+    brief:`Trois compressés libérés par Ananké errent dans la Zone Grise du 7e arrondissement de Lyon. Désorientés, sans ressources, leurs Tissages en mode erreur — vulnérables. La probabilité de présence Kassandra dans le secteur est faible (12,3 %), ce qui fait de cette extraction une mission abordable. <strong>Les conduire vivants jusqu\'à la Zone Rouge des Carpates</strong>, via la Route Méditerranéenne, où ils trouveront refuge et soins de décompression.`,
+    objectives:['Localiser et approcher les trois libérés sans les effrayer (état de désorientation avancé).','Stabiliser leurs Tissages en mode erreur ou les neutraliser si nécessaire (Horloger en soutien).','Organiser le transport vers la Zone Rouge des Carpates via la Route Méditerranéenne.','Livrer les trois personnes vivantes à la cellule des Carpates.'],
+    requirements:[['Véhicule','Nécessaire — non fourni'],['Connaissance','Réseau des Friches Lyon ↔ Rhône impératif'],['Profil','Extraction, contact humain, sang-froid'],['Kassandra','12,3 % dans le secteur — faible']],
+    risks:['Les Tissages en mode erreur peuvent émettre des signaux erratiques susceptibles d\'attirer l\'attention malgré la faible probabilité Kassandra.','Des libérés désorientés peuvent paniquer, fuir ou refuser de suivre — l\'extraction humaine n\'est jamais purement logistique.','Le trajet via la Route Méditerranéenne ajoute ses propres aléas (voir fiche Livraison) : 4 % de perte sur la route.'],
+    dry:'Trois personnes qui ont vécu des années en quelques mois. Elles ne savent pas encore quel jour on est. Soyez doux. C\'est aussi ça, le travail.'
+  },
+  'r001': {
+    ref:'#ÉR-R-001', risk:'FAIBLE', riskClass:'low',
+    title:'Récupération matériel — aile désaffectée FiberCore, Prato',
+    sponsor:'I Tessitori (Prato)', type:'Récupération',
+    payout:'150 CÉ + accès prioritaire catalogue',
+    brief:`L\'aile sud du complexe FiberCore est à l\'abandon depuis Ananké. CT Corp n\'a pas encore réinventorié le site — et tant que l\'inventaire n\'est pas fait, ce qui s\'y trouve n\'appartient à personne. I Tessitori veut récupérer ce stock avant la Corporation : <strong>composants Tissage, filtres CTR brut, outillage de précision</strong>. C\'est le contrat idéal pour faire ses preuves auprès du réseau — risque réel mais maîtrisable, et la porte d\'entrée vers des missions de confiance.`,
+    objectives:['Pénétrer l\'aile sud désaffectée de FiberCore entre deux passages de drone.','Récupérer le matériel listé par I Tessitori (manifeste fourni).','Acheminer le stock au point de remise via cellule de contact ou Route Méditerranéenne.','Ne rien déclencher : la valeur de la mission, c\'est qu\'elle reste invisible.'],
+    requirements:[['Surveillance','1 passage drone / 4 h, aucune patrouille au sol'],['Profil','Porteur discret, bonne condition physique'],['Lieu','Prato — connaissance locale appréciée'],['Statut','Premier contrat accepté pour nouveaux opérateurs']],
+    risks:['« Faible » ne veut pas dire « nul » : le cycle de drone laisse une fenêtre, mais un retard à l\'intérieur la referme.','Un réinventaire CT Corp peut tomber à tout moment — si la Corporation arrive pendant la récupération, abandonner le matériel et se retirer.','Le matériel est lourd et encombrant : la tentation de surcharger est le premier piège des débutants.'],
+    dry:'Le contrat le plus simple du tableau. C\'est exactement pour ça qu\'on regarde comment vous le faites.'
+  }
+};
+
+function openContract(id) {
+  const c = contractData[id];
+  if (!c) return;
+  let h = '';
+  h += '<div class="cd-banner">' + ctBanner(id) + '</div>';
+  h += '<div class="ip-header"><div class="ip-category">ÉCHO-ROUGE / CONTRATS / ' + c.ref + '</div>';
+  h += '<div class="ip-title">' + c.title + '</div>';
+  h += '<div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">';
+  h += '<span class="cc-risk ' + c.riskClass + '">' + c.risk + '</span>';
+  h += '<span class="l-tag">' + c.type + '</span>';
+  h += '<span class="l-tag">Commanditaire : ' + c.sponsor + '</span>';
+  h += '<span class="cc-payout" style="margin-left:auto">' + c.payout + '</span></div></div>';
+
+  h += '<div class="ip-section-title">// Briefing</div><div class="ip-p">' + c.brief + '</div>';
+
+  h += '<div class="ip-section-title">// Objectifs</div>';
+  c.objectives.forEach((o,i)=>{ h += '<div class="ip-route-stop"><div class="rs-num">'+(i+1)+'</div><div class="rs-body"><div class="rs-text">'+o+'</div></div></div>'; });
+
+  h += '<div class="ip-section-title">// Conditions opérationnelles</div><table class="ip-table">';
+  c.requirements.forEach(r=>{ h += '<tr><td class="td-label">'+r[0]+'</td><td>'+r[1]+'</td></tr>'; });
+  h += '</table>';
+
+  h += '<div class="md-warnings"><div class="w-title">⚠ Risques — lecture obligatoire avant de postuler</div>';
+  c.risks.forEach(r=>{ h += '<div class="w-item">'+r+'</div>'; });
+  h += '<div class="md-dry">'+c.dry+'</div></div>';
+
+  h += '<div class="md-footer"><button class="apply-contract" style="padding:10px 24px" onclick="event.stopPropagation()">// POSTULER À CETTE MISSION</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// vérification Passeur de Mémoire requise — aucune deuxième chance</span></div>';
+
+  document.getElementById('cd-content').innerHTML = h;
+  document.getElementById('contracts-catalog').style.display = 'none';
+  document.getElementById('contract-detail').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function closeContractDetail() {
+  document.getElementById('contract-detail').classList.remove('active');
+  document.getElementById('contracts-catalog').style.display = 'block';
+  window.scrollTo(0,0);
+}
 
 // ── MARCHÉ — SOUS-PAGES PAIEMENT & LIVRAISON ────────────────
 const infoPages = {
