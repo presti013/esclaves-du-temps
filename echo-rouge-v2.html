@@ -1247,67 +1247,37 @@ footer a:hover { color: var(--green-dim); }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--green-dark); }
 
-/* ── RETOUR PORTAIL (patch mobile) ── */
-.back-portal{
-  position:fixed; bottom:18px; left:18px; z-index:300;
-  width:46px; height:46px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.9); border:1px solid var(--green);
-  color:var(--green); font-size:20px; text-decoration:none;
-  box-shadow:0 0 14px rgba(0,255,65,0.35); opacity:0.85;
-  transition:opacity .2s, transform .2s;
-}
-.back-portal:hover{ opacity:1; transform:scale(1.06); }
-
-/* ═══════════════════════════════════════
-   PATCH MOBILE v1 — ÉCHO ROUGE
-═══════════════════════════════════════ */
-.nav-burger{
-  display:none; background:none; cursor:pointer;
-  border:1px solid var(--border); color:var(--green);
-  width:38px; height:38px; font-size:18px; line-height:1;
-  align-items:center; justify-content:center;
-  margin-left:auto;
-}
-
-@media (max-width: 820px){
-  /* — Navigation — */
-  nav{ padding:0 12px; }
+/* ════════ PATCH MOBILE v2 — ÉCHO ROUGE ════════ */
+.back-portal{position:fixed;bottom:18px;left:18px;z-index:400;width:48px;height:48px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(0,0,0,.92);border:1px solid var(--green,#00FF41);color:var(--green,#00FF41);
+ font-size:20px;text-decoration:none;box-shadow:0 0 14px rgba(0,255,65,.35);opacity:.9;}
+.nav-burger{display:none;background:none;cursor:pointer;border:1px solid var(--border,#1a3a1a);
+ color:var(--green,#00FF41);width:40px;height:40px;font-size:20px;line-height:1;
+ align-items:center;justify-content:center;margin-left:auto;}
+@media (max-width: 1100px){
+  html{ -webkit-text-size-adjust:100%%; }
   .nav-burger{ display:flex; }
-  .nav-right{ display:none; }              /* ID & menace masqués sur mobile */
+  .nav-right{ display:none; }
   .nav-links{
-    display:none; position:fixed; top:52px; left:0; right:0;
-    flex-direction:column; background:var(--panel);
-    border-bottom:1px solid var(--border); z-index:98;
-    box-shadow:0 12px 30px rgba(0,0,0,0.7);
-    max-height:calc(100vh - 52px); overflow-y:auto;
+    display:none !important; position:fixed; top:52px; left:0; right:0;
+    flex-direction:column; background:var(--panel,#0a0e0a);
+    border-bottom:1px solid var(--border,#1a3a1a); z-index:98;
+    box-shadow:0 12px 32px rgba(0,0,0,.8); max-height:calc(100vh - 52px); overflow-y:auto;
   }
-  .nav-links.open{ display:flex; }
-  .nav-links a{
-    height:auto; padding:14px 20px; font-size:14px;
-    border-bottom:1px solid var(--border);
-    border-top:none;
-  }
-
-  /* — Lisibilité — */
-  body{ font-size:15px; }
-
-  /* — Terminal (accueil) — */
-  .terminal-hero{ grid-template-columns:1fr; padding:12px; min-height:auto; }
-  .terminal-main, .terminal-side{ padding:20px 16px; }
-
-  /* — Sections à sidebar — */
-  .content-grid{ grid-template-columns:1fr; min-height:auto; }
-  .content-sidebar{
-    border-right:none; border-bottom:1px solid var(--border);
-    padding:12px 0;
-  }
-  .sb-link{ font-size:14px; padding:10px 20px; }
+  .nav-links.open{ display:flex !important; }
+  .nav-links a{ height:auto; padding:15px 20px; font-size:1rem; border-top:none;
+    border-bottom:1px solid var(--border,#1a3a1a); }
+  body{ font-size:clamp(16px,4.2vw,19px); line-height:1.6; }
+  .terminal-hero{ grid-template-columns:1fr !important; padding:12px; min-height:auto; }
+  .terminal-main,.terminal-side{ padding:22px 16px; }
+  .content-grid{ grid-template-columns:1fr !important; min-height:auto; }
+  .content-sidebar{ border-right:none; border-bottom:1px solid var(--border,#1a3a1a); padding:10px 0; }
+  .sb-link{ font-size:1rem; padding:12px 20px; }
   .content-main{ padding:20px 14px; }
-
-  /* — Grilles — */
-  .doc-grid{ grid-template-columns:1fr; }
+  .doc-grid{ grid-template-columns:1fr !important; }
   .market-cats{ flex-wrap:wrap; }
+  p, li{ font-size:clamp(15px,4vw,18px); }
 }
 </style>
 </head>
@@ -1364,7 +1334,7 @@ footer a:hover { color: var(--green-dim); }
       <li><a href="signal-game.html" target="_blank" id="nav-game" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">05/</span>Terminal</a></li>
       <li><a href="mini-jeu-escape.html" target="_blank" id="nav-escape" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">06/</span>Escape Game</a></li>
     </ul>
-    <button class="nav-burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <button class="nav-burger" aria-label="Menu">&#9776;</button>
     <div class="nav-right">
       <span class="threat-level">⚠ MENACE: MODÉRÉE</span>
       <span class="nav-id">ID: ████-████</span>
@@ -3200,22 +3170,15 @@ document.addEventListener('keydown', e => {
 .listing.hidden, .contract-card.hidden { display:none; }
 </style>
 
-<!-- Patch mobile : retour au portail -->
-<a class="back-portal" href="index.html" title="Retour au portail Esclaves du Temps" aria-label="Retour au portail">&#9666;</a>
+<!-- mobile : retour portail -->
+<a class="back-portal" href="index.html" aria-label="Retour au portail">&#9666;</a>
 
 <script>
-/* ── Patch mobile : menu hamburger ── */
 (function(){
-  var links = document.querySelector('.nav-links');
-  var burger = document.querySelector('.nav-burger');
-  if(!links || !burger) return;
-  burger.addEventListener('click', function(){
-    links.classList.toggle('open');
-    burger.setAttribute('aria-expanded', links.classList.contains('open'));
-  });
-  links.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){ links.classList.remove('open'); });
-  });
+  var L=document.querySelector('.nav-links'),B=document.querySelector('.nav-burger');
+  if(!L||!B)return;
+  B.addEventListener('click',function(){L.classList.toggle('open');});
+  L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
 })();
 </script>
 </body>

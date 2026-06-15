@@ -228,47 +228,48 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
   .hero { padding: 70px 0 50px; }
 }
 
-/* ── RETOUR PORTAIL (patch mobile) ── */
-.back-portal{
-  position:fixed; bottom:18px; left:18px; z-index:300;
-  width:46px; height:46px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(13,22,38,0.92); border:1px solid var(--accent);
-  color:var(--accent); font-size:20px; text-decoration:none;
-  box-shadow:0 4px 16px rgba(0,0,0,0.5); opacity:0.85;
-  transition:opacity .2s, transform .2s;
-}
-.back-portal:hover{ opacity:1; transform:scale(1.06); }
+/* ════════ PATCH MOBILE v2 — CT CORP ════════ */
+.back-portal{position:fixed;bottom:18px;left:18px;z-index:400;width:48px;height:48px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(13,22,38,.94);border:1px solid var(--accent,#C9A84C);color:var(--accent,#C9A84C);
+ font-size:20px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.5);opacity:.9;}
+.nav-burger{display:none;background:none;cursor:pointer;border:1px solid var(--border,#1E3050);
+ color:var(--accent,#C9A84C);width:42px;height:42px;font-size:22px;line-height:1;
+ align-items:center;justify-content:center;}
 
-/* ═══════════════════════════════════════
-   PATCH MOBILE v1 — À PROPOS
-═══════════════════════════════════════ */
-.nav-burger{
-  display:none; background:none; cursor:pointer;
-  border:1px solid var(--border); color:var(--accent);
-  width:40px; height:40px; font-size:20px; line-height:1;
-  align-items:center; justify-content:center;
-}
-@media (max-width: 900px){
+@media (max-width: 1100px){
+  html{ -webkit-text-size-adjust:100%; }
   .nav-burger{ display:flex; }
   .nav-cta{ display:none; }
-  /* on annule le display:none existant : le menu devient un panneau */
   .nav-links{
-    display:none !important;
-    position:fixed; top:60px; left:0; right:0;
-    flex-direction:column; gap:0;
-    background:var(--navy, #0D1626); border-bottom:1px solid var(--border);
-    padding:4px 0 10px; z-index:98;
-    box-shadow:0 18px 36px rgba(0,0,0,0.55);
+    display:none !important; position:fixed; top:60px; left:0; right:0;
+    flex-direction:column; gap:0; background:var(--navy,#0D1626);
+    border-bottom:1px solid var(--border,#1E3050); padding:4px 0 12px; z-index:98;
+    box-shadow:0 18px 40px rgba(0,0,0,.6); max-height:calc(100vh - 60px); overflow-y:auto;
   }
   .nav-links.open{ display:flex !important; }
-  .nav-links a{
-    display:block; padding:15px 24px; font-size:15px;
-    border-bottom:1px solid var(--border);
-  }
-  body{ font-size:16px; }
-  .section{ padding:56px 0; }
-  .timeline-intro p{ font-size:15px; }
+  .nav-links a{ display:block; padding:16px 24px; font-size:1.05rem; border-bottom:1px solid var(--border,#1E3050); }
+
+  /* typographie fluide — plancher confortable */
+  body{ font-size:clamp(17px,4.4vw,20px); line-height:1.65; }
+  .hero h1, .hero-title{ font-size:clamp(30px,8vw,46px) !important; line-height:1.12; }
+  .hero .lead, .hero-sub, .section-desc, .detail-body,
+  .tl-body p, .mission-col p, p{ font-size:clamp(15px,4vw,18px); }
+  .section-eyebrow, .hero-eyebrow{ font-size:13px; }
+
+  /* paddings réduits */
+  nav{ padding:0 16px; }
+  .section{ padding:48px 0 !important; }
+  .hero{ padding:48px 0 36px !important; }
+  .wrap, .section-padding{ padding-left:18px !important; padding-right:18px !important; }
+
+  /* toutes les grilles → 1 colonne */
+  .mission-grid,.values-grid,.stats-grid,.gov-grid,
+  .home-features,.solutions-grid,.process-steps,.dash-widgets,
+  .detail-hero,.result-grid,.cv-grid,.sim-inputs,.careers-layout,
+  .hero-stats,footer{ grid-template-columns:1fr !important; gap:22px !important; }
+  .hero-ctas{ flex-direction:column; align-items:stretch; }
+  footer{ padding:30px 18px !important; }
 }
 </style>
 </head>
@@ -290,7 +291,7 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
     <div class="logo-icon">CT</div>
     CT<span>CORP</span>
   </a>
-  <button class="nav-burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+  <button class="nav-burger" aria-label="Menu">&#9776;</button>
   <ul class="nav-links">
     <li><a href="index.html">&#9666; Portail</a></li>
     <li><a href="ctcorp-prototype.html">Accueil</a></li>
@@ -520,22 +521,15 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
 }());
 </script>
 
-<!-- Patch mobile : retour au portail -->
-<a class="back-portal" href="index.html" title="Retour au portail Esclaves du Temps" aria-label="Retour au portail">&#9666;</a>
+<!-- mobile : retour portail -->
+<a class="back-portal" href="index.html" aria-label="Retour au portail">&#9666;</a>
 
 <script>
-/* ── Patch mobile : menu hamburger ── */
 (function(){
-  var links = document.querySelector('.nav-links');
-  var burger = document.querySelector('.nav-burger');
-  if(!links || !burger) return;
-  burger.addEventListener('click', function(){
-    links.classList.toggle('open');
-    burger.setAttribute('aria-expanded', links.classList.contains('open'));
-  });
-  links.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){ links.classList.remove('open'); });
-  });
+  var L=document.querySelector('.nav-links'),B=document.querySelector('.nav-burger');
+  if(!L||!B)return;
+  B.addEventListener('click',function(){L.classList.toggle('open');});
+  L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
 })();
 </script>
 </body>
