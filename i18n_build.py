@@ -18,8 +18,8 @@ BASE = "https://presti013.github.io/esclaves-du-temps/"
 # Pages disposant (ou destinées à disposer) d'une traduction. Mettre à jour au
 # fur et à mesure puis relancer le script pour rafraîchir les sélecteurs.
 AVAIL = {
-    "en": {"index.html", "prologue.html"},
-    "it": {"index.html", "prologue.html"},
+    "en": {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html"},
+    "it": {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html"},
 }
 
 LANG_LABEL = {"fr": "Français", "en": "English", "it": "Italiano"}
