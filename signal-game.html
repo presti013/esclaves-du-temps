@@ -600,6 +600,36 @@ body::after {
   display:inline-block;
 }
 .finale-link:hover { background:var(--green); color:#000; border-color:var(--green); }
+
+/* RESPONSIVE — mobiles & tablettes */
+@media (max-width: 760px) {
+  .screen { height: 100dvh; }
+  .missions-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
+  .hub-body { padding: 28px 16px; gap: 24px; }
+  .hub-header { padding: 12px 16px; }
+  .mc-num { font-size: 32px; }
+  .mc-name { font-size: 19px; }
+  #boot, #codename, #result-screen, #finale { padding: 24px 16px; }
+  .codename-box, .result-box { padding: 28px 20px; }
+  .result-icon { font-size: 60px; }
+  .result-title { font-size: 30px; }
+  .finale-sub { font-size: 18px; }
+  .game-topbar { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 8px 12px; }
+  .gtb-left { gap: 12px; }
+  .gtb-mission { font-size: 15px; }
+  .gtb-center { order: 3; flex-basis: 100%; text-align: left; }
+  .gtb-right { gap: 14px; margin-left: auto; }
+  .kass-bar { width: 64px; }
+  .terminal-wrap { display: flex; flex-direction: column; }
+  .terminal-main { flex: 1 1 auto; min-height: 0; border-right: none; }
+  .terminal-sidebar { flex: 0 0 auto; max-height: 34vh; border-top: 1px solid var(--border); }
+}
+@media (max-width: 460px) {
+  .missions-grid { grid-template-columns: 1fr; }
+  .result-btns { flex-direction: column; }
+  .gtb-center { display: none; }
+  .mc-num { font-size: 28px; }
+}
 </style>
 </head>
 <body>

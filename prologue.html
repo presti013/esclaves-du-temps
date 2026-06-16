@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prologue — Esclaves du Temps · Laurent Prestigiacomo</title>
+<meta name="description" content="Lisez le prologue d'Esclaves du Temps, roman de SF dystopique de Laurent Prestigiacomo. Une seconde dans le monde extérieur. 180 jours de labeur pour Kael.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Esclaves du Temps">
+<meta property="og:title" content="Prologue — Esclaves du Temps">
+<meta property="og:description" content="« Et si votre vie ne durait qu'une minute ? » Lisez les premières pages du roman de Laurent Prestigiacomo.">
+<!-- TODO_OG_IMAGE : remplacer par l'URL absolue de la couverture si une image dédiée est produite -->
+<meta property="og:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/eveilles-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prologue — Esclaves du Temps">
+<meta name="twitter:description" content="« Et si votre vie ne durait qu'une minute ? » Lisez les premières pages.">
+<meta name="twitter:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/eveilles-poster.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Cinzel/Orbitron/Barlow : grammaire visuelle du site. EB Garamond : ajouté pour le confort de lecture longue. -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep: #020608;
+  --gold: #C9943A;
+  --gold2: #E8B84B;
+  --gold-dim: #6A4A1A;
+  --blue: #1A5A7A;
+  --blue-bright: #4AAAD4;
+  --red: #8B1A1A;
+  --red-bright: #C44040;
+  --text: #D0C8B8;
+  --text-dim: #7A7060;
+  --white: #F0ECE0;
+  --term: #00B33A;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--deep);
+  color: var(--text);
+  font-family: 'EB Garamond', Georgia, serif;
+  line-height: 1.85;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKDROP (vignette + scanlines, comme l'accueil) ── */
+#vignette {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(201,148,58,0.05) 0%, transparent 45%),
+    radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.6) 100%);
+}
+#scanlines {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 6px);
+}
+
+/* ── LAYOUT ── */
+.wrap {
+  position: relative;
+  z-index: 5;
+  max-width: 40rem;          /* ≈ 68–72 caractères */
+  margin: 0 auto;
+  padding: clamp(40px, 8vh, 96px) clamp(20px, 5vw, 40px) 80px;
+}
+
+/* ── NAV RETOUR ── */
+.topnav {
+  position: relative;
+  z-index: 5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 24px clamp(20px, 5vw, 40px) 0;
+}
+.back-link {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover, .back-link:focus-visible { color: var(--gold); }
+
+/* ── EN-TÊTE ── */
+.eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  text-align: center;
+  margin-bottom: 14px;
+}
+h1.chapter {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(30px, 6vw, 54px);
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: var(--gold);
+  line-height: 1.1;
+  text-shadow: 0 0 28px rgba(201,148,58,0.25);
+}
+.work-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 1.6vw, 14px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 12px;
+}
+.rule {
+  width: 120px; height: 1px;
+  margin: 32px auto;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+}
+
+/* ── ÉPIGRAPHE ── */
+.epigraph {
+  font-style: italic;
+  color: var(--text-dim);
+  text-align: center;
+  font-size: clamp(15px, 2.2vw, 18px);
+  line-height: 1.7;
+  max-width: 32rem;
+  margin: 0 auto 8px;
+}
+.epigraph cite {
+  display: block;
+  font-style: normal;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-top: 16px;
+}
+
+/* ── CORPS DU TEXTE ── */
+.prose p {
+  font-size: clamp(17px, 2.4vw, 20px);
+  margin-bottom: 1.5em;
+  hyphens: auto;
+}
+.prose p:first-of-type::first-letter {
+  font-family: 'Cinzel', serif;
+  font-size: 3.4em;
+  line-height: 0.8;
+  float: left;
+  margin: 0.05em 0.1em 0 0;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(201,148,58,0.3);
+}
+
+/* ── LIGNES SYSTÈME (terminal NAOS-9) ── */
+.sysline {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(13px, 2vw, 15px);
+  letter-spacing: 0.06em;
+  color: var(--term);
+  background: rgba(0,40,12,0.25);
+  border-left: 2px solid var(--term);
+  padding: 14px 18px;
+  margin: 2em 0;
+  text-shadow: 0 0 10px rgba(0,179,58,0.4);
+  word-break: break-word;
+}
+.sysline.center { text-align: center; border-left: none; border-top: 1px solid rgba(0,179,58,0.3); border-bottom: 1px solid rgba(0,179,58,0.3); }
+
+/* ── FIN : RAPPEL D'ACTION ── */
+.outro {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(201,148,58,0.18);
+  text-align: center;
+}
+.outro-q {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 4vw, 30px);
+  color: var(--white);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.outro-tag {
+  font-style: italic;
+  color: var(--gold);
+  font-size: clamp(15px, 2.4vw, 19px);
+  margin-bottom: 32px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+.btn {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 24px;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  background: rgba(201,148,58,0.04);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn:hover, .btn:focus-visible {
+  border-color: var(--gold);
+  background: rgba(201,148,58,0.12);
+  transform: translateY(-2px);
+}
+.btn.primary {
+  background: var(--gold);
+  color: #1a1206;
+  border-color: var(--gold);
+}
+.btn.primary:hover, .btn.primary:focus-visible {
+  background: var(--gold2);
+  box-shadow: 0 8px 30px rgba(201,148,58,0.3);
+}
+.btn.ghost { color: var(--text-dim); }
+.btn.ghost:hover, .btn.ghost:focus-visible { color: var(--blue-bright); border-color: var(--blue); }
+
+.foot {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  opacity: 0.55;
+  padding: 0 20px 48px;
+}
+
+/* ── FOCUS CLAVIER ── */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--gold2);
+  outline-offset: 3px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .actions { flex-direction: column; }
+  .btn { width: 100%; }
+  .prose p:first-of-type::first-letter { font-size: 2.8em; }
+}
+
+/* ── MOUVEMENT RÉDUIT ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="vignette"></div>
+<div id="scanlines"></div>
+
+<nav class="topnav">
+  <a class="back-link" href="index.html">← Retour à l'accueil</a>
+</nav>
+
+<article class="wrap">
+
+  <header>
+    <div class="eyebrow">Prologue</div>
+    <h1 class="chapter">Une seconde</h1>
+    <div class="work-sub">Esclaves du Temps — Laurent Prestigiacomo</div>
+    <div class="rule"></div>
+  </header>
+
+  <p class="epigraph">
+    « Le temps ne se gagne pas. Il vous est prêté, avec intérêts. »
+    <cite>— Extrait du journal clandestin Écho Rouge, env. 2032</cite>
+  </p>
+
+  <div class="rule"></div>
+
+  <div class="prose">
+    <p>La pièce était d'un blanc si pur qu'elle en absorbait les pensées. Un blanc clinique, aseptisé, qui sentait l'antiseptique et le métal froid. Par la vitre, Kael regardait la pluie de fin d'année tomber sur Lyon — une bruine grise et tenace lavant les façades fatiguées de la Zone Grise, le Lyon de sa naissance et de son insouciance perdue. Ce Lyon, désormais dépossédé comme la majeure partie de l'Europe, asphyxié entre la poigne de fer de l'alliance russo-américaine et la voracité des conglomérats qui avaient remplacé les États. Il n'y avait plus d'avenir, seulement des contrats.</p>
+
+    <p>Le sien était posé sur la table du recruteur, une tablette de verre affichant des clauses en police microscopique. Il l'avait signé, un rictus amer aux lèvres. L'hologramme publicitaire de CT Corp tournait en boucle dans le bureau, montrant des familles radieuses sur fond de forêts luxuriantes, une promesse d'Aube Nouvelle bâtie sur des vies consumées en silence. La faim était une conseillère pragmatique ; le désespoir, un excellent négociateur. Orphelin depuis l'incident industriel qui avait coûté la vie à son père un an plus tôt, il n'avait plus d'autre choix que de vendre la seule chose qui lui restait : son temps.</p>
+
+    <p>Deux techniciens en combinaison stérile entrèrent sans un regard pour lui. Leurs mouvements étaient précis, économiques, dénués de toute humanité superflue. Ils n'étaient pas des hommes, mais des extensions de la machine qu'ils servaient.</p>
+
+    <p>— Sujet EL-03, en position, dit le premier, sa voix filtrée par son masque.</p>
+
+    <p>Kael s'assit sur le siège métallique, le froid du contact remontant le long de sa colonne vertébrale. Il sentit une morsure glaciale dans son cou. Le gel de l'interface neurale, conducteur de sa propre déconstruction, s'infiltrait, visqueux. Une sonde cliqueta contre sa vertèbre, l'ancrant physiquement à son destin.</p>
+
+    <p>— Injection.</p>
+
+    <p>Le mot, plat et sans vie, crépita dans un haut-parleur. Il ne s'adressait pas à lui. C'était une confirmation pour la machine.</p>
+
+    <p>Derrière la vitre blindée, le technicien en chef observait ses moniteurs, pas lui. Son doigt tapota une commande sur l'écran tactile, ajustant un paramètre. Un geste banal, le même qu'il ferait pour commander un café. Pour cet homme, Kael n'était qu'une ligne de données fluctuantes, une signature thermique à réguler. Un corps biologique dont la conscience était sur le point d'être broyée par une équation. Remplaçable.</p>
+
+    <p>Un écran mural afficha une ligne de texte vert :</p>
+
+    <p class="sysline">#&gt; NAOS-9: Subject EL-03. Chronon density stable. Initiating cycle 1/180.</p>
+
+    <p>Le contrat lui revint en mémoire, les mots-clés qui scellaient son sacrifice. Déréalisation, dépersonnalisation, hallucinations chronologiques. Des termes propres pour une agonie indicible, une note de bas de page en échange d'une vie.</p>
+
+    <p>Le bourdonnement des anneaux gravimétriques monta d'un cran. Ce n'était plus un son, mais une pression sur chaque centimètre carré de sa peau, dans ses os, dans ses dents. Il sentit le métal du siège devenir une extension de sa propre chair glacée. La densification des chronons avait commencé.</p>
+
+    <p>L'air se plissa. La lumière du néon au plafond trembla comme un reflet sur l'eau, puis se brisa en un kaléidoscope de fragments impossibles. Le blanc immaculé de la pièce se décomposa en couleurs qu'il n'avait jamais vues, des teintes qui semblaient vibrer à une fréquence interdite. Le bouclier chronosphérique venait de s'activer, le coupant du temps référentiel.</p>
+
+    <p>Une seconde.</p>
+
+    <p>Dans le monde extérieur.</p>
+
+    <p>Pour Kael, ce fut une chute infinie dans un puits sans fond, le hurlement de son propre système nerveux s'étirant en une nappe sonore sans fin. Il se vit, de l'extérieur, une marionnette désarticulée dont les fils avaient été coupés, un garçon de dix-sept ans figé sur un siège métallique, les yeux grands ouverts sur un spectacle que nul cerveau humain n'était câblé pour comprendre.</p>
+
+    <p>Le temps ne se déchira pas en une fois. Il s'effilocha, fibre par fibre, emportant avec lui la certitude d'être soi. Son enfance, le visage de son père, la grisaille de Lyon, tout fut aplati, compressé en une seule image mentale, puis dissous dans le bruit blanc de la machine. Il n'était plus Kael Mironen. Il était EL-03, une variable dans un processus.</p>
+
+    <p>Son existence fut réduite à une notification sur un écran qu'il ne pouvait voir.</p>
+
+    <p class="sysline center">#&gt; 00:00:01</p>
+
+    <p>Une seule seconde de passée.</p>
+
+    <p>Le premier de ses 180 jours de labeur pouvait commencer…</p>
+  </div>
+
+  <div class="outro">
+    <div class="outro-q">La suite ?</div>
+    <div class="outro-tag">« Et si votre vie ne durait qu'une minute ? »</div>
+    <div class="actions">
+      <!-- TODO_LIEN_ACHAT : remplacer par l'URL directe de la fiche produit du roman quand disponible -->
+      <a class="btn primary" href="https://www.la-commanderie.be/category/3cinq7-editions" target="_blank" rel="noopener">Se procurer le roman</a>
+      <a class="btn" href="index.html#prevenir">Être prévenu de la sortie</a>
+      <a class="btn" href="bande-originale.html">▶ Écouter la bande-originale</a>
+      <a class="btn ghost" href="index.html#monde">Entrer dans le monde →</a>
+    </div>
+  </div>
+
+</article>
+
+<div class="foot">
+  © 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction
+</div>
+
+</body>
+</html>
