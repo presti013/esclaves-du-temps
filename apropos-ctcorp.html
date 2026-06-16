@@ -272,8 +272,35 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
   footer{ padding:30px 18px !important; }
 }
 </style>
+<!--i18n:style-->
+<style>
+.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
+  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
+  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
+  white-space:nowrap;transition:background .2s,color .2s;}
+.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
+.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
+.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
+.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
+.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
+.i18n-flag{font-size:13px;line-height:1;}
+@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
+  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
+@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
+</style>
+<!--/i18n:style-->
+<!--i18n:hreflang-->
+<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/apropos-ctcorp.html">
+<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/apropos-ctcorp.html">
+<!--/i18n:hreflang-->
 </head>
 <body>
+<!--i18n:switch-->
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="apropos-ctcorp.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><span class="is-disabled" aria-disabled="true" lang="en" title="English — bientôt / soon / presto"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</span><span class="is-disabled" aria-disabled="true" lang="it" title="Italiano — bientôt / soon / presto"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</span></nav>
+<!--/i18n:switch-->
 
 <!-- TICKER -->
 <div id="ticker">
@@ -532,5 +559,8 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 16px; margin-top: 
   L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
 })();
 </script>
+<!--i18n:js-->
+<script src="assets/js/lang-switch.js" defer></script>
+<!--/i18n:js-->
 </body>
 </html>
