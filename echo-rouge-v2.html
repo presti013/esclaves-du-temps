@@ -2106,7 +2106,18 @@ footer a:hover { color: var(--green-dim); }
 <script>
 // ── PORTAIL — IDENTIFICATION PAR NOM DE CODE ─────
 const params = new URLSearchParams(window.location.search);
-const agentName = params.get('agent') || sessionStorage.getItem('er_codename') || 'AGENT_INCONNU';
+const agentName = params.get('agent') || sessionStorage.getItem('er_codename') || localStorage.getItem('er_codename') || 'AGENT_INCONNU';
+
+// ── PARTAGE DE L'IDENTITÉ VERS LES AUTRES ONGLETS (mini-jeu Escape, etc.) ──
+if (agentName && agentName !== 'AGENT_INCONNU') {
+  try { localStorage.setItem('er_codename', agentName); } catch (e) {}
+  try { sessionStorage.setItem('er_codename', agentName); } catch (e) {}
+}
+// Ceinture + bretelles : on passe aussi le nom de code en paramètre du lien du mini-jeu
+(function () {
+  var escapeLink = document.getElementById('nav-escape');
+  if (escapeLink) escapeLink.href = 'mini-jeu-escape.html?agent=' + encodeURIComponent(agentName);
+})();
 
 const connLines = [
   { t: 'Connexion au réseau Tor...', cls: '', d: 200 },

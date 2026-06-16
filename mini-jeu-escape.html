@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ÉCHO ROUGE — PROTOCOLE EXODUS (MINI-JEU)</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime&display=swap" rel="stylesheet">
     <style>
@@ -25,6 +25,8 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html, body { height: 100%; }
+
         body {
             background: var(--bg);
             color: var(--green);
@@ -36,6 +38,9 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-user-select: none; user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior: none;
         }
 
         /* Effet CRT Scanlines & Vignette */
@@ -52,6 +57,7 @@
             text-shadow: 0 0 10px rgba(255,32,32,0.5);
             margin-bottom: 5px;
             letter-spacing: 0.1em;
+            text-align: center;
         }
 
         .subtitle {
@@ -60,16 +66,19 @@
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 0.2em;
+            text-align: center;
         }
 
         /* Structure principale en colonnes */
         .game-layout {
             display: grid;
-            grid-template-columns: 800px 320px;
+            grid-template-columns: minmax(0, 800px) 320px;
             gap: 20px;
             max-width: 1140px;
             width: 100%;
         }
+
+        .main-column { min-width: 0; }
 
         /* Colonne de gauche : Jeu */
         #naos-hud {
@@ -85,16 +94,29 @@
             transition: color 0.3s ease;
         }
 
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            line-height: 0;
+        }
+
         canvas {
             border: 2px solid var(--border);
             background-color: #010502;
             box-shadow: 0 0 20px rgba(0,0,0,0.9);
             display: block;
+            width: 100%;
+            height: auto;
+            max-width: 800px;
+            margin: 0 auto;
+            touch-action: none;
         }
 
         .ui-text {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
             font-size: 12px;
             color: var(--text-dim);
             margin-top: 8px;
@@ -148,7 +170,7 @@
         }
 
         .score-rank { width: 10%; color: var(--text-dim) !important; }
-        .score-name { width: 60%; font-family: 'Courier Prime', monospace; }
+        .score-name { width: 60%; font-family: 'Courier Prime', monospace; word-break: break-all; }
         .score-time { width: 30%; text-align: right; color: var(--amber); }
 
         .instructions {
@@ -159,22 +181,189 @@
             border-top: 1px solid var(--border);
             padding-top: 12px;
         }
+
+        .sidebar-close { display: none; }
+
+        /* ───────── CONTRÔLES TACTILES ───────── */
+        #touch-layer {
+            position: absolute; inset: 0; z-index: 5;
+            display: none; touch-action: none;
+        }
+        #joystick {
+            position: fixed; z-index: 60;
+            width: 120px; height: 120px; margin: -60px 0 0 -60px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,255,65,0.35);
+            background: radial-gradient(circle, rgba(0,255,65,0.10), rgba(0,0,0,0.25));
+            pointer-events: none; display: none;
+        }
+        #joy-knob {
+            position: absolute; left: 50%; top: 50%;
+            width: 52px; height: 52px; margin: -26px 0 0 -26px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,255,65,0.55), rgba(0,80,20,0.65));
+            border: 2px solid var(--green);
+            box-shadow: 0 0 14px rgba(0,255,65,0.5);
+        }
+        #dpad {
+            position: absolute; left: 14px; bottom: 14px; z-index: 60;
+            display: none;
+            grid-template-columns: repeat(3, 54px);
+            grid-template-rows: repeat(3, 54px);
+            gap: 4px; touch-action: none;
+        }
+        .dpad-btn {
+            background: rgba(7,20,8,0.78);
+            border: 1px solid var(--green-dim);
+            color: var(--green);
+            font-size: 24px; line-height: 1;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; user-select: none;
+            -webkit-user-select: none;
+        }
+        .dpad-btn.pressed { background: rgba(0,255,65,0.30); box-shadow: 0 0 10px rgba(0,255,65,0.5); }
+        .dpad-up    { grid-column: 2; grid-row: 1; }
+        .dpad-left  { grid-column: 1; grid-row: 2; }
+        .dpad-right { grid-column: 3; grid-row: 2; }
+        .dpad-down  { grid-column: 2; grid-row: 3; }
+
+        .float-btn {
+            position: absolute; z-index: 61;
+            width: 42px; height: 42px;
+            background: rgba(7,20,8,0.82);
+            border: 1px solid var(--green-dim);
+            color: var(--green);
+            border-radius: 8px;
+            font-size: 18px;
+            display: none;
+            align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        #ctrl-toggle { right: 12px; bottom: 12px; }
+        #scores-btn  { right: 12px; top: 12px; }
+
+        /* Body marqué "touch" → on active les contrôles tactiles */
+        body.touch #touch-layer { display: block; }
+        body.touch #ctrl-toggle,
+        body.touch #scores-btn { display: flex; }
+        body.touch.dpad-mode #dpad { display: grid; }
+        body.touch.dpad-mode #touch-layer { pointer-events: none; }
+
+        /* ───────── OVERLAY ROTATION ───────── */
+        #rotate-overlay {
+            position: fixed; inset: 0; z-index: 10000;
+            background: var(--bg);
+            display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 30px;
+        }
+        #rotate-overlay .rot-icon {
+            font-size: 64px; margin-bottom: 18px;
+            animation: rothint 2.2s ease-in-out infinite;
+        }
+        #rotate-overlay .rot-title {
+            font-family: var(--font-vt); font-size: 30px; color: var(--red);
+            text-shadow: 0 0 10px rgba(255,32,32,0.5); letter-spacing: 0.08em;
+        }
+        #rotate-overlay .rot-sub {
+            font-size: 13px; color: var(--text-dim); margin-top: 12px;
+            text-transform: uppercase; letter-spacing: 0.15em; line-height: 1.7;
+        }
+        @keyframes rothint {
+            0%, 40% { transform: rotate(0deg); }
+            60%, 100% { transform: rotate(90deg); }
+        }
+
+        /* ───────── RESPONSIVE MOBILE / PETIT ÉCRAN ───────── */
+        @media (max-width: 900px) {
+            body { padding: 10px; }
+            h1 { font-size: 26px; }
+            .subtitle { margin-bottom: 12px; }
+            .game-layout { grid-template-columns: 1fr; gap: 12px; }
+
+            /* La sidebar devient un overlay déclenché par le bouton 🏆 */
+            .sidebar-panel {
+                position: fixed; inset: 0; z-index: 200;
+                display: none; overflow-y: auto;
+            }
+            .sidebar-panel.open { display: flex; }
+            .sidebar-close {
+                display: block; align-self: flex-end;
+                background: none; border: 1px solid var(--green-dim);
+                color: var(--green); font-size: 16px;
+                width: 38px; height: 38px; border-radius: 8px;
+                margin-bottom: 10px; cursor: pointer;
+            }
+        }
+
+        /* Smartphone en paysage : on maximise le canvas */
+        @media (max-width: 900px) and (orientation: landscape) and (pointer: coarse) {
+            body { padding: 4px; justify-content: center; }
+            h1, .subtitle { display: none; }
+            #naos-hud {
+                padding: 5px 10px; margin-bottom: 4px; font-size: 11px;
+                max-height: 3.6em; overflow: hidden;
+            }
+            .game-layout { gap: 4px; }
+            .main-column {
+                display: flex; flex-direction: column;
+                height: calc(100vh - 8px);
+            }
+            .canvas-wrap {
+                flex: 1; min-height: 0;
+                display: flex; align-items: center; justify-content: center;
+            }
+            canvas { max-height: 100%; width: auto; height: auto; max-width: 100%; }
+            .ui-text { font-size: 10px; margin-top: 3px; }
+        }
+
+        /* Smartphone tenu en portrait : on force la rotation */
+        @media (max-width: 900px) and (orientation: portrait) and (pointer: coarse) {
+            #rotate-overlay { display: flex; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Overlay : tournez le téléphone -->
+    <div id="rotate-overlay">
+        <div class="rot-icon">📱</div>
+        <div class="rot-title">TOURNEZ VOTRE APPAREIL</div>
+        <div class="rot-sub">
+            Le Complexe n°6 ne se traverse<br>qu'en mode paysage.<br>
+            Pivotez l'écran pour reprendre l'extraction.
+        </div>
+    </div>
 
     <h1>COMPLEXE N°6 — L'EXTRACTION</h1>
     <div class="subtitle">Simulation Tactique // Infiltration Réseau Écho Rouge</div>
 
     <div class="game-layout">
-        
+
         <div class="main-column">
             <div id="naos-hud">
-                <span style="color: var(--red);">#> [NAOS-9 — LOG OPÉRATIONNEL] :</span> 
+                <span style="color: var(--red);">#> [NAOS-9 — LOG OPÉRATIONNEL] :</span>
                 <span id="naos-log">Initialisation du couplage nerveux...</span>
             </div>
 
-            <canvas id="gameCanvas" width="800" height="480"></canvas>
+            <div class="canvas-wrap">
+                <canvas id="gameCanvas" width="800" height="480"></canvas>
+
+                <!-- Couche de capture du joystick analogique -->
+                <div id="touch-layer"></div>
+                <!-- Joystick analogique flottant -->
+                <div id="joystick"><div id="joy-knob"></div></div>
+                <!-- D-pad alternatif -->
+                <div id="dpad">
+                    <div class="dpad-btn dpad-up"    data-dir="up">▲</div>
+                    <div class="dpad-btn dpad-left"  data-dir="left">◀</div>
+                    <div class="dpad-btn dpad-right" data-dir="right">▶</div>
+                    <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
+                </div>
+                <!-- Boutons flottants -->
+                <button id="scores-btn" class="float-btn" aria-label="Classement">🏆</button>
+                <button id="ctrl-toggle" class="float-btn" aria-label="Changer les contrôles">⚙</button>
+            </div>
 
             <div class="ui-text">
                 <span>IDENTIFIANT : <span id="player-id-display" style="color: var(--green)">——</span></span>
@@ -184,6 +373,7 @@
         </div>
 
         <div class="sidebar-panel">
+            <button class="sidebar-close" aria-label="Fermer">✕</button>
             <div class="panel-title">// Top 10 — Réseau Écho</div>
             <table class="score-table">
                 <thead>
@@ -198,8 +388,9 @@
             </table>
 
             <div class="instructions">
-                <strong>COMMANDES :</strong> Use les flèches directionnelles (ou Z,Q,S,D) pour guider vos mouvements.<br><br>
-                <strong>MISSION :</strong> Atteignez la zone d'extraction verte (le véhicule de Kazimir) sans couper les champs de vision rouges de la patrouille Aegis-CD.
+                <strong>COMMANDES :</strong> Flèches directionnelles ou Z,Q,S,D au clavier.<br>
+                Sur mobile : <strong>joystick</strong> (le pouce le fait apparaître) ou <strong>D-pad</strong> — bascule via le bouton ⚙.<br><br>
+                <strong>MISSION :</strong> Atteignez la zone d'extraction verte (le véhicule de Kazimir) sans entrer dans les champs de vision rouges de la patrouille Aegis-CD.
             </div>
         </div>
 
@@ -214,22 +405,32 @@ const statusDisplay = document.getElementById('game-status');
 const playerIdDisplay = document.getElementById('player-id-display');
 const highscoreBody = document.getElementById('highscore-body');
 
-// ── CAPTURE DE L'AGENT CONNECTÉ SUR ECHO-ROUGE-V2 ──
-const params = new URLSearchParams(window.location.search);
-let agentName = params.get('agent');
+// ── DÉTECTION TACTILE ──
+const isTouch = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || ('ontouchstart' in window);
+if (isTouch) document.body.classList.add('touch');
 
-if (!agentName && window.opener) {
-    try {
-        const openerParams = new URLSearchParams(window.opener.location.search);
-        agentName = openerParams.get('agent');
-    } catch(e) { /* Protection cross-origin si applicable */ }
+// ── CAPTURE DE L'AGENT CONNECTÉ SUR ECHO-ROUGE-V2 (lecture en cascade) ──
+function resolveAgentName() {
+    // 1. Paramètre d'URL ?agent= (transmis par le lien d'Écho Rouge)
+    const p = new URLSearchParams(window.location.search).get('agent');
+    if (p) return p;
+    // 2. localStorage (écrit par echo-rouge-v2, partagé entre onglets de même origine)
+    try { const ls = localStorage.getItem('er_codename'); if (ls) return ls; } catch (e) {}
+    // 3. Onglet parent (si ouvert depuis Écho Rouge avec ?agent= encore présent)
+    if (window.opener) {
+        try {
+            const o = new URLSearchParams(window.opener.location.search).get('agent');
+            if (o) return o;
+        } catch (e) { /* cross-origin : on ignore */ }
+    }
+    // 4. sessionStorage (même onglet seulement)
+    try { const ss = sessionStorage.getItem('er_codename'); if (ss) return ss; } catch (e) {}
+    return 'AGENT_INCONNU';
 }
-if (!agentName) {
-    agentName = sessionStorage.getItem('er_codename') || 'AGENT_INCONNU';
-}
-playerIdDisplay.innerText = agentName;
+const agentName = resolveAgentName();
+playerIdDisplay.textContent = agentName;
 
-// ── LOGIQUE DES HIGH SCORES (MODE ILLUSION AUTOMATIQUE) ──
+// ── HIGH SCORES (un nom = une ligne, meilleur temps conservé) ──
 const defaultScores = [
     { name: "Sena_Valkova", time: 14.2 },
     { name: "Kazimir", time: 18.5 },
@@ -244,20 +445,31 @@ const defaultScores = [
 ];
 
 function getHighScores() {
-    let scores = localStorage.getItem('echo_rouge_highscores');
-    if (!scores) {
-        localStorage.setItem('echo_rouge_highscores', JSON.stringify(defaultScores));
-        return defaultScores;
+    let scores;
+    try { scores = JSON.parse(localStorage.getItem('echo_rouge_highscores')); } catch (e) { scores = null; }
+    if (!Array.isArray(scores)) {
+        scores = defaultScores.slice();
+        try { localStorage.setItem('echo_rouge_highscores', JSON.stringify(scores)); } catch (e) {}
     }
-    return JSON.parse(scores);
+    return scores;
 }
 
 function saveNewScore(name, time) {
     let scores = getHighScores();
-    scores.push({ name: name, time: parseFloat(time) });
+    time = parseFloat(time);
+
+    // Déduplication : on cherche une entrée existante pour cet agent
+    const existing = scores.find(s => s.name === name);
+    if (existing) {
+        // On ne garde que le meilleur (plus petit) temps
+        if (time < existing.time) existing.time = time;
+    } else {
+        scores.push({ name: name, time: time });
+    }
+
     scores.sort((a, b) => a.time - b.time);
-    scores = scores.slice(0, 10); // Garde uniquement le top 10
-    localStorage.setItem('echo_rouge_highscores', JSON.stringify(scores));
+    scores = scores.slice(0, 10); // Top 10
+    try { localStorage.setItem('echo_rouge_highscores', JSON.stringify(scores)); } catch (e) {}
     displayHighScores();
 }
 
@@ -267,21 +479,30 @@ function displayHighScores() {
     scores.forEach((item, index) => {
         const row = document.createElement('tr');
         row.className = 'score-row';
-        if (item.name === agentName) {
-            row.classList.add('highlight');
-        }
-        row.innerHTML = `
-            <td class="score-rank">${index + 1}</td>
-            <td class="score-name">${item.name}</td>
-            <td class="score-time">${item.time.toFixed(1)}s</td>
-        `;
+        if (item.name === agentName) row.classList.add('highlight');
+
+        const tdRank = document.createElement('td');
+        tdRank.className = 'score-rank';
+        tdRank.textContent = index + 1;
+
+        const tdName = document.createElement('td');
+        tdName.className = 'score-name';
+        tdName.textContent = item.name; // textContent → pas d'injection HTML
+
+        const tdTime = document.createElement('td');
+        tdTime.className = 'score-time';
+        tdTime.textContent = item.time.toFixed(1) + 's';
+
+        row.append(tdRank, tdName, tdTime);
         highscoreBody.appendChild(row);
     });
 }
 
 // ── CONFIGURATION DES COMPOSANTS DU JEU ──
 let gameActive = true;
+let gamePaused = false;
 let startTime = Date.now();
+let pauseStart = 0;
 let elapsedTime = 0;
 
 const player = { x: 45, y: 240, radius: 11, speed: 3.5, color: '#00FF41' };
@@ -308,10 +529,97 @@ const guards = [
     { x: 675, y: 320, direction: -1, speed: 1, rangeY: [90, 410], vision: 85 }
 ];
 
+// Entrées clavier
 const keys = {};
 window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
+// Vecteur de déplacement tactile (composantes entre -1 et 1)
+const touch = { x: 0, y: 0 };
+
+// ───────── JOYSTICK ANALOGIQUE FLOTTANT ─────────
+const touchLayer = document.getElementById('touch-layer');
+const joystick = document.getElementById('joystick');
+const joyKnob = document.getElementById('joy-knob');
+const JOY_MAX = 50;
+let joyId = null, joyBaseX = 0, joyBaseY = 0;
+
+function showJoystick(x, y) {
+    joystick.style.left = x + 'px';
+    joystick.style.top = y + 'px';
+    joyKnob.style.transform = 'translate(0,0)';
+    joystick.style.display = 'block';
+}
+function hideJoystick() {
+    joystick.style.display = 'none';
+    touch.x = 0; touch.y = 0;
+}
+
+touchLayer.addEventListener('touchstart', e => {
+    if (document.body.classList.contains('dpad-mode')) return;
+    const t = e.changedTouches[0];
+    joyId = t.identifier;
+    joyBaseX = t.clientX; joyBaseY = t.clientY;
+    showJoystick(joyBaseX, joyBaseY);
+    e.preventDefault();
+}, { passive: false });
+
+touchLayer.addEventListener('touchmove', e => {
+    for (const t of e.changedTouches) {
+        if (t.identifier === joyId) {
+            let dx = t.clientX - joyBaseX;
+            let dy = t.clientY - joyBaseY;
+            const m = Math.hypot(dx, dy);
+            if (m > JOY_MAX) { dx = dx / m * JOY_MAX; dy = dy / m * JOY_MAX; }
+            touch.x = dx / JOY_MAX;
+            touch.y = dy / JOY_MAX;
+            joyKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+        }
+    }
+    e.preventDefault();
+}, { passive: false });
+
+function endJoy(e) {
+    for (const t of e.changedTouches) {
+        if (t.identifier === joyId) { joyId = null; hideJoystick(); }
+    }
+}
+touchLayer.addEventListener('touchend', endJoy);
+touchLayer.addEventListener('touchcancel', endJoy);
+
+// ───────── D-PAD ─────────
+const dpadState = { up: false, down: false, left: false, right: false };
+function applyDpad() {
+    touch.x = (dpadState.right ? 1 : 0) - (dpadState.left ? 1 : 0);
+    touch.y = (dpadState.down ? 1 : 0) - (dpadState.up ? 1 : 0);
+}
+document.querySelectorAll('.dpad-btn').forEach(btn => {
+    const dir = btn.dataset.dir;
+    const press = e => { dpadState[dir] = true; btn.classList.add('pressed'); applyDpad(); e.preventDefault(); };
+    const release = e => { dpadState[dir] = false; btn.classList.remove('pressed'); applyDpad(); e.preventDefault(); };
+    btn.addEventListener('touchstart', press, { passive: false });
+    btn.addEventListener('touchend', release, { passive: false });
+    btn.addEventListener('touchcancel', release, { passive: false });
+});
+
+// ───────── BASCULE DES CONTRÔLES ─────────
+const ctrlToggle = document.getElementById('ctrl-toggle');
+ctrlToggle.addEventListener('click', () => {
+    const dpad = document.body.classList.toggle('dpad-mode');
+    // Reset des entrées en changeant de mode
+    joyId = null; hideJoystick();
+    dpadState.up = dpadState.down = dpadState.left = dpadState.right = false;
+    document.querySelectorAll('.dpad-btn').forEach(b => b.classList.remove('pressed'));
+    touch.x = 0; touch.y = 0;
+    ctrlToggle.textContent = dpad ? '🕹' : '⚙';
+});
+
+// ───────── CLASSEMENT (overlay mobile) ─────────
+const sidebar = document.querySelector('.sidebar-panel');
+document.getElementById('scores-btn').addEventListener('click', () => sidebar.classList.add('open'));
+document.querySelector('.sidebar-close').addEventListener('click', () => sidebar.classList.remove('open'));
+
+// ── COLLISIONS ──
 function checkWallCollision(rect, circle) {
     let closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
     let closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
@@ -335,21 +643,30 @@ function updateNaosAI(minDistance) {
 
 // ── BOUCLE DE LOGIQUE & MISE À JOUR ──
 function update() {
-    if (!gameActive) return;
+    if (!gameActive || gamePaused) return;
 
     elapsedTime = ((Date.now() - startTime) / 1000).toFixed(1);
     timerDisplay.innerText = `CHRONO : ${elapsedTime}s`;
 
+    // Combinaison clavier + tactile en un vecteur de direction normalisé
+    let mx = 0, my = 0;
+    if (keys['arrowleft']  || keys['q']) mx -= 1;
+    if (keys['arrowright'] || keys['d']) mx += 1;
+    if (keys['arrowup']    || keys['z']) my -= 1;
+    if (keys['arrowdown']  || keys['s']) my += 1;
+    mx += touch.x; my += touch.y;
+
+    const mag = Math.hypot(mx, my);
+    if (mag > 1) { mx /= mag; my /= mag; } // pas plus vite en diagonale
+
     const oldX = player.x;
     const oldY = player.y;
 
-    if (keys['arrowup'] || keys['z']) player.y -= player.speed;
-    if (keys['arrowdown'] || keys['s']) player.y += player.speed;
-    for (let wall of walls) { if (checkWallCollision(wall, player)) { player.y = oldY; break; } }
-
-    if (keys['arrowleft'] || keys['q']) player.x -= player.speed;
-    if (keys['arrowright'] || keys['d']) player.x += player.speed;
+    player.x += mx * player.speed;
     for (let wall of walls) { if (checkWallCollision(wall, player)) { player.x = oldX; break; } }
+
+    player.y += my * player.speed;
+    for (let wall of walls) { if (checkWallCollision(wall, player)) { player.y = oldY; break; } }
 
     let minDistanceToGuard = 9999;
 
@@ -378,14 +695,14 @@ function update() {
     updateNaosAI(minDistanceToGuard);
 
     // VICTOIRE : Atteindre le véhicule
-    if (player.x + player.radius > extractionZone.x && 
+    if (player.x + player.radius > extractionZone.x &&
         player.y > extractionZone.y && player.y < extractionZone.y + extractionZone.h) {
         gameActive = false;
         statusDisplay.innerText = "STATUT : EXTRAIT";
         statusDisplay.style.color = "var(--green)";
         naosLog.innerText = "Extraction validée. Le moteur tourne. Quittez la zone immédiatement.";
         naosLog.style.color = "var(--green)";
-        
+
         saveNewScore(agentName, elapsedTime);
         setTimeout(() => { alert(`Félicitations Agent ${agentName} ! Vous vous êtes extrait en ${elapsedTime} secondes.`); resetGame(); }, 50);
     }
@@ -419,12 +736,12 @@ function draw() {
         ctx.fill();
     }
 
-    // Avatar Joueur (Forme minimaliste style combinaison d'infiltration)
+    // Avatar Joueur
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
     ctx.fillStyle = player.color;
     ctx.fill();
-    
+
     // Visière noire tactique
     ctx.fillStyle = '#000';
     ctx.fillRect(player.x + 1, player.y - 4, 5, 5);
@@ -439,9 +756,28 @@ function resetGame() {
     player.y = 240;
     startTime = Date.now();
     gameActive = true;
+    gamePaused = false;
+    touch.x = 0; touch.y = 0;
     statusDisplay.innerText = "STATUT : EN MISSION";
     statusDisplay.style.color = "var(--amber)";
 }
+
+// ── PAUSE EN PORTRAIT (le chrono ne compte pas le temps écran tourné) ──
+function pauseGame() {
+    if (!gamePaused) { gamePaused = true; pauseStart = Date.now(); }
+}
+function resumeGame() {
+    if (gamePaused) { startTime += (Date.now() - pauseStart); gamePaused = false; }
+}
+
+const rotateOverlay = document.getElementById('rotate-overlay');
+function handleOrientation() {
+    const portrait = isTouch && window.matchMedia('(orientation: portrait)').matches;
+    rotateOverlay.style.display = portrait ? 'flex' : 'none';
+    if (portrait) pauseGame(); else resumeGame();
+}
+window.addEventListener('resize', handleOrientation);
+window.addEventListener('orientationchange', handleOrientation);
 
 function gameLoop() {
     update();
@@ -451,6 +787,7 @@ function gameLoop() {
 
 // Initialisation
 displayHighScores();
+handleOrientation();
 gameLoop();
 </script>
 </body>
