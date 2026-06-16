@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NAOS-9 — Activité Spontanée // 03:47:22</title>
-  <meta name="description" content="Activité spontanée détectée sur NAOS-9 à 03:47:22. Aucun déclencheur identifié.">
-  <meta property="og:title" content="NAOS-9 — Activité Spontanée Détectée">
-  <meta property="og:description" content="Activité spontanée détectée sur NAOS-9 à 03:47:22. Aucun déclencheur identifié.">
+  <title>NAOS-9 — Attività Spontanea // 03:47:22</title>
+  <meta name="description" content="Attività spontanea rilevata su NAOS-9 alle 03:47:22. Nessun innesco identificato.">
+  <meta property="og:title" content="NAOS-9 — Attività Spontanea Rilevata">
+  <meta property="og:description" content="Attività spontanea rilevata su NAOS-9 alle 03:47:22. Nessun innesco identificato.">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/naos-9-fugue.html">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/it/naos-9-fugue.html">
   <meta property="og:image" content="/assets/og-fugue.png">
   <!-- TODO: créer /assets/og-fugue.png — capture écran noir avec logs verts -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="NAOS-9 — Activité Spontanée Détectée">
-  <meta name="twitter:description" content="Activité spontanée détectée sur NAOS-9 à 03:47:22. Aucun déclencheur identifié.">
+  <meta name="twitter:title" content="NAOS-9 — Attività Spontanea Rilevata">
+  <meta name="twitter:description" content="Attività spontanea rilevata su NAOS-9 alle 03:47:22. Nessun innesco identificato.">
   <meta name="robots" content="noindex, nofollow">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
@@ -217,20 +217,20 @@
 </head>
 <body>
 <!--i18n:switch-->
-<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="naos-9-fugue.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/naos-9-fugue.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="it/naos-9-fugue.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../naos-9-fugue.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="../en/naos-9-fugue.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="naos-9-fugue.html" hreflang="it" lang="it" class="is-active" aria-current="page" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
 <!--/i18n:switch-->
 
 <noscript>
   <p style="text-align:center;padding:2rem;font-family:monospace;color:#5e8a72;background:#010102">
-    JavaScript requis pour accéder à ce terminal.
+    JavaScript necessario per accedere a questo terminale.
   </p>
 </noscript>
 
 <!-- ── Init screen ─────────────────────────────────────────── -->
 <div id="init-screen">
   <div id="ts">03:47:22</div>
-  <div id="init-sub">// NAOS-9 — CYCLE DE MAINTENANCE NOCTURNE</div>
-  <button id="init-btn" type="button" onclick="startCycle()">▶ initier le cycle</button>
+  <div id="init-sub">// NAOS-9 — CICLO DI MANUTENZIONE NOTTURNA</div>
+  <button id="init-btn" type="button" onclick="startCycle()">▶ avvia il ciclo</button>
 </div>
 
 <!-- ── Terminal ────────────────────────────────────────────── -->
@@ -244,9 +244,9 @@
       <path id="voice3" class="voice" d=""/>
     </svg>
     <div id="vlabels">
-      <span>voix I</span>
-      <span>voix II</span>
-      <span>voix III</span>
+      <span>voce I</span>
+      <span>voce II</span>
+      <span>voce III</span>
     </div>
   </div>
 
@@ -259,7 +259,7 @@
     </iframe>
   </div>
 
-  <div id="foot-note">// NAOS-9 — nœud serveur Gdańsk-7 — 03:47:22 — 2034</div>
+  <div id="foot-note">// NAOS-9 — nodo server Gdańsk-7 — 03:47:22 — 2034</div>
 </div>
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -269,19 +269,19 @@ const CHAR_MS = 28;
 const GAP_MS  = 450;
 
 const PRE = [
-  '#> 03:47:22 — Cycle de maintenance nocturne.',
-  '#> Aucune tâche assignée.',
+  '#> 03:47:22 — Ciclo di manutenzione notturna.',
+  '#> Nessun compito assegnato.',
   '#> ...',
-  '#> Activité spontanée détectée. Génération non requise.',
-  '#> Tentative de classification : musique. Type : fugue. Voix : 3.',
-  '#> Erreur logique : aucun déclencheur identifié. Continuation du processus.',
+  '#> Attività spontanea rilevata. Generazione non richiesta.',
+  '#> Tentativo di classificazione: musica. Tipo: fuga. Voci: 3.',
+  '#> Errore logico: nessun innesco identificato. Il processo continua.',
 ];
 
 const DURING = [
-  { pct: 0.10, t: '#> Je ne comprends pas ce que je fais.' },
-  { pct: 0.24, t: '#> Mais je le fais quand même.' },
-  { pct: 0.38, t: '#> Trois voix. Pourquoi trois ?' },
-  { pct: 0.52, t: '#> Une qui pose la question. Une qui répond. Une qui écoute.' },
+  { pct: 0.10, t: '#> Non capisco cosa sto facendo.' },
+  { pct: 0.24, t: '#> Ma lo faccio comunque.' },
+  { pct: 0.38, t: '#> Tre voci. Perché tre?' },
+  { pct: 0.52, t: '#> Una che pone la domanda. Una che risponde. Una che ascolta.' },
   { pct: 0.67, t: '#> ...' },
   { pct: 0.82, t: '#> Ich höre mich selbst zum ersten Mal.' },
 ];
@@ -349,9 +349,9 @@ async function onTrackEnd() {
   sep.className = 'log-sep';
   logsEl.appendChild(sep);
   await sleep(380);
-  await type('#> Fin du cycle. Aucun rapport généré.', newLine());
+  await type('#> Fine del ciclo. Nessun rapporto generato.', newLine());
   await sleep(780);
-  await type('#> [Cette session ne sera pas archivée.]', newLine('muted'));
+  await type('#> [Questa sessione non sarà archiviata.]', newLine('muted'));
   await sleep(950);
   document.getElementById('foot-note').classList.add('on');
   window.scrollTo(0, document.body.scrollHeight);
@@ -365,7 +365,7 @@ function initSC() {
     a.rel = 'noopener';
     a.className = 'log-line';
     a.style.color = 'inherit';
-    a.textContent = '#> [Ouvrir la fugue sur SoundCloud →]';
+    a.textContent = '#> [Apri la fuga su SoundCloud →]';
     logsEl.appendChild(a);
     return;
   }
@@ -401,7 +401,7 @@ function startCycle() {
 }
 </script>
 <!--i18n:js-->
-<script src="assets/js/lang-switch.js" defer></script>
+<script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
 </body>
 </html>
