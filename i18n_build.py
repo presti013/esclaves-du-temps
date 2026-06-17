@@ -17,9 +17,11 @@ BASE = "https://presti013.github.io/esclaves-du-temps/"
 
 # Pages disposant (ou destinées à disposer) d'une traduction. Mettre à jour au
 # fur et à mesure puis relancer le script pour rafraîchir les sélecteurs.
+_BASE_PAGES = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html",
+               "apropos-ctcorp.html", "ctcorp-prototype.html", "ctcorp-conformite.html"}
 AVAIL = {
-    "en": {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html"},
-    "it": {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html"},
+    "en": set(_BASE_PAGES),
+    "it": set(_BASE_PAGES),
 }
 
 LANG_LABEL = {"fr": "Français", "en": "English", "it": "Italiano"}
@@ -95,6 +97,20 @@ STYLE = """<!--i18n:style-->
 </style>
 <!--/i18n:style-->"""
 
+# Pages à en-tête dense : le sélecteur passe en bas à droite pour ne pas
+# chevaucher la barre de navigation fixe (vérifié desktop + 390 px).
+SWITCH_OVERRIDE = {
+    "ctcorp-prototype.html": ".i18n-switch{top:auto;bottom:14px;right:14px;}",
+    "apropos-ctcorp.html":   ".i18n-switch{top:auto;bottom:14px;right:14px;}",
+    "ctcorp-conformite.html":".i18n-switch{top:auto;bottom:14px;right:14px;}",
+}
+
+def build_style(page):
+    extra = SWITCH_OVERRIDE.get(page, "")
+    if extra:
+        return STYLE.replace("</style>", "/* page override */ " + extra + "\n</style>")
+    return STYLE
+
 def js_tag(cur):
     prefix = "" if cur == "fr" else "../"
     return ('<!--i18n:js-->\n<script src="%sassets/js/lang-switch.js" defer></script>\n<!--/i18n:js-->'
@@ -121,7 +137,7 @@ def _update_meta_url(html, lang, page):
 
 def inject(path, lang, page):
     html = io.open(path, encoding="utf-8").read()
-    html = _replace_block(html, "style", STYLE, "</head>", after=False)
+    html = _replace_block(html, "style", build_style(page), "</head>", after=False)
     html = _replace_block(html, "hreflang", build_hreflang(page), "</head>", after=False)
     html = _replace_block(html, "switch", build_switch(lang, page), r"<body[^>]*>", after=True)
     html = _replace_block(html, "js", js_tag(lang), "</body>", after=False)

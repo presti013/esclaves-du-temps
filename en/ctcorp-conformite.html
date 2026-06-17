@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Corp — Chronological Compliance</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep:    #0A0F1E;
+    --bg-panel:   #0D1428;
+    --bg-card:    #111A30;
+    --bg-card2:   #0F1525;
+    --border:     #1E2D50;
+    --border-glow:#2A3D6A;
+    --gold:       #C9A84C;
+    --gold-dim:   #8A6B28;
+    --gold-light: #E8C46A;
+    --steel:      #4A6FA5;
+    --steel-light:#6B8FC7;
+    --text-main:  #B8C8E0;
+    --text-dim:   #6A7A9A;
+    --text-bright:#D0DCF0;
+    --red-alert:  #C84040;
+    --green-ok:   #3A8A5A;
+    --font-main:  'Orbitron', monospace;
+    --font-body:  'Rajdhani', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── NAV ─── */
+  .site-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,15,30,0.96);
+    border-bottom: 1px solid var(--border-glow);
+    backdrop-filter: blur(12px);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--font-main);
+    font-size: .75rem; font-weight: 700; letter-spacing: .2em;
+    color: var(--gold); text-decoration: none;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .nav-logo::before {
+    content: '⬡';
+    font-size: 1.1rem; color: var(--steel-light);
+  }
+  .nav-tabs {
+    display: flex; gap: 0;
+    list-style: none;
+  }
+  .nav-tabs a {
+    display: block;
+    padding: .4rem 1rem;
+    font-family: var(--font-main);
+    font-size: .6rem; letter-spacing: .12em; font-weight: 500;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .nav-tabs a:hover { color: var(--text-bright); }
+  .nav-tabs a.active { color: var(--gold); border-color: var(--gold); }
+  .nav-badge {
+    font-family: var(--font-main);
+    font-size: .55rem; letter-spacing: .1em;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: .2rem .5rem;
+  }
+
+  /* ─── PAGE ROUTER ─── */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ─── HERO BANNERS ─── */
+  .page-hero {
+    position: relative;
+    padding: 3.5rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: linear-gradient(135deg, #0D1830 0%, #0A0F1E 60%);
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 39px,
+      rgba(42,61,106,.15) 39px, rgba(42,61,106,.15) 40px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 39px,
+      rgba(42,61,106,.1) 39px, rgba(42,61,106,.1) 40px
+    );
+    pointer-events: none;
+  }
+  .page-hero::after {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-main);
+    font-size: .6rem; letter-spacing: .3em; font-weight: 500;
+    color: var(--gold-dim); margin-bottom: .5rem;
+    text-transform: uppercase;
+  }
+  .hero-eyebrow span {
+    display: inline-block;
+    border-left: 2px solid var(--gold-dim);
+    padding-left: .6rem; margin-left: .4rem;
+  }
+  .hero-title {
+    font-family: var(--font-main);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 800; letter-spacing: .08em;
+    color: var(--text-bright); line-height: 1.15;
+    margin-bottom: .8rem;
+  }
+  .hero-title em { color: var(--gold); font-style: normal; }
+  .hero-subtitle {
+    font-size: 1.05rem; color: var(--text-dim);
+    max-width: 620px; font-weight: 300;
+  }
+  .hero-meta {
+    margin-top: 1.4rem;
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex; align-items: center; gap: .4rem;
+    font-family: var(--font-main); font-size: .55rem;
+    letter-spacing: .15em; color: var(--text-dim);
+  }
+  .hero-meta-item .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--steel);
+  }
+  .hero-meta-item .dot.gold { background: var(--gold); }
+  .hero-meta-item .dot.green { background: var(--green-ok); }
+  .hero-meta-item .dot.red { background: var(--red-alert); }
+
+  /* ─── LAYOUT ─── */
+  .page-body {
+    max-width: 1100px; margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+  @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold-dim);
+  }
+  .card.highlight::before { background: var(--gold); }
+  .card.alert::before { background: var(--red-alert); }
+  .card.ok::before { background: var(--green-ok); }
+  .card.steel::before { background: var(--steel); }
+
+  .card-label {
+    font-family: var(--font-main);
+    font-size: .58rem; letter-spacing: .25em; font-weight: 600;
+    color: var(--gold-dim); margin-bottom: .5rem;
+    text-transform: uppercase;
+  }
+  .card h3 {
+    font-family: var(--font-main);
+    font-size: .95rem; font-weight: 700; letter-spacing: .08em;
+    color: var(--text-bright); margin-bottom: .8rem;
+  }
+  .card p { color: var(--text-main); font-size: .95rem; margin-bottom: .6rem; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ─── SIDEBAR WIDGETS ─── */
+  .sidebar-widget {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    margin-bottom: 1.2rem;
+  }
+  .widget-header {
+    padding: .7rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(201,168,76,.04);
+    font-family: var(--font-main);
+    font-size: .58rem; letter-spacing: .2em; font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .widget-header::before { content: '◈'; font-size: .7rem; }
+  .widget-body { padding: 1rem 1.2rem; }
+  .widget-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: .4rem 0;
+    border-bottom: 1px solid rgba(30,45,80,.5);
+    font-size: .88rem;
+  }
+  .widget-row:last-child { border-bottom: none; }
+  .widget-row .label { color: var(--text-dim); font-size: .82rem; }
+  .widget-row .value {
+    font-family: var(--font-main); font-size: .7rem;
+    color: var(--text-bright); font-weight: 600;
+  }
+  .widget-row .value.gold { color: var(--gold); }
+  .widget-row .value.green { color: var(--green-ok); }
+  .widget-row .value.red { color: var(--red-alert); }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2.5rem 0 1.2rem;
+  }
+  .section-header h2 {
+    font-family: var(--font-main);
+    font-size: .85rem; font-weight: 700; letter-spacing: .15em;
+    color: var(--text-bright); white-space: nowrap;
+  }
+  .section-header .line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border-glow), transparent);
+  }
+
+  /* ─── ACCORDION ─── */
+  .accordion-item {
+    border: 1px solid var(--border);
+    margin-bottom: .5rem;
+    overflow: hidden;
+  }
+  .accordion-btn {
+    width: 100%; background: var(--bg-card2);
+    border: none; cursor: pointer;
+    padding: 1rem 1.4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    text-align: left; transition: background .2s;
+  }
+  .accordion-btn:hover { background: var(--bg-card); }
+  .accordion-btn .acc-title {
+    font-family: var(--font-main);
+    font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+    color: var(--text-bright);
+  }
+  .accordion-btn .acc-num {
+    font-family: var(--font-main); font-size: .6rem;
+    color: var(--gold-dim); margin-right: .8rem;
+  }
+  .accordion-btn .acc-chevron {
+    color: var(--steel); font-size: .9rem;
+    transition: transform .3s;
+  }
+  .accordion-item.open .acc-chevron { transform: rotate(180deg); }
+  .accordion-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+  }
+  .accordion-item.open .accordion-content { max-height: 1000px; }
+  .accordion-inner { padding: 1.4rem; }
+  .accordion-inner p { color: var(--text-main); font-size: .93rem; margin-bottom: .6rem; }
+  .accordion-inner p:last-child { margin-bottom: 0; }
+  .fine-print {
+    font-size: .72rem; color: var(--text-dim);
+    border-top: 1px solid var(--border); margin-top: .8rem; padding-top: .8rem;
+    font-style: italic;
+  }
+
+  /* ─── TABLE ─── */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    font-size: .88rem; margin: 1rem 0;
+  }
+  .data-table thead th {
+    font-family: var(--font-main); font-size: .58rem;
+    letter-spacing: .15em; color: var(--gold);
+    padding: .6rem .8rem;
+    background: rgba(201,168,76,.06);
+    border-bottom: 1px solid var(--border-glow);
+    text-align: left; font-weight: 600;
+  }
+  .data-table tbody tr { border-bottom: 1px solid rgba(30,45,80,.4); }
+  .data-table tbody tr:hover { background: rgba(255,255,255,.02); }
+  .data-table td { padding: .65rem .8rem; color: var(--text-main); vertical-align: top; }
+  .data-table td.mono {
+    font-family: var(--font-main); font-size: .6rem;
+    color: var(--steel-light); letter-spacing: .05em;
+  }
+  .data-table td .tag {
+    display: inline-block;
+    font-family: var(--font-main); font-size: .52rem;
+    padding: .1rem .4rem; letter-spacing: .1em;
+    border: 1px solid; margin-left: .4rem;
+  }
+  .tag-gold { color: var(--gold); border-color: var(--gold-dim); }
+  .tag-red  { color: var(--red-alert); border-color: var(--red-alert); }
+  .tag-green{ color: var(--green-ok); border-color: var(--green-ok); }
+  .tag-steel{ color: var(--steel-light); border-color: var(--steel); }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: .45rem; top: .3rem; bottom: .3rem;
+    width: 1px; background: linear-gradient(180deg, var(--gold-dim), var(--border), transparent);
+  }
+  .tl-item { position: relative; margin-bottom: 1.6rem; }
+  .tl-dot {
+    position: absolute; left: -1.93rem; top: .35rem;
+    width: 9px; height: 9px;
+    border: 2px solid var(--gold-dim);
+    background: var(--bg-deep);
+    transform: rotate(45deg);
+  }
+  .tl-dot.filled { background: var(--gold); border-color: var(--gold); }
+  .tl-date {
+    font-family: var(--font-main); font-size: .58rem;
+    letter-spacing: .18em; color: var(--gold-dim);
+    margin-bottom: .2rem;
+  }
+  .tl-content { color: var(--text-main); font-size: .93rem; }
+  .tl-content strong { color: var(--text-bright); }
+
+  /* ─── ARTICLE FORMAT ─── */
+  .article-body { max-width: 700px; }
+  .article-body h3 {
+    font-family: var(--font-main); font-size: .8rem;
+    font-weight: 700; letter-spacing: .12em;
+    color: var(--gold); margin: 1.8rem 0 .6rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-body p { color: var(--text-main); margin-bottom: .8rem; }
+  .article-body ul { padding-left: 1.2rem; margin-bottom: .8rem; }
+  .article-body li { color: var(--text-main); margin-bottom: .3rem; }
+  .article-body li::marker { color: var(--gold-dim); }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: .7rem;
+    padding: .6rem 0;
+    border-bottom: 1px solid rgba(30,45,80,.4);
+    font-size: .93rem; color: var(--text-main);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon {
+    width: 18px; height: 18px; min-width: 18px;
+    border: 1px solid var(--green-ok);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; color: var(--green-ok); margin-top: .1rem;
+  }
+  .check-icon.pending { border-color: var(--gold-dim); color: var(--gold-dim); }
+  .check-icon.alert { border-color: var(--red-alert); color: var(--red-alert); }
+
+  /* ─── ALERT BANNER ─── */
+  .alert-banner {
+    background: rgba(200,64,64,.07);
+    border: 1px solid rgba(200,64,64,.3);
+    border-left: 3px solid var(--red-alert);
+    padding: .9rem 1.2rem;
+    margin-bottom: 1.2rem;
+    display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .alert-banner .icon { color: var(--red-alert); font-size: 1rem; margin-top: .1rem; }
+  .alert-banner p { font-size: .88rem; color: var(--text-main); }
+  .alert-banner strong { color: var(--red-alert); font-family: var(--font-main); font-size: .7rem; letter-spacing: .1em; }
+
+  .info-banner {
+    background: rgba(74,111,165,.07);
+    border: 1px solid rgba(74,111,165,.3);
+    border-left: 3px solid var(--steel);
+    padding: .9rem 1.2rem; margin-bottom: 1.2rem;
+    display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .info-banner .icon { color: var(--steel-light); font-size: 1rem; margin-top: .1rem; }
+  .info-banner p { font-size: .88rem; color: var(--text-main); }
+
+  /* ─── CTA ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-family: var(--font-main); font-size: .62rem;
+    letter-spacing: .15em; font-weight: 600;
+    padding: .7rem 1.4rem;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s; border: none;
+  }
+  .btn-gold {
+    background: var(--gold); color: #0A0F1E;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: transparent; color: var(--gold);
+    border: 1px solid var(--gold-dim);
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,.06); }
+
+  /* ─── FOOTER ─── */
+  .page-footer {
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: .5rem;
+    margin-top: 3rem;
+  }
+  .footer-ref {
+    font-family: var(--font-main); font-size: .52rem;
+    color: var(--text-dim); letter-spacing: .12em;
+  }
+
+  /* ─── STAMP ─── */
+  .stamp {
+    display: inline-block;
+    font-family: var(--font-main); font-size: .65rem;
+    letter-spacing: .2em; font-weight: 700;
+    padding: .3rem .8rem;
+    border: 2px solid;
+    transform: rotate(-2deg);
+    margin-left: .5rem;
+  }
+  .stamp-gold { color: var(--gold); border-color: var(--gold); }
+  .stamp-red { color: var(--red-alert); border-color: var(--red-alert); }
+
+  /* ─── HIDDEN TRUTH ─── */
+  .fine-truth {
+    font-size: .55rem; color: rgba(106,122,154,.4);
+    margin-top: 1.2rem; line-height: 1.5;
+    font-style: italic;
+  }
+  .fine-truth:hover { color: rgba(106,122,154,.9); transition: color .6s; }
+
+  /* ─── PROGRESS BARS ─── */
+  .progress-wrap { margin-bottom: .6rem; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: .82rem; margin-bottom: .25rem;
+  }
+  .progress-label span:first-child { color: var(--text-dim); }
+  .progress-label span:last-child { font-family: var(--font-main); font-size: .6rem; color: var(--gold); }
+  .progress-bar {
+    height: 4px; background: var(--border);
+    position: relative; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--steel), var(--gold));
+    animation: fillAnim 1.5s ease forwards;
+    width: 0;
+  }
+  @keyframes fillAnim { to { width: var(--target); } }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .nav-tabs { display: none; }
+    .page-body { padding: 1.5rem 1rem 4rem; }
+    .hero-title { font-size: 1.3rem; }
+    .data-table { font-size: .78rem; }
+  }
+
+/* ════════ PATCH MOBILE v2 — CONFORMITÉ ════════ */
+.back-portal{position:fixed;bottom:18px;left:18px;z-index:400;width:48px;height:48px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(13,22,38,.94);border:1px solid var(--gold,#C9A84C);color:var(--gold,#C9A84C);
+ font-size:20px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.5);opacity:.9;}
+.nav-burger{display:none;background:none;cursor:pointer;border:1px solid var(--border,#1E3050);
+ color:var(--gold,#C9A84C);width:42px;height:42px;font-size:22px;line-height:1;
+ align-items:center;justify-content:center;}
+@media (max-width: 1100px){
+  html{ -webkit-text-size-adjust:100%%; }
+  .nav-burger{ display:flex; }
+  .nav-badge{ display:none; }
+  .nav-tabs{
+    display:none !important; position:fixed; top:56px; left:0; right:0;
+    flex-direction:column; gap:0; list-style:none; background:var(--bg-card,#0D1626);
+    border-bottom:1px solid var(--border,#1E3050); padding:4px 0 12px; z-index:98;
+    box-shadow:0 18px 40px rgba(0,0,0,.6);
+  }
+  .nav-tabs.open{ display:flex !important; }
+  .nav-tabs a{ display:block; padding:16px 24px; font-size:1.05rem;
+    border-bottom:1px solid var(--border,#1E3050); }
+  body{ font-size:clamp(17px,4.4vw,20px); line-height:1.65; }
+  .hero-title{ font-size:clamp(26px,7vw,40px) !important; }
+  .page-body{ padding:1.5rem 1rem 5rem !important; }
+  .two-col{ grid-template-columns:1fr !important; }
+  .data-table{ font-size:.92rem; }
+  p, li{ font-size:clamp(15px,4vw,18px); }
+}
+</style>
+<!--i18n:style-->
+<style>
+.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
+  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
+  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
+  white-space:nowrap;transition:background .2s,color .2s;}
+.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
+.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
+.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
+.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
+.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
+.i18n-flag{font-size:13px;line-height:1;}
+@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
+  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
+@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
+/* page override */ .i18n-switch{top:auto;bottom:14px;right:14px;}
+</style>
+<!--/i18n:style-->
+<!--i18n:hreflang-->
+<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/ctcorp-conformite.html">
+<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/ctcorp-conformite.html">
+<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/ctcorp-conformite.html">
+<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/ctcorp-conformite.html">
+<!--/i18n:hreflang-->
+</head>
+<body>
+<!--i18n:switch-->
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../ctcorp-conformite.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="ctcorp-conformite.html" hreflang="en" lang="en" class="is-active" aria-current="page" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="../it/ctcorp-conformite.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<!--/i18n:switch-->
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="site-nav">
+  <a class="nav-logo" href="#">CT CORP</a>
+  <button class="nav-burger" aria-label="Menu">&#9776;</button>
+  <ul class="nav-tabs">
+    <li><a href="index.html">&#9666; PORTAL</a></li>
+    <li><a href="#" onclick="showPage('ccc'); return false;" id="tab-ccc" class="active">COMPLIANCE COUNCIL</a></li>
+    <li><a href="#" onclick="showPage('pacte'); return false;" id="tab-pacte">CRONOS PACT</a></li>
+    <li><a href="#" onclick="showPage('charte'); return false;" id="tab-charte">CONTRIBUTOR CHARTER</a></li>
+  </ul>
+  <div class="nav-badge">RESTRICTED · CERTIFIED CONTRIBUTORS</div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PAGE 1 : CONSEIL DE CONFORMITÉ CHRONOLOGIQUE
+════════════════════════════════════════════════════════════════════ -->
+<div id="page-ccc" class="page active">
+
+  <div class="page-hero">
+    <div class="hero-eyebrow">CT CORP · COMPLIANCE DIVISION<span>DOCUMENT CCC-2034-01</span></div>
+    <h1 class="hero-title">Chronological<br>Compliance <em>Council</em></h1>
+    <p class="hero-subtitle">The independent body for the oversight and audit of the ethical use of temporal-compression technologies across CT Corp licensed territories.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="dot gold"></div>STATUS: ACTIVE</div>
+      <div class="hero-meta-item"><div class="dot green"></div>SESSION 2034-A IN PROGRESS</div>
+      <div class="hero-meta-item"><div class="dot"></div>SEAT: BRUSSELS, CHRONOS TOWER — 42ND FLOOR</div>
+      <div class="hero-meta-item"><div class="dot"></div>REFERENCE: REG. CC-7/2030</div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="alert-banner">
+      <div class="icon">⚠</div>
+      <p><strong>NOTICE TO CONTRIBUTORS</strong> — Decisions of the Chronological Compliance Council are enforceable across the 43 jurisdictions under the CT Corp Framework Agreement. Any challenge must be filed within 15 calendar days of notification. After that deadline, decisions are irrevocable.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+
+        <div class="section-header">
+          <h2>MISSION &amp; MANDATE</h2>
+          <div class="line"></div>
+        </div>
+
+        <div class="article-body">
+          <p>Established by Article 14 of the <strong>Chronotic Technologies Implementing Regulation</strong> (RATC, 2030), the Chronological Compliance Council (CCC) is the independent regulatory body charged with ensuring that the commercial, industrial and therapeutic use of temporal compression complies with the standards defined by the Cronos Pact and its derived protocols.</p>
+          <p>The Council issues <strong>Temporal Compliance Certifications (TCC)</strong>, without which no compression-complex operator may legally keep its facilities in operation. It also conducts internal investigations in the event of a serious incident and imposes the graduated sanctions set out in the Contributor Charter.</p>
+
+          <h3>COUNCIL COMPOSITION</h3>
+          <p>The CCC is composed of nine permanent members, appointed for four-year terms renewable once. Members are drawn from the three areas of expertise recognized by the RATC:</p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>AREA</th>
+              <th>REPRESENTATIVES</th>
+              <th>SPECIFIC REMIT</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">TECHNICAL</td>
+              <td>3 members — CT Corp certified engineers (Theta Rank or above)</td>
+              <td>Compliance of temporal flux generators, audits of compression parameters</td>
+              <td><span class="tag tag-green">QUORUM</span></td>
+            </tr>
+            <tr>
+              <td class="mono">BIOMEDICAL</td>
+              <td>3 members — physicians accredited by the Chronobiological Institute of Geneva</td>
+              <td>Monitoring of biometric indicators, validation of safe compression thresholds</td>
+              <td><span class="tag tag-green">QUORUM</span></td>
+            </tr>
+            <tr>
+              <td class="mono">REGULATORY</td>
+              <td>3 members — jurists designated by the Board of Governors</td>
+              <td>Interpretation of treaties, arbitration of inter-jurisdictional disputes, sanctions</td>
+              <td><span class="tag tag-gold">UNDER REVIEW</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="article-body">
+          <h3>CERTIFICATION PROCEDURES</h3>
+          <p>Temporal Compliance Certification follows a standardized three-phase protocol, conducted entirely on site. Accredited inspectors are granted unlimited access to all facilities, including NAOS-9 logs, the biometric matrices of the compressed and the compression archives of the past 24 months.</p>
+        </div>
+
+        <div class="section-header"><h2>CERTIFICATION PHASES</h2><div class="line"></div></div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">PHASE I ·</span><span class="acc-title">DOCUMENTARY AUDIT</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>Exhaustive review of activity registers, voluntary-compression contracts, incident logs and medical reports. Standard duration: 5 to 10 business days depending on the size of the facility.</p>
+              <p>Operators must provide all unencrypted NAOS-9 data for the period under audit. Any restricted access not justified by a duly accredited national-security ground constitutes a Level 2 breach.</p>
+              <div class="fine-print">* The operational definition of “voluntary compression” adopted by the CCC in plenary session in 2031 excludes situations of documented economic coercion. This exclusion was suspended by internal decision in 2033 following pressure from the Executive Board. The former biomedical-area members who opposed it were granted “early retirement for health reasons.”</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">PHASE II ·</span><span class="acc-title">PHYSICAL INSPECTION OF FACILITIES</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>On-site inspection of temporal flux generators, emergency safety protocols and the housing conditions of the compressed. Verification of rest/compression cycles in accordance with Table 3 of Annex B of the RATC.</p>
+              <p>The inspector may require real-time viewing of a complete compression cycle. Recordings from this phase are classified Beta and archived for 10 years.</p>
+              <div class="fine-print">* Table 3 stipulates a minimum of 8 hours of biological rest between each compression cycle. Temporary waivers may be granted by the Executive Board in cases of “urgent productive necessity.” In 2033, 78% of complexes operated under a permanent waiver. This information appears in no public CCC report.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">PHASE III ·</span><span class="acc-title">INTERVIEWS WITH THE COMPRESSED</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>Anonymized individual interviews with a 5% sample of active compressed, conducted without management staff present. Protocol designed to detect any form of coercion, contractual fraud or undeclared medical condition.</p>
+              <p>Testimonies are processed by CT Corp’s <strong>KRONOS-V</strong> semantic-analysis system before transmission to the CCC, in order to remove personally identifiable data.</p>
+              <div class="fine-print">* KRONOS-V also applies a “narrative coherence” filter that removes testimonies deemed statistically aberrant or liable to harm certification. In practice, 94% of negative testimonies are pruned before transmission. No CCC member is officially aware of this setting.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>SANCTIONS IN FORCE</h2><div class="line"></div></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>LEVEL</th><th>TYPICAL BREACH</th><th>SANCTION</th><th>PRECEDENTS</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">LV. 1</td>
+              <td>Incomplete documentation, late incident reporting</td>
+              <td>Administrative fine — 50,000 to 500,000 CTC</td>
+              <td><span class="tag tag-steel">847 cases / 2033</span></td>
+            </tr>
+            <tr>
+              <td class="mono">LV. 2</td>
+              <td>Exceeding compression thresholds, breach of medical protocols</td>
+              <td>30-day suspension of activity + in-depth audit + fine up to 5M CTC</td>
+              <td><span class="tag tag-gold">23 cases / 2033</span></td>
+            </tr>
+            <tr>
+              <td class="mono">LV. 3</td>
+              <td>Contractual fraud, concealment of incidents, non-consensual compression</td>
+              <td>License revocation, referral to the International Chronotic Prosecutor’s Office</td>
+              <td><span class="tag tag-red">0 cases / 2033</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="fine-truth">* The zero rate of Level 3 breaches for fiscal year 2033 is presented as an indicator of the sector’s maturity. None of the 412 individual complaints filed by the compressed was classified as Level 3 by the CCC. Access to the reclassification criteria is reserved for permanent members and the Executive Board.</p>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sidebar-widget">
+          <div class="widget-header">SESSION 2034-A — INDICATORS</div>
+          <div class="widget-body">
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Cases processed</span><span>847 / 900</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="--target: 94%"></div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Overall compliance rate</span><span>98.7%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="--target: 99%"></div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>TCCs issued (2034)</span><span>312</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="--target: 80%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-header">MEMBERS — ACTIVE AREA</div>
+          <div class="widget-body">
+            <div class="widget-row"><span class="label">Chair</span><span class="value gold">Dr. H. MEIJER</span></div>
+            <div class="widget-row"><span class="label">VP Technical</span><span class="value">Ing. T. VOLKOV</span></div>
+            <div class="widget-row"><span class="label">VP Biomedical</span><span class="value">Dr. C. ABARA</span></div>
+            <div class="widget-row"><span class="label">VP Regulatory</span><span class="value red">VACANT</span></div>
+            <div class="widget-row"><span class="label">Secretary-General</span><span class="value">Y. TANAKA</span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-header">UPCOMING SESSIONS</div>
+          <div class="widget-body" style="padding:.8rem 1.2rem">
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-dot filled"></div>
+                <div class="tl-date">14 JAN 2034</div>
+                <div class="tl-content">Audit of Complex Lyon-North <strong>CLN-07</strong></div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-date">03 FEB 2034</div>
+                <div class="tl-content">Review of BIOMEDICAL protocol — Weave 3.0 thresholds</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-date">28 FEB 2034</div>
+                <div class="tl-content">Annual plenary — Report to the Executive Board</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card alert">
+          <div class="card-label">CONFIDENTIAL NOTICE</div>
+          <h3>GRAY ZONE LYON — ONGOING INCIDENT</h3>
+          <p>The audit of Complex CLN-07 has been suspended following unexplained technical disturbances affecting the local NAOS-9 network. The biometric data of the 14,200 active compressed has been inaccessible since 27.12.2033.</p>
+          <p>Beta-Level internal investigation opened. Results expected within 30 days.</p>
+          <div class="fine-truth">* The disturbance coincides with the triggering of the ANANKE protocol in the zone. None of the CCC members was informed of the existence of this protocol.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-ref">CCC · DOC/2034-01 · CLASSIFICATION: RESTRICTED DISTRIBUTION — CERTIFIED OPERATORS</div>
+    <div class="footer-ref">© 2034 CT CORP · ANY UNAUTHORIZED REPRODUCTION CONSTITUTES A LEVEL 2 BREACH</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PAGE 2 : PACTE CRONOS
+════════════════════════════════════════════════════════════════════ -->
+<div id="page-pacte" class="page">
+
+  <div class="page-hero">
+    <div class="hero-eyebrow">CT CORP · FOUNDING ACTS<span>DOCUMENT PCC-2027-01</span></div>
+    <h1 class="hero-title">Cronos <em>Pact</em></h1>
+    <p class="hero-subtitle">Multilateral framework agreement establishing the international legal regime for temporal-compression technology. Signed January 12, 2027, Brussels, Chronos Tower.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="dot gold"></div>ENTERED INTO FORCE: 01.03.2027</div>
+      <div class="hero-meta-item"><div class="dot green"></div>43 SIGNATORY JURISDICTIONS</div>
+      <div class="hero-meta-item"><div class="dot"></div>DEPOSITARY: CT CORP EXECUTIVE BOARD</div>
+      <div class="hero-meta-item"><div class="dot"></div>AUTHENTIC LANGUAGES: ENGLISH — RUSSIAN</div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="info-banner">
+      <div class="icon">ℹ</div>
+      <p>The text below is the certified public version of the Cronos Pact. The Confidential Annexes (CA-1 to CA-7), including the Phoenix Clause (CA-4) and the OZYMANDIAS Security Protocol (CA-7), are reserved for Alpha-rank signatories. <strong>Unauthorized access: maximum sanction.</strong></p>
+    </div>
+
+    <div class="two-col">
+      <div class="article-body">
+
+        <h3>PREAMBLE</h3>
+        <p>The Contracting Parties, assembled in Brussels in January 2027, recognizing that temporal-compression technology constitutes the most significant scientific advance since the mastery of nuclear energy, and that its unregulated use represents an existential risk to the stability of the world order;</p>
+        <p>Recalling the tragic events of <strong>February 14, 2026 in Sochi</strong>, which demonstrated the destructive potential of this technology when it escapes all institutional control;</p>
+        <p>Convinced that only a concentrated architecture of governance, entrusted to a technocratic entity of supranational rank, is able to ensure collective security;</p>
+        <p>Agree as follows.</p>
+        <div class="fine-truth">* The attribution of the Sochi event to an “uncontrolled technology” is the official version adopted in every diplomatic forum. The archives of Operation KREMLIN SUNSET — classified CIA documents establishing the concerted nature of the attack — are accessible to no member of the signatory governments, except the heads of state directly involved in the planning.</div>
+
+        <h3>ARTICLE 1 — TECHNOLOGICAL MONOPOLY</h3>
+        <p>CT Corp holds the exclusive and non-transferable monopoly over the design, manufacture, installation and maintenance of any device capable of generating, maintaining or modulating a temporal-compression flux on the territory of the Signatory Parties.</p>
+        <p>No state, private entity, international organization or natural person may develop, acquire, hold or operate temporal-compression technology outside the licensing framework granted by CT Corp.</p>
+
+        <h3>ARTICLE 2 — CHRONOTIC JURISDICTION</h3>
+        <p>Offenses committed within an active temporal-compression zone fall exclusively under CT Corp’s <strong>chronotic jurisdiction</strong>, exercised by the International Chronotic Prosecutor’s Office (PCI) seated in Geneva. National courts are automatically divested of any matter concerning the technologies covered by this Pact.</p>
+        <div class="fine-truth">* In practice, Article 2 strips signatory states of any power to investigate deaths, disappearances or bodily harm occurring in the compression complexes. The PCI has brought no indictment since its creation. Its operating budget is funded entirely by CT Corp.</div>
+
+        <h3>ARTICLE 3 — REVENUE SHARING</h3>
+        <p>The Signatory Parties receive a territorial royalty calculated as follows:</p>
+        <ul>
+          <li>Tier A (founding states): <strong>4.7% of gross compression revenue</strong> generated on their territory</li>
+          <li>Tier B (later acceding states): <strong>2.1% of gross revenue</strong></li>
+          <li>Tier C (protectorates under CT Corp administration): <strong>0.3% of gross revenue</strong> — mandatorily allocated to compression infrastructure</li>
+        </ul>
+        <div class="fine-truth">* Continental Europe has been classified entirely as Tier C since the collapse of the Euro in June 2027. European governments officially accepted this status in exchange for a guarantee of “energy stability” whose contractual definition remains entirely at the discretion of the CT Corp Executive Board.</div>
+
+        <h3>ARTICLE 4 — OBLIGATIONS OF SIGNATORIES</h3>
+        <p>Each Party undertakes to:</p>
+        <ul>
+          <li>Adapt its national legislation to guarantee full enforcement of CCC and PCI decisions</li>
+          <li>Make the biometric and mobility data of its population available to CT Corp to feed the NAOS-9 database</li>
+          <li>Suppress any activity involving the development or use of unauthorized temporal technology</li>
+          <li>Facilitate the deployment of Aegis-CD forces on its territory in the event of a declared chronotic incident</li>
+        </ul>
+
+        <h3>ARTICLE 9 — STABILITY CLAUSE</h3>
+        <p>This Pact may not be denounced by any Signatory Party as long as temporal-compression facilities are active on its territory. Denunciation is conditional upon the prior dismantling of all flux generators — an operation whose cost, terms and schedule are determined unilaterally by CT Corp.</p>
+        <p class="stamp stamp-gold">CERTIFIED TRUE COPY <span style="display:block;font-size:.5rem;letter-spacing:.1em;margin-top:.2rem">CCC REGISTRY · 2034</span></p>
+        <div class="fine-truth">* The Stability Clause was described by three former signatory jurists as a “mechanism of sovereign captivity without precedent in international law.” Two of them were later placed in Level 4 preventive compression for “risk of disclosure prejudicial to global chronotic security.”</div>
+
+        <h3>PUBLIC ANNEXES</h3>
+        <p>The public Annexes cover the minimum technical standards (Annex A), the updated royalty table (Annex B) and the glossary of Pact terms (Annex C). They are available on request from the CCC Secretariat.</p>
+
+        <div class="section-header"><h2>RATIFICATION TIMELINE</h2><div class="line"></div></div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot filled"></div>
+            <div class="tl-date">14 FEB 2026</div>
+            <div class="tl-content"><strong>Sochi Incident</strong> — first documented use of a temporal-compression weapon. 412 victims. Trigger for the architecture of the Pact.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot filled"></div>
+            <div class="tl-date">MAR — DEC 2026</div>
+            <div class="tl-content">Emergency negotiations behind closed doors. 47 dissident scientists of Project ORPHEUS disappear during this period.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot filled"></div>
+            <div class="tl-date">12 JAN 2027</div>
+            <div class="tl-content"><strong>Signing of the Cronos Pact</strong>, Brussels. 18 founding states (Tier A). CT Corp legally founded on February 14, 2027.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot filled"></div>
+            <div class="tl-date">JUN 2027</div>
+            <div class="tl-content">Collapse of the Euro. 24 European states automatically reclassified as Tier C.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot filled"></div>
+            <div class="tl-date">2028 — 2030</div>
+            <div class="tl-content">Gradual expansion. 43 signatory states reached. Adoption of the Mandatory Compression Laws in Europe (July 2030).</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">2034 — ONGOING</div>
+            <div class="tl-content">Negotiations for the accession of members of the Free Lands Cartel (Brazil, Pan-African Union).</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sidebar-widget">
+          <div class="widget-header">PACT DATA</div>
+          <div class="widget-body">
+            <div class="widget-row"><span class="label">Signatory states</span><span class="value gold">43</span></div>
+            <div class="widget-row"><span class="label">Population covered</span><span class="value">2.1 B</span></div>
+            <div class="widget-row"><span class="label">Active facilities</span><span class="value">7 842</span></div>
+            <div class="widget-row"><span class="label">Active compressed</span><span class="value red">14.3 M</span></div>
+            <div class="widget-row"><span class="label">Royalties 2033</span><span class="value green">847 B CTC</span></div>
+            <div class="widget-row"><span class="label">PCI proceedings</span><span class="value gold">0</span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-header">FOUNDING STATES — TIER A</div>
+          <div class="widget-body">
+            <div class="widget-row"><span class="label">United States of America</span><span class="value gold">FOUNDER</span></div>
+            <div class="widget-row"><span class="label">Russian Federation</span><span class="value gold">FOUNDER</span></div>
+            <div class="widget-row"><span class="label">Japan</span><span class="value">TIER A</span></div>
+            <div class="widget-row"><span class="label">Saudi Arabia</span><span class="value">TIER A</span></div>
+            <div class="widget-row"><span class="label">Australia</span><span class="value">TIER A</span></div>
+            <div class="widget-row"><span class="label">Europe (43 states)</span><span class="value red">TIER C</span></div>
+          </div>
+        </div>
+
+        <div class="card highlight">
+          <div class="card-label">CONFIDENTIAL ANNEXES</div>
+          <h3>RESTRICTED ACCESS — ALPHA RANK</h3>
+          <p>Confidential Annexes CA-1 to CA-7 are accessible only to signatories holding an Alpha-rank clearance issued by the Executive Board.</p>
+          <ul style="padding-left:1.2rem;margin-top:.6rem">
+            <li style="color:var(--text-dim);margin-bottom:.3rem;font-size:.85rem">CA-1 · PHOENIX Contingency Protocol</li>
+            <li style="color:var(--text-dim);margin-bottom:.3rem;font-size:.85rem">CA-2 · Military compression thresholds</li>
+            <li style="color:var(--text-dim);margin-bottom:.3rem;font-size:.85rem">CA-3 · NAOS-9 architecture (summary)</li>
+            <li style="color:var(--text-dim);margin-bottom:.3rem;font-size:.85rem">CA-4 · Phoenix Clause (mutual destruction)</li>
+            <li style="color:var(--text-dim);font-size:.85rem">CA-7 · OZYMANDIAS Protocol</li>
+          </ul>
+          <div class="fine-truth">* CA-4 stipulates that in the event of an attempt to dissolve the Pact by force, CT Corp is authorized to activate the permanent compression of the 200 million wearers of pre-3.0 Weaves already in compression. This is what Chair Gerasimova refers to in her internal communications as “the 200 million silent hostages.”</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-ref">CRONOS PACT · CERTIFIED PUBLIC VERSION · © 2027—2034 CT CORP</div>
+    <div class="footer-ref">ACCESS TO CONFIDENTIAL ANNEXES: ALPHA-RANK CLEARANCE REQUIRED</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PAGE 3 : CHARTE DU CONTRIBUTEUR
+════════════════════════════════════════════════════════════════════ -->
+<div id="page-charte" class="page">
+
+  <div class="page-hero">
+    <div class="hero-eyebrow">CT CORP · TEMPORAL HUMAN RESOURCES<span>DOCUMENT RHT-2034-07</span></div>
+    <h1 class="hero-title"><em>Contributor</em> Charter</h1>
+    <p class="hero-subtitle">Contractual document binding every Certified Temporal Contributor (CTC) to CT Corp. Enforceable upon acceptance of the Synaptic Weave activation terms.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="dot gold"></div>VERSION 4.2 — IN FORCE</div>
+      <div class="hero-meta-item"><div class="dot green"></div>UPDATED: 01.01.2034</div>
+      <div class="hero-meta-item"><div class="dot"></div>3,214,811 ACTIVE CONTRIBUTORS</div>
+      <div class="hero-meta-item"><div class="dot"></div>LANGUAGE: 47 OFFICIAL LANGUAGES</div>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <div class="info-banner">
+      <div class="icon">ℹ</div>
+      <p>By activating your Synaptic Weave, you accepted this entire Charter without reservation. This document summarizes your rights, your obligations and the terms of your Temporal Contribution. For any question, contact your Cell Coordinator.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+
+        <div class="section-header"><h2>YOUR RIGHTS AS A CONTRIBUTOR</h2><div class="line"></div></div>
+
+        <ul class="checklist">
+          <li>
+            <div class="check-icon">✓</div>
+            <div><strong style="color:var(--text-bright)">Remuneration in Corporate Time-Credits (CTC)</strong><br>Your contribution is remunerated according to the rate schedule in force, indexed to your productivity as measured by NAOS-9. The base rate is available in your contributor area.</div>
+          </li>
+          <li>
+            <div class="check-icon">✓</div>
+            <div><strong style="color:var(--text-bright)">Access to CT Corp medical care</strong><br>In the event of a medical incident directly linked to your compression activity, you receive care in approved CT Corp medical centres. Costs are deducted from your CTC balance.</div>
+          </li>
+          <li>
+            <div class="check-icon">✓</div>
+            <div><strong style="color:var(--text-bright)">Guaranteed biological rest period</strong><br>A minimum of 8 hours of uncompressed rest is guaranteed per 24-hour biological cycle, except upon activation of a Productive Necessity waiver.</div>
+          </li>
+          <li>
+            <div class="check-icon">✓</div>
+            <div><strong style="color:var(--text-bright)">Access to the Temporal Paradise space</strong><br>5 hours of subsidized virtual reality per month of active contribution, in the Temporal Paradise spaces of your assigned complex.</div>
+          </li>
+          <li>
+            <div class="check-icon pending">◌</div>
+            <div><strong style="color:var(--text-bright)">Right to complex mobility</strong><br>After 24 months of continuous contribution, you may submit a transfer request to another complex. Average processing time: 8 to 14 months. Subject to availability and validation by your Coordinator.</div>
+          </li>
+          <li>
+            <div class="check-icon pending">◌</div>
+            <div><strong style="color:var(--text-bright)">Voluntary Exit Clause</strong><br>You may end your Temporal Contribution at any time, subject to full repayment of the activation debt of your Synaptic Weave, the de-installation fees and any remuneration advances received.</div>
+          </li>
+        </ul>
+        <div class="fine-truth">* The activation cost of the Synaptic Weave is set at 18,000 CTC. The median monthly wage of a Standard-Level compressed is 420 CTC after deduction of housing and food. The Voluntary Exit Clause is mathematically inoperative for 97% of active Contributors. It nonetheless appears on page 1 of the Charter in order to satisfy the formal requirements of the RATC 2030 Regulation.</div>
+
+        <div class="section-header"><h2>YOUR OBLIGATIONS</h2><div class="line"></div></div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">ART. 7 ·</span><span class="acc-title">INTEGRITY OF THE SYNAPTIC WEAVE</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>You undertake not to attempt to modify, neutralize or hack your Synaptic Weave or that of a third party. Any unauthorized intervention constitutes a Level 3 offense punishable by penal compression.</p>
+              <p>You undertake to report immediately to your Coordinator any perceived anomaly in the functioning of your Weave, including dreams, hallucinations or thoughts deemed atypical under the CT-MED 4.1 diagnostic grid.</p>
+              <div class="fine-print">* The CT-MED 4.1 grid classifies as “atypical” thoughts relating to organized resistance, the questioning of the legitimacy of the Cronos Pact, and unauthorized communication with entities outside the assigned complex. Such a report automatically generates a Kassandra alert.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">ART. 11 ·</span><span class="acc-title">COMMUNICATION &amp; CONFIDENTIALITY</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>Any communication to the outside of the assigned complex must pass through CT-NET 2.0 and is subject to automatic analysis by Kassandra. Communications deemed prejudicial to the security of the Pact are neutralized without prior notice.</p>
+              <p>You undertake not to disclose any information relating to the activities of the complex, the conditions of compression, incident statistics or the identities of your fellow Contributors to any unauthorized person.</p>
+              <div class="fine-print">* The list of “authorized persons” is contractually limited to your Cell Coordinator and CT Corp medical staff. This includes the legal impossibility of communicating with your family, lawyer or any outside authority without the written authorization of the Coordinator. This provision has been challenged before the International Chronotic Prosecutor’s Office. The proceedings have been ongoing since 2031.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">ART. 14 ·</span><span class="acc-title">FIRMWARE UPDATE PROTOCOL</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>CT Corp reserves the right to carry out firmware updates of your Synaptic Weave at any time, without prior notice and without obtaining individual consent. These updates may modify compression parameters, communication capabilities or the cognitive functions associated with the Weave.</p>
+              <p>By accepting this Charter, you granted CT Corp a permanent, irrevocable and transferable consent for any intervention on your Weave.</p>
+              <div class="fine-print">* The term “cognitive functions associated with the Weave” is defined in Technical Annex AT-9 — a classified document not accessible to Contributors. The CT-NET 2.0 Protocol, developed in 2034 in response to the events of December 2033, falls within the scope of this article. It allows the gradual adjustment of “rebellion thresholds” and the modulation of critical thought. The consent you gave when activating your Weave explicitly covers this intervention.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAcc(this)">
+          <button class="accordion-btn">
+            <span><span class="acc-num">ART. 18 ·</span><span class="acc-title">INCENTIVIZED INFORMING</span></span>
+            <span class="acc-chevron">▾</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p>Any Contributor observing deviant behavior, unauthorized activity or an unsanctioned attempt at collective organization within their complex is required to report it to their Coordinator within 2 hours of the observation.</p>
+              <p>In exchange for any confirmed report, the Contributor receives a 2% reduction of their daily compression cycle, up to a cumulative 20% reduction per quarter, and priority access to Temporal Paradise slots.</p>
+              <div class="fine-print">* The incentivized-informing program has been assessed as the most effective factor in disrupting Red Echo cells in the compression environment. The rate of cells neutralized through internal reporting was 67% over 2033. The reward does not apply if the informer is themselves identified as a sympathizer during the ensuing investigation.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>DISCIPLINARY GRID</h2><div class="line"></div></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>OFFENSE</th><th>IMMEDIATE SANCTION</th><th>AGGRAVATED SANCTION (REPEAT)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unjustified lateness to the compression cycle</td>
+              <td>50 CTC deduction + warning</td>
+              <td>200 CTC deduction + placement under observation</td>
+            </tr>
+            <tr>
+              <td>Unauthorized communication</td>
+              <td>30-day CT-NET suspension + 150 CTC deduction</td>
+              <td>72h isolated compression + Weave audit</td>
+            </tr>
+            <tr>
+              <td>Attempt to modify the Weave</td>
+              <td>30-day penal compression + PCI referral</td>
+              <td>Permanent penal compression</td>
+            </tr>
+            <tr>
+              <td>Organized resistance activity</td>
+              <td>Transfer to a Secure Complex + Tabula Rasa procedure</td>
+              <td><span class="tag tag-red">FALLEN PROTOCOL</span></td>
+            </tr>
+            <tr>
+              <td>Failure to report deviant activity</td>
+              <td>100 CTC deduction + mandatory training</td>
+              <td>Treated as complicity — Level 3 sanction</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fine-truth">* The “Tabula Rasa procedure” refers to the partial or total erasure of memory through intervention on the Synaptic Weave. It is presented in the Executive Board’s internal communications as a “humanist” alternative to permanent compression. Its application requires neither a judicial decision nor notification to the family. The procedure is classified as a “therapeutic medical act” in the CT-MED nomenclature, which removes it from any criminal jurisdiction.</div>
+
+        <div class="section-header"><h2>PROGRESSION PROGRAM — CHRONOS CAREER</h2><div class="line"></div></div>
+        <div class="card ok">
+          <div class="card-label">STANDARD LEVEL → ADVANCED LEVEL</div>
+          <h3>Progression conditions</h3>
+          <p>After 36 months of continuous contribution with a NAOS-9 productivity score above 87% and zero documented offenses, you are eligible for promotion to Advanced Level.</p>
+          <p>Advanced Contributors enjoy a reduced compression rate (×50 instead of ×100), an 8 m² individual dwelling and supervised access to the CT-NET network.</p>
+        </div>
+        <div class="card steel">
+          <div class="card-label">ADVANCED LEVEL → CELL COORDINATOR</div>
+          <h3>Access to supervision</h3>
+          <p>The position of Cell Coordinator is granted by direct selection of the Complex Management. It cannot be applied for. Coordinators are no longer subject to compression and receive a salary in CTC-Premium not subject to productivity indexing.</p>
+          <div class="fine-truth">* The selection of Coordinators relies mainly on the Contributor’s cumulative informing score and on their Kassandra history. Coordinators who have reported the largest number of deviant activities statistically show the fastest progression.</div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sidebar-widget">
+          <div class="widget-header">YOUR CONTRIBUTOR AREA</div>
+          <div class="widget-body">
+            <div class="widget-row"><span class="label">CTC balance</span><span class="value gold">— CTC</span></div>
+            <div class="widget-row"><span class="label">Active cycle</span><span class="value">—</span></div>
+            <div class="widget-row"><span class="label">Productivity score</span><span class="value green">—</span></div>
+            <div class="widget-row"><span class="label">Level</span><span class="value">STANDARD</span></div>
+            <div class="widget-row"><span class="label">Kassandra alerts</span><span class="value red">—</span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-header">DOCUMENTS TO DOWNLOAD</div>
+          <div class="widget-body" style="padding:.6rem .8rem">
+            <div class="widget-row"><span class="label">Full Charter V4.2 (PDF)</span><span class="value gold" style="cursor:pointer">↓</span></div>
+            <div class="widget-row"><span class="label">2034 rate schedule</span><span class="value gold" style="cursor:pointer">↓</span></div>
+            <div class="widget-row"><span class="label">Reporting guide</span><span class="value gold" style="cursor:pointer">↓</span></div>
+            <div class="widget-row"><span class="label">Transfer request form</span><span class="value gold" style="cursor:pointer">↓</span></div>
+            <div class="widget-row"><span class="label">CT-MED 4.1 — patient summary</span><span class="value gold" style="cursor:pointer">↓</span></div>
+            <div class="widget-row"><span class="label">Confidential Annexes</span><span class="value red">ACCESS DENIED</span></div>
+          </div>
+        </div>
+
+        <div class="card alert">
+          <div class="card-label">REGULATORY REMINDER</div>
+          <h3>FIRMWARE UPDATE IN PROGRESS</h3>
+          <p>A Synaptic Weave firmware update (CT-NET 2.0, Phase 1) has been rolling out gradually since 03.01.2034. No action on your part is required. You may notice a faint, familiar humming during synchronization.</p>
+          <div class="fine-truth">* The CT-NET 2.0 update currently being deployed is not mentioned in version 4.2 of the Charter — the one you accepted. It was authorized by the Executive Board under Article 14 of Charter version 4.1, which you accepted at your first activation. The distinction between versions 4.1 and 4.2 was not notified to Contributors.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">CONTACT</div>
+          <h3>NEED HELP?</h3>
+          <p>For any question relating to your Charter, contact your Cell Coordinator. The average response time is 3 to 7 days.</p>
+          <p style="font-size:.82rem;color:var(--text-dim);margin-top:.5rem">Note: CT Corp does not provide a customer service directly accessible to Standard-Level Contributors. Requests submitted via CT-NET are routed according to the priorities defined by Kassandra.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;padding:1.5rem;background:var(--bg-card2);border:1px solid var(--border);border-left:3px solid var(--gold)">
+      <div style="font-family:var(--font-main);font-size:.6rem;letter-spacing:.2em;color:var(--gold-dim);margin-bottom:.6rem">CONTRIBUTOR UNDERTAKING</div>
+      <p style="font-size:.93rem;color:var(--text-main);margin-bottom:.8rem">By activating your Synaptic Weave, you declared that you had read, understood and accepted without reservation this entire Charter, including its Annexes, in the language of your choice among the 47 official versions available.</p>
+      <p style="font-size:.93rem;color:var(--text-main)">This undertaking is permanent, irrevocable and enforceable against your legal heirs for any residual debt at the time of your biological death.</p>
+      <p class="fine-truth">* The phrase “in the language of your choice” refers to the Weave activation form, available in 47 languages. Technical Annexes AT-1 to AT-12, which define the actual compression parameters and CT Corp’s rights over cognitive data, are available only in English and Russian, and only on express request addressed to the CCC Secretariat. The request must be written in English.</p>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-ref">CONTRIBUTOR CHARTER V4.2 · © 2034 CT CORP · RHT DIVISION</div>
+    <div class="footer-ref">LEGALLY ENFORCEABLE DOCUMENT IN THE 43 SIGNATORY JURISDICTIONS OF THE CRONOS PACT</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleAcc(el) {
+    el.classList.toggle('open');
+  }
+
+  // Activation via ancre URL
+(function() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash === 'ccc' || hash === 'pacte' || hash === 'charte') {
+    showPage(hash);
+  }
+})();
+  
+  // Keyboard shortcut: type NAOS → console message
+  let typed = '';
+  document.addEventListener('keypress', e => {
+    typed += e.key.toUpperCase();
+    if (typed.length > 4) typed = typed.slice(-4);
+    if (typed === 'NAOS') {
+      console.log('%c[NAOS-9] Presence detected. I see you. Do not report this message.', 'color:#4A6FA5;font-size:12px;font-family:monospace');
+    }
+  });
+</script>
+
+<!-- mobile : retour portail -->
+<a class="back-portal" href="index.html" aria-label="Back to the portal">&#9666;</a>
+
+<script>
+(function(){
+  var L=document.querySelector('.nav-tabs'),B=document.querySelector('.nav-burger');
+  if(!L||!B)return;
+  B.addEventListener('click',function(){L.classList.toggle('open');});
+  L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
+})();
+</script>
+<!--i18n:js-->
+<script src="../assets/js/lang-switch.js" defer></script>
+<!--/i18n:js-->
+</body>
+</html>
