@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSM: Chronomorphic Synchronization Matrix - Orpheus Protocol</title>
+    <style>
+        :root {
+            /* Diegetic Color Palette based on Novel Lore */
+            --bg-color: #0a0e17; /* Abandoned B-bis Metro Darkness */
+            --grid-bg: #111827; /* Cray-Aurora Server Chassis */
+            --tile-bg: #1f2937;
+            --border-color: #374151;
+            --beam-color-off: #4b5563; /* Dormant Backdoors */
+            --beam-color-on: #00f0ff; /* Genesis Nanite Resonance */
+            --rubidium-off: #7f1d1d; /* Dormant Temporal Crystal */
+            --rubidium-on: #ef4444; /* Synchronized Temporal Crystal */
+            --text-color: #e5e7eb;
+            --cryo-blue: #3b82f6; /* Optimal Liquid Nitrogen Temp */
+            --cryo-orange: #f97316; /* Thermal Warning */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevents scroll bars during puzzle focus */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            color: var(--beam-color-on);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            margin: 0;
+            max-width: 650px;
+            line-height: 1.4;
+        }
+
+       .dashboard {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        /* Diegetic HUD Panel */
+       .hud-panel {
+            background: rgba(17, 24, 39, 0.85);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 4px;
+            width: 220px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+       .hud-panel::before {
+            content: 'CT CORP - SECURE INTERFACE';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--bg-color);
+            padding: 0 5px;
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+       .hud-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+
+       .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+       .cryo-bar-container {
+            width: 100%;
+            height: 12px;
+            background: #000;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px solid #374151;
+        }
+
+       .cryo-bar {
+            height: 100%;
+            width: 100%;
+            background: var(--cryo-blue);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
+        }
+
+        /* Core Game Board Matrix */
+        #game-board {
+            display: grid;
+            gap: 2px;
+            background-color: var(--grid-bg);
+            padding: 12px;
+            border: 1px solid #4b5563;
+            border-radius: 4px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+       .tile {
+            width: 55px;
+            height: 55px;
+            background-color: var(--tile-bg);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+       .tile:hover {
+            background-color: #2d3748;
+        }
+
+        /* SVG Wire and Node Rendering */
+       .wire {
+            stroke: var(--beam-color-off);
+            stroke-width: 8;
+            stroke-linecap: square;
+            fill: none;
+            transition: stroke 0.4s ease, filter 0.4s ease;
+        }
+
+       .tile.powered.wire {
+            stroke: var(--beam-color-on);
+            filter: drop-shadow(0 0 6px var(--beam-color-on));
+        }
+
+       .rubidium-core {
+            fill: var(--rubidium-off);
+            stroke: #450a0a;
+            stroke-width: 2;
+            transition: fill 0.4s ease, filter 0.4s ease;
+        }
+
+       .tile.powered.rubidium-core {
+            fill: var(--rubidium-on);
+            stroke: #fca5a5;
+            filter: drop-shadow(0 0 10px var(--rubidium-on));
+        }
+
+        /* Source (Kael-Space) and Sink (NAOS-9-Space) Styling */
+       .tile.source,.tile.sink {
+            background-color: #000;
+            border: 1px solid #374151;
+            cursor: default;
+        }
+
+       .tile.source:hover,.tile.sink:hover {
+            background-color: #000;
+        }
+
+        /* Orpheus Protocol Victory Overlay */
+        #victory-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 240, 255, 0.08);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+            z-index: 100;
+        }
+
+        #victory-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+       .victory-text {
+            font-size: 3rem;
+            color: var(--beam-color-on);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.9);
+            margin-bottom: 25px;
+        }
+
+       .btn {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--beam-color-on);
+            border: 1px solid var(--beam-color-on);
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+       .btn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Chronomorphic Synchronization Matrix</h1>
+        <p class="subtitle">Orpheus Protocol Interface. Align the synaptic pathways. Route the genesis nanite resonance through all Rubidium-87 nodes to prevent dissolution.</p>
+    </header>
+
+    <div class="dashboard">
+        <div class="hud-panel">
+            <div class="hud-title">System Telemetry</div>
+            <div class="status-row">
+                <span>Rubidium Nodes:</span>
+                <span id="nodes-status">0 / 47</span>
+            </div>
+            <div class="status-row">
+                <span>Data Flow:</span>
+                <span id="flow-status">Unstable</span>
+            </div>
+            <div class="status-row" style="margin-top: 25px;">
+                <span>Cryo-Stasis:</span>
+                <span id="temp-readout" style="color: var(--cryo-blue); font-weight: bold;">-184.2°C</span>
+            </div>
+            <div class="cryo-bar-container">
+                <div class="cryo-bar" id="cryo-bar"></div>
+            </div>
+            <p style="font-size: 0.7rem; color: #6b7280; margin-top: 15px; border-top: 1px solid #374151; padding-top: 10px;">
+                WARNING: Micro-convulsions imminent if thermal threshold is exceeded.
+            </p>
+        </div>
+
+        <div id="game-board"></div>
+    </div>
+
+    <div id="victory-overlay">
+        <div class="victory-text">Synchronization Complete</div>
+        <p style="margin-bottom: 40px; text-align: center; max-width: 600px; font-size: 1.1rem; line-height: 1.5; color: #e5e7eb;">
+            Harmonic calibration achieved across all 147 parameters. The Kael-space and NAOS-space are now perfectly synchronized within the Central Core's quantum architecture. Dissolution averted.
+        </p>
+        <button class="btn" onclick="location.reload()">Re-Initialize Sequence</button>
+    </div>
+
+    <script>
+        /**
+         * ENGINE: Chronomorphic Synchronization Matrix (CSM)
+         * Architecture: Entity-Component Logic mapped to DOM Grid
+         * Designed to solve Hamiltonian Path rotational puzzles without arbitrary timers.
+         */
+
+        const boardElement = document.getElementById('game-board');
+        const nodesStatusEl = document.getElementById('nodes-status');
+        const tempReadoutEl = document.getElementById('temp-readout');
+        const flowStatusEl = document.getElementById('flow-status');
+        const cryoBarEl = document.getElementById('cryo-bar');
+        const victoryOverlay = document.getElementById('victory-overlay');
+
+        let grid =;
+        let cols = 0;
+        let rows = 0;
+        let totalRubidium = 0;
+        let poweredRubidium = 0;
+        let totalSyncPoints = 0;
+
+        // TILE TYPES DEFINITION
+        // Ports array boolean logic:
+        const TILE_TYPES = {
+            'empty': { ports: , svg: '' },
+            'line': { ports: , svg: '<path class="wire" d="M 27.5 0 L 27.5 55" />' },
+            'corner': { ports: , svg: '<path class="wire" d="M 27.5 55 L 27.5 27.5 L 55 27.5" />' },
+            't-junction': { ports: , svg: '<path class="wire" d="M 0 27.5 L 55 27.5 M 27.5 27.5 L 27.5 55" />' },
+            'cross': { ports: , svg: '<path class="wire" d="M 27.5 0 L 27.5 55 M 0 27.5 L 55 27.5" />' },
+            'rubidium': { 
+                ports: , 
+                isCore: true,
+                svg: '<path class="wire" d="M 27.5 0 L 27.5 15 M 27.5 40 L 27.5 55" /><polygon class="rubidium-core" points="27.5,15 40,27.5 27.5,40 15,27.5" />' 
+            },
+            'rubidium-corner': { 
+                ports: , 
+                isCore: true,
+                svg: '<path class="wire" d="M 27.5 55 L 27.5 40 M 40 27.5 L 55 27.5" /><polygon class="rubidium-core" points="27.5,15 40,27.5 27.5,40 15,27.5" />' 
+            },
+            'source': { ports: , isSource: true, svg: '<circle class="wire" cx="15" cy="27.5" r="6" /><path class="wire" d="M 21 27.5 L 55 27.5" />' },
+            'sink': { ports: , isSink: true, svg: '<circle class="wire" cx="40" cy="27.5" r="6" /><path class="wire" d="M 0 27.5 L 34 27.5" />' }
+        };
+
+        // LEVEL DATA (Curated matrix ensuring NP-Complete feasibility in client-side JS)
+        // Array Format:
+        const levelConfig = {
+            cols: 6, rows: 6,
+            data: ['source', 0], ['line', 1], ['rubidium-corner', 1], ['corner', 3], ['empty', 0], ['empty', 0],
+                ['empty', 0], ['empty', 0], ['line', 0], ['line', 1], ['rubidium', 1], ['corner', 2],
+                ['empty', 0], ['rubidium', 0], ['corner', 0], ['empty', 0], ['empty', 0], ['line', 0],
+                ['empty', 0], ['line', 1], ['empty', 0], ['empty', 0], ['empty', 0], ['corner', 1],
+                ['empty', 0], ['corner', 3], ['rubidium', 1], ['corner', 2], ['empty', 0], ['empty', 0],
+                ['empty', 0], ['empty', 0], ['empty', 0], ['corner', 3], ['line', 1], ['sink', 0]
+        };
+
+        function initializeMatrix() {
+            cols = levelConfig.cols;
+            rows = levelConfig.rows;
+            boardElement.style.gridTemplateColumns = `repeat(${cols}, 55px)`;
+            boardElement.innerHTML = '';
+            grid =;
+            totalRubidium = 0;
+            totalSyncPoints = levelConfig.data.length;
+
+            levelConfig.data.forEach((tileData, index) => {
+                const x = index % cols;
+                const y = Math.floor(index / cols);
+                const typeName = tileData;
+                const typeObj = TILE_TYPES[typeName];
+                
+                if(typeObj.isCore) totalRubidium++;
+
+                const tile = {
+                    x: x, y: y,
+                    type: typeName,
+                    rotation: tileData, 
+                    element: null,
+                    isPowered: false,
+                    isSource: typeObj.isSource || false,
+                    isSink: typeObj.isSink || false,
+                    isCore: typeObj.isCore || false,
+                    absRot: tileData * 90 // Track absolute rotation for smooth CSS transitions
+                };
+
+                const el = document.createElement('div');
+                el.className = 'tile';
+                if(tile.isSource) el.classList.add('source');
+                if(tile.isSink) el.classList.add('sink');
+                
+                // Construct SVG Node
+                const svgContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svgContainer.setAttribute('width', '55');
+                svgContainer.setAttribute('height', '55');
+                svgContainer.innerHTML = typeObj.svg;
+                
+                svgContainer.style.transform = `rotate(${tile.absRot}deg)`;
+                svgContainer.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Bouncy, tactile snap
+                
+                el.appendChild(svgContainer);
+
+                // Event listener excludes immutable nodes
+                if(typeName!== 'empty' &&!tile.isSource &&!tile.isSink) {
+                    el.addEventListener('click', () => applyRotation(x, y));
+                }
+
+                tile.element = el;
+                boardElement.appendChild(el);
+                grid.push(tile);
+            });
+
+            nodesStatusEl.innerText = `0 / ${totalRubidium}`;
+            calculateTopologicalFlow();
+        }
+
+        function applyRotation(x, y) {
+            const index = y * cols + x;
+            const tile = grid[index];
+            
+            // Increment logical rotation boundary
+            tile.rotation = (tile.rotation + 1) % 4;
+            
+            // Increment absolute rotation for continuous CSS rendering without backward snapping
+            tile.absRot += 90;
+            const svg = tile.element.querySelector('svg');
+            svg.style.transform = `rotate(${tile.absRot}deg)`;
+
+            calculateTopologicalFlow();
+        }
+
+        function getTile(x, y) {
+            if(x < 0 || x >= cols || y < 0 || y >= rows) return null;
+            return grid[y * cols + x];
+        }
+
+        function getActivePorts(tile) {
+            const basePorts = TILE_TYPES[tile.type].ports;
+            const active =;
+            // Shift boolean array based on current angular rotation
+            for(let i = 0; i < 4; i++) {
+                active.push(basePorts[(i - tile.rotation + 4) % 4]);
+            }
+            return active; // Output maps to
+        }
+
+        function calculateTopologicalFlow() {
+            // Scrub prior resonance states
+            grid.forEach(t => {
+                t.isPowered = false;
+                t.element.classList.remove('powered');
+            });
+
+            // Initialize DFS from Kael-Space (Source)
+            let stack = grid.filter(t => t.isSource);
+            stack.forEach(t => t.isPowered = true);
+
+            // Execute Depth-First Search
+            while(stack.length > 0) {
+                const current = stack.pop();
+                const ports = getActivePorts(current);
+
+                // Delta mappings: 0:North(0,-1), 1:East(1,0), 2:South(0,1), 3:West(-1,0)
+                const neighbors = [
+                    { x: current.x, y: current.y - 1, portIndex: 0, counterpart: 2 },
+                    { x: current.x + 1, y: current.y, portIndex: 1, counterpart: 3 },
+                    { x: current.x, y: current.y + 1, portIndex: 2, counterpart: 0 },
+                    { x: current.x - 1, y: current.y, portIndex: 3, counterpart: 1 }
+                ];
+
+                neighbors.forEach(n => {
+                    if(ports[n.portIndex]) { // If origin port is actively routing
+                        const neighborTile = getTile(n.x, n.y);
+                        if(neighborTile &&!neighborTile.isPowered) {
+                            const neighborPorts = getActivePorts(neighborTile);
+                            if(neighborPorts[n.counterpart]) { // If destination port aligns perfectly
+                                neighborTile.isPowered = true;
+                                stack.push(neighborTile);
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Sync UI State
+            poweredRubidium = 0;
+            let sinkPowered = false;
+
+            grid.forEach(t => {
+                if(t.isPowered) {
+                    t.element.classList.add('powered');
+                    if(t.isCore) poweredRubidium++;
+                    if(t.isSink) sinkPowered = true;
+                }
+            });
+
+            nodesStatusEl.innerText = `${poweredRubidium} / ${totalRubidium}`;
+            updateEnvironmentalTelemetry(sinkPowered);
+        }
+
+        function updateEnvironmentalTelemetry(isSinkPowered) {
+            // Narrative Translation: Disconnected nodes generate lethal heat. Perfect sync stabilizes temperature.
+            const completionRatio = totalRubidium === 0? 0 : (poweredRubidium / totalRubidium);
+            
+            // Baseline lethal temp is -80°C, optimal stasis is -184.2°C
+            const currentTemp = -80 - (104.2 * completionRatio);
+            tempReadoutEl.innerText = `${currentTemp.toFixed(1)}°C`;
+
+            const barPercentage = 100 - (completionRatio * 100);
+            cryoBarEl.style.width = `${Math.max(5, barPercentage)}%`;
+            
+            if(completionRatio > 0.8) {
+                cryoBarEl.style.backgroundColor = 'var(--cryo-blue)';
+                tempReadoutEl.style.color = 'var(--cryo-blue)';
+                flowStatusEl.innerText = "Stabilizing";
+                flowStatusEl.style.color = "#93c5fd";
+            } else if (completionRatio > 0.4) {
+                cryoBarEl.style.backgroundColor = '#eab308'; // Amber Warning
+                tempReadoutEl.style.color = '#eab308';
+                flowStatusEl.innerText = "Fluctuating";
+                flowStatusEl.style.color = "#fde047";
+            } else {
+                cryoBarEl.style.backgroundColor = 'var(--cryo-orange)'; // Critical Thermal Range
+                tempReadoutEl.style.color = 'var(--cryo-orange)';
+                flowStatusEl.innerText = "Unstable";
+                flowStatusEl.style.color = "#fca5a5";
+            }
+
+            // Verify Heuristic Victory Condition (Orpheus Protocol execution)
+            if(isSinkPowered && poweredRubidium === totalRubidium) {
+                flowStatusEl.innerText = "Synchronized";
+                flowStatusEl.style.color = "var(--beam-color-on)";
+                setTimeout(() => {
+                    victoryOverlay.classList.add('visible');
+                }, 800);
+            }
+        }
+
+        // Bootstrap Matrix
+        initializeMatrix();
+
+    </script>
+</body>
+</html>
