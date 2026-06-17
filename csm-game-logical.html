@@ -273,13 +273,14 @@
         <button class="btn" onclick="location.reload()">Re-Initialize Sequence</button>
     </div>
 
-    <script>
-        /**
+
+     /**
          * ENGINE: Chronomorphic Synchronization Matrix (CSM)
          * Architecture: Entity-Component Logic mapped to DOM Grid
          * Designed to solve Hamiltonian Path rotational puzzles without arbitrary timers.
          */
-
+    
+    <script>
         const boardElement = document.getElementById('game-board');
         const nodesStatusEl = document.getElementById('nodes-status');
         const tempReadoutEl = document.getElementById('temp-readout');
@@ -294,30 +295,26 @@
         let poweredRubidium = 0;
         let totalSyncPoints = 0;
 
-        // TILE TYPES DEFINITION
-        // Ports array boolean logic:
         const TILE_TYPES = {
-            'empty': { ports: , svg: '' },
-            'line': { ports: , svg: '<path class="wire" d="M 27.5 0 L 27.5 55" />' },
-            'corner': { ports: , svg: '<path class="wire" d="M 27.5 55 L 27.5 27.5 L 55 27.5" />' },
-            't-junction': { ports: , svg: '<path class="wire" d="M 0 27.5 L 55 27.5 M 27.5 27.5 L 27.5 55" />' },
-            'cross': { ports: , svg: '<path class="wire" d="M 27.5 0 L 27.5 55 M 0 27.5 L 55 27.5" />' },
+            'empty': { ports: [false, false, false, false], svg: '' },
+            'line': { ports: [true, false, true, false], svg: '<path class="wire" d="M 27.5 0 L 27.5 55" />' },
+            'corner': { ports: [false, true, true, false], svg: '<path class="wire" d="M 27.5 55 L 27.5 27.5 L 55 27.5" />' },
+            't-junction': { ports: [false, true, true, true], svg: '<path class="wire" d="M 0 27.5 L 55 27.5 M 27.5 27.5 L 27.5 55" />' },
+            'cross': { ports: [true, true, true, true], svg: '<path class="wire" d="M 27.5 0 L 27.5 55 M 0 27.5 L 55 27.5" />' },
             'rubidium': { 
-                ports: , 
+                ports: [true, false, true, false], 
                 isCore: true,
                 svg: '<path class="wire" d="M 27.5 0 L 27.5 15 M 27.5 40 L 27.5 55" /><polygon class="rubidium-core" points="27.5,15 40,27.5 27.5,40 15,27.5" />' 
             },
             'rubidium-corner': { 
-                ports: , 
+                ports: [false, true, true, false], 
                 isCore: true,
                 svg: '<path class="wire" d="M 27.5 55 L 27.5 40 M 40 27.5 L 55 27.5" /><polygon class="rubidium-core" points="27.5,15 40,27.5 27.5,40 15,27.5" />' 
             },
-            'source': { ports: , isSource: true, svg: '<circle class="wire" cx="15" cy="27.5" r="6" /><path class="wire" d="M 21 27.5 L 55 27.5" />' },
-            'sink': { ports: , isSink: true, svg: '<circle class="wire" cx="40" cy="27.5" r="6" /><path class="wire" d="M 0 27.5 L 34 27.5" />' }
+            'source': { ports: [false, true, false, false], isSource: true, svg: '<circle class="wire" cx="15" cy="27.5" r="6" /><path class="wire" d="M 21 27.5 L 55 27.5" />' },
+            'sink': { ports: [false, false, false, true], isSink: true, svg: '<circle class="wire" cx="40" cy="27.5" r="6" /><path class="wire" d="M 0 27.5 L 34 27.5" />' }
         };
 
-        // LEVEL DATA (Curated matrix ensuring NP-Complete feasibility in client-side JS)
-        // Array Format:
         const levelConfig = {
             cols: 6, rows: 6,
             data: ['source', 0], ['line', 1], ['rubidium-corner', 1], ['corner', 3], ['empty', 0], ['empty', 0],
@@ -348,13 +345,13 @@
                 const tile = {
                     x: x, y: y,
                     type: typeName,
-                    rotation: tileData, 
+                    rotation: tileData[1], 
                     element: null,
                     isPowered: false,
                     isSource: typeObj.isSource || false,
                     isSink: typeObj.isSink || false,
                     isCore: typeObj.isCore || false,
-                    absRot: tileData * 90 // Track absolute rotation for smooth CSS transitions
+                    absRot: tileData[1] * 90
                 };
 
                 const el = document.createElement('div');
@@ -362,18 +359,16 @@
                 if(tile.isSource) el.classList.add('source');
                 if(tile.isSink) el.classList.add('sink');
                 
-                // Construct SVG Node
                 const svgContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 svgContainer.setAttribute('width', '55');
                 svgContainer.setAttribute('height', '55');
                 svgContainer.innerHTML = typeObj.svg;
                 
                 svgContainer.style.transform = `rotate(${tile.absRot}deg)`;
-                svgContainer.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Bouncy, tactile snap
+                svgContainer.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 
                 el.appendChild(svgContainer);
 
-                // Event listener excludes immutable nodes
                 if(typeName!== 'empty' &&!tile.isSource &&!tile.isSink) {
                     el.addEventListener('click', () => applyRotation(x, y));
                 }
@@ -391,10 +386,7 @@
             const index = y * cols + x;
             const tile = grid[index];
             
-            // Increment logical rotation boundary
             tile.rotation = (tile.rotation + 1) % 4;
-            
-            // Increment absolute rotation for continuous CSS rendering without backward snapping
             tile.absRot += 90;
             const svg = tile.element.querySelector('svg');
             svg.style.transform = `rotate(${tile.absRot}deg)`;
@@ -410,30 +402,25 @@
         function getActivePorts(tile) {
             const basePorts = TILE_TYPES[tile.type].ports;
             const active =;
-            // Shift boolean array based on current angular rotation
             for(let i = 0; i < 4; i++) {
                 active.push(basePorts[(i - tile.rotation + 4) % 4]);
             }
-            return active; // Output maps to
+            return active;
         }
 
         function calculateTopologicalFlow() {
-            // Scrub prior resonance states
             grid.forEach(t => {
                 t.isPowered = false;
                 t.element.classList.remove('powered');
             });
 
-            // Initialize DFS from Kael-Space (Source)
             let stack = grid.filter(t => t.isSource);
             stack.forEach(t => t.isPowered = true);
 
-            // Execute Depth-First Search
             while(stack.length > 0) {
                 const current = stack.pop();
                 const ports = getActivePorts(current);
 
-                // Delta mappings: 0:North(0,-1), 1:East(1,0), 2:South(0,1), 3:West(-1,0)
                 const neighbors = [
                     { x: current.x, y: current.y - 1, portIndex: 0, counterpart: 2 },
                     { x: current.x + 1, y: current.y, portIndex: 1, counterpart: 3 },
@@ -442,11 +429,11 @@
                 ];
 
                 neighbors.forEach(n => {
-                    if(ports[n.portIndex]) { // If origin port is actively routing
+                    if(ports[n.portIndex]) { 
                         const neighborTile = getTile(n.x, n.y);
                         if(neighborTile &&!neighborTile.isPowered) {
                             const neighborPorts = getActivePorts(neighborTile);
-                            if(neighborPorts[n.counterpart]) { // If destination port aligns perfectly
+                            if(neighborPorts[n.counterpart]) { 
                                 neighborTile.isPowered = true;
                                 stack.push(neighborTile);
                             }
@@ -455,7 +442,6 @@
                 });
             }
 
-            // Sync UI State
             poweredRubidium = 0;
             let sinkPowered = false;
 
@@ -472,10 +458,7 @@
         }
 
         function updateEnvironmentalTelemetry(isSinkPowered) {
-            // Narrative Translation: Disconnected nodes generate lethal heat. Perfect sync stabilizes temperature.
             const completionRatio = totalRubidium === 0? 0 : (poweredRubidium / totalRubidium);
-            
-            // Baseline lethal temp is -80°C, optimal stasis is -184.2°C
             const currentTemp = -80 - (104.2 * completionRatio);
             tempReadoutEl.innerText = `${currentTemp.toFixed(1)}°C`;
 
@@ -488,18 +471,17 @@
                 flowStatusEl.innerText = "Stabilizing";
                 flowStatusEl.style.color = "#93c5fd";
             } else if (completionRatio > 0.4) {
-                cryoBarEl.style.backgroundColor = '#eab308'; // Amber Warning
+                cryoBarEl.style.backgroundColor = '#eab308'; 
                 tempReadoutEl.style.color = '#eab308';
                 flowStatusEl.innerText = "Fluctuating";
                 flowStatusEl.style.color = "#fde047";
             } else {
-                cryoBarEl.style.backgroundColor = 'var(--cryo-orange)'; // Critical Thermal Range
+                cryoBarEl.style.backgroundColor = 'var(--cryo-orange)'; 
                 tempReadoutEl.style.color = 'var(--cryo-orange)';
                 flowStatusEl.innerText = "Unstable";
                 flowStatusEl.style.color = "#fca5a5";
             }
 
-            // Verify Heuristic Victory Condition (Orpheus Protocol execution)
             if(isSinkPowered && poweredRubidium === totalRubidium) {
                 flowStatusEl.innerText = "Synchronized";
                 flowStatusEl.style.color = "var(--beam-color-on)";
@@ -509,9 +491,7 @@
             }
         }
 
-        // Bootstrap Matrix
         initializeMatrix();
-
     </script>
 </body>
 </html>
