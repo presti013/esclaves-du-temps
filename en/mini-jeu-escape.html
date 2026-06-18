@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ÉCHO ROUGE — PROTOCOLE EXODUS (MINI-JEU)</title>
+    <title>RED ECHO — PROTOCOL EXODUS (MINI-GAME)</title>
+<meta name="description" content="Protocol Exodus — a Red Echo stealth mini-game. Reach Kazimir's extraction vehicle in Complex No. 6 without entering the Aegis-CD patrols' fields of view. Slaves of Time universe.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="RED ECHO — Protocol Exodus (mini-game)">
+<meta property="og:description" content="Stealth extraction in Complex No. 6. Avoid the Aegis-CD patrols. Reach the van.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RED ECHO — Protocol Exodus (mini-game)">
+<meta name="twitter:description" content="Stealth extraction in Complex No. 6. Avoid the Aegis-CD patrols. Reach the van.">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -350,28 +358,28 @@
 </head>
 <body>
 <!--i18n:switch-->
-<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="mini-jeu-escape.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/mini-jeu-escape.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><span class="is-disabled" aria-disabled="true" lang="it" title="Italiano — bientôt / soon / presto"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</span></nav>
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../mini-jeu-escape.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="mini-jeu-escape.html" hreflang="en" lang="en" class="is-active" aria-current="page" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><span class="is-disabled" aria-disabled="true" lang="it" title="Italiano — bientôt / soon / presto"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</span></nav>
 <!--/i18n:switch-->
 
     <!-- Overlay : tournez le téléphone -->
     <div id="rotate-overlay">
         <div class="rot-icon">📱</div>
-        <div class="rot-title">TOURNEZ VOTRE APPAREIL</div>
+        <div class="rot-title">ROTATE YOUR DEVICE</div>
         <div class="rot-sub">
-            Le Complexe n°6 ne se traverse<br>qu'en mode paysage.<br>
-            Pivotez l'écran pour reprendre l'extraction.
+            Complex No. 6 can only be crossed<br>in landscape mode.<br>
+            Rotate the screen to resume the extraction.
         </div>
     </div>
 
-    <h1>COMPLEXE N°6 — L'EXTRACTION</h1>
-    <div class="subtitle">Simulation Tactique // Infiltration Réseau Écho Rouge</div>
+    <h1>COMPLEX No. 6 — THE EXTRACTION</h1>
+    <div class="subtitle">Tactical Simulation // Red Echo Network Infiltration</div>
 
     <div class="game-layout">
 
         <div class="main-column">
             <div id="naos-hud">
-                <span style="color: var(--red);">#> [NAOS-9 — LOG OPÉRATIONNEL] :</span>
-                <span id="naos-log">Initialisation du couplage nerveux...</span>
+                <span style="color: var(--red);">#> [NAOS-9 — OPERATIONAL LOG]:</span>
+                <span id="naos-log">Initializing neural coupling...</span>
             </div>
 
             <div class="canvas-wrap">
@@ -389,26 +397,26 @@
                     <div class="dpad-btn dpad-down"  data-dir="down">▼</div>
                 </div>
                 <!-- Boutons flottants -->
-                <button id="scores-btn" class="float-btn" aria-label="Classement">🏆</button>
-                <button id="ctrl-toggle" class="float-btn" aria-label="Changer les contrôles">⚙</button>
+                <button id="scores-btn" class="float-btn" aria-label="Leaderboard">🏆</button>
+                <button id="ctrl-toggle" class="float-btn" aria-label="Switch controls">⚙</button>
             </div>
 
             <div class="ui-text">
-                <span>IDENTIFIANT : <span id="player-id-display" style="color: var(--green)">——</span></span>
-                <span id="game-timer">CHRONO : 0.0s</span>
-                <span id="game-status" style="color: var(--amber)">STATUT : EN RECONNAISSANCE</span>
+                <span>ID: <span id="player-id-display" style="color: var(--green)">——</span></span>
+                <span id="game-timer">TIMER: 0.0s</span>
+                <span id="game-status" style="color: var(--amber)">STATUS: RECON</span>
             </div>
         </div>
 
         <div class="sidebar-panel">
-            <button class="sidebar-close" aria-label="Fermer">✕</button>
-            <div class="panel-title">// Top 10 — Réseau Écho</div>
+            <button class="sidebar-close" aria-label="Close">✕</button>
+            <div class="panel-title">// Top 10 — Echo Network</div>
             <table class="score-table">
                 <thead>
                     <tr>
-                        <th class="score-rank">N°</th>
+                        <th class="score-rank">#</th>
                         <th class="score-name">Agent</th>
-                        <th class="score-time" style="text-align: right;">Temps</th>
+                        <th class="score-time" style="text-align: right;">Time</th>
                     </tr>
                 </thead>
                 <tbody id="highscore-body">
@@ -416,9 +424,9 @@
             </table>
 
             <div class="instructions">
-                <strong>COMMANDES :</strong> Flèches directionnelles ou Z,Q,S,D au clavier.<br>
-                Sur mobile : <strong>joystick</strong> (le pouce le fait apparaître) ou <strong>D-pad</strong> — bascule via le bouton ⚙.<br><br>
-                <strong>MISSION :</strong> Atteignez la zone d'extraction verte (le véhicule de Kazimir) sans entrer dans les champs de vision rouges de la patrouille Aegis-CD.
+                <strong>CONTROLS:</strong> Arrow keys or Z,Q,S,D on the keyboard.<br>
+                On mobile: <strong>joystick</strong> (your thumb summons it) or <strong>D-pad</strong> — switch via the ⚙ button.<br><br>
+                <strong>MISSION:</strong> Reach the green extraction zone (Kazimir's vehicle) without entering the red fields of view of the Aegis-CD patrol.
             </div>
         </div>
 
@@ -658,13 +666,13 @@ function checkWallCollision(rect, circle) {
 
 function updateNaosAI(minDistance) {
     if (minDistance < 60) {
-        naosLog.innerText = "DANGER IMMINENT ! Ralentissez les pulsations des nanites de votre système nerveux.";
+        naosLog.innerText = "IMMINENT DANGER! Slow the pulse of the nanites in your nervous system.";
         naosLog.style.color = "var(--red)";
     } else if (minDistance < 120) {
-        naosLog.innerText = "ATTENTION : Patrouille Aegis en approche. Synchronisation temporelle requise.";
+        naosLog.innerText = "WARNING: Aegis patrol approaching. Temporal synchronization required.";
         naosLog.style.color = "var(--amber)";
     } else {
-        naosLog.innerText = "Voie libre. Trajectoire conforme. Maintenez le rythme vers la Zone Morte 7-K.";
+        naosLog.innerText = "Path clear. Trajectory on track. Keep the pace toward Dead Zone 7-K.";
         naosLog.style.color = "var(--green)";
     }
 }
@@ -674,7 +682,7 @@ function update() {
     if (!gameActive || gamePaused) return;
 
     elapsedTime = ((Date.now() - startTime) / 1000).toFixed(1);
-    timerDisplay.innerText = `CHRONO : ${elapsedTime}s`;
+    timerDisplay.innerText = `TIMER: ${elapsedTime}s`;
 
     // Combinaison clavier + tactile en un vecteur de direction normalisé
     let mx = 0, my = 0;
@@ -711,11 +719,11 @@ function update() {
         // ÉCHEC : Capturé par la patrouille
         if (distance < guard.vision) {
             gameActive = false;
-            statusDisplay.innerText = "STATUT : COMPROMIS";
+            statusDisplay.innerText = "STATUS: COMPROMISED";
             statusDisplay.style.color = "var(--red)";
-            naosLog.innerText = "[ALERTE] Éjection forcée : les verrous temporels vous renvoient en cellule.";
+            naosLog.innerText = "[ALERT] Forced ejection: the temporal locks send you back to your cell.";
             naosLog.style.color = "var(--red)";
-            setTimeout(() => { alert("Repéré ! La patrouille Aegis-CD vous a localisé."); resetGame(); }, 50);
+            setTimeout(() => { alert("Spotted! The Aegis-CD patrol has located you."); resetGame(); }, 50);
             return;
         }
     }
@@ -726,13 +734,13 @@ function update() {
     if (player.x + player.radius > extractionZone.x &&
         player.y > extractionZone.y && player.y < extractionZone.y + extractionZone.h) {
         gameActive = false;
-        statusDisplay.innerText = "STATUT : EXTRAIT";
+        statusDisplay.innerText = "STATUS: EXTRACTED";
         statusDisplay.style.color = "var(--green)";
-        naosLog.innerText = "Extraction validée. Le moteur tourne. Quittez la zone immédiatement.";
+        naosLog.innerText = "Extraction confirmed. The engine is running. Leave the area immediately.";
         naosLog.style.color = "var(--green)";
 
         saveNewScore(agentName, elapsedTime);
-        setTimeout(() => { alert(`Félicitations Agent ${agentName} ! Vous vous êtes extrait en ${elapsedTime} secondes.`); resetGame(); }, 50);
+        setTimeout(() => { alert(`Congratulations Agent ${agentName}! You extracted in ${elapsedTime} seconds.`); resetGame(); }, 50);
     }
 }
 
@@ -786,7 +794,7 @@ function resetGame() {
     gameActive = true;
     gamePaused = false;
     touch.x = 0; touch.y = 0;
-    statusDisplay.innerText = "STATUT : EN MISSION";
+    statusDisplay.innerText = "STATUS: ON MISSION";
     statusDisplay.style.color = "var(--amber)";
 }
 
@@ -819,7 +827,7 @@ handleOrientation();
 gameLoop();
 </script>
 <!--i18n:js-->
-<script src="assets/js/lang-switch.js" defer></script>
+<script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
 </body>
 </html>
