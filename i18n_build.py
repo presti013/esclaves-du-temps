@@ -22,8 +22,8 @@ _CORE = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.ht
 AVAIL = {
     # EN: core + Red Echo + games.
     "en": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html"},
-    # IT: core done. Red Echo + games IT pending.
-    "it": set(_CORE),
+    # IT: core + games. Red Echo IT pending.
+    "it": _CORE | {"signal-game.html", "mini-jeu-escape.html"},
 }
 
 LANG_LABEL = {"fr": "Français", "en": "English", "it": "Italiano"}

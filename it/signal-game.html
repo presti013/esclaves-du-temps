@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIGNAL — Écho Rouge Terminal</title>
-<meta name="description" content="SIGNAL — Terminal d'opérations clandestines Écho Rouge. Trois missions. Une seule clé. Vous avez 6 heures avant que Kassandra remonte la trace.">
-<meta property="og:title" content="SIGNAL — Terminal Opérationnel | Écho Rouge">
-<meta property="og:description" content="Terminal d'opérations clandestines. Trois missions. Une seule clé. Kassandra surveille.">
+<title>SIGNAL — Terminale Eco Rosso</title>
+<meta name="description" content="SIGNAL — Terminale di operazioni clandestine Eco Rosso. Tre missioni. Una sola chiave. Hai 6 ore prima che Kassandra ti rintracci.">
+<meta property="og:title" content="SIGNAL — Terminale Operativo | Eco Rosso">
+<meta property="og:description" content="Terminale di operazioni clandestine. Tre missioni. Una sola chiave. Kassandra sorveglia.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <!-- TODO: og:url en URL absolue une fois domaine de production connu -->
 <meta property="og:image" content="/assets/og-signal.png">
 <!-- TODO: créer /assets/og-signal.png — SIGNAL en vert terminal sur noir -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SIGNAL — Terminal Opérationnel | Écho Rouge">
-<meta name="twitter:description" content="Terminal d'opérations clandestines. Kassandra surveille.">
+<meta name="twitter:title" content="SIGNAL — Terminale Operativo | Eco Rosso">
+<meta name="twitter:description" content="Terminale di operazioni clandestine. Kassandra sorveglia.">
 <!-- TODO: favicon — <link rel="icon" type="image/svg+xml" href="/assets/favicon-signal.svg"> -->
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
 <style>
@@ -660,12 +660,12 @@ body::after {
 </head>
 <body>
 <!--i18n:switch-->
-<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="signal-game.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/signal-game.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="it/signal-game.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../signal-game.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="../en/signal-game.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="signal-game.html" hreflang="it" lang="it" class="is-active" aria-current="page" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
 <!--/i18n:switch-->
 
 <!-- ══════════ BOOT ══════════ -->
 <div id="boot" class="screen active">
-  <div class="boot-logo">ÉCHO<br>ROUGE</div>
+  <div class="boot-logo">ECO<br>ROSSO</div>
   <div class="boot-game-title">S I G N A L</div>
   <div class="boot-text" id="boot-lines"></div>
 </div>
@@ -673,19 +673,19 @@ body::after {
 <!-- ══════════ CODENAME ══════════ -->
 <div id="codename" class="screen">
   <div class="codename-box">
-    <div class="cn-pre">// IDENTIFICATION — RÉSEAU ÉCHO ROUGE // NŒUD LYON-7</div>
+    <div class="cn-pre">// IDENTIFICAZIONE — RETE ECO ROSSO // NODO LIONE-7</div>
     <div class="cn-msg">
-      Connexion TOR établie. Chiffrement AES-512 actif.<br><br>
-      Avant d'accéder aux missions, tu dois t'identifier.<br>
-      <strong>Quel est ton nom de code ?</strong>
+      Connessione TOR stabilita. Cifratura AES-512 attiva.<br><br>
+      Prima di accedere alle missioni, devi identificarti.<br>
+      <strong>Qual è il tuo nome in codice?</strong>
     </div>
     <div class="cn-field">
-      <input type="text" id="cn-input" placeholder="NOM_DE_CODE" autocomplete="off" maxlength="20"
+      <input type="text" id="cn-input" placeholder="NOME_IN_CODICE" autocomplete="off" maxlength="20"
         oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')"
         onkeydown="if(event.key==='Enter')startGame()">
-      <button class="cn-btn" onclick="startGame()">VALIDER →</button>
+      <button class="cn-btn" onclick="startGame()">CONFERMA →</button>
     </div>
-    <div style="font-size:10px;color:var(--text-muted);letter-spacing:0.08em;margin-top:8px;">// Minimum 2 caractères. Lettres, chiffres, tirets et underscores uniquement.</div>
+    <div style="font-size:10px;color:var(--text-muted);letter-spacing:0.08em;margin-top:8px;">// Minimo 2 caratteri. Solo lettere, cifre, trattini e underscore.</div>
   </div>
 </div>
 
@@ -696,36 +696,36 @@ body::after {
     <div class="hub-agent" id="hub-agent">AGENT: ——</div>
   </div>
   <div class="hub-body">
-    <div class="hub-title">// SÉLECTIONNER UNE MISSION //</div>
+    <div class="hub-title">// SELEZIONA UNA MISSIONE //</div>
     <div class="missions-grid">
 
       <div class="mission-card" id="card-0" onclick="launchMission(0)">
         <span class="mc-num">01</span>
         <div class="mc-code">// Mission Alpha</div>
-        <div class="mc-name">CANAL SIGMA</div>
-        <div class="mc-desc">Intercepter la clé de chiffrement du déploiement CT-NET 2.0 sur les serveurs de la Tour Sigma, Zurich.</div>
-        <span class="mc-diff diff-low">RISQUE MODÉRÉ</span>
+        <div class="mc-name">CANALE SIGMA</div>
+        <div class="mc-desc">Intercetta la chiave di cifratura del dispiegamento CT-NET 2.0 sui server della Torre Sigma, Zurigo.</div>
+        <span class="mc-diff diff-low">RISCHIO MODERATO</span>
       </div>
 
       <div class="mission-card locked" id="card-1" onclick="launchMission(1)">
         <span class="mc-num">02</span>
         <div class="mc-code">// Mission Bêta</div>
-        <div class="mc-name">FANTÔME</div>
-        <div class="mc-desc">Modifier l'empreinte temporelle d'une cellule Écho Rouge dans la base NAOS-9 avant qu'Aegis-CD les localise.</div>
-        <span class="mc-diff diff-med">RISQUE ÉLEVÉ</span>
+        <div class="mc-name">FANTASMA</div>
+        <div class="mc-desc">Modifica l'impronta temporale di una cellula Eco Rosso nel database NAOS-9 prima che Aegis-CD la localizzi.</div>
+        <span class="mc-diff diff-med">RISCHIO ELEVATO</span>
       </div>
 
       <div class="mission-card locked" id="card-2" onclick="launchMission(2)">
         <span class="mc-num">03</span>
         <div class="mc-code">// Mission Gamma</div>
-        <div class="mc-name">PORTE-88</div>
-        <div class="mc-desc">Activer la backdoor n°88 de NAOS-9 — une des 147 portes de Jarek Mironen — pour suspendre les GFT du Complexe n°6.</div>
-        <span class="mc-diff diff-high">RISQUE CRITIQUE</span>
+        <div class="mc-name">PORTA-88</div>
+        <div class="mc-desc">Attiva la backdoor n. 88 di NAOS-9 — una delle 147 porte di Jarek Mironen — per sospendere i GFT del Complesso n. 6.</div>
+        <span class="mc-diff diff-high">RISCHIO CRITICO</span>
       </div>
 
     </div>
     <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.08em;text-align:center;">
-      Les missions se débloquent dans l'ordre. Tape <span style="color:var(--green-dim)">help</span> dans le terminal pour la liste des commandes.
+      Le missioni si sbloccano in ordine. Digita <span style="color:var(--green-dim)">help</span> nel terminale per l'elenco dei comandi.
     </div>
   </div>
 </div>
@@ -738,7 +738,7 @@ body::after {
       <div class="gtb-mission" id="gtb-title">MISSION</div>
     </div>
     <div class="gtb-center">
-      <div class="gtb-obj" id="gtb-obj">Objectif en cours</div>
+      <div class="gtb-obj" id="gtb-obj">Obiettivo in corso</div>
     </div>
     <div class="gtb-right">
       <div class="stages" id="stage-dots"></div>
@@ -754,18 +754,18 @@ body::after {
     <div class="terminal-main">
       <div id="output"></div>
       <div class="input-row">
-        <div class="input-prompt" id="prompt-path">écho@sigma:~$</div>
-        <input type="text" id="cmd-input" placeholder="tapez une commande..." autocomplete="off" autofocus
+        <div class="input-prompt" id="prompt-path">echo@sigma:~$</div>
+        <input type="text" id="cmd-input" placeholder="digita un comando..." autocomplete="off" autofocus
           onkeydown="handleKey(event)">
       </div>
     </div>
     <div class="terminal-sidebar">
       <div class="ts-section">
-        <div class="ts-title">// Objectifs</div>
+        <div class="ts-title">// Obiettivi</div>
         <div id="sidebar-objectives"></div>
       </div>
       <div class="ts-section">
-        <div class="ts-title">// Commandes</div>
+        <div class="ts-title">// Comandi</div>
         <div class="cmd-list" id="sidebar-cmds"></div>
       </div>
       <div class="ts-section" id="sidebar-notes-wrap" style="display:none">
@@ -780,11 +780,11 @@ body::after {
 <div id="result-screen" class="screen">
   <div class="result-box">
     <div class="result-icon" id="r-icon">✓</div>
-    <div class="result-title" id="r-title">MISSION ACCOMPLIE</div>
+    <div class="result-title" id="r-title">MISSIONE COMPLETATA</div>
     <div class="result-narrative" id="r-narrative"></div>
     <div class="result-btns">
-      <button class="r-btn" onclick="goHub()">→ Retour au Hub</button>
-      <button class="r-btn secondary" onclick="goHub()">→ Prochaine Mission</button>
+      <button class="r-btn" onclick="goHub()">→ Torna all'Hub</button>
+      <button class="r-btn secondary" onclick="goHub()">→ Missione successiva</button>
     </div>
   </div>
 </div>
@@ -793,15 +793,15 @@ body::after {
 <div id="finale" class="screen">
   <div class="finale-box">
     <div class="finale-title">SIGNAL<br>TRANSMIS</div>
-    <div class="finale-sub">// TROIS MISSIONS. UNE RÉSISTANCE. //</div>
+    <div class="finale-sub">// TRE MISSIONI. UNA RESISTENZA. //</div>
     <div class="finale-text" id="finale-text"></div>
     <div class="finale-quote">
-      "L'eau trouve toujours son chemin."<br>
+      "L'acqua trova sempre la sua strada."<br>
       <span style="font-size:11px;color:var(--text-muted);font-style:normal;letter-spacing:0.1em;">— Malek Veyran</span>
     </div>
-    <button class="finale-link" onclick="showScreen('hub')">→ Rejouer</button>
+    <button class="finale-link" onclick="showScreen('hub')">→ Rigioca</button>
     &nbsp;&nbsp;
-    <button class="finale-link" style="border-color:var(--amber-dim);color:var(--amber-dim)" onclick="window.location.href='index.html'">→ Retour au portail</button>
+    <button class="finale-link" style="border-color:var(--amber-dim);color:var(--amber-dim)" onclick="window.location.href='index.html'">→ Torna al portale</button>
   </div>
 </div>
 
@@ -824,23 +824,23 @@ let mState = {};
 //  BOOT SEQUENCE
 // ══════════════════════════════════════════
 const bootLines = [
-  { t:'ÉCHO ROUGE OS v2.034 — KERNEL TEMPOREL 4.7', cls:'', d:200 },
-  { t:'> Initialisation interface terminal...', cls:'', d:600 },
-  { t:'> Chargement protocoles chiffrement AES-512... OK', cls:'ok', d:1000 },
-  { t:'> Connexion nœud Lyon-Confluence-7... OK', cls:'ok', d:1400 },
-  { t:'> Vérification contre-mesures Kassandra... OK', cls:'ok', d:1900 },
-  { t:'⚠ Activité Kassandra détectée — niveau 2 — neutralisée', cls:'warn', d:2400 },
-  { t:'> Modules de mission chargés : CANAL SIGMA / FANTÔME / PORTE-88', cls:'ok', d:2900 },
+  { t:'ECO ROSSO OS v2.034 — KERNEL TEMPORALE 4.7', cls:'', d:200 },
+  { t:'> Inizializzazione interfaccia terminale...', cls:'', d:600 },
+  { t:'> Caricamento protocolli di cifratura AES-512... OK', cls:'ok', d:1000 },
+  { t:'> Connessione nodo Lione-Confluence-7... OK', cls:'ok', d:1400 },
+  { t:'> Verifica contromisure Kassandra... OK', cls:'ok', d:1900 },
+  { t:'⚠ Attività Kassandra rilevata — livello 2 — neutralizzata', cls:'warn', d:2400 },
+  { t:'> Moduli di missione caricati: CANALE SIGMA / FANTASMA / PORTA-88', cls:'ok', d:2900 },
   { t:'', cls:'', d:3200 },
   { t:'╔══════════════════════════════════════════╗', cls:'ok', d:3400 },
-  { t:'║   SIGNAL — Jeu de terminal Écho Rouge   ║', cls:'ok', d:3400 },
-  { t:'║   Basé sur "Esclaves du Temps"           ║', cls:'ok', d:3400 },
+  { t:'║   SIGNAL — Gioco terminale Eco Rosso     ║', cls:'ok', d:3400 },
+  { t:'║   Basato su "Schiavi del Tempo"          ║', cls:'ok', d:3400 },
   { t:'╚══════════════════════════════════════════╝', cls:'ok', d:3400 },
   { t:'', cls:'', d:3500 },
-  { t:'Trois missions. Une fenêtre de 72 heures.', cls:'', d:3700 },
-  { t:'CT-NET 2.0 se déploie. Deux milliards de cerveaux en jeu.', cls:'', d:4000 },
+  { t:'Tre missioni. Una finestra di 72 ore.', cls:'', d:3700 },
+  { t:'CT-NET 2.0 si dispiega. Due miliardi di cervelli in gioco.', cls:'', d:4000 },
   { t:'', cls:'', d:4200 },
-  { t:'Identification requise...', cls:'warn', d:4400 },
+  { t:'Identificazione richiesta...', cls:'warn', d:4400 },
 ];
 
 window.onload = () => {
@@ -905,22 +905,22 @@ const MISSIONS = [
     id: 0,
     code: 'ALPHA',
     name: 'CANAL SIGMA',
-    obj: 'Extraire la clé de chiffrement CT-NET 2.0 des serveurs Zurich',
-    stages: ['Connexion Tour Sigma', 'Navigation filesystem', 'Déchiffrement', 'Exfiltration'],
+    obj: 'Estrai la chiave di cifratura CT-NET 2.0 dai server di Zurigo',
+    stages: ['Connessione Torre Sigma', 'Navigazione filesystem', 'Decifratura', 'Esfiltrazione'],
     promptPath: 'agent@sigma.ctcorp.ch:~$',
-    commands: ['help', 'ssh [serveur]', 'connect [serveur]', 'ls', 'cd [dossier]', 'cat [fichier]', 'decrypt [clé] [fichier]', 'inject [payload]', 'status', 'clear', 'abort'],
+    commands: ['help', 'ssh [server]', 'connect [server]', 'ls', 'cd [dir]', 'cat [file]', 'decrypt [chiave] [file]', 'inject [payload]', 'status', 'clear', 'abort'],
     objectives: [
-      'Se connecter au serveur Sigma',
-      'Trouver le fichier chiffré ctnet20.enc',
-      'Localiser la clé de déchiffrement',
-      'Déchiffrer le fichier',
-      'Injecter un leurre et exfiltrer',
+      'Connettiti al server Sigma',
+      'Trova il file cifrato ctnet20.enc',
+      'Localizza la chiave di decifratura',
+      'Decifra il file',
+      'Inietta un\'esca ed esfiltra',
     ],
     briefing: [
-      { t:'brief', txt:'SENA VALKOVA // COORDINATRICE ÉCHO ROUGE // LYON' },
-      { t:'brief', txt:'Agent ' + '' + '. CT-NET 2.0 se déploie dans moins de 72 heures. Sa clé de chiffrement est stockée sur les serveurs de la Tour Sigma à Zurich — le hub central du Canal Sigma.' },
-      { t:'brief', txt:'Tu as un accès partiel via un compte de maintenance compromis. Trouve le fichier ctnet20.enc, récupère la clé, et injecte un leurre pour effacer ta trace. Kazimir te sort si Kassandra monte au rouge.' },
-      { t:'brief', txt:'// Bonne chance. Le réseau compte sur toi.' },
+      { t:'brief', txt:'SENA VALKOVA // COORDINATRICE ECO ROSSO // LIONE' },
+      { t:'brief', txt:'Agent ' + '' + '. CT-NET 2.0 si dispiega in meno di 72 ore. La sua chiave di cifratura è memorizzata sui server della Torre Sigma a Zurigo — l\'hub centrale del Canale Sigma.' },
+      { t:'brief', txt:'Hai un accesso parziale tramite un account di manutenzione compromesso. Trova il file ctnet20.enc, recupera la chiave e inietta un\'esca per cancellare le tue tracce. Kazimir ti tira fuori se Kassandra va in rosso.' },
+      { t:'brief', txt:'// Buona fortuna. La rete conta su di te.' },
     ],
     filesystem: {
       '~': ['maintenance/', 'logs/', 'tmp/'],
@@ -929,44 +929,44 @@ const MISSIONS = [
       '~/tmp': ['ctnet20.enc', 'leurre.bin'],
     },
     files: {
-      'readme.txt': '// ACCÈS MAINTENANCE — TOUR SIGMA\nPersonnel autorisé uniquement.\nClé de session : voir session_key.dat\nEn cas de problème : contacter admin@sigma.ctcorp.ch',
-      'protocoles.txt': '// PROTOCOLES DE MAINTENANCE CANAL SIGMA\nMise à jour firmware : canal broadcast Sigma\nCadence : toutes les 48h\nChiffrement : AES-512 + clé rotative\nClé courante : voir session_key.dat\nProchain déploiement : CTNET20 — 31.01.2035',
-      'session_key.dat': '// CLÉ DE SESSION MAINTENANCE\n// GÉNÉRÉE : 28.01.2035 04:17 UTC\nKEY_SESSION_MAINT = ORPHEUS\n// Valide 24h. Rotation automatique.',
+      'readme.txt': '// ACCESSO MANUTENZIONE — TORRE SIGMA\nSolo personale autorizzato.\nChiave di sessione: vedi session_key.dat\nIn caso di problemi: contattare admin@sigma.ctcorp.ch',
+      'protocoles.txt': '// PROTOCOLLI DI MANUTENZIONE CANALE SIGMA\nAggiornamento firmware: canale broadcast Sigma\nFrequenza: ogni 48h\nCifratura: AES-512 + chiave rotante\nChiave corrente: vedi session_key.dat\nProssimo dispiegamento: CTNET20 — 31.01.2035',
+      'session_key.dat': '// CHIAVE DI SESSIONE MANUTENZIONE\n// GENERATA: 28.01.2035 04:17 UTC\nKEY_SESSION_MAINT = ORPHEUS\n// Valida 24h. Rotazione automatica.',
       'access.log': '28.01.2035 01:22 — LOGIN sigma_maint — IP 172.16.0.1\n28.01.2035 02:41 — ACCESS /tmp/ctnet20.enc — USER admin_01\n28.01.2035 03:55 — LOGIN sigma_maint — IP ██.██.██.██\n28.01.2035 04:17 — SESSION_KEY_ROTATED\n28.01.2035 04:30 — KASSANDRA_SCAN — CLEAR',
-      'sigma_events.log': '// ÉVÉNEMENTS CANAL SIGMA\n[WARN] 27.12.2034 16:00 — SIGNAL_PARASITE détecté — source: Lyon-Confluence\n[INFO] 29.12.2034 — DÉPLOIEMENT CT-NET 2.0 planifié J+3\n[INFO] 31.01.2035 — CTNET20 — Upload prêt — Chiffrement ORPHEUS_DELTA\n[WARN] Fenêtre de maintenance ouverte — 28.01.2035 04:00–06:00',
-      'ctnet20.enc': '// FICHIER CHIFFRÉ — CTNET20.ENC\n// Chiffrement : clé de session active\n4f52504845555f44454c5441\n// Déchiffrement requis — commande: decrypt [clé] ctnet20.enc',
-      'leurre.bin': '// PAYLOAD LEURRE — usage: inject leurre.bin\n// Injecte une fausse signature de connexion\n// Efface les traces dans access.log',
+      'sigma_events.log': '// EVENTI CANALE SIGMA\n[WARN] 27.12.2034 16:00 — SIGNAL_PARASITE rilevato — fonte: Lione-Confluence\n[INFO] 29.12.2034 — DISPIEGAMENTO CT-NET 2.0 pianificato G+3\n[INFO] 31.01.2035 — CTNET20 — Upload pronto — Cifratura ORPHEUS_DELTA\n[WARN] Finestra di manutenzione aperta — 28.01.2035 04:00–06:00',
+      'ctnet20.enc': '// FILE CIFRATO — CTNET20.ENC\n// Cifratura: chiave di sessione attiva\n4f52504845555f44454c5441\n// Decifratura richiesta — comando: decrypt [chiave] ctnet20.enc',
+      'leurre.bin': '// PAYLOAD ESCA — uso: inject leurre.bin\n// Inietta una falsa firma di connessione\n// Cancella le tracce in access.log',
     },
     // Puzzle: decrypt ORPHEUS ctnet20.enc
     decryptTarget: { key: 'ORPHEUS', file: 'ctnet20.enc' },
-    decryptResult: '// CT-NET 2.0 — CLEF DE DÉPLOIEMENT DÉCHIFFRÉE\nCLÉ_CTNET20 = ORPHEUS_DELTA_7734\nFRÉQUENCE_CANAL_SIGMA = 4.9 THz\nHORODATAGE_DÉPLOIEMENT = 31.01.2035 00:00:00 UTC\nNŒUDS_CIBLES = ALL_TISSAGES_V3+\n// Cette clé permet de générer un contre-signal de fréquence identique.',
+    decryptResult: '// CT-NET 2.0 — CHIAVE DI DISPIEGAMENTO DECIFRATA\nCHIAVE_CTNET20 = ORPHEUS_DELTA_7734\nFREQUENZA_CANALE_SIGMA = 4.9 THz\nTIMESTAMP_DISPIEGAMENTO = 31.01.2035 00:00:00 UTC\nNODI_BERSAGLIO = ALL_TESSITURE_V3+\n// Questa chiave permette di generare un contro-segnale alla stessa frequenza.',
     injectPayload: 'leurre.bin',
     stages_done: [false, false, false, false, false],
-    success_narrative: `La clé est entre vos mains. <strong>ORPHEUS_DELTA_7734</strong>. La même fréquence que le Canal Sigma — la même fréquence que le contre-signal d'Ananké.\n\nReya a souri quand Sena lui a transmis les données. <em>"Avec ça, on peut construire un signal qui voyage sur le même canal que CT-NET 2.0. Pas pour l'arrêter — pour le contaminer."</em>\n\nLa Tour Sigma ne sait pas encore ce qui vient de lui être volé. Le leurre tient. Kassandra voit une session de maintenance normale.\n\nMission Alpha : accomplie.`,
-    fail_narrative: `Kassandra a détecté l'intrusion. Les logs ont été figés. Ton adresse IP de sortie est marquée. Aegis-CD a reçu l'alerte.\n\nKazimir t'a extrait en deux minutes. Tu es en sécurité. Mais la clé est toujours sur les serveurs de Zurich, et CT-NET 2.0 se déploie dans moins de 60 heures.\n\nEssaie encore. Plus vite. Plus discret.`,
+    success_narrative: `La chiave è nelle tue mani. <strong>ORPHEUS_DELTA_7734</strong>. La stessa frequenza del Canale Sigma — la stessa frequenza del contro-segnale di Ananke.\n\nReya ha sorriso quando Sena le ha passato i dati. <em>"Con questo possiamo costruire un segnale che viaggia sullo stesso canale di CT-NET 2.0. Non per fermarlo — per contaminarlo."</em>\n\nLa Torre Sigma non sa ancora cosa le è appena stato rubato. L'esca regge. Kassandra vede una normale sessione di manutenzione.\n\nMissione Alpha: completata.`,
+    fail_narrative: `Kassandra ha rilevato l'intrusione. I log sono stati congelati. Il tuo indirizzo IP di uscita è segnalato. Aegis-CD ha ricevuto l'allarme.\n\nKazimir ti ha estratto in due minuti. Sei al sicuro. Ma la chiave è ancora sui server di Zurigo, e CT-NET 2.0 si dispiega in meno di 60 ore.\n\nRiprova. Più in fretta. Più silenzioso.`,
   },
 
   // ── MISSION 1 : FANTÔME ──
   {
     id: 1,
-    code: 'BÊTA',
+    code: 'BETA',
     name: 'FANTÔME',
-    obj: 'Modifier l\'empreinte temporelle de l\'agent BRNO-4 dans NAOS-9',
-    stages: ['Connexion NAOS-9', 'Identification de la cible', 'Modification biométrique', 'Validation'],
+    obj: 'Modifica l\'impronta temporale dell\'agente BRNO-4 in NAOS-9',
+    stages: ['Connessione NAOS-9', 'Identificazione del bersaglio', 'Modifica biometrica', 'Convalida'],
     promptPath: 'agent@naos9.ctcorp.int:~$',
-    commands: ['help', 'scan [--agents]', 'query [id]', 'modify [id] [champ] [valeur]', 'verify [id]', 'commit', 'status', 'clear', 'abort'],
+    commands: ['help', 'scan [--agents]', 'query [id]', 'modify [id] [campo] [valore]', 'verify [id]', 'commit', 'status', 'clear', 'abort'],
     objectives: [
-      'Scanner la base d\'agents — cellule Prague',
-      'Identifier l\'agent exposé (BRNO-4)',
-      'Modifier son empreinte temporelle',
-      'Vérifier la modification',
-      'Valider le commit avant détection',
+      'Scansiona il database agenti — cellula Praga',
+      'Identifica l\'agente esposto (BRNO-4)',
+      'Modifica la sua impronta temporale',
+      'Verifica la modifica',
+      'Convalida il commit prima del rilevamento',
     ],
     briefing: [
-      { t:'brief', txt:'KAZIMIR SOKOLOV // OPÉRATIONS ÉCHO ROUGE // MOBILE' },
-      { t:'brief', txt:'Agent. La cellule de Brno est grillée. Kassandra a localisé l\'empreinte temporelle de l\'agent BRNO-4. Aegis-CD arrive dans environ 4 minutes réelles.' },
-      { t:'brief', txt:'Tu as un accès backdoor à NAOS-9 via une faille que Lena Reinholt a trouvée. Tu dois scanner les agents de la cellule Prague, identifier BRNO-4 par ses attributs, modifier son empreinte biométrique en PHANTOM, et valider avant que Kassandra te repère.' },
-      { t:'brief', txt:'// Un seul agent avec status EXPOSED et last_compression NONE. C\'est lui. Va vite.' },
+      { t:'brief', txt:'KAZIMIR SOKOLOV // OPERAZIONI ECO ROSSO // MOBILE' },
+      { t:'brief', txt:'Agente. La cellula di Brno è bruciata. Kassandra ha localizzato l\'impronta temporale dell\'agente BRNO-4. Aegis-CD arriva tra circa 4 minuti reali.' },
+      { t:'brief', txt:'Hai un accesso backdoor a NAOS-9 tramite una falla trovata da Lena Reinholt. Devi scansionare gli agenti della cellula di Praga, identificare BRNO-4 dai suoi attributi, cambiare la sua impronta biometrica in PHANTOM e convalidare prima che Kassandra ti individui.' },
+      { t:'brief', txt:'// Un solo agente con status EXPOSED e last_compression NONE. È lui. Fai in fretta.' },
     ],
     filesystem: {
       '~': ['db/', 'system/'],
@@ -974,17 +974,17 @@ const MISSIONS = [
       '~/system': ['naos_log.txt'],
     },
     files: {
-      'agents_prague.db': '// BASE DONNÉES AGENTS — CELLULE PRAGUE\n// Commande: scan --agents pour afficher',
-      'tissages_actifs.dat': '// TISSAGES ACTIFS — NŒUD PRAGUE\n// 3 274 porteurs actifs\n// 41 en mode erreur (post-Ananké)\n// Surveillance niveau 2 maintenue',
-      'naos_log.txt': '// NAOS-9 LOG — NŒUD PRAGUE\n[28.01.2035 03:44] SCAN prédictif — cellule Brno identifiée\n[28.01.2035 03:51] Agent BRNO-4 — empreinte verrouillée\n[28.01.2035 03:58] Transmission Aegis-CD — ETA 4 minutes\n[28.01.2035 04:00] BACKDOOR_SESSION ouverte — 120 secondes',
+      'agents_prague.db': '// DATABASE AGENTI — CELLULA PRAGA\n// Comando: scan --agents per visualizzare',
+      'tissages_actifs.dat': '// TESSITURE ATTIVE — NODO PRAGA\n// 3.274 portatori attivi\n// 41 in modalità errore (post-Ananke)\n// Sorveglianza livello 2 mantenuta',
+      'naos_log.txt': '// NAOS-9 LOG — NODO PRAGA\n[28.01.2035 03:44] SCAN predittivo — cellula Brno identificata\n[28.01.2035 03:51] Agente BRNO-4 — impronta bloccata\n[28.01.2035 03:58] Trasmissione Aegis-CD — ETA 4 minuti\n[28.01.2035 04:00] BACKDOOR_SESSION aperta — 120 secondi',
     },
     // Fake agents database
     agentsData: [
-      { id:'PRG-001', nom:'SOKOL', cell:'Brno', status:'ACTIF', last_comp:'2034-12-15', biometric:'TMP-4421-A' },
-      { id:'PRG-002', nom:'LISZT', cell:'Prague', status:'ACTIF', last_comp:'2034-11-02', biometric:'TMP-7734-B' },
-      { id:'PRG-003', nom:'FALCON', cell:'Brno', status:'ACTIF', last_comp:'2035-01-10', biometric:'TMP-0081-C' },
+      { id:'PRG-001', nom:'SOKOL', cell:'Brno', status:'ATTIVO', last_comp:'2034-12-15', biometric:'TMP-4421-A' },
+      { id:'PRG-002', nom:'LISZT', cell:'Prague', status:'ATTIVO', last_comp:'2034-11-02', biometric:'TMP-7734-B' },
+      { id:'PRG-003', nom:'FALCON', cell:'Brno', status:'ATTIVO', last_comp:'2035-01-10', biometric:'TMP-0081-C' },
       { id:'PRG-004', nom:'BRNO-4', cell:'Brno', status:'EXPOSED', last_comp:'NONE', biometric:'TMP-8814-D' },
-      { id:'PRG-005', nom:'VRBA', cell:'Prague', status:'ACTIF', last_comp:'2035-01-05', biometric:'TMP-2211-E' },
+      { id:'PRG-005', nom:'VRBA', cell:'Prague', status:'ATTIVO', last_comp:'2035-01-05', biometric:'TMP-2211-E' },
     ],
     targetId: 'PRG-004',
     targetField: 'biometric',
@@ -992,8 +992,8 @@ const MISSIONS = [
     modifyDone: false,
     verifyDone: false,
     commitDone: false,
-    success_narrative: `L'empreinte de BRNO-4 est maintenant <strong>PHANTOM</strong>. Pour NAOS-9, cet agent n'existe plus — ou plutôt, il est mort depuis six semaines. Kassandra va chercher un fantôme.\n\nKazimir a exfiltré l'équipe de Brno deux minutes après ton commit. Ils sont dans un van en direction des Carpates.\n\n<em>"Je ne veux pas savoir ton nom,"</em> a dit BRNO-4 dans la transmission chiffrée. <em>"Mais merci."</em>\n\nMission Bêta : accomplie.`,
-    fail_narrative: `Kassandra a gelé la session. L'empreinte de BRNO-4 est toujours dans la base. Aegis-CD a eu les coordonnées.\n\nKazimir n'a pas eu le temps. La cellule de Brno est compromise.\n\nOn recommence. Chaque seconde compte.`,
+    success_narrative: `L'impronta di BRNO-4 ora è <strong>PHANTOM</strong>. Per NAOS-9, questo agente non esiste più — o meglio, è morto da sei settimane. Kassandra darà la caccia a un fantasma.\n\nKazimir ha esfiltrato la squadra di Brno due minuti dopo il tuo commit. Sono su un furgone diretto verso i Carpazi.\n\n<em>"Non voglio sapere il tuo nome,"</em> ha detto BRNO-4 nella trasmissione cifrata. <em>"Ma grazie."</em>\n\nMissione Beta: completata.`,
+    fail_narrative: `Kassandra ha congelato la sessione. L'impronta di BRNO-4 è ancora nel database. Aegis-CD ha ottenuto le coordinate.\n\nKazimir non ha fatto in tempo. La cellula di Brno è compromessa.\n\nSi ricomincia. Ogni secondo conta.`,
   },
 
   // ── MISSION 2 : PORTE-88 ──
@@ -1001,22 +1001,22 @@ const MISSIONS = [
     id: 2,
     code: 'GAMMA',
     name: 'PORTE-88',
-    obj: 'Activer la backdoor n°88 de Jarek Mironen pour suspendre les GFT du Complexe n°6',
-    stages: ['Accès archives NAOS', 'Reconstruction de la commande', 'Calcul du nœud cible', 'Activation'],
+    obj: 'Attiva la backdoor n. 88 di Jarek Mironen per sospendere i GFT del Complesso n. 6',
+    stages: ['Accesso archivi NAOS', 'Ricostruzione del comando', 'Calcolo del nodo bersaglio', 'Attivazione'],
     promptPath: 'agent@naos9.core.int:~$',
-    commands: ['help', 'log --search [terme]', 'fragment [id]', 'assemble [f1] [f2] [f3] [f4]', 'calc [expression]', 'exploit --port [n] --node [nœud] --sig [signature]', 'status', 'clear', 'abort'],
+    commands: ['help', 'log --search [termine]', 'fragment [id]', 'assemble [f1] [f2] [f3] [f4]', 'calc [expression]', 'exploit --port [n] --node [nodo] --sig [firma]', 'status', 'clear', 'abort'],
     objectives: [
-      'Récupérer les 4 fragments de la porte n°88',
-      'Assembler la commande d\'exploit',
-      'Calculer le nœud cible (GFT Gdańsk)',
-      'Exécuter l\'exploit avec la bonne signature',
+      'Recupera i 4 frammenti della porta n. 88',
+      'Assembla il comando di exploit',
+      'Calcola il nodo bersaglio (GFT Gdańsk)',
+      'Esegui l\'exploit con la firma corretta',
     ],
     briefing: [
-      { t:'naos', txt:'NAOS-9 // ARCHE // RÉSEAU ÉCHO ROUGE — TRANSMISSION SÉCURISÉE' },
-      { t:'brief', txt:'Agent. Je suis NAOS-9. Mon créateur, Jarek Mironen, a intégré 147 portes logicielles dans mon architecture. Des backdoors qu\'il pouvait activer sans que CT Corp le sache.' },
-      { t:'brief', txt:'La porte n°88 suspend temporairement les GFT d\'un nœud géographique sans déclencher les alarmes de sécurité. Complexe n°6, Gdańsk — 2 400 compressés encore en bulle. Ils peuvent être libérés.' },
-      { t:'brief', txt:'Je ne peux pas activer cette porte moi-même — elle répond uniquement à une signature externe. La commande est fragmentée dans mes anciens logs, que CT Corp n\'a jamais su lire. Trouve les 4 fragments. Assemble la commande. Exécute.' },
-      { t:'naos', txt:'// Jarek a laissé cette porte pour toi. Pour quelqu\'un comme toi.' },
+      { t:'naos', txt:'NAOS-9 // ARCA // RETE ECO ROSSO — TRASMISSIONE SICURA' },
+      { t:'brief', txt:'Agente. Sono NAOS-9. Il mio creatore, Jarek Mironen, ha integrato 147 porte software nella mia architettura. Backdoor che poteva attivare senza che CT Corp lo sapesse.' },
+      { t:'brief', txt:'La porta n. 88 sospende temporaneamente i GFT di un nodo geografico senza far scattare gli allarmi di sicurezza. Complesso n. 6, Gdańsk — 2.400 compressi ancora in bolla. Possono essere liberati.' },
+      { t:'brief', txt:'Non posso attivare questa porta da solo — risponde solo a una firma esterna. Il comando è frammentato nei miei vecchi log, che CT Corp non ha mai saputo leggere. Trova i 4 frammenti. Assembla il comando. Esegui.' },
+      { t:'naos', txt:'// Jarek ha lasciato questa porta per te. Per qualcuno come te.' },
     ],
     filesystem: {
       '~': ['archives/', 'core/'],
@@ -1025,12 +1025,12 @@ const MISSIONS = [
       '~/core': ['naos_architecture.txt'],
     },
     files: {
-      'backdoor_index.txt': '// INDEX DES PORTES MIRONEN\n// 147 portes intégrées — 2027-2028\n// Porte n°88 — GFT_SUSPEND — géographique\n// Commande reconstituée depuis fragments:\n// [F1] + [F2] + [F3] + [F4]\n// Fragments dispersés dans les logs de construction 2027-2028\n// Commande: log --search [terme] pour chercher',
-      'naos_architecture.txt': '// ARCHITECTURE NAOS-9 — DOCUMENT INTERNE\n// 147 portes logicielles (Mironen, J. — 2027)\n// Nœud Gdańsk = CTG6-[CALCUL]\n// ID nœud = "CTG" + numéro_complexe + code_ville\n// Gdańsk = GDN\n// Complexe n°6 = 06\n// Format: CTG06-GDN\n// Signature requise: MIRONEN-[n° de porte]\n// Ex pour porte 12: MIRONEN-012',
-      'jm_2027_alpha.log': '// JAREK MIRONEN — LOG DÉVELOPPEMENT — ALPHA\n// 14.03.2027\nInitialisation architecture NAOS-9.\nTest protocoles de contrôle temporel.\n[FRAGMENT F1 PORTE-88]: "exploit --port"\n// Commentaire: porte 88 = suspension douce GFT. Pas d\'alarme si signature valide.',
-      'jm_2027_beta.log': '// JAREK MIRONEN — LOG DÉVELOPPEMENT — BÊTA\n// 22.05.2027\nIntégration Canal Sigma.\nTest backdoors 80-95.\n[FRAGMENT F2 PORTE-88]: "88 --node"\n// Note: le nœud cible est formaté CTG[complexe]-[ville3lettres]',
-      'jm_2028_genesis.log': '// JAREK MIRONEN — LOG — GENESIS\n// 08.02.2028\nProtocole GENESIS intégré dans Kael. Tissage bidirectionnel.\n// Rappel à moi-même: la porte 88 nécessite le bon nœud\n[FRAGMENT F3 PORTE-88]: "CTG06-GDN"\n// CTG06-GDN = Complexe 6, Gdańsk. 2400 compressés.',
-      'jm_2028_sigma.log': '// JAREK MIRONEN — LOG — SIGMA\n// 19.09.2028\nDernier log avant transfert à CT Corp.\nSi quelqu\'un lit ceci un jour — vous avez trouvé les portes.\n[FRAGMENT F4 PORTE-88]: "--sig MIRONEN-088"\n// La signature MIRONEN-088 authentifie l\'ordre sans déclencher les systèmes de sécurité CT Corp.',
+      'backdoor_index.txt': '// INDICE DELLE PORTE MIRONEN\n// 147 porte integrate — 2027-2028\n// Porta n. 88 — GFT_SUSPEND — geografica\n// Comando ricostruito dai frammenti:\n// [F1] + [F2] + [F3] + [F4]\n// Frammenti dispersi nei log di costruzione 2027-2028\n// Comando: log --search [termine] per cercare',
+      'naos_architecture.txt': '// ARCHITETTURA NAOS-9 — DOCUMENTO INTERNO\n// 147 porte software (Mironen, J. — 2027)\n// Nodo Gdańsk = CTG6-[CALC]\n// ID nodo = "CTG" + numero_complesso + codice_città\n// Gdańsk = GDN\n// Complesso n. 6 = 06\n// Formato: CTG06-GDN\n// Firma richiesta: MIRONEN-[n. porta]\n// Es. per porta 12: MIRONEN-012',
+      'jm_2027_alpha.log': '// JAREK MIRONEN — LOG SVILUPPO — ALPHA\n// 14.03.2027\nInizializzazione architettura NAOS-9.\nTest protocolli di controllo temporale.\n[FRAGMENT F1 PORTE-88]: "exploit --port"\n// Commento: porta 88 = sospensione morbida GFT. Nessun allarme se firma valida.',
+      'jm_2027_beta.log': '// JAREK MIRONEN — LOG SVILUPPO — BETA\n// 22.05.2027\nIntegrazione Canale Sigma.\nTest backdoor 80-95.\n[FRAGMENT F2 PORTE-88]: "88 --node"\n// Nota: il nodo bersaglio è formattato CTG[complesso]-[città3lettere]',
+      'jm_2028_genesis.log': '// JAREK MIRONEN — LOG — GENESIS\n// 08.02.2028\nProtocollo GENESIS integrato in Kael. Tessitura bidirezionale.\n// Promemoria: la porta 88 richiede il nodo giusto\n[FRAGMENT F3 PORTE-88]: "CTG06-GDN"\n// CTG06-GDN = Complesso 6, Gdańsk. 2400 compressi.',
+      'jm_2028_sigma.log': '// JAREK MIRONEN — LOG — SIGMA\n// 19.09.2028\nUltimo log prima del trasferimento a CT Corp.\nSe qualcuno legge questo un giorno — avete trovato le porte.\n[FRAGMENT F4 PORTE-88]: "--sig MIRONEN-088"\n// La firma MIRONEN-088 autentica l\'ordine senza far scattare i sistemi di sicurezza di CT Corp.',
     },
     fragments: {
       'F1': 'exploit --port',
@@ -1042,8 +1042,8 @@ const MISSIONS = [
     assembled: false,
     // Final command: exploit --port 88 --node CTG06-GDN --sig MIRONEN-088
     finalCommand: 'exploit --port 88 --node CTG06-GDN --sig MIRONEN-088',
-    success_narrative: `La porte n°88 s'ouvre.\n\nDans le Complexe n°6 de Gdańsk, les <strong>Générateurs de Flux Temporel</strong> marquent une pause. Trois secondes. Dix secondes. Trente secondes de temps réel qui ressemblent à une éternité pour 2 400 consciences qui n'ont plus été synchronisées depuis Ananké.\n\nLes portes des bulles s'ouvrent. Pas toutes — juste assez. Les compressés les plus proches des sorties comprennent avant les gardes.\n\n<em>2 400 personnes libres.</em>\n\nNAOS-9 t'a transmis un seul message après l'exploit : <strong>"Jarek avait raison. Quelqu'un les a trouvées."</strong>\n\nMission Gamma : accomplie.`,
-    fail_narrative: `La commande a échoué. Mauvaise signature, mauvais nœud, ou Kassandra a gelé l'accès avant l'exécution.\n\nLes 2 400 compressés du Complexe n°6 restent dans leurs bulles.\n\nAssemble les fragments. Recommence. Ils attendent.`,
+    success_narrative: `La porta n. 88 si apre.\n\nNel Complesso n. 6 di Gdańsk, i <strong>Generatori di Flusso Temporale</strong> si fermano. Tre secondi. Dieci secondi. Trenta secondi di tempo reale che sembrano un'eternità per 2.400 coscienze che non vengono più sincronizzate da Ananke.\n\nLe porte delle bolle si aprono. Non tutte — quel tanto che basta. I compressi più vicini alle uscite capiscono prima delle guardie.\n\n<em>2.400 persone libere.</em>\n\nNAOS-9 ti ha trasmesso un solo messaggio dopo l'exploit: <strong>"Jarek aveva ragione. Qualcuno le ha trovate."</strong>\n\nMissione Gamma: completata.`,
+    fail_narrative: `Il comando è fallito. Firma sbagliata, nodo sbagliato, o Kassandra ha congelato l'accesso prima dell'esecuzione.\n\nI 2.400 compressi del Complesso n. 6 restano nelle loro bolle.\n\nAssembla i frammenti. Ricomincia. Stanno aspettando.`,
   },
 ];
 
@@ -1126,12 +1126,12 @@ function launchMission(idx) {
     setTimeout(() => {
       print('sep', '─'.repeat(52));
       if (currentMission === 0) {
-        print('ok', '> Connexion sigma.ctcorp.ch établie via compte maintenance compromis.');
-        print('ok', '> Répertoires disponibles : maintenance/  logs/  tmp/');
+        print('ok', '> Connessione sigma.ctcorp.ch stabilita tramite account di manutenzione compromesso.');
+        print('ok', '> Directory disponibili: maintenance/  logs/  tmp/');
         completeObj(0);
         advanceStage();
       }
-      print('info', '// Terminal prêt. Tape "help" pour la liste des commandes.');
+      print('info', '// Terminale pronto. Digita "help" per l\'elenco dei comandi.');
       print('sep', '─'.repeat(52));
     }, m.briefing.length * 600 + 200);
   }, 400);
@@ -1191,7 +1191,7 @@ function doLs() {
   const m = MISSIONS[currentMission];
   const path = mState.cwd;
   const entries = m.filesystem[path];
-  if (!entries) { print('error', 'ls: répertoire inaccessible'); addKass(5); return; }
+  if (!entries) { print('error', 'ls: directory inaccessibile'); addKass(5); return; }
   print('ok', entries.join('  '));
 }
 
@@ -1210,11 +1210,11 @@ function doCd(dir) {
   if (m.filesystem[newPath]) {
     mState.cwd = newPath;
     print('ok', mState.cwd);
-  } else { print('error', 'cd: ' + dir + ': dossier introuvable'); addKass(5); }
+  } else { print('error', 'cd: ' + dir + ': directory non trovata'); addKass(5); }
 }
 
 function doCat(filename) {
-  if (!filename) { print('error', 'cat: nom de fichier requis'); return; }
+  if (!filename) { print('error', 'cat: nome file richiesto'); return; }
   const m = MISSIONS[currentMission];
   if (m.files[filename]) {
     print('ok', m.files[filename]);
@@ -1222,16 +1222,16 @@ function doCat(filename) {
     if (currentMission === 0 && filename === 'session_key.dat' && !m.stages_done[2]) {
       m.stages_done[2] = true;
       setTimeout(() => {
-        print('system', '// [Indice trouvé] La clé de session est dans ce fichier...');
+        print('system', '// [Indizio trovato] La chiave di sessione è in questo file...');
         completeObj(2);
-        addNote('Clé de session : ORPHEUS');
+        addNote('Chiave di sessione: ORPHEUS');
       }, 300);
     }
     if (currentMission === 0 && filename === 'ctnet20.enc' && !m.stages_done[1]) {
       m.stages_done[1] = true;
       completeObj(1);
     }
-  } else { print('error', 'cat: ' + filename + ': fichier introuvable'); addKass(5); }
+  } else { print('error', 'cat: ' + filename + ': file non trovato'); addKass(5); }
 }
 
 // ──────────────────────────────────────────
@@ -1241,43 +1241,43 @@ function handleM0(cmd, args, m) {
   if (cmd === 'connect' || cmd === 'ssh') {
     if (!mState.connected) {
       mState.connected = true;
-      print('ok', 'Connexion Tour Sigma établie.');
-      print('info', 'Bienvenue sur sigma.ctcorp.ch — maintenance uniquement.');
-      print('info', 'Répertoires disponibles : maintenance/ logs/ tmp/');
+      print('ok', 'Connessione Torre Sigma stabilita.');
+      print('info', 'Benvenuto su sigma.ctcorp.ch — solo manutenzione.');
+      print('info', 'Directory disponibili: maintenance/ logs/ tmp/');
       completeObj(0);
       advanceStage();
-    } else { print('info', 'Déjà connecté.'); }
+    } else { print('info', 'Già connesso.'); }
     return;
   }
   if (cmd === 'decrypt') {
-    if (args.length < 2) { print('error', 'Usage: decrypt [clé] [fichier]'); return; }
+    if (args.length < 2) { print('error', 'Uso: decrypt [chiave] [file]'); return; }
     const key = args[0].toUpperCase();
     const file = args[1];
-    if (file !== m.decryptTarget.file) { print('error', 'decrypt: fichier cible inconnu.'); addKass(10); return; }
+    if (file !== m.decryptTarget.file) { print('error', 'decrypt: file di destinazione sconosciuto.'); addKass(10); return; }
     if (key !== m.decryptTarget.key) {
-      print('error', 'decrypt: clé incorrecte. Échec du déchiffrement.');
+      print('error', 'decrypt: chiave errata. Decifratura fallita.');
       addKass(15);
       return;
     }
-    print('ok', '// Déchiffrement en cours...');
+    print('ok', '// Decifratura in corso...');
     setTimeout(() => {
       print('success', m.decryptResult);
       mState.decrypted = true;
       completeObj(3);
       advanceStage();
-      addNote('Clé CT-NET 2.0 : ORPHEUS_DELTA_7734');
-      addNote('Fréquence : 4.9 THz');
+      addNote('Chiave CT-NET 2.0: ORPHEUS_DELTA_7734');
+      addNote('Frequenza: 4.9 THz');
     }, 800);
     return;
   }
   if (cmd === 'inject') {
-    if (!mState.decrypted) { print('error', 'inject: déchiffrement requis d\'abord.'); addKass(5); return; }
+    if (!mState.decrypted) { print('error', 'inject: decifratura richiesta prima.'); addKass(5); return; }
     const payload = args[0];
-    if (payload !== m.injectPayload) { print('error', 'inject: payload invalide.'); addKass(10); return; }
-    print('ok', '// Injection leurre.bin en cours...');
+    if (payload !== m.injectPayload) { print('error', 'inject: payload non valido.'); addKass(10); return; }
+    print('ok', '// Iniezione leurre.bin in corso...');
     setTimeout(() => {
-      print('ok', '// Fausse signature injectée dans access.log.');
-      print('ok', '// Traces effacées. Session propre.');
+      print('ok', '// Firma falsa iniettata in access.log.');
+      print('ok', '// Tracce cancellate. Sessione pulita.');
       mState.injected = true;
       completeObj(4);
       advanceStage();
@@ -1286,7 +1286,7 @@ function handleM0(cmd, args, m) {
     return;
   }
   // If connected, auto-complete connection objective
-  print('error', cmd + ': commande inconnue. Tape "help".');
+  print('error', cmd + ': comando sconosciuto. Digita "help".'); 
   addKass(3);
 }
 
@@ -1296,9 +1296,9 @@ function handleM0(cmd, args, m) {
 function handleM1(cmd, args, m) {
   if (cmd === 'scan') {
     if (args[0] === '--agents') {
-      print('ok', '// SCAN BASE DONNÉES — CELLULE PRAGUE');
+      print('ok', '// SCAN DATABASE — CELLULA PRAGA');
       print('sep', '─'.repeat(60));
-      print('ok', 'ID       NOM      CELL   STATUS    LAST_COMP    BIOMETRIC');
+      print('ok', 'ID       NOME     CELL   STATUS    LAST_COMP    BIOMETRIC');
       print('sep', '─'.repeat(60));
       m.agentsData.forEach(a => {
         const line = `${a.id.padEnd(9)}${a.nom.padEnd(9)}${a.cell.padEnd(7)}${a.status.padEnd(10)}${a.last_comp.padEnd(13)}${a.biometric}`;
@@ -1308,34 +1308,34 @@ function handleM1(cmd, args, m) {
       mState.scanned = true;
       completeObj(0);
       advanceStage();
-    } else { print('error', 'Usage: scan --agents'); addKass(5); }
+    } else { print('error', 'Uso: scan --agents'); addKass(5); }
     return;
   }
   if (cmd === 'query') {
-    if (!mState.scanned) { print('error', 'Effectue d\'abord un scan.'); addKass(5); return; }
+    if (!mState.scanned) { print('error', 'Esegui prima uno scan.'); addKass(5); return; }
     const id = args[0];
     const agent = m.agentsData.find(a => a.id === id);
-    if (!agent) { print('error', 'query: ID introuvable.'); addKass(8); return; }
-    print('ok', `// PROFIL AGENT — ${id}`);
+    if (!agent) { print('error', 'query: ID non trovato.'); addKass(8); return; }
+    print('ok', `// PROFILO AGENTE — ${id}`);
     Object.entries(agent).forEach(([k, v]) => {
       print(v === 'EXPOSED' ? 'warn' : 'ok', `  ${k.padEnd(14)}: ${v}`);
     });
     if (id === m.targetId) {
       mState.queried[id] = true;
       completeObj(1);
-      print('warn', '// ⚠ STATUS EXPOSED — EMPREINTE VERROUILLÉE PAR KASSANDRA');
+      print('warn', '// ⚠ STATUS EXPOSED — IMPRONTA BLOCCATA DA KASSANDRA');
     }
     return;
   }
   if (cmd === 'modify') {
-    if (args.length < 3) { print('error', 'Usage: modify [id] [champ] [valeur]'); return; }
+    if (args.length < 3) { print('error', 'Uso: modify [id] [campo] [valore]'); return; }
     const [id, field, value] = args;
-    if (!mState.scanned) { print('error', 'Effectue d\'abord un scan.'); addKass(5); return; }
-    if (id !== m.targetId) { print('error', 'modify: ID non autorisé pour cette opération.'); addKass(12); return; }
-    if (field !== m.targetField) { print('error', 'modify: champ non modifiable.'); addKass(8); return; }
-    if (value !== m.targetValue) { print('error', 'modify: valeur non reconnue. Valeur attendue: PHANTOM'); addKass(10); return; }
+    if (!mState.scanned) { print('error', 'Esegui prima uno scan.'); addKass(5); return; }
+    if (id !== m.targetId) { print('error', 'modify: ID non autorizzato per questa operazione.'); addKass(12); return; }
+    if (field !== m.targetField) { print('error', 'modify: campo non modificabile.'); addKass(8); return; }
+    if (value !== m.targetValue) { print('error', 'modify: valore non riconosciuto. Valore atteso: PHANTOM'); addKass(10); return; }
     print('ok', `// Modification ${id}.${field} = ${value}`);
-    print('warn', '// ⚠ Modification en attente — commit requis pour valider.');
+    print('warn', '// ⚠ Modifica in attesa — commit richiesto per convalidare.');
     m.modifyDone = true;
     mState.modified = true;
     completeObj(2);
@@ -1343,24 +1343,24 @@ function handleM1(cmd, args, m) {
     return;
   }
   if (cmd === 'verify') {
-    if (!m.modifyDone) { print('error', 'verify: aucune modification en attente.'); return; }
+    if (!m.modifyDone) { print('error', 'verify: nessuna modifica in attesa.'); return; }
     const id = args[0];
-    if (id !== m.targetId) { print('error', 'verify: ID incorrect.'); addKass(5); return; }
-    print('ok', `// VÉRIFICATION ${id}`);
-    print('ok', `  biometric (actuel) : TMP-8814-D`);
+    if (id !== m.targetId) { print('error', 'verify: ID errato.'); addKass(5); return; }
+    print('ok', `// VERIFICA ${id}`);
+    print('ok', `  biometric (attuale) : TMP-8814-D`);
     print('ok', `  biometric (pending) : PHANTOM`);
-    print('warn', '// En attente de commit.');
+    print('warn', '// In attesa di commit.');
     m.verifyDone = true;
     mState.verified = true;
     completeObj(3);
     return;
   }
   if (cmd === 'commit') {
-    if (!m.modifyDone) { print('error', 'commit: aucune modification à valider.'); return; }
-    print('ok', '// Commit en cours...');
+    if (!m.modifyDone) { print('error', 'commit: nessuna modifica da convalidare.'); return; }
+    print('ok', '// Commit in corso...');
     setTimeout(() => {
-      print('success', '// ✓ PRG-004.biometric = PHANTOM — Commit validé.');
-      print('system', '// Signature NAOS-9 mise à jour. Empreinte TMP-8814-D effacée.');
+      print('success', '// ✓ PRG-004.biometric = PHANTOM — Commit convalidato.');
+      print('system', '// Firma NAOS-9 aggiornata. Impronta TMP-8814-D cancellata.');
       m.commitDone = true;
       completeObj(4);
       advanceStage();
@@ -1368,7 +1368,7 @@ function handleM1(cmd, args, m) {
     }, 900);
     return;
   }
-  print('error', cmd + ': commande inconnue. Tape "help".');
+  print('error', cmd + ': comando sconosciuto. Digita "help".'); 
   addKass(3);
 }
 
@@ -1377,7 +1377,7 @@ function handleM1(cmd, args, m) {
 // ──────────────────────────────────────────
 function handleM2(cmd, args, m) {
   if (cmd === 'log') {
-    if (args[0] !== '--search' || !args[1]) { print('error', 'Usage: log --search [terme]'); return; }
+    if (args[0] !== '--search' || !args[1]) { print('error', 'Uso: log --search [termine]'); return; }
     const terme = args[1].toUpperCase();
     let found = false;
     // Search fragments
@@ -1392,7 +1392,7 @@ function handleM2(cmd, args, m) {
       if (terme.includes(k) || k.includes(terme)) { frags = [...new Set([...frags, ...v])]; }
     }
     if (frags.length > 0) {
-      print('ok', `// Recherche "${args[1]}" — ${frags.length} fragment(s) trouvé(s):`);
+      print('ok', `// Ricerca "${args[1]}" — ${frags.length} frammento/i trovato/i:`);
       frags.forEach(fid => {
         if (!m.foundFragments.includes(fid)) m.foundFragments.push(fid);
         print('puzzle', `  [${fid}] ${m.fragments[fid]}`);
@@ -1400,39 +1400,39 @@ function handleM2(cmd, args, m) {
       found = true;
       if (m.foundFragments.length === 4) {
         completeObj(0);
-        print('system', `// ✓ 4/4 fragments trouvés. Lance: assemble F1 F2 F3 F4`);
+        print('system', `// ✓ 4/4 frammenti trovati. Lancia: assemble F1 F2 F3 F4`);
       } else {
-        print('info', `// ${m.foundFragments.length}/4 fragments collectés. Continue de chercher.`);
+        print('info', `// ${m.foundFragments.length}/4 frammenti raccolti. Continua a cercare.`);
       }
     }
-    if (!found) { print('info', `// Aucun résultat pour "${args[1]}".`); }
+    if (!found) { print('info', `// Nessun risultato per "${args[1]}".`); }
     advanceStageM2();
     return;
   }
   if (cmd === 'fragment') {
     const fid = args[0] ? args[0].toUpperCase() : null;
-    if (!fid || !m.fragments[fid]) { print('error', 'fragment: ID invalide (F1, F2, F3, F4)'); return; }
-    if (!m.foundFragments.includes(fid)) { print('error', 'Fragment non encore trouvé. Utilise log --search d\'abord.'); return; }
+    if (!fid || !m.fragments[fid]) { print('error', 'fragment: ID non valido (F1, F2, F3, F4)'); return; }
+    if (!m.foundFragments.includes(fid)) { print('error', 'Frammento non ancora trovato. Usa prima log --search.'); return; }
     print('puzzle', `[${fid}] ${m.fragments[fid]}`);
     return;
   }
   if (cmd === 'assemble') {
     const frags = args.map(a => a.toUpperCase());
-    if (frags.length < 4) { print('error', 'assemble: 4 fragments requis (F1 F2 F3 F4)'); return; }
+    if (frags.length < 4) { print('error', 'assemble: 4 frammenti richiesti (F1 F2 F3 F4)'); return; }
     if (!frags.every(f => m.foundFragments.includes(f))) {
-      print('error', 'assemble: certains fragments n\'ont pas encore été trouvés.');
+      print('error', 'assemble: alcuni frammenti non sono ancora stati trovati.');
       addKass(5); return;
     }
     const assembled = frags.map(f => m.fragments[f]).join(' ');
-    print('ok', '// Assemblage des fragments...');
-    print('success', '// Commande reconstituée: ' + assembled);
+    print('ok', '// Assemblaggio dei frammenti...');
+    print('success', '// Comando ricostruito: ' + assembled);
     m.assembled = true;
     mState.assembled = true;
     mState.finalCommand = assembled;
     completeObj(1);
     advanceStageM2();
-    addNote('Commande: ' + assembled);
-    print('info', '// Lance la commande reconstituée pour activer la porte.');
+    addNote('Comando: ' + assembled);
+    print('info', '// Lancia il comando ricostruito per attivare la porta.');
     return;
   }
   if (cmd === 'calc') {
@@ -1441,11 +1441,11 @@ function handleM2(cmd, args, m) {
     try {
       const result = Function('"use strict";return (' + expr.replace(/[^0-9+\-*\/().]/g,'') + ')')();
       print('ok', '= ' + result);
-    } catch(e) { print('error', 'calc: expression invalide'); }
+    } catch(e) { print('error', 'calc: espressione non valida'); }
     return;
   }
   if (cmd === 'exploit') {
-    if (!m.assembled && !mState.assembled) { print('error', 'exploit: commande non assemblée. Lance assemble F1 F2 F3 F4 d\'abord.'); addKass(8); return; }
+    if (!m.assembled && !mState.assembled) { print('error', 'exploit: comando non assemblato. Lancia prima assemble F1 F2 F3 F4.'); addKass(8); return; }
     // Parse exploit args
     const rawFull = [cmd, ...args].join(' ');
     const portMatch = rawFull.match(/--port\s+(\d+)/);
@@ -1454,18 +1454,18 @@ function handleM2(cmd, args, m) {
     const port = portMatch ? portMatch[1] : null;
     const node = nodeMatch ? nodeMatch[1] : null;
     const sig  = sigMatch  ? sigMatch[1]  : null;
-    if (!port || !node || !sig) { print('error', 'exploit: arguments manquants. Usage: exploit --port [n] --node [nœud] --sig [sig]'); addKass(5); return; }
-    if (port !== '88') { print('error', 'exploit: numéro de porte incorrect.'); addKass(15); return; }
-    if (node !== 'CTG06-GDN') { print('error', 'exploit: nœud cible incorrect.'); addKass(15); return; }
-    if (sig !== 'MIRONEN-088') { print('error', 'exploit: signature invalide.'); addKass(20); return; }
+    if (!port || !node || !sig) { print('error', 'exploit: argomenti mancanti. Uso: exploit --port [n] --node [nodo] --sig [sig]'); addKass(5); return; }
+    if (port !== '88') { print('error', 'exploit: numero di porta errato.'); addKass(15); return; }
+    if (node !== 'CTG06-GDN') { print('error', 'exploit: nodo bersaglio errato.'); addKass(15); return; }
+    if (sig !== 'MIRONEN-088') { print('error', 'exploit: firma non valida.'); addKass(20); return; }
     // SUCCESS
-    print('ok', '// Envoi exploit porte-88 vers CTG06-GDN...');
+    print('ok', '// Invio exploit porta-88 verso CTG06-GDN...');
     setTimeout(() => {
-      print('warn', '// ⚠ Réponse NAOS-9...');
+      print('warn', '// ⚠ Risposta NAOS-9...');
       setTimeout(() => {
-        print('naos', '// NAOS-9 // Signature Mironen authentifiée. Porte n°88 ouverte.');
-        print('naos', '// Suspension GFT — Nœud Gdańsk — durée: 180 secondes réelles.');
-        print('success', '// ✓ GFT COMPLEXE n°6 SUSPENDUS — LIBÉRATION EN COURS');
+        print('naos', '// NAOS-9 // Firma Mironen autenticata. Porta n. 88 aperta.');
+        print('naos', '// Sospensione GFT — Nodo Gdańsk — durata: 180 secondi reali.');
+        print('success', '// ✓ GFT COMPLESSO n. 6 SOSPESI — LIBERAZIONE IN CORSO');
         completeObj(2); completeObj(3);
         advanceStageM2(); advanceStageM2();
         mState.exploitDone = true;
@@ -1474,7 +1474,7 @@ function handleM2(cmd, args, m) {
     }, 800);
     return;
   }
-  print('error', cmd + ': commande inconnue. Tape "help".');
+  print('error', cmd + ': comando sconosciuto. Digita "help".'); 
   addKass(3);
 }
 
@@ -1531,12 +1531,12 @@ function addKass(amount) {
   updateKassandra(kassandra);
   if (kassandra >= 100) {
     setTimeout(() => {
-      print('error', '⚠ KASSANDRA — DÉTECTION MAXIMALE — SESSION TERMINÉE');
-      print('error', 'Aegis-CD a reçu les coordonnées. Mission échouée.');
+      print('error', '⚠ KASSANDRA — RILEVAMENTO MASSIMO — SESSIONE TERMINATA');
+      print('error', 'Aegis-CD ha ricevuto le coordinate. Missione fallita.');
       setTimeout(() => missionFail(MISSIONS[currentMission]), 1000);
     }, 200);
   } else if (kassandra >= 70) {
-    print('warn', '⚠ Kassandra — niveau dangereux (' + kassandra + '%). Ralentis.');
+    print('warn', '⚠ Kassandra — livello pericoloso (' + kassandra + '%). Rallenta.');
   }
 }
 
@@ -1562,7 +1562,7 @@ function print(cls, txt) {
 
 function clearOutput() {
   document.getElementById('output').innerHTML = '';
-  print('info', '// Terminal effacé — ' + new Date().toUTCString().split(' ')[4] + ' UTC');
+  print('info', '// Terminale cancellato — ' + new Date().toUTCString().split(' ')[4] + ' UTC');
 }
 
 // ══════════════════════════════════════════
@@ -1571,24 +1571,24 @@ function clearOutput() {
 function showHelp() {
   const m = MISSIONS[currentMission];
   print('sep', '─'.repeat(48));
-  print('info', '// COMMANDES DISPONIBLES — MISSION ' + m.code);
+  print('info', '// COMANDI DISPONIBILI — MISSIONE ' + m.code);
   print('sep', '─'.repeat(48));
   m.commands.forEach(c => print('ok', '  ' + c));
   print('sep', '─'.repeat(48));
-  print('info', '// Flèches ↑↓ : historique des commandes');
+  print('info', '// Frecce ↑↓: cronologia dei comandi');
 }
 
 function showStatus() {
   print('sep', '─'.repeat(40));
-  print('info', `// STATUT — Agent ${agentName}`);
-  print('info', `// Mission : ${MISSIONS[currentMission].code} — ${MISSIONS[currentMission].name}`);
-  print(kassandra >= 70 ? 'warn' : 'info', `// Détection Kassandra : ${kassandra}%`);
-  print('info', `// Répertoire courant : ${mState.cwd}`);
+  print('info', `// STATO — Agente ${agentName}`);
+  print('info', `// Missione: ${MISSIONS[currentMission].code} — ${MISSIONS[currentMission].name}`);
+  print(kassandra >= 70 ? 'warn' : 'info', `// Rilevamento Kassandra: ${kassandra}%`);
+  print('info', `// Directory corrente: ${mState.cwd}`);
   print('sep', '─'.repeat(40));
 }
 
 function abortMission() {
-  print('warn', '// Mission abandonnée. Retour au hub...');
+  print('warn', '// Missione abbandonata. Ritorno all\'hub...');
   setTimeout(goHub, 1200);
 }
 
@@ -1599,7 +1599,7 @@ function missionSuccess(m) {
   missionsDone[m.id] = true;
   document.getElementById('r-icon').textContent = '✓';
   document.getElementById('r-title').className = 'result-title win';
-  document.getElementById('r-title').textContent = 'MISSION ACCOMPLIE';
+  document.getElementById('r-title').textContent = 'MISSIONE COMPLETATA';
   document.getElementById('r-narrative').innerHTML = m.success_narrative;
   showScreen('result-screen');
 }
@@ -1607,7 +1607,7 @@ function missionSuccess(m) {
 function missionFail(m) {
   document.getElementById('r-icon').textContent = '✗';
   document.getElementById('r-title').className = 'result-title lose';
-  document.getElementById('r-title').textContent = 'MISSION ÉCHOUÉE';
+  document.getElementById('r-title').textContent = 'MISSIONE FALLITA';
   document.getElementById('r-narrative').innerHTML = m.fail_narrative;
   showScreen('result-screen');
 }
@@ -1617,16 +1617,16 @@ function missionFail(m) {
 // ══════════════════════════════════════════
 function showFinale() {
   document.getElementById('finale-text').innerHTML =
-    `Trois missions. Trois victoires. <strong>Signal transmis.</strong><br><br>
-    La clé ORPHEUS_DELTA_7734 est entre les mains de Reya. Elle est en train de construire le contre-signal.<br><br>
-    L'empreinte de BRNO-4 est effacée. La cellule de Brno est libre.<br><br>
-    2 400 compressés ont quitté le Complexe n°6 de Gdańsk par la porte que <em>Jarek Mironen</em> a laissée pour toi.<br><br>
-    <strong>CT-NET 2.0 n'a pas encore gagné.</strong> Pas encore.`;
+    `Tre missioni. Tre vittorie. <strong>Segnale trasmesso.</strong><br><br>
+    La chiave ORPHEUS_DELTA_7734 è nelle mani di Reya. Sta costruendo il contro-segnale.<br><br>
+    L'impronta di BRNO-4 è cancellata. La cellula di Brno è libera.<br><br>
+    2.400 compressi hanno lasciato il Complesso n. 6 di Gdańsk attraverso la porta che <em>Jarek Mironen</em> ha lasciato per te.<br><br>
+    <strong>CT-NET 2.0 non ha ancora vinto.</strong> Non ancora.`;
   showScreen('finale');
 }
 </script>
 <!--i18n:js-->
-<script src="assets/js/lang-switch.js" defer></script>
+<script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
 </body>
 </html>
