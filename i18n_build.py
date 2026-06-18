@@ -20,9 +20,9 @@ BASE = "https://presti013.github.io/esclaves-du-temps/"
 _CORE = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html",
          "apropos-ctcorp.html", "ctcorp-prototype.html", "ctcorp-conformite.html"}
 AVAIL = {
-    # EN: core + Red Echo done. signal-game / mini-jeu-escape pending.
-    "en": _CORE | {"echo-rouge-v2.html"},
-    # IT: core done. Red Echo + games pending review/translation.
+    # EN: core + Red Echo + signal-game. mini-jeu-escape EN in progress.
+    "en": _CORE | {"echo-rouge-v2.html", "signal-game.html"},
+    # IT: core done. Red Echo + games IT pending.
     "it": set(_CORE),
 }
 
