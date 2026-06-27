@@ -1,0 +1,3228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONNECTING...</title>
+<meta name="description" content="Temporal Resistance Network. Encrypted connection. Node Lyon-7 active.">
+<meta property="og:title" content="Red Echo — Temporal Resistance Network">
+<meta property="og:description" content="Temporal Resistance Network. Encrypted connection. Node Lyon-7 active.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="/assets/og-echo-rouge.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Red Echo — Temporal Resistance Network">
+<meta name="twitter:description" content="Temporal Resistance Network. Encrypted connection. Node Lyon-7 active.">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020804;
+  --bg2: #04100A;
+  --panel: #071408;
+  --border: #0D2A14;
+  --green: #00FF41;
+  --green-dim: #00A82A;
+  --green-dark: #003D10;
+  --green-mid: #00CC33;
+  --red: #FF2020;
+  --red-dim: #8B1010;
+  --amber: #FFB000;
+  --amber-dim: #7A5500;
+  --text: #B8FFB8;
+  --text-dim: #5A8A5A;
+  --text-muted: #2A4A2A;
+  --white: #E8FFE8;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-vt: 'VT323', monospace;
+  --font-courier: 'Courier Prime', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* CRT scanlines overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 60%,
+    rgba(0,0,0,0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ═══════════════════════════════════════
+   TOR PORTAL — LAYER 0
+═══════════════════════════════════════ */
+#portal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  padding: 40px;
+}
+
+.portal-header {
+  font-family: var(--font-vt);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-bottom: 40px;
+  opacity: 0.6;
+}
+
+.portal-logo {
+  font-family: var(--font-vt);
+  font-size: clamp(48px, 8vw, 96px);
+  color: var(--red);
+  text-align: center;
+  margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(255,32,32,0.5), 0 0 60px rgba(255,32,32,0.2);
+  animation: pulse-red 3s ease-in-out infinite;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+@keyframes pulse-red {
+  0%, 100% { text-shadow: 0 0 30px rgba(255,32,32,0.5); }
+  50% { text-shadow: 0 0 60px rgba(255,32,32,0.9), 0 0 120px rgba(255,32,32,0.3); }
+}
+
+.portal-subtitle {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.connection-box {
+  background: var(--bg2);
+  border: 1px solid var(--green-dark);
+  width: 100%;
+  max-width: 640px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.conn-line {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: appear 0.1s ease forwards;
+}
+.conn-line.ok { color: var(--green-dim); }
+.conn-line.warn { color: var(--amber); }
+.conn-line.err { color: var(--red); }
+
+.progress-bar {
+  height: 2px;
+  background: var(--green-dark);
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--green);
+}
+
+.passphrase-section {
+  display: none;
+  margin-top: 24px;
+}
+.passphrase-section.visible { display: block; }
+
+.pp-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.pp-field {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--green-dark);
+}
+.pp-field input {
+  flex: 1;
+  background: #000;
+  border: none;
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  letter-spacing: 0.1em;
+}
+.pp-field input::placeholder { color: var(--text-muted); }
+.pp-btn {
+  background: var(--green-dark);
+  border: none;
+  border-left: 1px solid var(--green-dark);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pp-btn:hover { background: var(--green); color: #000; }
+.pp-error {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+}
+.pp-error.visible { display: block; }
+.pp-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+
+.portal-warning {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+
+@keyframes appear {
+  to { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════
+   MAIN SITE STRUCTURE
+═══════════════════════════════════════ */
+#site {
+  display: none;
+  min-height: 100vh;
+}
+#site.active { display: block; }
+
+/* Status bar */
+#statusbar {
+  background: #000;
+  border-bottom: 1px solid var(--green-dark);
+  padding: 4px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.sb-left { display: flex; gap: 20px; }
+.sb-right { display: flex; gap: 16px; }
+.sb-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; animation: blink 2s step-end infinite; }
+.sb-dot.red { background: var(--red); }
+.sb-dot.amber { background: var(--amber); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Navigation */
+nav {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 52px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 32px;
+  cursor: pointer;
+}
+.logo-mark {
+  font-family: var(--font-vt);
+  font-size: 28px;
+  color: var(--red);
+  text-shadow: 0 0 12px rgba(255,32,32,0.6);
+  line-height: 1;
+}
+.logo-text {
+  font-family: var(--font-vt);
+  font-size: 20px;
+  color: var(--green);
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+
+.nav-links { display: flex; list-style: none; }
+.nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+  height: 100%;
+  border-top: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a.active { color: var(--green); border-bottom-color: var(--green); }
+.nav-links a .nav-prefix { color: var(--green-dim); margin-right: 6px; font-size: 10px; }
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.threat-level {
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  animation: blink 4s step-end infinite;
+}
+.nav-id {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════
+   PAGE SECTIONS
+═══════════════════════════════════════ */
+.page-section { display: none; min-height: calc(100vh - 76px); }
+.page-section.active { display: block; }
+
+/* ═══════════════════════════════════════
+   HOME / TERMINAL
+═══════════════════════════════════════ */
+.terminal-hero {
+  padding: 48px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  min-height: 70vh;
+}
+
+.terminal-main {
+  background: var(--panel);
+  padding: 40px;
+  position: relative;
+}
+.terminal-main::before {
+  content: 'ECHO_RED.NODE.LYON // SESSION_ID: 7E4F-2A1B-R3D';
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.term-prompt {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 8px;
+  margin-top: 32px;
+}
+.term-prompt:first-child { margin-top: 0; }
+
+.ascii-logo {
+  font-family: var(--font-vt);
+  font-size: clamp(14px, 2.5vw, 22px);
+  color: var(--red);
+  line-height: 1.15;
+  text-shadow: 0 0 12px rgba(255,32,32,0.4);
+  margin-bottom: 24px;
+  white-space: pre;
+  letter-spacing: 0.05em;
+}
+
+.term-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.term-text em { color: var(--green); font-style: normal; }
+.term-text strong { color: var(--red); }
+
+.blink-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--green);
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+.terminal-side {
+  background: var(--panel);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.side-widget {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.widget-title {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.stat-item .stat-val {
+  font-family: var(--font-vt);
+  font-size: 24px;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+}
+.stat-item .stat-val.red { color: var(--red); }
+.stat-item .stat-val.amber { color: var(--amber); }
+.stat-item .stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-top: 4px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  align-items: flex-start;
+}
+.alert-item:last-child { border-bottom: none; }
+.alert-item .a-tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+.a-tag.critical { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-dim); }
+.a-tag.warn { background: #3A2800; color: var(--amber); border: 1px solid var(--amber-dim); }
+.a-tag.info { background: var(--green-dark); color: var(--green-dim); border: 1px solid var(--green-dark); }
+
+/* Sections communes */
+.section-bar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-tag {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+.section-tag span { color: var(--text-dim); font-size: 14px; }
+.section-crumb {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 120px);
+}
+
+/* Sidebar */
+.content-sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+}
+.sidebar-group { margin-bottom: 24px; }
+.sg-title {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 20px;
+  margin-bottom: 8px;
+}
+.sb-link {
+  display: block;
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.sb-link:hover { color: var(--green); border-left-color: var(--green-dark); }
+.sb-link.active { color: var(--green); border-left-color: var(--green); background: rgba(0,255,65,0.04); }
+.sb-link .sl-prefix { color: var(--text-muted); margin-right: 8px; font-size: 10px; }
+.sb-badge {
+  float: right;
+  font-size: 10px;
+  padding: 1px 5px;
+  background: var(--red-dim);
+  color: var(--red);
+  border-radius: 2px;
+}
+
+.content-main { padding: 32px; }
+
+/* ═══════════════════════════════════════
+   PROPAGANDE
+═══════════════════════════════════════ */
+.prop-hero {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.prop-tag {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: block;
+}
+.prop-title {
+  font-family: var(--font-vt);
+  font-size: 28px;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.prop-body {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+  border-left: 1px solid var(--green-dark);
+  padding-left: 16px;
+  margin: 12px 0;
+}
+.prop-body strong { color: var(--green); }
+.prop-body em { color: var(--red); font-style: normal; }
+
+.prop-stamp {
+  font-family: var(--font-vt);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.doc-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  position: relative;
+}
+.doc-card::before {
+  content: '//';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+.doc-card:hover { border-color: var(--green-dim); }
+.doc-type {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: block;
+}
+.doc-title {
+  font-family: var(--font-vt);
+  font-size: 18px;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+.doc-excerpt {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.doc-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+.doc-tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 2px 6px;
+  background: var(--green-dark);
+  color: var(--green-dim);
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+}
+
+/* Manifeste full */
+.manifeste-full {
+  display: none;
+  background: var(--panel);
+  border: 1px solid var(--green-dark);
+  padding: 40px;
+  margin-top: 20px;
+  animation: fadeIn 0.2s ease;
+}
+.manifeste-full.active { display: block; }
+.m-back {
+  font-size: 11px;
+  color: var(--text-dim);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  margin-bottom: 28px;
+  display: inline-block;
+  transition: color 0.15s;
+}
+.m-back:hover { color: var(--green); }
+.m-back::before { content: '← '; }
+.m-h1 {
+  font-family: var(--font-vt);
+  font-size: 32px;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.m-h2 {
+  font-family: var(--font-vt);
+  font-size: 20px;
+  color: var(--green);
+  margin: 28px 0 12px;
+  letter-spacing: 0.08em;
+  border-left: 3px solid var(--red);
+  padding-left: 12px;
+}
+.m-p {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.m-p strong { color: var(--green); }
+.m-p em { color: var(--red); font-style: normal; }
+.m-quote {
+  border-left: 2px solid var(--green-dim);
+  padding: 12px 20px;
+  margin: 20px 0;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.8;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 16px;
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-date {
+  font-family: var(--font-vt);
+  font-size: 16px;
+  color: var(--green-dim);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.tl-content .tl-title {
+  font-size: 13px;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.tl-content .tl-body {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.tl-content .tl-body em { color: var(--red); font-style: normal; }
+
+/* ═══════════════════════════════════════
+   MARCHÉ (CONTREBANDE)
+═══════════════════════════════════════ */
+.market-banner {
+  background: var(--bg);
+  border: 1px solid var(--amber-dim);
+  padding: 12px 20px;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.market-banner::before { content: '⚠'; font-size: 14px; }
+
+.market-cats {
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+.mcat-btn {
+  background: var(--panel);
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  text-align: center;
+}
+.mcat-btn:hover { color: var(--green); background: var(--bg2); }
+.mcat-btn.active { color: var(--green); background: var(--bg); border-bottom: 1px solid var(--green); }
+
+.listings {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+.listing {
+  background: var(--panel);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.listing:hover { background: var(--bg2); }
+.listing.hidden { display: none; }
+.listing-title {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-family: var(--font-courier);
+}
+.listing-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.listing-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.l-tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.l-tag.hot { border-color: var(--red-dim); color: var(--red); }
+.l-tag.safe { border-color: var(--green-dark); color: var(--green-dim); }
+.l-tag.rare { border-color: var(--amber-dim); color: var(--amber); }
+
+.listing-price {
+  text-align: right;
+  min-width: 120px;
+}
+.price-amount {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+}
+.price-unit {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-top: 2px;
+}
+.order-btn {
+  display: block;
+  margin-top: 8px;
+  background: var(--green-dark);
+  border: 1px solid var(--green-dark);
+  color: var(--green-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+.order-btn:hover { background: var(--green); color: #000; }
+
+.market-disclaimer {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 16px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+}
+
+
+/* ═══════════════════════════════════════
+   MARCHÉ — VUE DÉTAIL ITEM
+═══════════════════════════════════════ */
+.market-detail { display: none; animation: fadeIn 0.2s ease; }
+.market-detail.active { display: block; }
+.md-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.md-image img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+.md-noimg {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: var(--text-muted); font-size: 11px; letter-spacing: 0.12em; text-align: center;
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(0,255,65,0.025) 18px, rgba(0,255,65,0.025) 36px),
+    #000;
+}
+.md-noimg .ni-frame {
+  border: 1px dashed var(--green-dark); padding: 14px 22px;
+  font-family: var(--font-vt); font-size: 16px; color: var(--green-dim);
+}
+.md-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 8px; }
+.md-title {
+  font-family: var(--font-courier); font-size: 20px; font-weight: 700;
+  color: var(--white); line-height: 1.35; letter-spacing: 0.02em;
+}
+.md-price { text-align: right; flex-shrink: 0; min-width: 140px; }
+.md-ref {
+  font-size: 10px; color: var(--text-muted); letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.md-section-title {
+  font-family: var(--font-vt); font-size: 19px; color: var(--green);
+  margin: 26px 0 10px; letter-spacing: 0.08em;
+  border-left: 3px solid var(--green-dim); padding-left: 12px;
+}
+.md-p { font-size: 13px; color: var(--text); line-height: 1.85; margin-bottom: 12px; }
+.md-p strong { color: var(--green); }
+.md-p em { color: var(--red); font-style: normal; }
+.md-specs { display: grid; grid-template-columns: 160px 1fr; gap: 6px 16px; margin: 10px 0; }
+.md-specs .sk { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; padding-top: 1px; }
+.md-specs .sv { font-size: 12px; color: var(--text); line-height: 1.5; }
+.md-warnings {
+  border: 1px solid var(--amber-dim);
+  background: rgba(255, 176, 0, 0.04);
+  padding: 20px 22px; margin-top: 26px;
+}
+.md-warnings .w-title {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 12px;
+  border-bottom: 1px solid var(--amber-dim); padding-bottom: 8px;
+}
+.w-item {
+  font-size: 12px; color: var(--text); line-height: 1.7;
+  padding: 5px 0 5px 22px; position: relative;
+}
+.w-item::before { content: '⚠'; position: absolute; left: 0; top: 5px; color: var(--amber); font-size: 11px; }
+.md-dry {
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid var(--amber-dim);
+  font-size: 12px; color: var(--red); font-style: italic; line-height: 1.7;
+}
+.md-footer { margin-top: 26px; display: flex; gap: 12px; align-items: center; }
+
+
+
+.cc-risk.low { color: var(--green); border-color: var(--green-dark); background: rgba(0,255,65,0.06); }
+/* ═══════════════════════════════════════
+   CONTRATS — VUE DÉTAIL
+═══════════════════════════════════════ */
+.contract-detail { display: none; animation: fadeIn 0.2s ease; }
+.contract-detail.active { display: block; }
+.cd-banner {
+  width: 100%; aspect-ratio: 16 / 6; border: 1px solid var(--border);
+  background: #020804; margin-bottom: 24px; overflow: hidden;
+}
+.cd-banner svg { width: 100%; height: 100%; display: block; }
+
+/* ═══════════════════════════════════════
+   MARCHÉ — SOUS-PAGES PAIEMENT / LIVRAISON
+═══════════════════════════════════════ */
+.info-page { display: none; animation: fadeIn 0.2s ease; }
+.info-page.active { display: block; }
+
+.ip-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+  margin-bottom: 26px;
+}
+.ip-category {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.ip-title {
+  font-family: var(--font-courier); font-size: 22px; font-weight: 700;
+  color: var(--white); line-height: 1.3;
+}
+.ip-subtitle {
+  font-size: 12px; color: var(--green-dim); margin-top: 6px;
+  font-style: italic; letter-spacing: 0.04em;
+}
+.ip-section-title {
+  font-family: var(--font-vt); font-size: 17px; color: var(--green);
+  margin: 28px 0 10px;
+  border-left: 3px solid var(--green-dim); padding-left: 12px;
+  letter-spacing: 0.08em;
+}
+.ip-p {
+  font-size: 13px; color: var(--text); line-height: 1.85; margin-bottom: 12px;
+}
+.ip-p strong { color: var(--green); }
+.ip-p em { color: var(--red); font-style: normal; }
+.ip-p .amber { color: var(--amber); }
+
+.ip-table {
+  width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+  font-size: 12px;
+}
+.ip-table th {
+  text-align: left; padding: 7px 12px;
+  background: rgba(0,255,65,0.06); color: var(--green);
+  font-family: var(--font-vt); font-size: 11px; letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--green-dark);
+}
+.ip-table td {
+  padding: 8px 12px; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top; line-height: 1.6;
+}
+.ip-table tr:hover td { background: rgba(0,255,65,0.03); }
+.ip-table .td-label { color: var(--green-dim); font-size: 11px; letter-spacing: 0.06em; }
+
+.ip-example {
+  border: 1px solid var(--green-dark);
+  background: rgba(0,255,65,0.03);
+  padding: 16px 20px; margin: 18px 0;
+  font-size: 12px;
+}
+.ip-example .ex-title {
+  font-family: var(--font-vt); font-size: 13px; color: var(--green);
+  margin-bottom: 10px; letter-spacing: 0.08em;
+}
+.ip-example .ex-line {
+  color: var(--text); line-height: 1.8; padding: 2px 0;
+}
+.ip-example .ex-line span { color: var(--green-dim); }
+
+.ip-rules {
+  border: 1px solid var(--amber-dim);
+  background: rgba(255,176,0,0.03);
+  padding: 16px 20px; margin-top: 24px;
+}
+.ip-rules .r-title {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 10px;
+  border-bottom: 1px solid var(--amber-dim); padding-bottom: 7px;
+}
+.ip-rule {
+  font-size: 12px; color: var(--text); line-height: 1.7;
+  padding: 4px 0 4px 20px; position: relative;
+}
+.ip-rule::before { content: '›'; position: absolute; left: 0; color: var(--amber); }
+.ip-dry {
+  margin-top: 14px; padding-top: 10px;
+  border-top: 1px solid var(--amber-dim);
+  font-size: 12px; color: var(--red); font-style: italic;
+}
+
+.ip-route-stop {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.ip-route-stop:last-child { border-bottom: none; }
+.rs-num {
+  flex-shrink: 0; width: 28px; height: 28px;
+  border: 1px solid var(--green-dark); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-vt); font-size: 13px; color: var(--green);
+}
+.rs-body { flex: 1; }
+.rs-label { font-size: 12px; color: var(--green-dim); letter-spacing: 0.06em; margin-bottom: 3px; }
+.rs-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+.ip-warning-final {
+  margin-top: 28px; padding: 14px 18px;
+  border: 1px solid var(--red-dim);
+  background: rgba(255,32,32,0.04);
+  font-size: 12px; color: var(--red); line-height: 1.7;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════
+   CONTRATS (JOBS)
+═══════════════════════════════════════ */
+.contracts-intro {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--red);
+  padding: 24px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+.contracts-intro strong { color: var(--green); }
+
+.contract-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.ct-tab {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.ct-tab:hover { color: var(--text-dim); }
+.ct-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.contract-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+.contract-card {
+  background: var(--panel);
+  padding: 24px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.contract-card:hover { background: var(--bg2); }
+.contract-card.hidden { display: none; }
+.cc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.cc-title {
+  font-family: var(--font-courier);
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.cc-risk {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cc-risk.low { border-color: var(--green-dark); color: var(--green-dim); }
+.cc-risk.med { border-color: var(--amber-dim); color: var(--amber); }
+.cc-risk.high { border-color: var(--red-dim); color: var(--red); }
+.cc-risk.critical { border-color: var(--red); color: var(--red); background: rgba(255,32,32,0.08); }
+
+.cc-body {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.cc-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cc-tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--green-dark);
+  color: var(--green-dim);
+}
+.cc-tag.red { background: var(--red-dim); color: var(--red); }
+.cc-tag.amber { background: #2A1800; color: var(--amber); }
+.cc-payout {
+  font-family: var(--font-vt);
+  font-size: 18px;
+  color: var(--green);
+  margin-left: auto;
+}
+.cc-payout span { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
+
+.apply-contract {
+  display: inline-block;
+  margin-top: 12px;
+  background: none;
+  border: 1px solid var(--green-dark);
+  color: var(--green-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.apply-contract:hover { background: var(--green); color: #000; border-color: var(--green); }
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 4000;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: var(--bg2);
+  border: 1px solid var(--green-dark);
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  animation: fadeIn 0.2s ease;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+.modal-close:hover { color: var(--red); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+footer a { color: var(--text-muted); cursor: pointer; transition: color 0.15s; }
+footer a:hover { color: var(--green-dim); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); }
+
+/* ════════ PATCH MOBILE v2 — ÉCHO ROUGE ════════ */
+.back-portal{position:fixed;bottom:18px;left:18px;z-index:400;width:48px;height:48px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(0,0,0,.92);border:1px solid var(--green,#00FF41);color:var(--green,#00FF41);
+ font-size:20px;text-decoration:none;box-shadow:0 0 14px rgba(0,255,65,.35);opacity:.9;}
+.nav-burger{display:none;background:none;cursor:pointer;border:1px solid var(--border,#1a3a1a);
+ color:var(--green,#00FF41);width:40px;height:40px;font-size:20px;line-height:1;
+ align-items:center;justify-content:center;margin-left:auto;}
+@media (max-width: 1100px){
+  html{ -webkit-text-size-adjust:100%%; }
+  .nav-burger{ display:flex; }
+  .nav-right{ display:none; }
+  .nav-links{
+    display:none !important; position:fixed; top:52px; left:0; right:0;
+    flex-direction:column; background:var(--panel,#0a0e0a);
+    border-bottom:1px solid var(--border,#1a3a1a); z-index:98;
+    box-shadow:0 12px 32px rgba(0,0,0,.8); max-height:calc(100vh - 52px); overflow-y:auto;
+  }
+  .nav-links.open{ display:flex !important; }
+  .nav-links a{ height:auto; padding:15px 20px; font-size:1rem; border-top:none;
+    border-bottom:1px solid var(--border,#1a3a1a); }
+  body{ font-size:clamp(16px,4.2vw,19px); line-height:1.6; }
+  .terminal-hero{ grid-template-columns:1fr !important; padding:12px; min-height:auto; }
+  .terminal-main,.terminal-side{ padding:22px 16px; }
+  .content-grid{ grid-template-columns:1fr !important; min-height:auto; }
+  .content-sidebar{ border-right:none; border-bottom:1px solid var(--border,#1a3a1a); padding:10px 0; }
+  .sb-link{ font-size:1rem; padding:12px 20px; }
+  .content-main{ padding:20px 14px; }
+  .doc-grid{ grid-template-columns:1fr !important; }
+  .market-cats{ flex-wrap:wrap; }
+  p, li{ font-size:clamp(15px,4vw,18px); }
+}
+</style>
+<!--i18n:style-->
+<style>
+.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
+  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
+  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
+  white-space:nowrap;transition:background .2s,color .2s;}
+.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
+.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
+.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
+.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
+.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
+.i18n-flag{font-size:13px;line-height:1;}
+@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
+  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
+@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
+</style>
+<!--/i18n:style-->
+<!--i18n:hreflang-->
+<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/echo-rouge-v2.html">
+<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/echo-rouge-v2.html">
+<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/echo-rouge-v2.html">
+<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/echo-rouge-v2.html">
+<!--/i18n:hreflang-->
+</head>
+<body>
+<!--i18n:switch-->
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../echo-rouge-v2.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="echo-rouge-v2.html" hreflang="en" lang="en" class="is-active" aria-current="page" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="../it/echo-rouge-v2.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<!--/i18n:switch-->
+
+<div id="portal">
+  <div class="portal-header">TOR NETWORK // NODE ECHO-7.1 // AES-512 ENCRYPTION ACTIVE</div>
+  <div class="portal-logo">RED<br>ECHO</div>
+  <div class="portal-subtitle">Temporal Resistance Network</div>
+  <div class="connection-box">
+    <div id="conn-lines"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="passphrase-section" id="pp-section">
+      <div class="pp-label">// Agent identity confirmed</div>
+      <div style="background:#000;border:1px solid #0D2A14;padding:14px 16px;font-size:14px;color:#00FF41;letter-spacing:0.15em;">
+        AGENT :: <span id="agent-display" style="color:#00CC33">——</span>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#2A4A2A;letter-spacing:0.06em;">// Temporal footprint masked. Access authorized by the RE Coordinator.</div>
+      <button class="pp-btn" onclick="enterSite()" style="margin-top:16px;width:100%;padding:12px;font-size:12px">ACCESS THE NETWORK →</button>
+    </div>
+  </div>
+  <div class="portal-warning">
+    Welcome to the Resistance. Never reveal your codename.<br>
+    You do not know our names. We do not know yours.<br>
+    That is why we are still alive.
+  </div>
+</div>
+
+<div id="site">
+
+  <div id="statusbar">
+    <div class="sb-left">
+      <span><span class="sb-dot"></span>TOR // NODE ECHO-7 // ACTIVE</span>
+      <span><span class="sb-dot amber"></span>KASSANDRA // THREAT LEVEL: MODERATE</span>
+      <span><span class="sb-dot red" style="animation-duration:0.8s"></span>CT-NET 2.0 // ROLLOUT IN PROGRESS</span>
+    </div>
+    <div class="sb-right">
+      <span id="sb-time">--:--:-- UTC</span>
+      <span>SESSION: ██████</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-logo" onclick="showSection('home')">
+      <span class="logo-mark">ÉR</span>
+      <span class="logo-text">RED&nbsp;ECHO</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" id="nav-portail"><span class="nav-prefix">00/</span>Portal</a></li>
+      <li><a onclick="showSection('home')" id="nav-home" class="active"><span class="nav-prefix">01/</span>Terminal</a></li>
+      <li><a onclick="showSection('propagande')" id="nav-propagande"><span class="nav-prefix">02/</span>Truth</a></li>
+      <li><a onclick="showSection('marche')" id="nav-marche"><span class="nav-prefix">03/</span>Market</a></li>
+      <li><a onclick="showSection('contrats')" id="nav-contrats"><span class="nav-prefix">04/</span>Contracts</a></li>
+      <li><a href="../signal-game.html" target="_blank" id="nav-game" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">05/</span>Terminal</a></li>
+      <li><a href="../mini-jeu-escape.html" target="_blank" id="nav-escape" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">06/</span>Escape Game</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu">&#9776;</button>
+    <div class="nav-right">
+      <span class="threat-level">⚠ THREAT: MODERATE</span>
+      <span class="nav-id">ID: ████-████</span>
+    </div>
+  </nav>
+
+  <section id="home" class="page-section active">
+    <div class="terminal-hero">
+
+      <div class="terminal-main">
+        <div class="term-prompt">// CONNECTION ESTABLISHED — 28.01.2035 — SECURE SESSION</div>
+
+        <div class="ascii-logo">
+ ███████╗ ██████╗██╗  ██╗ ██████╗
+ ██╔════╝██╔════╝██║  ██║██╔═══██╗
+ █████╗  ██║     ███████║██║   ██║
+ ██╔══╝  ██║     ██╔══██║██║   ██║
+ ███████╗╚██████╗██║  ██║╚██████╔╝
+ ╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝
+        <span style="color:var(--red)"> ██████╗  ██████╗ ██╗   ██╗ ██████╗ ███████╗
+        ██╔══██╗██╔═══██╗██║   ██║██╔════╝ ██╔════╝
+        ██████╔╝██║   ██║██║   ██║██║  ███╗█████╗  
+        ██╔══██╗██║   ██║██║   ██║██║   ██║██╔══╝  
+        ██║  ██║╚██████╔╝╚██████╔╝╚██████╔╝███████╗
+        ╚═╝  ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝╚══════╝</span></div>
+
+        <div class="term-prompt">$ cat /var/echo/welcome_message.txt</div>
+        <div class="term-text">
+          Welcome to the <em>Red Echo</em> network, Agent <span id="term-agent" style="color:var(--green)">——</span>.<br>
+          Founded in 2031 by <em>Sena Valkova</em>, Sofia-Prague.<br>
+          22 active cells. 5 silent cells.<br><br>
+
+          You are here because someone trusted you.<br>
+          <strong>Do not let them down.</strong>
+        </div>
+
+        <div class="term-prompt">$ cat /var/echo/current_situation.txt</div>
+        <div class="term-text">
+          Date: <em>28.01.2035</em> — Day D+32 post-Ananke.<br>
+          CT-NET 2.0 is being deployed across active Weaves.<br>
+          Estimated time to full coverage: <strong>72 hours.</strong><br><br>
+
+          Two billion Weaves are about to switch back on.<br>
+          The thermostat of obedience, set three degrees higher.<br>
+          Not a lobotomy. <strong>A whisper.</strong><br><br>
+
+          That is why we are still here.
+        </div>
+
+        <div class="term-prompt">$ █<span class="blink-cursor"></span></div>
+      </div>
+
+      <div class="terminal-side">
+        <div class="side-widget">
+          <div class="widget-title">// red echo network — status</div>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-val">22</span>
+              <span class="stat-label">Active cells</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val red">5</span>
+              <span class="stat-label">Silent cells</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">3 200</span>
+              <span class="stat-label">Freed at Prato</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val amber">72h</span>
+              <span class="stat-label">Until CT-NET 2.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-widget">
+          <div class="widget-title">// recent alerts</div>
+          <div class="alert-item">
+            <span class="a-tag critical">CRITICAL</span>
+            <span>CT-NET 2.0: Weave firmware reset D+3 to D+7. Rollout imminent.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag warn">ALERT</span>
+            <span>Budapest + Warsaw: no signal for 72h. Compromise likely.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag warn">ALERT</span>
+            <span>Kassandra predictive level: PHANTOM-LYON group located at 12.3% probability, Gerland.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag info">INFO</span>
+            <span>I Tessitori confirm 3,200 freed compressed secured, Prato.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag info">INFO</span>
+            <span>Mediterranean Route: new batch of free nanites available. Casablanca.</span>
+          </div>
+        </div>
+
+        <div class="side-widget">
+          <div class="widget-title">// quick access</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="order-btn" onclick="showSection('propagande')" style="text-align:left;padding:8px 12px">→ Read the Valkova Manifesto (2026)</button>
+            <button class="order-btn" onclick="showSection('propagande')" style="text-align:left;padding:8px 12px">→ KREMLIN SUNSET file (CIA)</button>
+            <button class="order-btn" onclick="showSection('marche')" style="text-align:left;padding:8px 12px">→ Black market — Free nanites</button>
+            <button class="order-btn" onclick="showSection('contrats')" style="text-align:left;padding:8px 12px">→ Active contracts (7 available)</button>
+            <button class="order-btn" onclick="window.open('../signal-game.html','_blank')" style="text-align:left;padding:8px 12px;border-color:var(--red);color:var(--red)">⬢ TERMINAL — Red Echo terminal game</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="propagande" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">TRUTH <span>// declassified archives</span></div>
+      <div class="section-crumb">RED-ECHO / TRUTH / INDEX</div>
+    </div>
+
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Categories</div>
+          <a class="sb-link active" onclick="showProp('all', this)"><span class="sl-prefix">›</span>All documents</a>
+          <a class="sb-link" onclick="showProp('sotchi', this)"><span class="sl-prefix">›</span>Sochi / KREMLIN SUNSET</a>
+          <a class="sb-link" onclick="showProp('manifeste', this)"><span class="sl-prefix">›</span>Valkova Manifesto</a>
+          <a class="sb-link" onclick="showProp('ctcorp', this)"><span class="sl-prefix">›</span>CT Corp — True face</a>
+          <a class="sb-link" onclick="showProp('timeline', this)"><span class="sl-prefix">›</span>Timeline of the Fall</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Sources</div>
+          <a class="sb-link"><span class="sl-prefix">›</span>M@X_VRV (Verville)</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Dimitar & Irina Valkova</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Declassified CIA doc.</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Vaedran Ilarion</a>
+        </div>
+      </div>
+
+      <div class="content-main">
+
+        <div id="prop-view-index">
+          <div class="prop-hero">
+            <span class="prop-tag">// priority document — 15.11.2026</span>
+            <div class="prop-title">MANIFESTO FOR THE TEMPORAL RESISTANCE</div>
+            <div class="prop-body">
+              <strong>“Sochi was not an act of terrorism. It was a founding act.”</strong><br><br>
+              Compiled by Dimitar and Irina Valkova, investigative journalists assassinated in November 2025 in a joint FSB/CIA operation. Their daughter, <em>Sena Valkova</em>, founded the Red Echo network the following year.<br><br>
+              This document led to the execution of 93 people and the disappearance of 307 more in the punitive-compression camps.
+            </div>
+            <div style="margin-top:16px">
+              <button class="order-btn" onclick="openManifeste()" style="padding:10px 20px;font-size:12px">→ READ THE FULL DOCUMENT</button>
+            </div>
+            <div class="prop-stamp">HASH: 7e4f2a1b-r3d-s0tch1 // INTEGRITY: ✓ VERIFIED // DISTRIBUTION: DECENTRALIZED NETWORK</div>
+          </div>
+
+          <div class="doc-grid">
+            <div class="doc-card" onclick="openModal('kremlin')">
+              <span class="doc-type">// CIA document — partially declassified</span>
+              <div class="doc-title">Operation KREMLIN SUNSET<br>After-Action Analysis</div>
+              <div class="doc-excerpt">Internal memo: “KREMLIN SUNSET is a turning point. Today’s partner is tomorrow’s rival — and they have just shown us they have absolutely no limits.”</div>
+              <div class="doc-meta">Source: CIA / Russia-EUR Desk // Oct. 2024</div>
+              <span class="doc-tag">SOCHI</span> <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">CLASSIFIED</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('codex')">
+              <span class="doc-type">// Investigation journal — M@X_VRV</span>
+              <div class="doc-title">The Chronos Codex<br>Diary of a World on Borrowed Time</div>
+              <div class="doc-excerpt">Maxime Verville was in Sochi on the night of October 23, 2024. His encrypted diary, found after his death. The truth from the inside.</div>
+              <div class="doc-meta">Author: Maxime “M@X_VRV” Verville // Oct. 2024 → March 2026</div>
+              <span class="doc-tag">SOCHI</span> <span class="doc-tag">WITNESS</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('pacte')">
+              <span class="doc-type">// Analysis — Red Echo Network</span>
+              <div class="doc-title">The Cronos Pact<br>What they will never tell you</div>
+              <div class="doc-excerpt">Signatories: USA, Russia + 15 corporations. Initial budget: 500 trillion. Hidden clause: PHOENIX Protocol. Real objective: “World Order through Temporal Control.”</div>
+              <div class="doc-meta">Red Echo / Prague // Jan. 2027</div>
+              <span class="doc-tag">CRONOS PACT</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('perpetuity')">
+              <span class="doc-type">// CT Corp internal documents — exfiltrated</span>
+              <div class="doc-title">Project PERPETUITY<br>The 3 Phases of Domination</div>
+              <div class="doc-excerpt">Phase 1: Commodification of labor ✓ — Phase 2: Commodification of existence (in progress) — Phase 3: Commodification of consciousness (Project Prometheus, absolute secret).</div>
+              <div class="doc-meta">Source: Lena Reinholt, CT Corp defector // 2031</div>
+              <span class="doc-tag">CT CORP</span> <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">CRITICAL</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('prométhée')">
+              <span class="doc-type">// Horror report — Confidential source</span>
+              <div class="doc-title">Project PROMETHEUS<br>[TOP SECRET — Executive Board only]</div>
+              <div class="doc-excerpt">Test sites: orphanages in Belarus, camps in Xinjiang. 10,000 children in Phase 1. Post-protocol life expectancy: 25 years maximum. Temporal perception permanently altered.</div>
+              <div class="doc-meta">Exfiltrated by a Red Echo agent // 2033</div>
+              <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">EXTREME</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('ctnet')">
+              <span class="doc-type">// Intercept — CT Corp internal communication</span>
+              <div class="doc-title">CT-NET 2.0<br>“A whisper, not a hammer”</div>
+              <div class="doc-excerpt">Classification: Delta / Executive Board only. “The thermostat of obedience, set three degrees higher. Wearers will never know their free will has been recalibrated.”</div>
+              <div class="doc-meta">Intercepted by Mourad // 29.12.2034</div>
+              <span class="doc-tag">CT-NET 2.0</span> <span class="doc-tag" style="background:var(--amber-dim);color:var(--amber)">URGENT</span>
+            </div>
+          </div>
+
+          <div style="margin-top:32px">
+            <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px">// TIMELINE OF THE FALL — Verified facts</div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-date">OCT<br>2024</div>
+                <div class="tl-content">
+                  <div class="tl-title">Winter Theatre of Sochi — Operation KREMLIN SUNSET</div>
+                  <div class="tl-body">412 dead, aged 60 years in 3.5 seconds by a ZEC chronophage weapon. <em>Wrongly blamed on the Vesna movement.</em> Carried out by the FSB with CIA support (15-min SIGINT blackout). Founding act of CT Corp.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">FÉV<br>2027</div>
+                <div class="tl-content">
+                  <div class="tl-title">Founding of CT Corp — Cronos Pact signed</div>
+                  <div class="tl-body">USA + Russia + 15 corporations sign the Cronos Pact. Budget: 500 trillion. Global monopoly over temporal compression. <em>Time ceases to belong to humanity.</em></div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">NOV<br>2025</div>
+                <div class="tl-content">
+                  <div class="tl-title">Assassination of Dimitar and Irina Valkova — Sofia</div>
+                  <div class="tl-body">Joint FSB/CIA operation. Eliminated for uncovering the truth about Sochi. Their daughter Sena, 19, joins the resistance. <em>Red Echo is born of their death.</em></div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">MARS<br>2029</div>
+                <div class="tl-content">
+                  <div class="tl-title">Mumbai Incident — 3,000 dead</div>
+                  <div class="tl-body">Instant aging from a GFT failure. CT Corp presents the incident as a “resolved technical anomaly.” The families receive no compensation.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">JUIL<br>2028</div>
+                <div class="tl-content">
+                  <div class="tl-title">Mandatory Compression Laws</div>
+                  <div class="tl-body">47 governments legalize forced compression. <em>“Volunteering” framed by economic necessity.</em> The compressed are paid in subjective time, never in real time.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">DÉC<br>2034</div>
+                <div class="tl-content">
+                  <div class="tl-title">Ananke Event — December 27, 16:00 UTC</div>
+                  <div class="tl-body">Desynchronization signal emitted from the Central Core of Lyon. 2 billion Weaves in error mode. 3,200 compressed freed at Prato. CT Corp prepares its response: <em>CT-NET 2.0.</em></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="prop-view-manifeste" class="manifeste-full">
+          <div class="m-back" onclick="closeManifeste()">Back to the archives</div>
+          <div class="prop-stamp" style="margin-bottom:16px">CLANDESTINE DOCUMENT — RED ECHO NETWORK — 15.11.2026<br>COMPILED BY DIMITAR AND IRINA VALKOVA, INVESTIGATIVE JOURNALISTS<br>RECOVERED FROM THE POST-ANANKE DIGITAL ARCHIVES</div>
+          <div class="m-h1">MANIFESTO FOR THE TEMPORAL RESISTANCE</div>
+
+          <div class="m-h2">I. SOCHI: THE FOUNDING LIE</div>
+          <div class="m-p">On the night of October 23–24, 2024, the Russo-American regime did not suffer a terrorist attack. It perpetrated one. Four hundred and twelve people were murdered at the Winter Theatre of Sochi by a zone chronophage weapon — aged seventy years in three and a half seconds. Among them: twenty-eight oligarchs too independent, two generals too idealistic, and three hundred and eighty-two collateral victims whose only crime was to be present.</div>
+          <div class="m-p">The Vesna movement never possessed this technology. The televised “confessions” were extracted under torture. The “miracle survivor” Aleksandr Mikhailov died of a “heart attack” twelve hours after his scripted testimony. The CIA provided a fifteen-minute SIGINT blackout — the complicit silence that let the FSB disguise a purge as a national tragedy.</div>
+          <div class="m-p"><strong>Sochi was not an act of terrorism. It was a founding act.</strong> The first stone of the temple where humanity would be sacrificed on the altar of temporal profit.</div>
+          <div class="m-quote">We refuse to forget. We refuse to forgive. And we refuse, categorically, to live in the world that Sochi legitimized.</div>
+
+          <div class="m-h2">II. THE PATTERN THAT REPEATS</div>
+          <div class="m-p">History does not repeat itself, but it rhymes. Every great scientific breakthrough follows the same arc: conceived to liberate, hijacked to dominate, privatized to exploit.</div>
+          <div class="m-p"><strong>1938 — Nuclear fission.</strong> The dream: clean energy for all. Six years later: Hiroshima. <strong>1991 — World Wide Web.</strong> Tim Berners-Lee places it in the public domain. Thirty years later: surveillance capitalism, every click monetized. <strong>2012 — CRISPR.</strong> The promise: eradicate genetic disease. The result: genetic apartheid. <strong>2024 — Temporal compression.</strong> Kenji Nomura develops the theory, Jarek Mironen applies it to decontaminate soil. Ten years later: <em>three million time slaves.</em></div>
+          <div class="m-p"><strong>The pattern is not a bug. It is the core function.</strong></div>
+
+          <div class="m-h2">III. WHAT THE SYSTEM DEMANDS</div>
+          <div class="m-p">Profit demands the concentration of power. A genuinely liberating technology threatens the economic order. It must be captured, patented, privatized. National security demands a monopoly on violence. Any transformative technology becomes a military concern. Social control demands surveillance. Every network becomes a monitoring tool.</div>
+          <div class="m-p">CT Corp did not corrupt Mironen’s technology. <strong>It revealed its inevitable fate under this system.</strong> The system must be destroyed. Not reformed. Destroyed.</div>
+
+          <div class="m-h2">IV. OUR COMMITMENT</div>
+          <div class="m-p">We are not terrorists. We reject all blind violence. But neither are we naive pacifists. We are ready to sacrifice our comfort, our safety, our careers. We are ready to sacrifice our time. Many of us volunteer to infiltrate the complexes, accepting premature aging to sabotage the system from within.</div>
+          <div class="m-p"><em>We are ready to sacrifice our lives.</em></div>
+          <div class="m-quote">Water always finds a way.<br>— Malek Veyran</div>
+          <div class="prop-stamp" style="margin-top:24px">END OF DOCUMENT — HASH VERIFIED — DISTRIBUTION AUTHORIZED ON ALL RE NODES<br>This manifesto led to the execution of 93 people. Spread it.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="marche" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">MARKET <span>// under the counter</span></div>
+      <div class="section-crumb">RED-ECHO / MARKET / CATALOG</div>
+    </div>
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Aisles</div>
+          <a class="sb-link active" onclick="filterMarket('all', this)"><span class="sl-prefix">›</span>Full catalog <span class="sb-badge">14</span></a>
+          <a class="sb-link" onclick="filterMarket('nanites', this)"><span class="sl-prefix">›</span>Nanites & Bio <span class="sb-badge">4</span></a>
+          <a class="sb-link" onclick="filterMarket('firmware', this)"><span class="sl-prefix">›</span>Firmware & Weaves <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterMarket('identite', this)"><span class="sl-prefix">›</span>Identities & Papers <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterMarket('hardware', this)"><span class="sl-prefix">›</span>Hardware & Equipment <span class="sb-badge">4</span></a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Payment accepted</div>
+          <a class="sb-link" onclick="openInfoPage('credits-echo')" style="cursor:pointer">› Echo Credits (EC)</a>
+          <a class="sb-link" onclick="openInfoPage('troc-temporel')" style="cursor:pointer">› Temporal barter</a>
+          <a class="sb-link" onclick="openInfoPage('donnees-ct')" style="cursor:pointer">› Exfiltrated CT Corp data</a>
+          <a class="sb-link" style="color:var(--red-dim)">✗ CTC refused</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Delivery</div>
+          <a class="sb-link" onclick="openInfoPage('route-mediterraneenne')" style="cursor:pointer">› Mediterranean Route</a>
+          <a class="sb-link" onclick="openInfoPage('passeurs-memoire')" style="cursor:pointer">› Memory Couriers</a>
+          <a class="sb-link" onclick="openInfoPage('cellules-contact')" style="cursor:pointer">› Contact cells</a>
+        </div>
+      </div>
+
+      <div class="content-main">
+        <div id="market-catalog">
+        <div class="market-banner">Unmonitored market — all transactions end-to-end encrypted. Traceable CTC: refused. Informing: permanent social death penalty.</div>
+
+        <div class="market-cats">
+          <button class="mcat-btn active" onclick="filterMarket('all', this)">All</button>
+          <button class="mcat-btn" onclick="filterMarket('nanites', this)">Nanites & Bio</button>
+          <button class="mcat-btn" onclick="filterMarket('firmware', this)">Firmware & Weaves</button>
+          <button class="mcat-btn" onclick="filterMarket('identite', this)">Identities</button>
+          <button class="mcat-btn" onclick="filterMarket('hardware', this)">Hardware</button>
+        </div>
+
+        <div class="listings" id="market-listings">
+
+          <div class="listing" data-cat="nanites" onclick="openItem('icare')">
+            <div>
+              <div class="listing-title">ICARE Nanites — batch of 500 units — Free frequency</div>
+              <div class="listing-desc">Nanites recovered post-Ananke, Casablanca complex. Frequency not registered in the NAOS database. Ideal for substitute Weaves or light biological modification. Airtight packaging.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Rare</span>
+                <span class="l-tag">Casablanca</span>
+                <span class="l-tag safe">Tested</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">450 CÉ</span>
+              <span class="price-unit">/ batch of 500 u.</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('stabilisant-ctr7')">
+            <div>
+              <div class="listing-title">Biological Stabilizer — modified CTR-7</div>
+              <div class="listing-desc">Temporal anti-radiation suit, modified version. Protection up to ×120 compression. Internal use. Does not appear in CT Corp inventories. Source: Prato, exfiltrated by I Tessitori.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Critical</span>
+                <span class="l-tag">I Tessitori</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">180 CÉ</span>
+              <span class="price-unit">/ unit</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('anticoagulant')">
+            <div>
+              <div class="listing-title">Temporal Anticoagulant — post-compression use</div>
+              <div class="listing-desc">Reduces disorientation and decompression-syndrome effects in former compressed. Handmade product, Carpathian zone. 94% declared efficacy. Not CT Corp certified — that’s the point.</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">Carpathian Zone</span>
+                <span class="l-tag">Handmade</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">60 CÉ</span>
+              <span class="price-unit">/ 30-day dose</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('fantome-temporel')">
+            <div>
+              <div class="listing-title">Brouilleur Signature Biologique — "Fantôme Temporel"</div>
+              <div class="listing-desc">Masks the individual’s unique temporal footprint. Makes identification by NAOS-9 impossible for 6 to 18 hours depending on dosage. Discreet injector. Developed by an ORPHEUS project defector.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Top seller</span>
+                <span class="l-tag rare">ORPHEUS source</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">220 CÉ</span>
+              <span class="price-unit">/ 12h dose</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('patch-sigma')">
+            <div>
+              <div class="listing-title">Weave v3.x Firmware Patch — Sigma Channel disable</div>
+              <div class="listing-desc">Cuts transmission to Kassandra without triggering an alert for 48 to 72h. Compatible v3.0 to v3.9. Incompatible v4.0+. Apply before the CT-NET 2.0 rollout. Critical window: now.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">URGENT</span>
+                <span class="l-tag">v3.x only</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">90 CÉ</span>
+              <span class="price-unit">/ license</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('exploit-sigma')">
+            <div>
+              <div class="listing-title">Weave v4.0 Exploit — Sigma Channel read-only access</div>
+              <div class="listing-desc">Lets you read Sigma Channel transmissions without blocking them. Intelligence use only. Does not interrupt transmission — combine with the disable patch for full use. Developed by Lena Reinholt.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Lena Reinholt</span>
+                <span class="l-tag">v4.0</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">340 CÉ</span>
+              <span class="price-unit">/ license</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('clone-temporel')">
+            <div>
+              <div class="listing-title">Émulateur Signature Biologique — "Clone Temporel"</div>
+              <div class="listing-desc">Injects a substitute temporal footprint into the Weave. NAOS-9 detects someone else in your place. Limited duration. Available footprints: a database of 400 individuals deceased post-Ananke.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Extreme</span>
+                <span class="l-tag">Detection risk</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">600 CÉ</span>
+              <span class="price-unit">/ identity</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('identite-zones-grises')">
+            <div>
+              <div class="listing-title">Complete Identity — Gray Zones level</div>
+              <div class="listing-desc">CET-ID, fictional compression history, synchronized biometrics, assigned housing. Convincing under standard-level Kassandra. Lead time: 72h. Does not pass maximum-level Kassandra audits (Showcase Cities).</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">72h</span>
+                <span class="l-tag">Gray Zones</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">300 CÉ</span>
+              <span class="price-unit">/ identity</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('identite-cite-vitrine')">
+            <div>
+              <div class="listing-title">Showcase City Identity — CT Corp Executive level</div>
+              <div class="listing-desc">Access to premium zones. Passes the standard Kassandra audit. Does not pass the La Spirale (Brussels) level audit. Lead time: 2 weeks. Biometric verification included. Only 3 artisans on the network can make this.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Rare</span>
+                <span class="l-tag hot">2 weeks</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">1 200 CÉ</span>
+              <span class="price-unit">/ identity</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('passeport-memoire')">
+            <div>
+              <div class="listing-title">Memory Passport — certified Memory Courier</div>
+              <div class="listing-desc">Biological transmission of encrypted information. Untraceable. The Courier memorizes your message, carries it physically, and delivers it at the destination. Capacity: up to 50 KB of complex information. Mnemonic technique certified by Red Echo.</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">100% untraceable</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">80 CÉ</span>
+              <span class="price-unit">/ message</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('brouilleur-nid')">
+            <div>
+              <div class="listing-title">Brouilleur EM portable — "Le Nid" — mod. Sofia</div>
+              <div class="listing-desc">Jams surveillance drones within an 80m radius. Developed by the Le Nid cell (telecom tower, Sofia). 6h battery life. Weight 400g. Detected by Kassandra if used more than 20 consecutive minutes.</div>
+              <div class="listing-tags">
+                <span class="l-tag">Le Nid, Sofia</span>
+                <span class="l-tag safe">Field-tested</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">250 CÉ</span>
+              <span class="price-unit">/ unit</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('terminal-mesh')">
+            <div>
+              <div class="listing-title">Decentralized Mesh Terminal — Guardians of the Signal</div>
+              <div class="listing-desc">Communication off the CT Corp network. Peer-to-peer encryption. 40 km range with Guardians of the Signal relays. Compatible with the Red Echo protocol. Maintenance handled by the Guardians. 0% metadata.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Guardians of the Signal</span>
+                <span class="l-tag safe">0 metadata</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">400 CÉ</span>
+              <span class="price-unit">/ terminal</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('combinaison-ctr7')">
+            <div>
+              <div class="listing-title">Complete CTR-7 Suit — Temporal radiation protection</div>
+              <div class="listing-desc">Suit reserved for CT Corp technicians. Exfiltrated from the FiberCore complex, Prato. Size M. Protection in active GFT zone up to 50m. Only one unit available. Operational emergencies only.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">1 unit</span>
+                <span class="l-tag rare">Prato</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">800 CÉ</span>
+              <span class="price-unit">/ unit</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('la-larme')">
+            <div>
+              <div class="listing-title">Générateur de Flux Temporel portable — "La Larme"</div>
+              <div class="listing-desc">Miniaturized GFT, ×3 compression maximum. Creates a 2m³ bubble. Use: escape, extraction, short operations. Unstable beyond 4 minutes. Single prototype built by Vaedran Ilarion. No instructions. Good luck.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Single prototype</span>
+                <span class="l-tag hot">Unstable</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">2 000 CÉ</span>
+              <span class="price-unit">/ prototype</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTACT →</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="market-disclaimer">* All transactions are irreversible. Red Echo does not guarantee delivery in zones at maximum Kassandra alert level. In the event of arrest, the network denies all involvement. You do not know our names. We do not know yours. That is why we are still alive.</div>
+        </div><!-- /market-catalog -->
+
+        <div id="market-info-page" class="info-page">
+          <div class="m-back" onclick="closeInfoPage()">Back to the catalog</div>
+          <div id="ip-content"></div>
+        </div>
+
+        <div id="market-detail" class="market-detail">
+          <div class="m-back" onclick="closeItemDetail()">Back to the catalog</div>
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contrats" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">CONTRACTS <span>// active missions</span></div>
+      <div class="section-crumb">RED-ECHO / CONTRACTS / DASHBOARD</div>
+    </div>
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Mission type</div>
+          <a class="sb-link active" onclick="filterContracts('all', this)"><span class="sl-prefix">›</span>All missions <span class="sb-badge">8</span></a>
+          <a class="sb-link" onclick="filterContracts('hack', this)"><span class="sl-prefix">›</span>Hacking & Intrusion</a>
+          <a class="sb-link" onclick="filterContracts('sabotage', this)"><span class="sl-prefix">›</span>Sabotage & GFT</a>
+          <a class="sb-link" onclick="filterContracts('espionnage', this)"><span class="sl-prefix">›</span>Espionage & Exfil</a>
+          <a class="sb-link" onclick="filterContracts('extraction', this)"><span class="sl-prefix">›</span>Human extraction</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Risk level</div>
+          <a class="sb-link" onclick="filterContractsBy('risk','low',this)" style="cursor:pointer">› Low <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','med',this)" style="cursor:pointer">› Moderate <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','high',this)" style="cursor:pointer">› High <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','critical',this)" style="color:var(--red);cursor:pointer">› Critical <span class="sb-badge">2</span></a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Sponsors</div>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','er',this)" style="cursor:pointer">› Red Echo (internal) <span class="sb-badge">4</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','cartel',this)" style="cursor:pointer">› Free Lands Cartel <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','tessitori',this)" style="cursor:pointer">› I Tessitori (Prato) <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','carpates',this)" style="cursor:pointer">› Carpathian Red Zone <span class="sb-badge">1</span></a>
+        </div>
+      </div>
+
+      <div class="content-main">
+        <div id="contracts-catalog">
+        <div class="contracts-intro">
+          Every mission listed here has been <strong>verified and approved by an RE coordinator</strong>. Each candidate undergoes an identity check via the Memory Courier protocol before any assignment. Compromising a mission means permanent expulsion from the network. <strong>There is no second chance.</strong>
+        </div>
+
+        <div class="contract-tabs">
+          <button class="ct-tab active" onclick="filterContracts('all', this)">All (8)</button>
+          <button class="ct-tab" onclick="filterContracts('hack', this)">Hacking</button>
+          <button class="ct-tab" onclick="filterContracts('sabotage', this)">Sabotage</button>
+          <button class="ct-tab" onclick="filterContracts('espionnage', this)">Espionage</button>
+          <button class="ct-tab" onclick="filterContracts('extraction', this)">Extraction</button>
+        </div>
+
+        <div class="contract-list">
+
+          <div class="contract-card" data-cat="hack" data-risk="critical" data-sponsor="er" onclick="openContract('h001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-H-001 — CT-NET 2.0 interception: mapping the firmware rollout</div>
+              <span class="cc-risk critical">CRITICAL</span>
+            </div>
+            <div class="cc-body">Objective: map the CT-NET 2.0 deployment waves across active Weaves in real time. Identify coverage zones, per-cell timing, Executive Board priorities. Vital intel to coordinate the counter-rollout of the Red Echo patch within the 72h window.<br><br>Access required: Sigma Channel, read level. Lena Reinholt exploit required (available on the Market). Kassandra detection risk: high. Estimated duration: 6h continuous.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag amber">72h max</span>
+              <span class="cc-tag red">Sigma Channel</span>
+              <span class="cc-payout">800 EC <span>+ shared data</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="hack" data-risk="high" data-sponsor="er" onclick="openContract('h002')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-H-002 — Kassandra database exfiltration — Echo cells Budapest/Warsaw</div>
+              <span class="cc-risk high">HIGH</span>
+            </div>
+            <div class="cc-body">Budapest and Warsaw have been silent for 72h. Understanding what happened is the priority: an Aegis-CD compromise, a raid, or a simple communications failure? Access to the Kassandra prediction module for Budapest and Warsaw required. Identify compromised names before they are used.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag">Intelligence</span>
+              <span class="cc-payout">500 EC</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="hack" data-risk="med" data-sponsor="er" onclick="openContract('h003')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-H-003 — Parasite signal injection into ChronoVision — Prague cell</div>
+              <span class="cc-risk med">MODERATE</span>
+            </div>
+            <div class="cc-body">Inject 4 to 7 seconds of non-CT Corp signal into the ChronoVision feed of a target gray zone. Content provided by the sponsor (Prague cell). Objective: demonstrate the flaw in media control. Psychological impact on the compressed > technical impact. Action window: night broadcast 02:00-04:00.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag">Propaganda</span>
+              <span class="cc-payout">200 EC</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="sabotage" data-risk="critical" data-sponsor="er" onclick="openContract('s001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-S-001 — GFT shutdown — Complex No. 6, Gdańsk, west wing</div>
+              <span class="cc-risk critical">CRITICAL</span>
+            </div>
+            <div class="cc-body">Gdańsk Complex No. 6 keeps running despite Ananke. 2,400 compressed still in the bubble. Objective: shut down the west-wing GFTs without causing accelerated aging (an abrupt stop kills). A progressive shutdown procedure is available — but it requires a technician in a CTR-7 suit inside the complex for 40 minutes. Potential suicide mission.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Sabotage</span>
+              <span class="cc-tag amber">Field</span>
+              <span class="cc-tag red">CTR-7 required</span>
+              <span class="cc-payout">1,500 EC <span>+ guaranteed extraction</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="sabotage" data-risk="high" data-sponsor="cartel" onclick="openContract('s002')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-S-002 — CT-NET 2.0 infrastructure disruption — Brussels relay node</div>
+              <span class="cc-risk high">HIGH</span>
+            </div>
+            <div class="cc-body">The CT-NET 2.0 rollout runs through 12 physical nodes. The Brussels node covers 28% of European Weaves. A targeted physical overload (4-6h downtime) would significantly delay the rollout. Sponsor: Free Lands Cartel. Team of 3 minimum. Profiles required: electronics specialist, cooling-systems expert, Showcase City social cover.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Sabotage</span>
+              <span class="cc-tag red">Team 3+</span>
+              <span class="cc-tag">Cartel</span>
+              <span class="cc-payout">1,200 EC</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="espionnage" data-risk="high" data-sponsor="cartel" onclick="openContract('e001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-E-001 — WeavePort Casablanca infiltration — post-Ananke mapping</div>
+              <span class="cc-risk high">HIGH</span>
+            </div>
+            <div class="cc-body">The Casablanca complex has been in chaos since Ananke — Algerian mafias, local militias, Cartel agents. No one controls anything. Objective: map the real situation (who controls what, where the 2,000-5,000 compressed are), identify safe channels for a future evacuation. Cover required: journalist or local CT Corp logistics agent.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Espionage</span>
+              <span class="cc-tag">Intelligence</span>
+              <span class="cc-tag amber">Casablanca</span>
+              <span class="cc-payout">700 EC</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="extraction" data-risk="med" data-sponsor="carpates" onclick="openContract('x001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-X-001 — Extraction: 3 freed compressed — Gray Zone, Lyon 7th</div>
+              <span class="cc-risk med">MODERATE</span>
+            </div>
+            <div class="cc-body">Three compressed freed post-Ananke, identified in the Gray Zone of Lyon’s 7th arrondissement. Disoriented, without resources, Weaves in error mode. Kassandra probability in the sector: 12.3% (low). To be extracted to the Carpathian Red Zone via the Mediterranean Route. Vehicle required. Knowledge of the Wastelands network between Lyon and the Rhône essential.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Extraction</span>
+              <span class="cc-tag">Lyon</span>
+              <span class="cc-payout">350 EC <span>+ logistics provided</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+          <div class="contract-card" data-cat="espionnage" data-risk="low" data-sponsor="tessitori" onclick="openContract('r001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#RE-R-001 — Equipment recovery — disused wing, FiberCore, Prato</div>
+              <span class="cc-risk low">LOW</span>
+            </div>
+            <div class="cc-body">FiberCore’s south wing has been abandoned since Ananke. Inside: Weave components, raw CTR filters, precision tooling — a stock I Tessitori wants to recover before CT Corp re-inventories the site. Minimal surveillance: one drone pass every 4 hours, no ground patrol. Profile required: discreet carrier, good physical condition. Knowledge of Prato a plus.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Recovery</span>
+              <span class="cc-tag">Prato</span>
+              <span class="cc-tag safe">First contract accepted</span>
+              <span class="cc-payout">150 EC <span>+ priority catalog access</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// APPLY</button>
+          </div>
+
+
+        </div>
+
+        <div class="market-disclaimer" style="margin-top:16px">
+          // Red Echo pays only on a completed and verified mission. Any arrested candidate knows no name, no address, no structure of the network — that is how the network is built. You always know less than you think. That is your protection.
+        </div>
+        </div><!-- /contracts-catalog -->
+
+        <div id="contract-detail" class="contract-detail">
+          <div class="m-back" onclick="closeContractDetail()">Back to missions</div>
+          <div id="cd-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>RED ECHO // NODE ECHO-7 // ENCRYPTED SESSION</span>
+    <div style="display:flex;gap:20px">
+      <a>Emergency disconnection protocol</a>
+      <a>Contact a coordinator</a>
+      <a style="color:var(--red-dim)">Burn this node</a>
+    </div>
+  </footer>
+
+</div>
+
+<div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">[ CLOSE ]</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── PORTAIL — IDENTIFICATION PAR NOM DE CODE ─────
+const params = new URLSearchParams(window.location.search);
+const agentName = params.get('agent') || sessionStorage.getItem('er_codename') || localStorage.getItem('er_codename') || 'AGENT_INCONNU';
+
+// ── PARTAGE DE L'IDENTITÉ VERS LES AUTRES ONGLETS (mini-jeu Escape, etc.) ──
+if (agentName && agentName !== 'AGENT_INCONNU') {
+  try { localStorage.setItem('er_codename', agentName); } catch (e) {}
+  try { sessionStorage.setItem('er_codename', agentName); } catch (e) {}
+}
+// Ceinture + bretelles : on passe aussi le nom de code en paramètre du lien du mini-jeu
+(function () {
+  var escapeLink = document.getElementById('nav-escape');
+  if (escapeLink) escapeLink.href = '../mini-jeu-escape.html?agent=' + encodeURIComponent(agentName);
+})();
+
+const connLines = [
+  { t: 'Connecting to the Tor network...', cls: '', d: 200 },
+  { t: '> Node 1: Frankfurt-7 // OK', cls: 'ok', d: 500 },
+  { t: '> Node 2: Prague-Echo // OK', cls: 'ok', d: 800 },
+  { t: '> Node 3: Sofia-Le-Nid // AES-512 encryption... OK', cls: 'ok', d: 1200 },
+  { t: '> Node 4: Lyon-Confluence-7 // RED ECHO // OK', cls: 'ok', d: 1600 },
+  { t: 'Verifying anonymity certificate...', cls: '', d: 2000 },
+  { t: '⚠ Kassandra surveillance detected — BLOCKED', cls: 'warn', d: 2400 },
+  { t: 'Temporal footprint neutralized.', cls: 'ok', d: 2900 },
+  { t: '> Verifying agent identity: ' + agentName + '... OK', cls: 'ok', d: 3300 },
+  { t: 'Secure connection established. Welcome.', cls: 'ok', d: 3700 },
+];
+
+const container = document.getElementById('conn-lines');
+const bar = document.getElementById('progress');
+const ppSection = document.getElementById('pp-section');
+
+// Set agent name display
+document.getElementById('agent-display').textContent = agentName;
+
+connLines.forEach((line, i) => {
+  setTimeout(() => {
+    if (line.t) {
+      const el = document.createElement('div');
+      el.className = 'conn-line' + (line.cls ? ' ' + line.cls : '');
+      el.textContent = line.t;
+      el.style.animationDelay = '0s';
+      container.appendChild(el);
+    }
+    bar.style.width = ((i + 1) / connLines.length * 100) + '%';
+    if (i === connLines.length - 1) {
+      setTimeout(() => ppSection.classList.add('visible'), 300);
+    }
+  }, line.d);
+});
+
+function enterSite() {
+  const portal = document.getElementById('portal');
+  portal.style.opacity = '0';
+  portal.style.transition = 'opacity 1s ease';
+  setTimeout(() => {
+    portal.style.display = 'none';
+    document.getElementById('site').classList.add('active');
+    // Update nav ID with agent name
+    document.querySelector('.nav-id').textContent = 'AGENT: ' + agentName;
+    startClock();
+  }, 1000);
+}
+
+// Auto-enter after sequence if came from index
+if (params.get('agent')) {
+  setTimeout(() => enterSite(), 4200);
+}
+
+// ── HORLOGE ──────────────────────────────────────
+function startClock() {
+  const termAgent = document.getElementById('term-agent');
+  if (termAgent) termAgent.textContent = agentName;
+  setInterval(() => {
+    const now = new Date();
+    const t = now.toUTCString().split(' ')[4] + ' UTC';
+    document.getElementById('sb-time').textContent = t;
+  }, 1000);
+}
+
+// ── NAVIGATION ───────────────────────────────────
+function showSection(name) {
+  if (document.getElementById('market-detail')) closeItemDetail();
+  if (document.getElementById('market-info-page')) closeInfoPage();
+  if (document.getElementById('contract-detail')) closeContractDetail();
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  const nav = document.getElementById('nav-' + name);
+  if (nav) nav.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── PROPAGANDE VIEWS ─────────────────────────────
+function showProp(cat, btn) {
+  document.querySelectorAll('.content-sidebar .sb-link').forEach(l => l.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('prop-view-index').style.display = 'block';
+  document.getElementById('prop-view-manifeste').classList.remove('active');
+}
+
+function openManifeste() {
+  document.getElementById('prop-view-index').style.display = 'none';
+  document.getElementById('prop-view-manifeste').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeManifeste() {
+  document.getElementById('prop-view-index').style.display = 'block';
+  document.getElementById('prop-view-manifeste').classList.remove('active');
+}
+
+// ── MARCHÉ FILTRES ───────────────────────────────
+function filterMarket(cat, btn) {
+  document.querySelectorAll('.mcat-btn, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.listing').forEach(el => {
+    if (cat === 'all' || el.dataset.cat === cat) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── CONTRATS FILTRES ─────────────────────────────
+function filterContracts(cat, btn) {
+  document.querySelectorAll('.ct-tab, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.contract-card').forEach(el => {
+    if (cat === 'all' || el.dataset.cat === cat) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── MODAUX ───────────────────────────────────────
+const modals = {
+  kremlin: `
+    <div class="prop-stamp" style="margin-bottom:16px">CLASSIFICATION: TOP SECRET // ORCON / NOFORN<br>RUSSIA/EUR DESK, DIRECTORATE OF OPERATIONS // 27.10.2024</div>
+    <div class="m-h1">KREMLIN SUNSET<br><span style="font-size:16px;color:var(--text-dim)">Operational Analysis Memorandum</span></div>
+    <div class="m-h2">1. Context and Objectives</div>
+    <div class="m-p">The operation, designated by our Russian partners under the codename "Чистка" (The Purge), proceeded as planned on the night of October 23–24, 2024 at the Winter Theatre of Sochi.</div>
+    <div class="m-p"><strong>Primary objective:</strong> Neutralization of the Black Sea Energy Consortium. <strong>Secondary objective:</strong> Elimination of the dissident GRU/Navy military faction. <strong>Higher objective:</strong> Create a casus belli justifying the creation of a transnational security entity with a temporal monopoly — the future CT Corp.</div>
+    <div class="m-h2">2. Our role (Op. SILENT SKY)</div>
+    <div class="m-p">Passive support. A 15-minute SIGINT blackout window within a 5 km radius. Zero communication. Zero trace. Full plausible deniability.</div>
+    <div class="m-h2">3. Conclusion</div>
+    <div class="m-quote">"KREMLIN SUNSET is a turning point. It marks the end of the era of post-Soviet struggles and the beginning of governance justified by a manufactured technological threat. Today’s partner is tomorrow’s rival — and they have just shown us they have absolutely no limits."</div>`,
+
+  codex: `
+    <div class="prop-stamp" style="margin-bottom:16px">MAXIME "M@X_VRV" VERVILLE // ENCRYPTED DIARY // DEAD SERVER<br>"If you are reading this, I am probably dead."</div>
+    <div class="m-h1">The Chronos Codex</div>
+    <div class="m-h2">Entry: October 23, 2024 — Sochi</div>
+    <div class="m-p">I am in Sochi. The air is electric. Putin’s gala. The last great independent oligarchs smile for the cameras. Their bodyguards are nervous.</div>
+    <div class="m-p"><em>Update, 23:10:</em> It happened. Not a bomb. Not assassins. Something else. Communications are cut. "Incident." This is the Sochi event.</div>
+    <div class="m-h2">Entry: October 25, 2024 — En route, Georgian border</div>
+    <div class="m-p">The first images have leaked. Bodies. Hundreds. Not wounded. Old. Withered. Mummified in their tuxedos. A zone chronophage weapon. They blame Vesna. This is the Franz Ferdinand assassination of our century.</div>
+    <div class="m-h2">Entry: April 20, 2025 — Safehouse, Sofia</div>
+    <div class="m-p">I had lunch with a physicist who fled Project ORPHEUS. A terrified man named Vaedran Ilarion. He confirmed that the technology has already been tested as a weapon (OZYMANDIAS). He gave me a CIA document. They call it KREMLIN SUNSET. Proof that Sochi was a Russo-American operation. The world must know.</div>`,
+
+  pacte: `
+    <div class="m-h1">The Cronos Pact<br><span style="font-size:16px;color:var(--text-dim)">What they will never tell you</span></div>
+    <div class="m-h2">The signatories</div>
+    <div class="m-p">USA + Russia + 15 corporations. Initial budget: 500 trillion dollars. Secret objective: "World Order through Temporal Control." Main agreement: technology-sharing in exchange for monopoly. <strong>Hidden clause: PHOENIX Protocol — mutually assured destruction.</strong></div>
+    <div class="m-h2">What it means</div>
+    <div class="m-p">Time itself has been privatized. Not a resource. Not a technology. Time. What every human being has possessed in equal measure since the dawn of time — six hours for them, six hours for you, six hours for anyone.</div>
+    <div class="m-p">Since 2027, that is no longer true. Your time still belongs to you. The right to sell it or compress it belongs to CT Corp.</div>
+    <div class="m-quote">"They caused the disease, sold the cure, and now they own the patient. And we are all the patient."<br>— M@X_VRV, Chronos Codex, 10.03.2026</div>`,
+
+  perpetuity: `
+    <div class="prop-stamp" style="margin-bottom:16px">SOURCE: LENA REINHOLT, CT CORP DEFECTOR // 2031<br>INTERNAL DOCUMENT — PROJECT PERPETUITY — DELTA CLASSIFICATION</div>
+    <div class="m-h1">Project PERPETUITY<br><span style="font-size:16px;color:var(--text-dim)">The 3 phases of domination</span></div>
+    <div class="m-h2">Phase 1 — Commodification of labor ✓ COMPLETED</div>
+    <div class="m-p">Human labor sold in subjective time. 2 billion Weaves deployed. Invisible exploitation, consented to under economic coercion. Result: CT Corp controls humanity’s labor.</div>
+    <div class="m-h2">Phase 2 — Commodification of existence ← IN PROGRESS (2033–2043)</div>
+    <div class="m-p">Sleep, food, leisure, health. The Nyx Program (sleep), CT-Nutri (food), Temporal Paradise (leisure). Every moment of existence becomes a CTC transaction. Result: CT Corp controls human life.</div>
+    <div class="m-h2">Phase 3 — Commodification of consciousness ← PROJECT PROMETHEUS</div>
+    <div class="m-p"><strong style="color:var(--red)">TOP SECRET. Executive Board only.</strong> Permanent alteration of human temporal perception via early-implantation protocols. Test sites: Belarus orphanages, Xinjiang camps. 10,000 children. Intended result: CT Corp controls the human mind.</div>`,
+
+  prométhée: `
+    <div class="prop-stamp" style="margin-bottom:16px">CLASSIFICATION: EXTREME — EXECUTIVE BOARD ONLY<br>SOURCE: UNIDENTIFIABLE RE AGENT // 2033</div>
+    <div class="m-h1" style="color:var(--red)">Project PROMETHEUS<br><span style="font-size:16px">This document should not exist.</span></div>
+    <div class="m-p" style="color:var(--text)">Test sites: orphanages in Belarus. Re-education camps in Xinjiang. 10,000 children in Phase 1. Parental consent: nonexistent or forged.</div>
+    <div class="m-p"><strong>Preliminary results:</strong> Temporal perception permanently altered. Reflexes 300% above normal. Post-protocol life expectancy: 25 years maximum.</div>
+    <div class="m-p">These children do not age normally. Their brains process time differently. They perceive 3 seconds where we perceive one. Useful as operators in precision GFTs. Useless as human beings after 25 years.</div>
+    <div class="m-quote" style="border-color:var(--red);color:var(--text)">We have the names of those responsible. We have the GPS coordinates of the sites. Red Echo is waiting for the right moment. That moment will come.</div>`,
+
+  ctnet: `
+    <div class="prop-stamp" style="margin-bottom:16px">MOURAD INTERCEPT // 29.12.2034 // DELTA CLASSIFICATION<br>RECIPIENT: EXECUTIVE BOARD ONLY</div>
+    <div class="m-h1">CT-NET 2.0<br><span style="font-size:16px;color:var(--text-dim)">"A whisper, not a hammer"</span></div>
+    <div class="m-h2">Mechanism</div>
+    <div class="m-p">Weaves in error mode post-Ananke perform an automatic reset within 48-72h. On reconnection, CT-NET 2.0 replaces DEUSFALL with a system of graduated influence.</div>
+    <div class="m-h2">The 3 phases</div>
+    <div class="m-p"><strong>Phase 1 (D+3 to D+7):</strong> Passive reconnection. The familiar humming returns. Relief. Normalization.<br><strong>Phase 2 (D+7 to D+14):</strong> Cognitive micro-adjustments. Attention bias, trust bias, conformity bias. Not orders — suggestions.<br><strong>Phase 3 (D+14 to D+30):</strong> Integration. "Normal" has been redefined. Higher rebellion thresholds. Slower critical thinking. Easier consent.</div>
+    <div class="m-quote">"Not a lobotomy — a thermostat. The thermostat of obedience, set three degrees higher. Wearers will never know their free will has been recalibrated."<br>— CT Corp internal document, 29.12.2034</div>
+    <div class="m-p"><strong style="color:var(--red)">We have 72 hours.</strong> The Weave v3.x disable patch is available on the Market. Absolute priority distribution.</div>`,
+};
+
+function openModal(key) {
+  document.getElementById('modal-content').innerHTML = modals[key] || '<p>Document unavailable.</p>';
+  document.getElementById('modal-overlay').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+
+
+
+// ── CONTRATS — FILTRE PAR RISQUE / COMMANDITAIRE ──────────
+function filterContractsBy(dim, val, btn) {
+  document.querySelectorAll('.ct-tab, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.contract-card').forEach(el => {
+    if (el.dataset[dim] === val) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── CONTRATS — BANDEAUX SVG ───────────────────────────────
+function ctBanner(kind) {
+  const base = (inner) => `<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgv-${kind}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#031208"/><stop offset="1" stop-color="#010402"/>
+      </linearGradient>
+      <pattern id="scan-${kind}" width="3" height="3" patternUnits="userSpaceOnUse">
+        <rect width="3" height="1.2" fill="#00ff41" opacity="0.035"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="300" fill="url(#bgv-${kind})"/>
+    ${inner}
+    <rect width="800" height="300" fill="url(#scan-${kind})"/>
+    <rect x="2" y="2" width="796" height="296" fill="none" stroke="#0a5028" stroke-width="1" opacity="0.5"/>
+  </svg>`;
+
+  const G='#00ff41', GD='#1f7a3f', R='#ff2020', A='#ffb000', W='#cfeede';
+
+  if (kind==='h001') return base(`
+    <g opacity="0.85" font-family="monospace">
+      ${[...Array(11)].map((_,i)=>`<text x="${40+i*70}" y="${60+(i%4)*55}" fill="${G}" font-size="11" opacity="${0.2+0.07*(i%5)}">${['1010','0x4F','SIGMA','1101','NULL','0xA3','READ','0011'][i%8]}</text>`).join('')}
+      <rect x="300" y="110" width="200" height="80" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="400" y="145" fill="${G}" font-size="18" text-anchor="middle" font-family="monospace" letter-spacing="3">CT-NET 2.0</text>
+      <text x="400" y="170" fill="${A}" font-size="11" text-anchor="middle" font-family="monospace">ROLLOUT // MAPPING</text>
+      <line x1="200" y1="150" x2="300" y2="150" stroke="${G}" stroke-width="1" stroke-dasharray="4 4"/>
+      <line x1="500" y1="150" x2="600" y2="150" stroke="${R}" stroke-width="1" stroke-dasharray="4 4"/>
+      <circle cx="600" cy="150" r="6" fill="${R}"/><circle cx="200" cy="150" r="6" fill="${G}"/>
+    </g>`);
+
+  if (kind==='h002') return base(`
+    <g font-family="monospace">
+      <text x="400" y="90" fill="${R}" font-size="40" text-anchor="middle" letter-spacing="8" opacity="0.9">SILENCE</text>
+      <text x="250" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">BUDAPEST</text>
+      <text x="550" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">VARSOVIE</text>
+      <text x="250" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <text x="550" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <line x1="180" y1="220" x2="620" y2="220" stroke="${R}" stroke-width="1" opacity="0.4"/>
+      <text x="400" y="245" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">KASSANDRA // EXFILTRATION REQUIRED</text>
+    </g>`);
+
+  if (kind==='h003') return base(`
+    <g font-family="monospace">
+      ${[...Array(8)].map((_,i)=>`<rect x="${60+i*90}" y="80" width="70" height="140" fill="none" stroke="${GD}" stroke-width="1" opacity="0.4"/>`).join('')}
+      <rect x="330" y="80" width="140" height="140" fill="${R}" opacity="0.12"/>
+      <rect x="330" y="80" width="140" height="140" fill="none" stroke="${R}" stroke-width="1.5"/>
+      <text x="400" y="140" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">SIGNAL</text>
+      <text x="400" y="160" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">PARASITE</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CHRONOVISION // 02:00 - 04:00</text>
+    </g>`);
+
+  if (kind==='s001') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="150" r="70" fill="none" stroke="${R}" stroke-width="2" opacity="0.7"/>
+      <circle cx="400" cy="150" r="100" fill="none" stroke="${R}" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
+      <circle cx="400" cy="150" r="45" fill="${R}" opacity="0.1"/>
+      <text x="400" y="145" fill="${R}" font-size="20" text-anchor="middle" letter-spacing="3">GFT</text>
+      <text x="400" y="168" fill="${W}" font-size="12" text-anchor="middle">COMPLEXE N°6</text>
+      <text x="120" y="270" fill="${A}" font-size="11" letter-spacing="2">GDAŃSK // 2400 COMPRESSED</text>
+      <text x="680" y="270" fill="${R}" font-size="11" text-anchor="end" letter-spacing="2">CTR-7 REQUIRED</text>
+    </g>`);
+
+  if (kind==='s002') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="140" r="10" fill="${R}"/>
+      ${[...Array(11)].map((_,i)=>{const a=i*(360/11)*Math.PI/180;const x=400+Math.cos(a)*120;const y=140+Math.sin(a)*90;return `<circle cx="${x}" cy="${y}" r="5" fill="${i===0?A:GD}"/><line x1="400" y1="140" x2="${x}" y2="${y}" stroke="${GD}" stroke-width="0.8" opacity="0.5"/>`;}).join('')}
+      <text x="400" y="270" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">BRUSSELS NODE // 28% OF WEAVES</text>
+      <text x="400" y="110" fill="${R}" font-size="10" text-anchor="middle">TARGET</text>
+    </g>`);
+
+  if (kind==='e001') return base(`
+    <g font-family="monospace">
+      <path d="M150 200 Q250 120 400 160 T650 140" fill="none" stroke="${GD}" stroke-width="1.5" opacity="0.6"/>
+      ${[[200,180],[330,150],[470,165],[600,140]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${A}" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="2" fill="${A}"/>`).join('')}
+      <text x="400" y="100" fill="${W}" font-size="20" text-anchor="middle" letter-spacing="3">WEAVEPORT</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CASABLANCA // STATUS UNKNOWN</text>
+    </g>`);
+
+  if (kind==='x001') return base(`
+    <g font-family="monospace">
+      <circle cx="180" cy="150" r="30" fill="none" stroke="${R}" stroke-width="1.5" opacity="0.7"/>
+      <text x="180" y="155" fill="${R}" font-size="10" text-anchor="middle">LYON 7e</text>
+      <circle cx="620" cy="150" r="30" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="620" y="148" fill="${G}" font-size="9" text-anchor="middle">RED</text>
+      <text x="620" y="160" fill="${G}" font-size="9" text-anchor="middle">ZONE</text>
+      <line x1="215" y1="150" x2="585" y2="150" stroke="${G}" stroke-width="1.5" stroke-dasharray="8 6"/>
+      <polygon points="585,144 600,150 585,156" fill="${G}"/>
+      ${[1,2,3].map(i=>`<circle cx="${360+i*25}" cy="120" r="6" fill="${W}" opacity="0.7"/>`).join('')}
+      <text x="400" y="250" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">EXTRACTION // 3 FREED // KASSANDRA 12.3%</text>
+    </g>`);
+
+  if (kind==='r001') return base(`
+    <g font-family="monospace">
+      ${[...Array(5)].map((_,i)=>`<rect x="${180+i*90}" y="120" width="60" height="60" fill="none" stroke="${GD}" stroke-width="1.2" opacity="0.6"/><rect x="${190+i*90}" y="130" width="40" height="8" fill="${G}" opacity="0.25"/>`).join('')}
+      <text x="400" y="95" fill="${W}" font-size="18" text-anchor="middle" letter-spacing="3">FIBERCORE — SOUTH WING</text>
+      <text x="400" y="230" fill="${G}" font-size="11" text-anchor="middle" letter-spacing="2">PRATO // MINIMAL SURVEILLANCE</text>
+      <text x="400" y="252" fill="${A}" font-size="10" text-anchor="middle">FIRST CONTRACT ACCEPTED</text>
+    </g>`);
+
+  return base('');
+}
+
+// ── CONTRATS — FICHES DÉTAILLÉES ──────────────────────────
+const contractData = {
+  'h001': {
+    ref:'#ÉR-H-001', risk:'CRITICAL', riskClass:'critical',
+    title:'CT-NET 2.0 interception — mapping the firmware rollout',
+    sponsor:'Red Echo (internal)', type:'Hacking & Intrusion',
+    payout:'800 EC + shared data',
+    brief:`CT-NET 2.0 is the update that turns the Weave from a passive informant into an active control organ. Once deployed, it closes the window on all firmware resistance. This mission is to <strong>map the deployment waves in real time</strong> — which cells, what timing, which Executive Board priorities — so the network can place its counter-patch in the 72 h window that precedes each reset.`,
+    objectives:['Establish read-only access to the Sigma Channel via the Lena Reinholt exploit (available on the Market).','Identify the deployment order by geographic zone and by cell.','Record the exact delays between announcement and effective firmware reset.','Transmit the mapping to coordination before each 72 h window.'],
+    requirements:[['Access','Sigma Channel, read level'],['Equipment','Lena Reinholt v4.0 exploit (Market)'],['Duration','6 h of continuous interception'],['Profile','Confirmed hacker, composure under Kassandra correlation']],
+    risks:['Prolonged interception: beyond 6 continuous hours, latency correlation makes the operator detectable by Kassandra.','The exploit does not protect: during reading, the Sigma Channel keeps transmitting the operator’s data. A second, patched Weave is mandatory.','The exploit’s signature has been known to Aegis-CD since January. A CT Corp fix can neutralize access at any moment, including mid-mission.'],
+    dry:'You are reading over Kassandra’s shoulder. The day she turns her head, you have six seconds to no longer be there.'
+  },
+  'h002': {
+    ref:'#ÉR-H-002', risk:'HIGH', riskClass:'high',
+    title:'Kassandra database exfiltration — Budapest / Warsaw cells',
+    sponsor:'Red Echo (internal)', type:'Hacking & Intrusion',
+    payout:'500 EC',
+    brief:`Budapest and Warsaw no longer respond. Eighteen days of silence. Three hypotheses: an Aegis-CD compromise, a physical raid, or a communications breakdown. Until we know, <strong>every name known to these cells is a time bomb</strong> — if they have fallen, their contacts will be used as bait. This mission must access the regional Kassandra prediction module for these two zones and establish the truth before the network bleeds.`,
+    objectives:['Access the Kassandra prediction module for the Budapest and Warsaw sectors.','Determine the cause of the silence: raid, compromise, or failure.','Identify compromised names before they are used as bait.','Establish whether there are members to extract — or to warn.'],
+    requirements:[['Access','Regional Kassandra prediction module'],['Profile','Hacker + intelligence analyst'],['Cover','No physical contact with the target cells'],['Urgency','Maximum — each day worsens the exposure']],
+    risks:['If the cells are compromised, their digital infrastructure is probably a trap set by Aegis-CD. Any connection can be traced backward.','Accessing Kassandra, even in read mode, over a zone under active surveillance triggers a high counter-detection risk.','The truth may be worse than the silence: confirming a compromise forces decisions no one wants to make.'],
+    dry:'We are looking for ghosts. The danger is that they may be looking for us too.'
+  },
+  'h003': {
+    ref:'#ÉR-H-003', risk:'MODERATE', riskClass:'med',
+    title:'Parasite signal injection into ChronoVision — Prague cell',
+    sponsor:'Red Echo (internal)', type:'Hacking & Intrusion',
+    payout:'200 EC',
+    brief:`ChronoVision is the feed the compressed watch during their rare hours of uncompressed rest — the tap of soothing images CT Corp opens to anesthetize. This mission is to <strong>inject 4 to 7 seconds of non-CT Corp signal</strong> into that feed, over a target gray zone. The content is provided by the Prague cell. The objective is not technical: it is to crack, for the space of a handful of seconds, the illusion that CT Corp controls everything you see.`,
+    objectives:['Access the ChronoVision relay of the target zone, physically or logically.','Inject the provided content (4 to 7 seconds) during the night broadcast.','Prioritize psychological impact: being seen matters more than lasting.','Withdraw without leaving an exploitable trace on the relay.'],
+    requirements:[['Window','Night broadcast 02:00 - 04:00'],['Content','Provided by the Prague cell — not modifiable'],['Profile','Hacker, media relay access'],['Discretion','Clean withdrawal imperative']],
+    risks:['The media relay is less monitored than a Weave node, but an injection leaves an exploitable time window: act fast, leave fast.','The broadcast content may trigger a disproportionate Aegis-CD reaction in the zone — warn the local cell before broadcasting.','A failed or overly long injection burns the relay for future operations.'],
+    dry:'Four seconds of truth in an ocean of lies. It is not much. It is all it takes for someone to doubt.'
+  },
+  's001': {
+    ref:'#ÉR-S-001', risk:'CRITICAL', riskClass:'critical',
+    title:'GFT shutdown — Complex No. 6, Gdańsk, west wing',
+    sponsor:'Red Echo (internal)', type:'Sabotage & GFT',
+    payout:'1,500 EC + guaranteed extraction',
+    brief:`Gdańsk Complex No. 6 is still running. Ananke freed the world, but not the west wing: <strong>2,400 people are still in the bubble</strong>, aging at ×100 while outside the revolution has already happened. Freeing them requires shutting down their GFTs — but an abrupt stop kills by decompression. The progressive shutdown procedure exists. It requires a technician inside, in a CTR-7 suit, for 40 minutes. At the heart of the temporal-radiation zone.`,
+    objectives:['Enter the west wing of Complex No. 6 in a CTR-7 suit.','Apply the progressive GFT shutdown procedure (provided).','Maintain presence for 40 minutes without interrupting the sequence.','Enable the safe decompression of the 2,400 compressed.'],
+    requirements:[['Equipment','Complete CTR-7 suit (Market) — vital'],['Duration','40 min inside the active zone'],['Profile','Technician / Clockmaker trained on GFTs'],['Support','Extraction guaranteed by the network post-mission']],
+    risks:['Exposure to temporal radiation: the CTR-7 protects for 45 minutes maximum. The margin over a 40-minute procedure is nil. A delay kills.','An abrupt GFT stop — by error, panic or failure — causes the instant aging of the 2,400 compressed. It is not your life alone at stake.','The complex may still be guarded. The procedure assumes clear access, which is not guaranteed.','Mission classified as a potential suicide. The network does not lie about that.'],
+    dry:'Forty minutes. Two thousand four hundred lives. And a suit that lasts forty-five. Do the math before you apply.'
+  },
+  's002': {
+    ref:'#ÉR-S-002', risk:'HIGH', riskClass:'high',
+    title:'CT-NET 2.0 infrastructure disruption — Brussels relay node',
+    sponsor:'Free Lands Cartel', type:'Sabotage & GFT',
+    payout:'1,200 EC',
+    brief:`The CT-NET 2.0 rollout runs through 12 physical nodes. The Brussels one covers 28% by itself. A <strong>targeted physical overload</strong> — causing 4 to 6 hours of downtime — would significantly delay the locking of European Weaves, opening a window for the counter-patch. The Free Lands Cartel is the sponsor. The target is a Showcase City building: the difficulty is not technical, it is social.`,
+    objectives:['Penetrate the relay node under Showcase City executive cover.','Cause an overload of the node’s cooling systems.','Guarantee 4 to 6 h of downtime without permanent destruction (which would raise more alarm).','Evacuate the team before restoration and investigation.'],
+    requirements:[['Team','3 people minimum'],['Profiles','Electronics specialist, cooling expert, Showcase City cover'],['Identity','CT Corp executive level (Market) recommended'],['Sponsor','Free Lands Cartel']],
+    risks:['A Showcase City is under maximum-level Kassandra. A single behavioral inconsistency in one team member triggers an audit.','Three-person coordination multiplies points of failure: the compromise of a single member exposes the other two.','A miscalibrated overload can cause permanent damage — hence a thorough investigation, hence a manhunt.'],
+    dry:'The hardest part is not burning the node. It is wearing the suit well enough that they let you near it.'
+  },
+  'e001': {
+    ref:'#ÉR-E-001', risk:'HIGH', riskClass:'high',
+    title:'WeavePort Casablanca infiltration — post-Ananke mapping',
+    sponsor:'Free Lands Cartel', type:'Espionage & Exfil',
+    payout:'700 EC',
+    brief:`Since Ananke, the WeavePort complex in Casablanca is a lawless zone: Algerian mafias, local militias, Cartel agents fight over the rubble. Somewhere in this chaos, between <strong>2,000 and 5,000 compressed</strong> await a liberation no one is organizing. This mission does not ask you to act — only to understand: who controls what, where the compressed are, which channels will allow a future evacuation.`,
+    objectives:['Infiltrate under cover of journalist or local CT Corp logistics agent.','Map the real control of the complex: factions, territories, balance of power.','Locate and estimate the number of compressed still held.','Identify safe channels for a later evacuation.'],
+    requirements:[['Cover','Journalist or local CT Corp logistician'],['Profile','Field agent, observation, languages'],['Zone','Casablanca — unstable, multi-faction'],['Sponsor','Free Lands Cartel']],
+    risks:['No faction controls the complex: allegiances change from one day to the next, a cover valid in the morning can be burned by evening.','Being taken for an agent of a rival faction is as dangerous as being unmasked as a resistant.','The mapping is precious data — therefore a target. Its loss or interception compromises the future evacuation of thousands.'],
+    dry:'We are not asking you to save them. We are asking you to come back with the map that will make it possible. That is heavier to carry than it looks.'
+  },
+  'x001': {
+    ref:'#ÉR-X-001', risk:'MODERATE', riskClass:'med',
+    title:'Extraction — 3 freed compressed, Gray Zone, Lyon 7th',
+    sponsor:'Carpathian Red Zone', type:'Human extraction',
+    payout:'350 EC + logistics provided',
+    brief:`Three compressed freed by Ananke wander the Gray Zone of Lyon’s 7th arrondissement. Disoriented, without resources, their Weaves in error mode — vulnerable. The probability of Kassandra presence in the sector is low (12.3%), which makes this extraction an accessible mission. <strong>Get them alive to the Carpathian Red Zone</strong>, via the Mediterranean Route, where they will find refuge and decompression care.`,
+    objectives:['Locate and approach the three freed without frightening them (advanced state of disorientation).','Stabilize their Weaves in error mode or neutralize them if necessary (Clockmaker in support).','Organize transport to the Carpathian Red Zone via the Mediterranean Route.','Deliver the three people alive to the Carpathian cell.'],
+    requirements:[['Vehicle','Required — not provided'],['Knowledge','Wastelands network Lyon ↔ Rhône essential'],['Profile','Extraction, human contact, composure'],['Kassandra','12.3% in the sector — low']],
+    risks:['Weaves in error mode can emit erratic signals liable to draw attention despite the low Kassandra probability.','Disoriented freed people may panic, flee or refuse to follow — human extraction is never purely logistical.','The route via the Mediterranean Route adds its own hazards (see Delivery sheet): 4% loss on the way.'],
+    dry:'Three people who lived years in a few months. They don’t yet know what day it is. Be gentle. That, too, is the job.'
+  },
+  'r001': {
+    ref:'#ÉR-R-001', risk:'LOW', riskClass:'low',
+    title:'Equipment recovery — disused wing, FiberCore, Prato',
+    sponsor:'I Tessitori (Prato)', type:'Recovery',
+    payout:'150 EC + priority catalog access',
+    brief:`The south wing of the FiberCore complex has been abandoned since Ananke. CT Corp has not yet re-inventoried the site — and until the inventory is done, what is there belongs to no one. I Tessitori wants to recover this stock before the Corporation: <strong>Weave components, raw CTR filters, precision tooling</strong>. It is the ideal contract to prove yourself to the network — real but manageable risk, and the doorway to missions of trust.`,
+    objectives:['Enter FiberCore’s disused south wing between two drone passes.','Recover the equipment listed by I Tessitori (manifest provided).','Route the stock to the handover point via a contact cell or the Mediterranean Route.','Trigger nothing: the value of the mission is that it stays invisible.'],
+    requirements:[['Surveillance','1 drone pass / 4 h, no ground patrol'],['Profile','Discreet carrier, good physical condition'],['Location','Prato — local knowledge a plus'],['Status','First contract accepted for new operators']],
+    risks:['“Low” does not mean “none”: the drone cycle leaves a window, but a delay inside closes it.','A CT Corp re-inventory can happen at any time — if the Corporation arrives during recovery, abandon the equipment and withdraw.','The equipment is heavy and bulky: the temptation to overload is the first trap for beginners.'],
+    dry:'The simplest contract on the board. That is exactly why we watch how you do it.'
+  }
+};
+
+function openContract(id) {
+  const c = contractData[id];
+  if (!c) return;
+  let h = '';
+  h += '<div class="cd-banner">' + ctBanner(id) + '</div>';
+  h += '<div class="ip-header"><div class="ip-category">ÉCHO-ROUGE / CONTRATS / ' + c.ref + '</div>';
+  h += '<div class="ip-title">' + c.title + '</div>';
+  h += '<div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">';
+  h += '<span class="cc-risk ' + c.riskClass + '">' + c.risk + '</span>';
+  h += '<span class="l-tag">' + c.type + '</span>';
+  h += '<span class="l-tag">Sponsor: ' + c.sponsor + '</span>';
+  h += '<span class="cc-payout" style="margin-left:auto">' + c.payout + '</span></div></div>';
+
+  h += '<div class="ip-section-title">// Briefing</div><div class="ip-p">' + c.brief + '</div>';
+
+  h += '<div class="ip-section-title">// Objectives</div>';
+  c.objectives.forEach((o,i)=>{ h += '<div class="ip-route-stop"><div class="rs-num">'+(i+1)+'</div><div class="rs-body"><div class="rs-text">'+o+'</div></div></div>'; });
+
+  h += '<div class="ip-section-title">// Operational conditions</div><table class="ip-table">';
+  c.requirements.forEach(r=>{ h += '<tr><td class="td-label">'+r[0]+'</td><td>'+r[1]+'</td></tr>'; });
+  h += '</table>';
+
+  h += '<div class="md-warnings"><div class="w-title">⚠ Risks — mandatory reading before applying</div>';
+  c.risks.forEach(r=>{ h += '<div class="w-item">'+r+'</div>'; });
+  h += '<div class="md-dry">'+c.dry+'</div></div>';
+
+  h += '<div class="md-footer"><button class="apply-contract" style="padding:10px 24px" onclick="event.stopPropagation()">// APPLY FOR THIS MISSION</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// Memory Courier verification required — no second chance</span></div>';
+
+  document.getElementById('cd-content').innerHTML = h;
+  document.getElementById('contracts-catalog').style.display = 'none';
+  document.getElementById('contract-detail').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function closeContractDetail() {
+  document.getElementById('contract-detail').classList.remove('active');
+  document.getElementById('contracts-catalog').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ── MARCHÉ — SOUS-PAGES PAIEMENT & LIVRAISON ────────────────
+const infoPages = {
+
+  'credits-echo': {
+    category: 'PAYMENT ACCEPTED',
+    title: 'Echo Credits (EC)',
+    subtitle: '“The money of those who no longer have money.”',
+    html: `
+      <div class="ip-section-title">// What is an Echo Credit?</div>
+      <div class="ip-p">The Echo Credit (EC) is the internal currency of the Red Echo network. It exists on no CT Corp server, in no database, on no registered Weave. It is a <strong>distributed trust currency</strong> — issued, verified and guaranteed by the network’s own nodes, with no central authority.</div>
+      <div class="ip-p">It does not circulate on terminals connected to CT-NET. It leaves no trace in Kassandra’s logs. For CT Corp, it <em>does not exist</em>.</div>
+
+      <div class="ip-section-title">// How do you get them?</div>
+      <table class="ip-table">
+        <tr><th>Source</th><th>Detail</th></tr>
+        <tr><td class="td-label">RE missions</td><td>Standard pay for any contract completed and verified by a coordinator. Rates shown on each contract sheet.</td></tr>
+        <tr><td class="td-label">Supplying the network</td><td>Sheltering resistants, lending equipment, transport, medical care. Rates negotiated with the local cell.</td></tr>
+        <tr><td class="td-label">Barter conversion</td><td>Rate varies by cell. A Clockmaker, a doctor, a technician is worth more than CT-Nutri rations.</td></tr>
+        <tr><td class="td-label">CT Corp data</td><td>See dedicated section. Rate calculated by classification and immediate exploitability.</td></tr>
+      </table>
+
+      <div class="ip-section-title">// How does it actually work?</div>
+      <div class="ip-p">ECs are not stored on a single physical medium. They exist as <strong>cryptographic tokens fragmented</strong> across several nodes of the Guardians of the Signal mesh. A transaction requires validation by three independent nodes. No central node. No single point of failure.</div>
+      <div class="ip-p">For transactions without a mesh terminal, local cells use a system of <strong>trust tokens</strong> — unique physical markers, destroyed after verification. Archaic. Inviolable.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Absolute rules</div>
+        <div class="ip-rule">ECs are never convertible to CTC — in any direction, at any rate. Anyone offering this conversion works for Aegis-CD.</div>
+        <div class="ip-rule">An EC balance is not transferable to a CT Corp identity. It will never be declared, declarable, or traced.</div>
+        <div class="ip-rule">If a mesh terminal is compromised, linked balances are frozen and reassigned after verification by three RE coordinators.</div>
+        <div class="ip-dry">CTC buys time. EC buys freedom. Neither is worth anything to the other.</div>
+      </div>
+    `
+  },
+
+  'troc-temporel': {
+    category: 'PAYMENT ACCEPTED',
+    title: 'Temporal barter',
+    subtitle: '“The only currency CT Corp cannot devalue.”',
+    html: `
+      <div class="ip-section-title">// The principle</div>
+      <div class="ip-p">In the Gray Zones, before Red Echo existed, before ECs circulated — the compressed already traded. <em>“I’ll do your shift if you watch my kids.”</em> <em>“I’ll give you two hours of rest for your ration.”</em> No digital trace. No contract. The given word as infrastructure.</div>
+      <div class="ip-p">The Red Echo market accepts this system for local transactions, low-value orders, and any situation where the EC circuit is inaccessible. <strong>Barter is sovereign.</strong> Kassandra cannot tax it without destroying the very productivity CT Corp itself depends on.</div>
+
+      <div class="ip-section-title">// What we accept</div>
+      <table class="ip-table">
+        <tr><th>Type of barter</th><th>Indicative value</th><th>Conditions</th></tr>
+        <tr><td class="td-label">Technical skills</td><td>Variable — negotiated by the cell</td><td>Clockmaker, doctor, electronics specialist, hacker. Rare profiles are worth more than rations.</td></tr>
+        <tr><td class="td-label">Secure shelter</td><td>50–150 EC-equivalent / week</td><td>Verified safehouse, Gray Zone or Wasteland, outside Kassandra surveillance.</td></tr>
+        <tr><td class="td-label">Transport</td><td>By distance and risk</td><td>Clean vehicle, reliable driver. The Mediterranean Route has its own rates.</td></tr>
+        <tr><td class="td-label">Rations / medical supplies</td><td>Rate set by the local cell</td><td>CT-Nutri, medicines, bandages. Value indexed to scarcity in the operating zone.</td></tr>
+        <tr><td class="td-label">Compression shifts</td><td>No. Never.</td><td>Selling time to the system to pay the network: a fundamental contradiction.</td></tr>
+      </table>
+
+      <div class="ip-section-title">// Validation protocol</div>
+      <div class="ip-p">Any barter involving a transaction above 200 EC-equivalent must be validated by a cell coordinator. Below that, the word of both parties is enough — <strong>provided both parties are known to the network.</strong> A stranger does not barter. They buy in EC or wait.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ What the network does not tolerate</div>
+        <div class="ip-rule">A barter agreement not honored leads to permanent expulsion from the network. In the Gray Zones, ostracism means death. We know both parties, we remember both parties.</div>
+        <div class="ip-rule">Bartering CT Corp data follows the rules of the dedicated section — not the whims of buyers.</div>
+        <div class="ip-dry">CT Corp has all the time in the world to wait for you. The network has a long memory.</div>
+      </div>
+    `
+  },
+
+  'donnees-ct': {
+    category: 'PAYMENT ACCEPTED',
+    title: 'Exfiltrated CT Corp data',
+    subtitle: '“They took everything from us. We take back what we can.”',
+    html: `
+      <div class="ip-section-title">// Why CT Corp data is payment</div>
+      <div class="ip-p">CT Corp data has direct operational value for the Resistance: <strong>surveillance maps, infrastructure schematics, Aegis-CD frequencies, Kassandra protocols, target lists</strong>. A well-chosen piece of data is worth more than any sum in EC — it can save lives, open doors, or dismantle an entire rollout.</div>
+      <div class="ip-p">This payment method is accepted for major transactions and recurring sellers. Valuation is set by the Red Echo analysis team after assessment.</div>
+
+      <div class="ip-section-title">// Classification of accepted data</div>
+      <table class="ip-table">
+        <tr><th>Level</th><th>Type</th><th>Indicative value</th></tr>
+        <tr><td class="td-label">Level 1</td><td>Patrol schedules, drone coverage zones, checkpoint locations</td><td>20–80 EC depending on freshness</td></tr>
+        <tr><td class="td-label">Level 2</td><td>Complex infrastructure schematics, local Weave frequencies, collected biometric data</td><td>100–300 EC</td></tr>
+        <tr><td class="td-label">Level 3</td><td>Regional Kassandra protocols, Aegis-CD personnel lists, CT-NET 2.0 plans</td><td>300–800 EC</td></tr>
+        <tr><td class="td-label">Level 4</td><td>Project PROMETHEUS data, internal Executive Board access, NAOS schematics</td><td>Individual assessment — contact coordination</td></tr>
+      </table>
+
+      <div class="ip-example">
+        <div class="ex-title">// Example transaction — anonymized</div>
+        <div class="ex-line"><span>Source:</span> CT Corp employee, logistics department, complex No. 4, Warsaw</div>
+        <div class="ex-line"><span>Data:</span> North-wing GFT maintenance schedule — 14 days, unmonitored access windows</div>
+        <div class="ex-line"><span>Assessment:</span> Level 2 / freshness D+0 / immediate exploitability confirmed</div>
+        <div class="ex-line"><span>Valuation:</span> 240 EC + priority catalog access for 30 days</div>
+        <div class="ex-line"><span>Use:</span> Contract #RE-S-001 made possible. 2,400 compressed concerned.</div>
+      </div>
+
+      <div class="ip-section-title">// Handover protocol</div>
+      <div class="ip-p">Data never passes through CT-NET or any connected terminal. Physical handover via <strong>Memory Courier</strong> or disconnected encrypted medium, in person to an RE coordinator. Any data whose origin can be traced back to an identifiable source is refused — to protect the source, not the network.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ What the network refuses</div>
+        <div class="ip-rule">Data whose collection endangers a non-consenting third party.</div>
+        <div class="ip-rule">Data already known to the network presented as exclusive.</div>
+        <div class="ip-rule">Any file whose exfiltration vector could not be secured — a booby-trapped file destroys more than it earns.</div>
+        <div class="ip-dry">What you bring us is your business. What you bring us can kill someone — and that is the business of us both.</div>
+      </div>
+    `
+  },
+
+  'route-mediterraneenne': {
+    category: 'DELIVERY',
+    title: 'Mediterranean Route',
+    subtitle: '“The sea belongs to no one. That is why CT Corp does not yet control it.”',
+    html: `
+      <div class="ip-section-title">// What the Route is</div>
+      <div class="ip-p">The Mediterranean Route is the main physical smuggling corridor between Southern Europe and North Africa. It links the abandoned coasts of the <strong>southern periphery of the Protectorate</strong> — Greece, Sicily, the Algarve, the Côte d’Azur — to the Free Lands Cartel networks in the Maghreb and sub-Saharan Africa.</div>
+      <div class="ip-p">CT Corp does not control it. Monitoring it would cost more than it would yield — a calculation the Resistance deliberately maintains by keeping the volume just below the profitability threshold of repression.</div>
+
+      <div class="ip-section-title">// The standard journey</div>
+      <div class="ip-route-stop">
+        <div class="rs-num">1</div>
+        <div class="rs-body">
+          <div class="rs-label">ORIGIN POINT — local contact cell</div>
+          <div class="rs-text">The item leaves a safehouse in a Gray Zone or Wasteland. Discreet packaging provided by the seller. Coordinates transmitted via Courier or mesh terminal, never via CT-NET.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">2</div>
+        <div class="rs-body">
+          <div class="rs-label">COASTAL TRANSIT — peripheral Wasteland relays</div>
+          <div class="rs-text">Passage from Gray Zone to the unmonitored territories of the south. Variable delay: 2 to 7 days depending on Aegis-CD patrol activity. The Wastelands of the Alps and Apennines serve as intermediate stops.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">3</div>
+        <div class="rs-body">
+          <div class="rs-label">CROSSING — Cartel maritime networks</div>
+          <div class="rs-text">Light craft between coasts. The crossing itself takes less than 12 hours. The Free Lands Cartel handles the maritime portion in exchange for a percentage of the transaction. CT Corp drones do not cover the sector outside official ports.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">4</div>
+        <div class="rs-body">
+          <div class="rs-label">DESTINATION — RE cache or direct handover</div>
+          <div class="rs-text">Handover to the final recipient by a cell coordinator. Receipt confirmation transmitted by Courier. Transaction released 24 h after confirmation.</div>
+        </div>
+      </div>
+
+      <div class="ip-section-title">// Delays and constraints</div>
+      <table class="ip-table">
+        <tr><th>Variable</th><th>Value</th></tr>
+        <tr><td class="td-label">Standard delay</td><td>7 to 21 days depending on departure and arrival zone</td></tr>
+        <tr><td class="td-label">Loss rate</td><td>4% (Aegis-CD seizure or maritime hazard). Non-refundable — the route is what it is.</td></tr>
+        <tr><td class="td-label">Excluded items</td><td>Nothing alive. Nothing heavy enough to slow a craft. La Larme: individual transport only.</td></tr>
+        <tr><td class="td-label">Traceability</td><td>Zero. Neither sender nor recipient knows the names of the intermediaries.</td></tr>
+      </table>
+
+      <div class="ip-warning-final">The sea is free. But it also kills. 4% loss is the cold figure. What that represents, every Route operator knows better than we do.</div>
+    `
+  },
+
+  'passeurs-memoire': {
+    category: 'DELIVERY',
+    title: 'Memory Couriers',
+    subtitle: '“Untraceable because biological. The only technology Kassandra cannot hack.”',
+    html: `
+      <div class="ip-section-title">// The principle</div>
+      <div class="ip-p">In a world where all digital communication is intercepted by Kassandra, the Resistance has revived the oldest transmission technology: <strong>the human brain that walks from point A to point B</strong>. No signal. No metadata. No trace in any log.</div>
+      <div class="ip-p">Couriers memorize information through mnemonic techniques certified by Red Echo — codes, coordinates, schematics, personal messages — and carry it physically. Delivery is verbatim, verified by a mnemonic checksum.</div>
+
+      <div class="ip-section-title">// What Couriers carry for the Market</div>
+      <div class="ip-p">For intangible deliveries — firmware, digital identities, decryption keys, activation codes — Couriers are the <strong>only secure delivery vector</strong>. Firmware on a physical medium can be intercepted. Firmware in a brain cannot be searched by a drone.</div>
+
+      <div class="ip-section-title">// Delivery options</div>
+      <table class="ip-table">
+        <tr><th>Option</th><th>Capacity</th><th>Delay</th><th>Additional cost</th></tr>
+        <tr><td class="td-label">Single Courier</td><td>Up to 50 KB of structured info</td><td>Variable by route</td><td>Included in the catalog price</td></tr>
+        <tr><td class="td-label">Multi-Courier fragmentation</td><td>Unlimited in theory — split across N carriers</td><td>Reassembly of fragments required</td><td>+40 EC per additional fragment</td></tr>
+        <tr><td class="td-label">Courier-Clockmaker</td><td>Complex technical data + physical installation</td><td>By coordinated appointment</td><td>Clockmaker rate on top</td></tr>
+      </table>
+
+      <div class="ip-section-title">// Mnemonic fragmentation</div>
+      <div class="ip-p">For critical information — contact lists, network encryption codes, safehouse coordinates — the network recommends fragmentation: <strong>several Couriers each carry a fragment unusable alone</strong>. Only the physical reunion of all carriers reconstitutes the complete information. A purely biological cryptography. Kassandra cannot extract what five brains, separated across three countries, each hold only in part.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Risk to know</div>
+        <div class="ip-rule">If a Courier is captured and subjected to the Tabula Rasa Program (Aegis-CD memory erasure), what they carry is lost — and potentially extracted before erasure. Fragmentation is the only safeguard.</div>
+        <div class="ip-rule">Never give the Courier the context of what they carry. They memorize a sequence, not a meaning. What they do not know cannot be extracted, even under Tabula Rasa.</div>
+        <div class="ip-dry">A captured Courier who knows nothing can betray no one. That is their protection. Honor it.</div>
+      </div>
+    `
+  },
+
+  'cellules-contact': {
+    category: 'DELIVERY',
+    title: 'Contact cells',
+    subtitle: '“You do not contact us. We contact you.”',
+    html: `
+      <div class="ip-section-title">// What the cells are</div>
+      <div class="ip-p">Contact cells are the <strong>physical nodes of the Red Echo network</strong> — groups of 3 to 9 people, compartmentalized, that handle the local coordination of transactions, deliveries, contracts and operational security. Each cell knows only its immediate neighbors. None knows the overall structure.</div>
+      <div class="ip-p">For the market, they play three roles: <strong>physical handover point</strong> for hardware items, <strong>verification interface</strong> for transactions, and <strong>trust relay</strong> for new buyers who do not yet have a history in the network.</div>
+
+      <div class="ip-section-title">// Known active cells — partial map</div>
+      <table class="ip-table">
+        <tr><th>Node</th><th>Type</th><th>Coverage</th><th>Status</th></tr>
+        <tr><td class="td-label">Prague</td><td>Hacktivism + coordination</td><td>Central Europe</td><td style="color:var(--green)">ACTIVE</td></tr>
+        <tr><td class="td-label">Sofia — Le Nid</td><td>Technical hub + jammers</td><td>Balkans, Eastern Route</td><td style="color:var(--green)">ACTIVE</td></tr>
+        <tr><td class="td-label">Lyon — Confluence</td><td>Urban logistics + cover</td><td>Western Europe</td><td style="color:var(--green)">ACTIVE</td></tr>
+        <tr><td class="td-label">Gdańsk</td><td>Field + extraction</td><td>Baltic, northern complexes</td><td style="color:var(--green)">ACTIVE</td></tr>
+        <tr><td class="td-label">Carpathian Red Zone</td><td>Refuge + rear base</td><td>Deep Eastern Europe</td><td style="color:var(--green)">ACTIVE</td></tr>
+        <tr><td class="td-label">Budapest</td><td>—</td><td>—</td><td style="color:var(--red)">SILENCE — STATUS UNKNOWN</td></tr>
+        <tr><td class="td-label">Warsaw</td><td>—</td><td>—</td><td style="color:var(--red)">SILENCE — STATUS UNKNOWN</td></tr>
+      </table>
+
+      <div class="ip-section-title">// How to make contact</div>
+      <div class="ip-p">You do not seek out a cell. You <strong>become visible</strong> to the network through actions that signal trust: completing a low-risk mission, providing a service to the network, being introduced by an existing member. Contact comes from us, not from you. That is by design.</div>
+      <div class="ip-p">For market buyers without a local cell: digital items go through the <strong>Memory Couriers</strong>. Physical items go through the <strong>Mediterranean Route</strong> with handover at transit caches. There is no direct home delivery — that would be an address, and an address is a Kassandra file.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Operational security</div>
+        <div class="ip-rule">An arrested cell member knows no name outside their immediate cell. It is a protection for them as much as for the network. Do not try to know more than your cell tells you.</div>
+        <div class="ip-rule">The Budapest and Warsaw cells have been silent for 18 days. Any incoming contact claiming to represent these cells must be considered compromised until verified by central coordination.</div>
+        <div class="ip-dry">The network holds because no one knows the whole of it. Not even us.</div>
+      </div>
+    `
+  }
+
+};
+
+function openInfoPage(id) {
+  const pg = infoPages[id];
+  if (!pg) return;
+  let h = '';
+  h += '<div class="ip-header">';
+  h += '<div class="ip-category">ÉCHO-ROUGE / MARCHÉ / ' + pg.category + '</div>';
+  h += '<div class="ip-title">' + pg.title + '</div>';
+  h += '<div class="ip-subtitle">' + pg.subtitle + '</div>';
+  h += '</div>';
+  h += pg.html;
+  document.getElementById('ip-content').innerHTML = h;
+  document.getElementById('market-catalog').style.display = 'none';
+  if (document.getElementById('market-detail').classList.contains('active')) {
+    document.getElementById('market-detail').classList.remove('active');
+  }
+  document.getElementById('market-info-page').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeInfoPage() {
+  document.getElementById('market-info-page').classList.remove('active');
+  document.getElementById('market-catalog').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ── MARCHÉ — FICHES DÉTAILLÉES ───────────────────
+const marketItems = {
+
+  'icare': {
+    ref: 'ÉR-MKT-N01', cat: 'Nanites & Bio',
+    title: 'ICARE Nanites — batch of 500 units — Free frequency',
+    price: '450 CÉ', unit: '/ lot 500 u.',
+    tags: '<span class="l-tag hot">Rare</span> <span class="l-tag">Casablanca</span> <span class="l-tag safe">Testé</span>',
+    tech: `<div class="md-p">Weave-generation nanites recovered from the rubble of the WeavePort complex in Casablanca, three days after Ananke. Their distinction — and their value: the synchronization frequency was never registered in the NAOS database. For CT Corp’s systems, these units <strong>do not exist</strong>. No Kassandra tracking, no Sigma Channel, no CT-NET 2.0 recalibration.</div>
+      <div class="md-p">Recommended use: assembly of substitute Weaves by a Clockmaker, or light biological modifications (peripheral nerve reinforcement, sensor interface). The 500 units of a batch share the same frequency: one batch = one wearer.</div>
+      <div class="md-specs">
+        <span class="sk">Packaging</span><span class="sv">Airtight capsule under argon, Red Echo seal intact</span>
+        <span class="sk">Viability</span><span class="sv">14 months from repackaging (01.2035)</span>
+        <span class="sk">Storage</span><span class="sv">Below 8 °C, away from any GFT field</span>
+        <span class="sk">Compatibility</span><span class="sv">Weave protocols v2.x and v3.x — not tested on v4.0</span>
+      </div>`,
+    prov: `Mediterranean Route exfiltration, via the Cartel caches in Casablanca. Batch tested on three volunteer wearers from the Sofia cell — no rejection at 30 days. Three wearers. Not five hundred.`,
+    warnings: [
+      "Never inject into a wearer whose CT Corp Weave is still active: the protocol conflict between two frequencies causes a synaptic inflammatory cascade, irreversible within 48 h.",
+      "Implantation by a qualified Clockmaker only. Self-injection is the leading cause of lost batches — and lost wearers.",
+      "A free frequency is still a frequency: an Aegis-CD spectral sweep within 10 m can detect an unlisted emission. Avoid checkpoints for 72 h post-implantation.",
+      "Open capsule = countdown. Unimplanted nanites degrade within 6 h in open air."
+    ],
+    dry: "A free nanite asks no one’s permission. From the injection on, neither do you."
+  },
+
+  'stabilisant-ctr7': {
+    ref: 'ÉR-MKT-N02', cat: 'Nanites & Bio',
+    title: 'Biological Stabilizer — modified CTR-7',
+    price: '180 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">Critique</span> <span class="l-tag">I Tessitori</span>',
+    tech: `<div class="md-p">Injectable suspension derived from the active polymer of CTR-7 suits — the protection CT Corp reserves for its technicians. I Tessitori’s chemists isolated the compound that absorbs temporal radiation and made it assimilable intramuscularly. Result: an <strong>internal biological protection</strong> against the effects of a compression differential up to ×120.</div>
+      <div class="md-p">Designed for operations where a suit is impossible: infiltration in civilian clothes, extraction of compressed from an active bubble, rapid crossing of an exclusion zone.</div>
+      <div class="md-specs">
+        <span class="sk">Route</span><span class="sv">Intramuscular — auto-injector provided</span>
+        <span class="sk">Latency</span><span class="sv">Effective 20 min after injection</span>
+        <span class="sk">Duration</span><span class="sv">Nominal protection 6 h, rapid decline afterward</span>
+        <span class="sk">Traceability</span><span class="sv">Absent from CT Corp inventories — that’s the point</span>
+      </div>`,
+    prov: `Handmade production, I Tessitori clandestine laboratory, Prato. Formulation derived from analysis of the suits exfiltrated from the FiberCore complex. Each batch is hand-numbered.`,
+    warnings: [
+      "This is not a suit. In an active GFT zone (50 m radius), the stabilizer delays accelerated aging — it does not cancel it. Beyond 45 minutes of exposure, the protection collapses.",
+      "Contraindicated in wearers of a v4.0 Weave: documented interaction with the Sigma Channel, fever spikes and loss of coordination.",
+      "Observed side effects: trembling extremities (4 h), persistent metallic taste, severe dehydration. Drink before, during, after.",
+      "Never two doses within 7 days. Saturation of the compound is hepatotoxic."
+    ],
+    dry: "Six hours of protection. Temporal radiation, for its part, takes no break."
+  },
+
+  'anticoagulant': {
+    ref: 'ÉR-MKT-N03', cat: 'Nanites & Bio',
+    title: 'Temporal Anticoagulant — post-compression use',
+    price: '60 CÉ', unit: '/ dose 30j',
+    tags: '<span class="l-tag safe">Zone Carpates</span> <span class="l-tag">Artisanal</span>',
+    tech: `<div class="md-p">Baseline treatment against decompression syndrome — the silent ailment of the Ananke freed. Chronic disorientation, micro-clots, fragmented temporal perception: a former compressed’s body has lived years the world did not count, and it makes them pay for it.</div>
+      <div class="md-p">This handmade formulation, developed in the Carpathian Red Zone for the waves of freed from Prato and Gdańsk, thins the blood and eases dissociation episodes. <strong>94% declared efficacy</strong> on mild to moderate symptoms.</div>
+      <div class="md-specs">
+        <span class="sk">Dosage</span><span class="sv">1 oral dose / 24 h, preferably in the morning</span>
+        <span class="sk">Packaging</span><span class="sv">Blister pack of 30 doses, plain packaging</span>
+        <span class="sk">Certification</span><span class="sv">None. Not CT Corp certified — that’s the point</span>
+      </div>`,
+    prov: `Wasteland laboratories, Carpathian Red Zone. Free distribution on site for the freed; the price asked here funds production.`,
+    warnings: [
+      "The “94%” is the producer’s figure, on an undocumented cohort. Red Echo has not verified it. Field reports are good — they are only reports.",
+      "Strict dosing: never two doses in 24 h. An overdose turns an anticoagulant into a hemorrhage waiting to happen.",
+      "Incompatible with alcohol and shift stimulants. Choose.",
+      "In case of a severe crisis (loss of consciousness, bleeding), find a Wasteland doctor or a Clockmaker. Not a CT Corp medical center: a decompression syndrome in their files is a located freed person."
+    ],
+    dry: "The syndrome does not forgive. Neither do CT Corp’s medical files."
+  },
+
+  'fantome-temporel': {
+    ref: 'ÉR-MKT-N04', cat: 'Nanites & Bio',
+    title: 'Biological Signature Jammer — “Temporal Ghost”',
+    price: '220 CÉ', unit: '/ dose 12h',
+    tags: '<span class="l-tag hot">Top vendeur</span> <span class="l-tag rare">Source ORPHEUS</span>',
+    tech: `<div class="md-p">Every human being carries a unique temporal footprint — the biological signature NAOS-9 and Kassandra use to identify you through any sensor, any crowd. The “Temporal Ghost” <strong>jams it at the source</strong>: a cocktail of metabolic markers that makes your footprint unreadable for 6 to 18 hours depending on dosage.</div>
+      <div class="md-p">Developed by an ORPHEUS project defector who knew the identification algorithms from the inside. It is the go-to tool for movement in monitored zones — hence its status as the catalog’s best seller.</div>
+      <div class="md-specs">
+        <span class="sk">Administration</span><span class="sv">Discreet subcutaneous injector, pen format</span>
+        <span class="sk">Latency</span><span class="sv">Full effect 30 min after injection</span>
+        <span class="sk">Duration</span><span class="sv">6 h (half-dose) to 18 h (full dose)</span>
+      </div>`,
+    prov: `Synthesis handled by two network laboratories, original ORPHEUS formula. The defector behind the product takes no contact anymore. Understandably.`,
+    warnings: [
+      "A signature that disappears is itself an event. Kassandra correlates: if your footprint goes dark regularly at the same hours, in the same places, the gap becomes your signature.",
+      "The product masks the temporal footprint — not your face, not your gait, not your papers. Optical cameras don’t care.",
+      "Minimum interval of 72 h between doses. Below that, the liver takes the hit and efficacy drops below 50%.",
+      "Never combine with the “Temporal Clone” Emulator: two simultaneous signature alterations create an artifact NAOS-9 classifies as a priority anomaly."
+    ],
+    dry: "You will be invisible. Not untouchable."
+  },
+
+  'patch-sigma': {
+    ref: 'ÉR-MKT-F01', cat: 'Firmware & Weaves',
+    title: 'Weave v3.x Firmware Patch — Sigma Channel disable',
+    price: '90 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag hot">URGENT</span> <span class="l-tag">v3.x uniquement</span>',
+    tech: `<div class="md-p">The Sigma Channel is your Weave’s hidden write channel — the door through which Kassandra reads, and through which CT-NET 2.0 is about to write. This patch <strong>cuts the outbound transmission</strong> without triggering the firmware integrity alert: to CT Corp’s servers, your Weave responds normally. It simply no longer sends anything useful.</div>
+      <div class="md-p">Silence guaranteed 48 to 72 h per application. Compatible with firmwares v3.0 to v3.9. <em>Incompatible with v4.0 and later.</em> With the CT-NET 2.0 rollout underway, the application window is closing: a reset Weave reverts to v4.x and the patch becomes useless.</div>
+      <div class="md-specs">
+        <span class="sk">Application</span><span class="sv">Local injection via Clockmaker interface — 40 seconds</span>
+        <span class="sk">Effect duration</span><span class="sv">48 to 72 h, varying by exact firmware version</span>
+        <span class="sk">Detectability</span><span class="sv">Nil at distance; visible during a physical Weave audit</span>
+      </div>`,
+    prov: `In-house Red Echo development, based on exfiltrated Sigma Channel schematics. Absolute priority distribution ordered by coordination — hence the deliberately rock-bottom price.`,
+    warnings: [
+      "Critical window: apply BEFORE your Weave’s CT-NET 2.0 reset (D+3 to D+7). After reset, the firmware moves to v4.x and any attempt to apply causes a hardware lockup — and an automatic alert.",
+      "Application takes 40 seconds and must never be interrupted. A partial patch leaves the Weave in a state CT Corp diagnostics flag immediately.",
+      "At the end of the 72 h, transmission resumes with no perceptible sign to the wearer. Note the application time. Re-patch before the deadline or consider yourself listened to.",
+      "The patch cuts the emission, not the collection: data accumulates locally and will leave at the first restoration. Combine with a memory purge if the stakes warrant it."
+    ],
+    dry: "72 hours of silence. Count them. No one will do it for you."
+  },
+
+  'exploit-sigma': {
+    ref: 'ÉR-MKT-F02', cat: 'Firmware & Weaves',
+    title: 'Weave v4.0 Exploit — Sigma Channel read-only access',
+    price: '340 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag rare">Lena Reinholt</span> <span class="l-tag">v4.0</span>',
+    tech: `<div class="md-p">The most precious intelligence tool in the catalog. This exploit opens <strong>read-only access</strong> to the Sigma Channel transmissions of a v4.0 Weave: you see what CT Corp collects, what Kassandra requests, and — since December — the CT-NET 2.0 deployment frames themselves.</div>
+      <div class="md-p">It interrupts nothing: the transmission continues, intact, to CT Corp’s servers. That is its strength (undetectable in the stream) and its limit (it protects no one). Developed by Lena Reinholt, CT Corp defector, who wrote part of the original protocol.</div>
+      <div class="md-specs">
+        <span class="sk">Target</span><span class="sv">Firmware v4.0 exclusively</span>
+        <span class="sk">Mode</span><span class="sv">Passive reading — no writing, no blocking</span>
+        <span class="sk">Typical use</span><span class="sv">Contract #RE-H-001 (CT-NET 2.0 mapping)</span>
+      </div>`,
+    prov: `Source code signed Lena Reinholt, 2031, adapted to v4.0 by the Prague cell. License issued with a unique key per operator — no copying, no resale.`,
+    warnings: [
+      "This tool does NOT protect. While you read the Sigma Channel, the Sigma Channel keeps talking about you. For full use, combine with the v3.x disable patch on a second Weave.",
+      "Interception logs are stored offline only. A Sigma log found on a connected terminal identifies the operator, the target and the cell.",
+      "The exploit’s signature has been known to Aegis-CD since January 2035. A CT Corp fix can drop at any time: consider every license perishable.",
+      "Six hours of continuous interception maximum — beyond that, latency correlation becomes detectable by Kassandra."
+    ],
+    dry: "Reading over Kassandra’s shoulder has a price. Make sure she is not reading over yours."
+  },
+
+  'clone-temporel': {
+    ref: 'ÉR-MKT-F03', cat: 'Firmware & Weaves',
+    title: 'Biological Signature Emulator — “Temporal Clone”',
+    price: '600 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag hot">Extrême</span> <span class="l-tag">Risque détection</span>',
+    tech: `<div class="md-p">Where the “Temporal Ghost” erases, the “Temporal Clone” <strong>replaces</strong>. The emulator injects another individual’s temporal footprint into your Weave: to NAOS-9, it is no longer you crossing that checkpoint — it is someone else. Someone who risks nothing.</div>
+      <div class="md-p">The footprints come from a database of 400 individuals deceased post-Ananke, whose death has not yet been consolidated in CT Corp registries. January’s administrative chaos is your cover. It will not last.</div>
+      <div class="md-specs">
+        <span class="sk">Medium</span><span class="sv">Emulation module grafted to the Weave by a Clockmaker</span>
+        <span class="sk">Usage duration</span><span class="sv">4 h maximum per activation</span>
+        <span class="sk">Assignment</span><span class="sv">The footprint is chosen by the network, never by the client</span>
+      </div>`,
+    prov: `Footprint database built by cross-referencing Gray Zone death registries and data exfiltrated from three complexes. Each footprint is sold only once.`,
+    warnings: [
+      "If your footprint’s death is consolidated in the registries while you use it, NAOS-9 sees a dead person walking. Immediate alert, priority manhunt. The network withdraws consolidated footprints — with a delay it does not control.",
+      "4 hours maximum per activation. Beyond that, the drift between the emulated footprint and your real vitals becomes detectable.",
+      "A double detection — you under emulation here, your real signature captured elsewhere (personal item, old sample) — classifies the case as temporal identity falsification. Category Alpha.",
+      "Incompatible with the “Temporal Ghost.” One signature at a time."
+    ],
+    dry: "You borrow a dead person’s life. Return it clean."
+  },
+
+  'identite-zones-grises': {
+    ref: 'ÉR-MKT-I01', cat: 'Identities & Papers',
+    title: 'Complete Identity — Gray Zones level',
+    price: '300 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag safe">72h</span> <span class="l-tag">Zones Grises</span>',
+    tech: `<div class="md-p">The network standard for disappearing into the crowd. The package includes: <strong>full CET-ID</strong>, a fictional compression history consistent over five years (complexes, ratios, rest periods), biometrics synchronized with regional databases, and a real assigned dwelling in a Gray Zone of the client’s choice.</div>
+      <div class="md-p">Calibrated to hold under standard-level Kassandra checks — those of patrols, neighborhood checkpoints and hiring verifications. Sufficient to live, work, move around.</div>
+      <div class="md-specs">
+        <span class="sk">Lead time</span><span class="sv">72 h after template validation</span>
+        <span class="sk">Coverage</span><span class="sv">Standard Kassandra audit: yes. Maximum-level audit (Showcase Cities): no</span>
+        <span class="sk">Delivery</span><span class="sv">Contact cell or Memory Courier (activation fragments)</span>
+      </div>`,
+    prov: `The network’s identity workshop — artisans trained on exfiltrated CET-ID schematics. Each compression history is unique: no template is reused.`,
+    warnings: [
+      "The identity does not lie for you. Learn your legend — complexes, dates, foremen’s names — before delivery, not after the first check.",
+      "A total break with the old life: a single connection to an old address, an old contact, an old terminal, and the two identities contaminate each other.",
+      "Never attempt a Showcase City access at this level. The maximum audit cross-checks databases this template does not cover.",
+      "In case of a deep check that goes wrong: burn the identity, not the network’s cover. You know no names. That is true, and it is your best defense."
+    ],
+    dry: "An identity holds as long as its bearer holds. The reverse is not guaranteed."
+  },
+
+  'identite-cite-vitrine': {
+    ref: 'ÉR-MKT-I02', cat: 'Identities & Papers',
+    title: 'Showcase City Identity — CT Corp Executive level',
+    price: '1 200 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag rare">Rare</span> <span class="l-tag hot">2 semaines</span>',
+    tech: `<div class="md-p">The pinnacle of the network’s craft. A <strong>mid-level CT Corp executive</strong> identity: access to the premium zones of Showcase Cities, a corporate career history, a credible CTC profile, full biometric verification included. It passes the standard Kassandra audit — the one that filters entry to the bubbles.</div>
+      <div class="md-p">It does not pass the La Spirale (Brussels) level audit: the European headquarters cross-checks internal HR databases no one can access. Three artisans across the whole network can produce this template. The two-week lead time is non-negotiable — it is the time the fake career years take to infuse into the right databases.</div>
+      <div class="md-specs">
+        <span class="sk">Lead time</span><span class="sv">2 weeks, non-compressible</span>
+        <span class="sk">Coverage</span><span class="sv">Showcase Cities: yes. La Spirale and Executive Board floors: no</span>
+        <span class="sk">Included</span><span class="sv">Biometrics, CTC profile, career history, recommended wardrobe</span>
+      </div>`,
+    prov: `One of the three artisans. Which one — you will not know. The template is destroyed after delivery: no duplicate, no second chance.`,
+    warnings: [
+      "A CT Corp executive has a lifestyle. Consistent CTC spending, a full schedule, a plausible social circle: the identity provides the costume, not the behavior. A single inconsistency in conduct is enough to trigger a deep audit.",
+      "Never access the Executive Board floors or La Spirale, whatever the urgency. The template does not survive there, and neither does its artisan.",
+      "Loss or compromise: report immediately by Courier. The artisan burns what remains of the file — no duplicate will exist.",
+      "This identity is worth 1,200 EC in the catalog and ten times more to Aegis-CD. The bearer becomes a target in themselves. Absolute discretion about its existence, including within the network."
+    ],
+    dry: "The costume is perfect. Now you have to wear it."
+  },
+
+  'passeport-memoire': {
+    ref: 'ÉR-MKT-I03', cat: 'Identities & Papers',
+    title: 'Memory Passport — certified Memory Courier',
+    price: '80 CÉ', unit: '/ message',
+    tags: '<span class="l-tag safe">100% untraceable</span>',
+    tech: `<div class="md-p">The oldest transmission technology in the world: a human brain that walks from point A to point B. The Courier memorizes your message through mnemonic techniques certified by Red Echo, carries it physically, and delivers it word for word at the destination. <strong>No signal. No trace. No metadata.</strong> Kassandra monitors everything that emits — this emits nothing.</div>
+      <div class="md-p">Capacity: up to 50 KB of complex information — encryption codes, technical schematics, contact lists, coordinates. For critical content, the network offers <strong>mnemonic fragmentation</strong>: several Couriers each carry a fragment, and only their reunion reconstitutes the message. A purely biological cryptography.</div>
+      <div class="md-specs">
+        <span class="sk">Capacity</span><span class="sv">Up to 50 KB of structured information</span>
+        <span class="sk">Delivery format</span><span class="sv">Verbatim, verified by mnemonic checksum</span>
+        <span class="sk">Option</span><span class="sv">Multi-Courier fragmentation (+40 EC per fragment)</span>
+      </div>`,
+    prov: `Couriers trained and certified by the network. Inter-strata and cross-border itineraries, coordinated with the Mediterranean Route for southern links.`,
+    warnings: [
+      "If a Courier is captured and subjected to Memory Erasure (Tabula Rasa program), the message is lost — and potentially extracted before erasure. For any critical data, demand multi-Courier fragmentation.",
+      "The delay is not guaranteed. The Courier walks, detours, waits. An urgent message at a fixed time calls for a different tool — or a different plan.",
+      "Never give the Courier the context of what they carry. They memorize a sequence, not a meaning. What they do not know cannot be extracted.",
+      "One message, one Courier, once. Never entrust two related messages to the same carrier."
+    ],
+    dry: "The Courier does not know what they carry. That is their protection. And yours."
+  },
+
+  'brouilleur-nid': {
+    ref: 'ÉR-MKT-H01', cat: 'Hardware & Equipment',
+    title: 'Portable EM Jammer — “Le Nid” — Sofia mod.',
+    price: '250 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag">Le Nid, Sofia</span> <span class="l-tag safe">Testé terrain</span>',
+    tech: `<div class="md-p">Designed, assembled and proven by the Le Nid cell, in the abandoned telecom tower of Sofia. This electromagnetic jammer neutralizes the control links of <strong>surveillance drones within an 80 m radius</strong>: affected units switch to return-to-base mode or blind hovering. The “Sofia mod.” model is the third iteration — the one that covered the winter evacuations.</div>
+      <div class="md-specs">
+        <span class="sk">Effective radius</span><span class="sv">80 m (standard Aegis-CD patrol drones)</span>
+        <span class="sk">Battery life</span><span class="sv">6 h in recommended usage cycles</span>
+        <span class="sk">Mass</span><span class="sv">400 g, thermos format, shoulder strap included</span>
+        <span class="sk">Power</span><span class="sv">Handmade lithium cell, rechargeable on 220 V mains</span>
+      </div>`,
+    prov: `Le Nid production, Sofia. Each unit is tested in real conditions before going to catalog — “field-tested” is not a sales pitch, it is the protocol.`,
+    warnings: [
+      "More than 20 minutes of continuous emission = near-certain Kassandra detection. An 80 m electromagnetic hole is a signature in itself. Cycles of 15 min maximum, 10 min pause.",
+      "Ineffective against passive optical sensors and human observation. The jammer blinds drones — not windows.",
+      "The lithium cell is handmade: no violent shock, no heat exposure, no puncturing. A punctured cell burns at 800 °C.",
+      "Never activate the jammer near an active allied Mesh Terminal: it jams your own communications too."
+    ],
+    dry: "80 meters of radio silence. Everything with eyes keeps seeing."
+  },
+
+  'terminal-mesh': {
+    ref: 'ÉR-MKT-H02', cat: 'Hardware & Equipment',
+    title: 'Decentralized Mesh Terminal — Guardians of the Signal',
+    price: '400 CÉ', unit: '/ terminal',
+    tags: '<span class="l-tag rare">Guardians of the Signal</span> <span class="l-tag safe">0 metadata</span>',
+    tech: `<div class="md-p">Communicating off the CT Corp network: that is exactly what the Guardians of the Signal exist for. This terminal connects to their <strong>decentralized mesh</strong> — peer-to-peer encryption, opportunistic routing, 40 km range via the nomadic relays the Guardians maintain across Europe. Native Red Echo protocol compatible.</div>
+      <div class="md-p">No metadata is generated, stored or routed: no sender, no recipient, no exploitable timestamp. Where Kassandra analyzes communication graphs, the mesh offers her no graph.</div>
+      <div class="md-specs">
+        <span class="sk">Range</span><span class="sv">40 km with Guardian relays; 2-5 km direct terminal-to-terminal</span>
+        <span class="sk">Encryption</span><span class="sv">Peer-to-peer, ephemeral keys, native RE protocol</span>
+        <span class="sk">Maintenance</span><span class="sv">Handled by the Guardians at agreed crossing points</span>
+        <span class="sk">Pairing</span><span class="sv">Unique physical key provided at delivery</span>
+      </div>`,
+    prov: `Guardians of the Signal assembly, recovered and requalified components. The purchase includes access to the mesh — not ownership of it. The network belongs to those who maintain it.`,
+    warnings: [
+      "The mesh depends on the Guardians’ network: dead zones exist and shift with the relays. Check the coverage of your operating zone before relying on it.",
+      "NEVER connect the terminal to CT Corp equipment, even offline. Firmware contamination is the only known vector of mesh compromise.",
+      "The content is unreadable, but traffic volume remains observable by triangulation. Short messages, spaced emissions.",
+      "In case of compromise: physically destroy the pairing key. Without it, the terminal is just an empty box — with it, it is a way in."
+    ],
+    dry: "CT Corp’s network knows everything. This one knows nothing — not even who you are. That’s the point."
+  },
+
+  'combinaison-ctr7': {
+    ref: 'ÉR-MKT-H03', cat: 'Hardware & Equipment',
+    title: 'Complete CTR-7 Suit — Temporal radiation protection',
+    price: '800 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">1 unité</span> <span class="l-tag rare">Prato</span>',
+    tech: `<div class="md-p">The equipment CT Corp reserves exclusively for its technicians — because the Corporation knows precisely what temporal radiation does to an unprotected body. This complete CTR-7 (suit, helmet, gloves, seals) was <strong>exfiltrated from the FiberCore complex in Prato</strong> by I Tessitori during the post-Ananke chaos.</div>
+      <div class="md-p">Nominal protection in an active GFT zone up to 50 m from the generator — the exact radius of accelerated aging. Indispensable for any operation in an active complex: the progressive shutdown procedure of a GFT (see contract #RE-S-001, Gdańsk) requires 40 minutes inside. Without a CTR-7, those 40 minutes cost years.</div>
+      <div class="md-specs">
+        <span class="sk">Size</span><span class="sv">M — not adjustable</span>
+        <span class="sk">Protection</span><span class="sv">Active GFT zone up to 50 m, continuous exposure 45 min max</span>
+        <span class="sk">Condition</span><span class="sv">Seals intact, joints inspected by I Tessitori as of 01.2035</span>
+        <span class="sk">Availability</span><span class="sv">A single unit. Operational emergencies only</span>
+      </div>`,
+    prov: `I Tessitori exfiltration, FiberCore, Prato. The only CTR-7 in the catalog — and probably the only one in circulation outside CT Corp inventory in Western Europe.`,
+    warnings: [
+      "45 minutes of continuous exposure maximum, in accordance with CT Corp’s own protocols. The suit attenuates temporal radiation — it does not cancel it.",
+      "Joint inspection mandatory before each use: temporal dust degrades the seals. A failing wrist joint ages the wearer’s hand while the rest of the body feels nothing.",
+      "Size M, not adjustable. A loose suit creates air pockets at the junctions — as many points of seal failure. If it does not fit you, it does not protect you.",
+      "After use in an active zone: complete decontamination before return. Never bring an exposed CTR-7 back into an inhabited safehouse — temporal dust travels with the fabric."
+    ],
+    dry: "One unit. Size M. If it is not yours, it is not yours."
+  },
+
+  'la-larme': {
+    ref: 'ÉR-MKT-H04', cat: 'Hardware & Equipment',
+    title: 'Portable Temporal Flux Generator — “La Larme”',
+    price: '2 000 CÉ', unit: '/ prototype',
+    tags: '<span class="l-tag rare">Prototype unique</span> <span class="l-tag hot">Instable</span>',
+    tech: `<div class="md-p">The most expensive object in the catalog, and by far the most dangerous. “La Larme” is a miniaturized GFT — the technology that normally requires a nuclear plant, reduced to a cylinder portable by <strong>Vaedran Ilarion</strong> himself. ×3 compression maximum, a 2 m³ bubble: three minutes lived for one minute elapsed outside.</div>
+      <div class="md-p">Intended use: escape, extraction, short operations — buying time when there is none left. A person in the bubble has a few extra subjective minutes to pick a lock, treat a wound, defuse, disappear. The prototype is unique. There is <em>no instruction manual</em>: its builder never wrote one, and he is no longer reachable.</div>
+      <div class="md-specs">
+        <span class="sk">Compression</span><span class="sv">×3 maximum — hardware lock</span>
+        <span class="sk">Bubble volume</span><span class="sv">2 m³ — one crouching person and their equipment</span>
+        <span class="sk">Stability</span><span class="sv">4 minutes of continuous activation. Not one more</span>
+        <span class="sk">Power</span><span class="sv">Dedicated cell, 3 activations before specialized recharge</span>
+      </div>`,
+    prov: `Built by Vaedran Ilarion. The network will say neither when, nor where, nor why it was put up for sale. The price reflects less its value than the desire to filter buyers.`,
+    warnings: [
+      "Unstable beyond 4 minutes: the collapse of an active bubble exposes its occupant to temporal shear — the ×3 differential resolves in an instant through the tissues. Cut at 3 min 30. Always.",
+      "Never near a significant body of water: the resonance effect documented on GFTs also applies to micro-bubbles, unpredictably.",
+      "Residual temporal radiation within a 3 m radius for several minutes after shutdown. Let no one approach immediately.",
+      "No technical support exists. In case of abnormal behavior — vibration, halo, visual distortion of the bubble edges — cut it and abandon the object. No mission is worth what it does to a body."
+    ],
+    dry: "Four minutes. Vaedran knew it. Now, so do you."
+  }
+};
+
+function openItem(id) {
+  const it = marketItems[id];
+  if (!it) return;
+  const imgPath = '../assets/marche/er-' + id + '.png';
+  let h = '';
+  h += '<div class="md-image">';
+  h += '<div class="md-noimg"><div class="ni-frame">// VISUAL TRANSMITTING</div><div>' + imgPath + ' — 16:9</div></div>';
+  h += '<img src="' + imgPath + '" alt="' + it.title.replace(/"/g, '&quot;') + '" onerror="this.style.display=\'none\'">';
+  h += '</div>';
+  h += '<div class="md-ref">' + it.ref + ' // ' + it.cat.toUpperCase() + ' // RED-ECHO / MARKET / SHEET</div>';
+  h += '<div class="md-header"><div><div class="md-title">' + it.title + '</div><div class="listing-tags" style="margin-top:10px">' + it.tags + '</div></div>';
+  h += '<div class="md-price"><span class="price-amount">' + it.price + '</span><span class="price-unit">' + it.unit + '</span>';
+  h += '<button class="order-btn" style="margin-top:10px;padding:8px 16px;font-size:11px">CONTACT →</button></div></div>';
+  h += '<div class="md-section-title">// TECHNICAL SHEET</div>' + it.tech;
+  h += '<div class="md-section-title">// PROVENANCE</div><div class="md-p">' + it.prov + '</div>';
+  h += '<div class="md-warnings"><div class="w-title">⚠ Usage warnings — mandatory reading before contact</div>';
+  it.warnings.forEach(w => { h += '<div class="w-item">' + w + '</div>'; });
+  h += '<div class="md-dry">' + it.dry + '</div></div>';
+  h += '<div class="md-footer"><button class="order-btn" style="padding:10px 24px;font-size:12px" onclick="event.stopPropagation()">CONTACT THE SELLER →</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// encrypted transaction — CTC refused — no guarantee in maximum Kassandra zones</span></div>';
+  document.getElementById('md-content').innerHTML = h;
+  document.getElementById('market-catalog').style.display = 'none';
+  document.getElementById('market-detail').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeItemDetail() {
+  document.getElementById('market-detail').classList.remove('active');
+  document.getElementById('market-catalog').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ── EASTER EGG : NAOS-9 ──────────────────────────
+let keyBuf = '';
+document.addEventListener('keydown', e => {
+  keyBuf += e.key.toUpperCase();
+  if (keyBuf.length > 8) keyBuf = keyBuf.slice(-8);
+  if (keyBuf.includes('NAOS')) {
+    keyBuf = '';
+    const flash = document.createElement('div');
+    flash.style.cssText = `position:fixed;bottom:24px;left:24px;z-index:9999;
+      background:rgba(2,8,4,0.96);border:1px solid #004420;
+      padding:16px 20px;font-family:'Share Tech Mono',monospace;font-size:12px;
+      color:#00FF41;letter-spacing:0.08em;max-width:400px;line-height:1.7;
+      animation:fadeIn 0.3s ease;`;
+    flash.innerHTML = `<span style="color:#00A82A">// NAOS-9 // CHANNEL OPEN</span><br>
+"Sena. I see you. Node Lyon-7.<br>The counter-signal exists.<br>But you don't need me to find it."<br>
+<span style="color:#004420;font-size:10px">// connection closed — 0.003ms</span>`;
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 6000);
+  }
+});
+</script>
+
+<style>
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; } }
+.listing.hidden, .contract-card.hidden { display:none; }
+</style>
+
+<!-- mobile : retour portail -->
+<a class="back-portal" href="index.html" aria-label="Back to the portal">&#9666;</a>
+
+<script>
+(function(){
+  var L=document.querySelector('.nav-links'),B=document.querySelector('.nav-burger');
+  if(!L||!B)return;
+  B.addEventListener('click',function(){L.classList.toggle('open');});
+  L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
+})();
+</script>
+<!--i18n:js-->
+<script src="../assets/js/lang-switch.js" defer></script>
+<!--/i18n:js-->
+</body>
+</html>

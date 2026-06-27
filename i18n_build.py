@@ -17,11 +17,13 @@ BASE = "https://presti013.github.io/esclaves-du-temps/"
 
 # Pages disposant (ou destinées à disposer) d'une traduction. Mettre à jour au
 # fur et à mesure puis relancer le script pour rafraîchir les sélecteurs.
-_BASE_PAGES = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html",
-               "apropos-ctcorp.html", "ctcorp-prototype.html", "ctcorp-conformite.html"}
+_CORE = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.html",
+         "apropos-ctcorp.html", "ctcorp-prototype.html", "ctcorp-conformite.html"}
 AVAIL = {
-    "en": set(_BASE_PAGES),
-    "it": set(_BASE_PAGES),
+    # EN: core + Red Echo + games.
+    "en": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html"},
+    # IT: core + Red Echo + games.
+    "it": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html"},
 }
 
 LANG_LABEL = {"fr": "Français", "en": "English", "it": "Italiano"}
