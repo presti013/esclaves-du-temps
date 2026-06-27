@@ -1,0 +1,3228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONNESSIONE IN CORSO...</title>
+<meta name="description" content="Rete di Resistenza Temporale. Connessione cifrata. Nodo Lyon-7 attivo.">
+<meta property="og:title" content="Eco Rosso — Rete di Resistenza Temporale">
+<meta property="og:description" content="Rete di Resistenza Temporale. Connessione cifrata. Nodo Lyon-7 attivo.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:image" content="/assets/og-echo-rouge.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eco Rosso — Rete di Resistenza Temporale">
+<meta name="twitter:description" content="Rete di Resistenza Temporale. Connessione cifrata. Nodo Lyon-7 attivo.">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020804;
+  --bg2: #04100A;
+  --panel: #071408;
+  --border: #0D2A14;
+  --green: #00FF41;
+  --green-dim: #00A82A;
+  --green-dark: #003D10;
+  --green-mid: #00CC33;
+  --red: #FF2020;
+  --red-dim: #8B1010;
+  --amber: #FFB000;
+  --amber-dim: #7A5500;
+  --text: #B8FFB8;
+  --text-dim: #5A8A5A;
+  --text-muted: #2A4A2A;
+  --white: #E8FFE8;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-vt: 'VT323', monospace;
+  --font-courier: 'Courier Prime', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* CRT scanlines overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 60%,
+    rgba(0,0,0,0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ═══════════════════════════════════════
+   TOR PORTAL — LAYER 0
+═══════════════════════════════════════ */
+#portal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  padding: 40px;
+}
+
+.portal-header {
+  font-family: var(--font-vt);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-bottom: 40px;
+  opacity: 0.6;
+}
+
+.portal-logo {
+  font-family: var(--font-vt);
+  font-size: clamp(48px, 8vw, 96px);
+  color: var(--red);
+  text-align: center;
+  margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(255,32,32,0.5), 0 0 60px rgba(255,32,32,0.2);
+  animation: pulse-red 3s ease-in-out infinite;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+@keyframes pulse-red {
+  0%, 100% { text-shadow: 0 0 30px rgba(255,32,32,0.5); }
+  50% { text-shadow: 0 0 60px rgba(255,32,32,0.9), 0 0 120px rgba(255,32,32,0.3); }
+}
+
+.portal-subtitle {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.connection-box {
+  background: var(--bg2);
+  border: 1px solid var(--green-dark);
+  width: 100%;
+  max-width: 640px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.conn-line {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: appear 0.1s ease forwards;
+}
+.conn-line.ok { color: var(--green-dim); }
+.conn-line.warn { color: var(--amber); }
+.conn-line.err { color: var(--red); }
+
+.progress-bar {
+  height: 2px;
+  background: var(--green-dark);
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--green);
+}
+
+.passphrase-section {
+  display: none;
+  margin-top: 24px;
+}
+.passphrase-section.visible { display: block; }
+
+.pp-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.pp-field {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--green-dark);
+}
+.pp-field input {
+  flex: 1;
+  background: #000;
+  border: none;
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  letter-spacing: 0.1em;
+}
+.pp-field input::placeholder { color: var(--text-muted); }
+.pp-btn {
+  background: var(--green-dark);
+  border: none;
+  border-left: 1px solid var(--green-dark);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pp-btn:hover { background: var(--green); color: #000; }
+.pp-error {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+}
+.pp-error.visible { display: block; }
+.pp-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+
+.portal-warning {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+
+@keyframes appear {
+  to { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════
+   MAIN SITE STRUCTURE
+═══════════════════════════════════════ */
+#site {
+  display: none;
+  min-height: 100vh;
+}
+#site.active { display: block; }
+
+/* Status bar */
+#statusbar {
+  background: #000;
+  border-bottom: 1px solid var(--green-dark);
+  padding: 4px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.sb-left { display: flex; gap: 20px; }
+.sb-right { display: flex; gap: 16px; }
+.sb-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; animation: blink 2s step-end infinite; }
+.sb-dot.red { background: var(--red); }
+.sb-dot.amber { background: var(--amber); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Navigation */
+nav {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 52px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 32px;
+  cursor: pointer;
+}
+.logo-mark {
+  font-family: var(--font-vt);
+  font-size: 28px;
+  color: var(--red);
+  text-shadow: 0 0 12px rgba(255,32,32,0.6);
+  line-height: 1;
+}
+.logo-text {
+  font-family: var(--font-vt);
+  font-size: 20px;
+  color: var(--green);
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+
+.nav-links { display: flex; list-style: none; }
+.nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+  height: 100%;
+  border-top: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a.active { color: var(--green); border-bottom-color: var(--green); }
+.nav-links a .nav-prefix { color: var(--green-dim); margin-right: 6px; font-size: 10px; }
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.threat-level {
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  animation: blink 4s step-end infinite;
+}
+.nav-id {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════
+   PAGE SECTIONS
+═══════════════════════════════════════ */
+.page-section { display: none; min-height: calc(100vh - 76px); }
+.page-section.active { display: block; }
+
+/* ═══════════════════════════════════════
+   HOME / TERMINAL
+═══════════════════════════════════════ */
+.terminal-hero {
+  padding: 48px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  min-height: 70vh;
+}
+
+.terminal-main {
+  background: var(--panel);
+  padding: 40px;
+  position: relative;
+}
+.terminal-main::before {
+  content: 'ECHO_RED.NODE.LYON // SESSION_ID: 7E4F-2A1B-R3D';
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.term-prompt {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 8px;
+  margin-top: 32px;
+}
+.term-prompt:first-child { margin-top: 0; }
+
+.ascii-logo {
+  font-family: var(--font-vt);
+  font-size: clamp(14px, 2.5vw, 22px);
+  color: var(--red);
+  line-height: 1.15;
+  text-shadow: 0 0 12px rgba(255,32,32,0.4);
+  margin-bottom: 24px;
+  white-space: pre;
+  letter-spacing: 0.05em;
+}
+
+.term-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.term-text em { color: var(--green); font-style: normal; }
+.term-text strong { color: var(--red); }
+
+.blink-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--green);
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+.terminal-side {
+  background: var(--panel);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.side-widget {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.widget-title {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.stat-item .stat-val {
+  font-family: var(--font-vt);
+  font-size: 24px;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+}
+.stat-item .stat-val.red { color: var(--red); }
+.stat-item .stat-val.amber { color: var(--amber); }
+.stat-item .stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-top: 4px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  align-items: flex-start;
+}
+.alert-item:last-child { border-bottom: none; }
+.alert-item .a-tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+.a-tag.critical { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-dim); }
+.a-tag.warn { background: #3A2800; color: var(--amber); border: 1px solid var(--amber-dim); }
+.a-tag.info { background: var(--green-dark); color: var(--green-dim); border: 1px solid var(--green-dark); }
+
+/* Sections communes */
+.section-bar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-tag {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+.section-tag span { color: var(--text-dim); font-size: 14px; }
+.section-crumb {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 120px);
+}
+
+/* Sidebar */
+.content-sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+}
+.sidebar-group { margin-bottom: 24px; }
+.sg-title {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 20px;
+  margin-bottom: 8px;
+}
+.sb-link {
+  display: block;
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.sb-link:hover { color: var(--green); border-left-color: var(--green-dark); }
+.sb-link.active { color: var(--green); border-left-color: var(--green); background: rgba(0,255,65,0.04); }
+.sb-link .sl-prefix { color: var(--text-muted); margin-right: 8px; font-size: 10px; }
+.sb-badge {
+  float: right;
+  font-size: 10px;
+  padding: 1px 5px;
+  background: var(--red-dim);
+  color: var(--red);
+  border-radius: 2px;
+}
+
+.content-main { padding: 32px; }
+
+/* ═══════════════════════════════════════
+   PROPAGANDE
+═══════════════════════════════════════ */
+.prop-hero {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.prop-tag {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: block;
+}
+.prop-title {
+  font-family: var(--font-vt);
+  font-size: 28px;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.prop-body {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+  border-left: 1px solid var(--green-dark);
+  padding-left: 16px;
+  margin: 12px 0;
+}
+.prop-body strong { color: var(--green); }
+.prop-body em { color: var(--red); font-style: normal; }
+
+.prop-stamp {
+  font-family: var(--font-vt);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.doc-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  position: relative;
+}
+.doc-card::before {
+  content: '//';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+.doc-card:hover { border-color: var(--green-dim); }
+.doc-type {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: block;
+}
+.doc-title {
+  font-family: var(--font-vt);
+  font-size: 18px;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+.doc-excerpt {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.doc-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+.doc-tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 2px 6px;
+  background: var(--green-dark);
+  color: var(--green-dim);
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+}
+
+/* Manifeste full */
+.manifeste-full {
+  display: none;
+  background: var(--panel);
+  border: 1px solid var(--green-dark);
+  padding: 40px;
+  margin-top: 20px;
+  animation: fadeIn 0.2s ease;
+}
+.manifeste-full.active { display: block; }
+.m-back {
+  font-size: 11px;
+  color: var(--text-dim);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  margin-bottom: 28px;
+  display: inline-block;
+  transition: color 0.15s;
+}
+.m-back:hover { color: var(--green); }
+.m-back::before { content: '← '; }
+.m-h1 {
+  font-family: var(--font-vt);
+  font-size: 32px;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.m-h2 {
+  font-family: var(--font-vt);
+  font-size: 20px;
+  color: var(--green);
+  margin: 28px 0 12px;
+  letter-spacing: 0.08em;
+  border-left: 3px solid var(--red);
+  padding-left: 12px;
+}
+.m-p {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.m-p strong { color: var(--green); }
+.m-p em { color: var(--red); font-style: normal; }
+.m-quote {
+  border-left: 2px solid var(--green-dim);
+  padding: 12px 20px;
+  margin: 20px 0;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.8;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 16px;
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-date {
+  font-family: var(--font-vt);
+  font-size: 16px;
+  color: var(--green-dim);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.tl-content .tl-title {
+  font-size: 13px;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.tl-content .tl-body {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.tl-content .tl-body em { color: var(--red); font-style: normal; }
+
+/* ═══════════════════════════════════════
+   MARCHÉ (CONTREBANDE)
+═══════════════════════════════════════ */
+.market-banner {
+  background: var(--bg);
+  border: 1px solid var(--amber-dim);
+  padding: 12px 20px;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.market-banner::before { content: '⚠'; font-size: 14px; }
+
+.market-cats {
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+.mcat-btn {
+  background: var(--panel);
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  text-align: center;
+}
+.mcat-btn:hover { color: var(--green); background: var(--bg2); }
+.mcat-btn.active { color: var(--green); background: var(--bg); border-bottom: 1px solid var(--green); }
+
+.listings {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+.listing {
+  background: var(--panel);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.listing:hover { background: var(--bg2); }
+.listing.hidden { display: none; }
+.listing-title {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-family: var(--font-courier);
+}
+.listing-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.listing-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.l-tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.l-tag.hot { border-color: var(--red-dim); color: var(--red); }
+.l-tag.safe { border-color: var(--green-dark); color: var(--green-dim); }
+.l-tag.rare { border-color: var(--amber-dim); color: var(--amber); }
+
+.listing-price {
+  text-align: right;
+  min-width: 120px;
+}
+.price-amount {
+  font-family: var(--font-vt);
+  font-size: 22px;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+}
+.price-unit {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-top: 2px;
+}
+.order-btn {
+  display: block;
+  margin-top: 8px;
+  background: var(--green-dark);
+  border: 1px solid var(--green-dark);
+  color: var(--green-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+.order-btn:hover { background: var(--green); color: #000; }
+
+.market-disclaimer {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 16px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+}
+
+
+/* ═══════════════════════════════════════
+   MARCHÉ — VUE DÉTAIL ITEM
+═══════════════════════════════════════ */
+.market-detail { display: none; animation: fadeIn 0.2s ease; }
+.market-detail.active { display: block; }
+.md-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.md-image img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+.md-noimg {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: var(--text-muted); font-size: 11px; letter-spacing: 0.12em; text-align: center;
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(0,255,65,0.025) 18px, rgba(0,255,65,0.025) 36px),
+    #000;
+}
+.md-noimg .ni-frame {
+  border: 1px dashed var(--green-dark); padding: 14px 22px;
+  font-family: var(--font-vt); font-size: 16px; color: var(--green-dim);
+}
+.md-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 8px; }
+.md-title {
+  font-family: var(--font-courier); font-size: 20px; font-weight: 700;
+  color: var(--white); line-height: 1.35; letter-spacing: 0.02em;
+}
+.md-price { text-align: right; flex-shrink: 0; min-width: 140px; }
+.md-ref {
+  font-size: 10px; color: var(--text-muted); letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.md-section-title {
+  font-family: var(--font-vt); font-size: 19px; color: var(--green);
+  margin: 26px 0 10px; letter-spacing: 0.08em;
+  border-left: 3px solid var(--green-dim); padding-left: 12px;
+}
+.md-p { font-size: 13px; color: var(--text); line-height: 1.85; margin-bottom: 12px; }
+.md-p strong { color: var(--green); }
+.md-p em { color: var(--red); font-style: normal; }
+.md-specs { display: grid; grid-template-columns: 160px 1fr; gap: 6px 16px; margin: 10px 0; }
+.md-specs .sk { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; padding-top: 1px; }
+.md-specs .sv { font-size: 12px; color: var(--text); line-height: 1.5; }
+.md-warnings {
+  border: 1px solid var(--amber-dim);
+  background: rgba(255, 176, 0, 0.04);
+  padding: 20px 22px; margin-top: 26px;
+}
+.md-warnings .w-title {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 12px;
+  border-bottom: 1px solid var(--amber-dim); padding-bottom: 8px;
+}
+.w-item {
+  font-size: 12px; color: var(--text); line-height: 1.7;
+  padding: 5px 0 5px 22px; position: relative;
+}
+.w-item::before { content: '⚠'; position: absolute; left: 0; top: 5px; color: var(--amber); font-size: 11px; }
+.md-dry {
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid var(--amber-dim);
+  font-size: 12px; color: var(--red); font-style: italic; line-height: 1.7;
+}
+.md-footer { margin-top: 26px; display: flex; gap: 12px; align-items: center; }
+
+
+
+.cc-risk.low { color: var(--green); border-color: var(--green-dark); background: rgba(0,255,65,0.06); }
+/* ═══════════════════════════════════════
+   CONTRATS — VUE DÉTAIL
+═══════════════════════════════════════ */
+.contract-detail { display: none; animation: fadeIn 0.2s ease; }
+.contract-detail.active { display: block; }
+.cd-banner {
+  width: 100%; aspect-ratio: 16 / 6; border: 1px solid var(--border);
+  background: #020804; margin-bottom: 24px; overflow: hidden;
+}
+.cd-banner svg { width: 100%; height: 100%; display: block; }
+
+/* ═══════════════════════════════════════
+   MARCHÉ — SOUS-PAGES PAIEMENT / LIVRAISON
+═══════════════════════════════════════ */
+.info-page { display: none; animation: fadeIn 0.2s ease; }
+.info-page.active { display: block; }
+
+.ip-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+  margin-bottom: 26px;
+}
+.ip-category {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.ip-title {
+  font-family: var(--font-courier); font-size: 22px; font-weight: 700;
+  color: var(--white); line-height: 1.3;
+}
+.ip-subtitle {
+  font-size: 12px; color: var(--green-dim); margin-top: 6px;
+  font-style: italic; letter-spacing: 0.04em;
+}
+.ip-section-title {
+  font-family: var(--font-vt); font-size: 17px; color: var(--green);
+  margin: 28px 0 10px;
+  border-left: 3px solid var(--green-dim); padding-left: 12px;
+  letter-spacing: 0.08em;
+}
+.ip-p {
+  font-size: 13px; color: var(--text); line-height: 1.85; margin-bottom: 12px;
+}
+.ip-p strong { color: var(--green); }
+.ip-p em { color: var(--red); font-style: normal; }
+.ip-p .amber { color: var(--amber); }
+
+.ip-table {
+  width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+  font-size: 12px;
+}
+.ip-table th {
+  text-align: left; padding: 7px 12px;
+  background: rgba(0,255,65,0.06); color: var(--green);
+  font-family: var(--font-vt); font-size: 11px; letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--green-dark);
+}
+.ip-table td {
+  padding: 8px 12px; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top; line-height: 1.6;
+}
+.ip-table tr:hover td { background: rgba(0,255,65,0.03); }
+.ip-table .td-label { color: var(--green-dim); font-size: 11px; letter-spacing: 0.06em; }
+
+.ip-example {
+  border: 1px solid var(--green-dark);
+  background: rgba(0,255,65,0.03);
+  padding: 16px 20px; margin: 18px 0;
+  font-size: 12px;
+}
+.ip-example .ex-title {
+  font-family: var(--font-vt); font-size: 13px; color: var(--green);
+  margin-bottom: 10px; letter-spacing: 0.08em;
+}
+.ip-example .ex-line {
+  color: var(--text); line-height: 1.8; padding: 2px 0;
+}
+.ip-example .ex-line span { color: var(--green-dim); }
+
+.ip-rules {
+  border: 1px solid var(--amber-dim);
+  background: rgba(255,176,0,0.03);
+  padding: 16px 20px; margin-top: 24px;
+}
+.ip-rules .r-title {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 10px;
+  border-bottom: 1px solid var(--amber-dim); padding-bottom: 7px;
+}
+.ip-rule {
+  font-size: 12px; color: var(--text); line-height: 1.7;
+  padding: 4px 0 4px 20px; position: relative;
+}
+.ip-rule::before { content: '›'; position: absolute; left: 0; color: var(--amber); }
+.ip-dry {
+  margin-top: 14px; padding-top: 10px;
+  border-top: 1px solid var(--amber-dim);
+  font-size: 12px; color: var(--red); font-style: italic;
+}
+
+.ip-route-stop {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.ip-route-stop:last-child { border-bottom: none; }
+.rs-num {
+  flex-shrink: 0; width: 28px; height: 28px;
+  border: 1px solid var(--green-dark); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-vt); font-size: 13px; color: var(--green);
+}
+.rs-body { flex: 1; }
+.rs-label { font-size: 12px; color: var(--green-dim); letter-spacing: 0.06em; margin-bottom: 3px; }
+.rs-text { font-size: 12px; color: var(--text); line-height: 1.65; }
+
+.ip-warning-final {
+  margin-top: 28px; padding: 14px 18px;
+  border: 1px solid var(--red-dim);
+  background: rgba(255,32,32,0.04);
+  font-size: 12px; color: var(--red); line-height: 1.7;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════
+   CONTRATS (JOBS)
+═══════════════════════════════════════ */
+.contracts-intro {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--red);
+  padding: 24px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+.contracts-intro strong { color: var(--green); }
+
+.contract-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.ct-tab {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.ct-tab:hover { color: var(--text-dim); }
+.ct-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.contract-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+.contract-card {
+  background: var(--panel);
+  padding: 24px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.contract-card:hover { background: var(--bg2); }
+.contract-card.hidden { display: none; }
+.cc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.cc-title {
+  font-family: var(--font-courier);
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.cc-risk {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cc-risk.low { border-color: var(--green-dark); color: var(--green-dim); }
+.cc-risk.med { border-color: var(--amber-dim); color: var(--amber); }
+.cc-risk.high { border-color: var(--red-dim); color: var(--red); }
+.cc-risk.critical { border-color: var(--red); color: var(--red); background: rgba(255,32,32,0.08); }
+
+.cc-body {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.cc-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cc-tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--green-dark);
+  color: var(--green-dim);
+}
+.cc-tag.red { background: var(--red-dim); color: var(--red); }
+.cc-tag.amber { background: #2A1800; color: var(--amber); }
+.cc-payout {
+  font-family: var(--font-vt);
+  font-size: 18px;
+  color: var(--green);
+  margin-left: auto;
+}
+.cc-payout span { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
+
+.apply-contract {
+  display: inline-block;
+  margin-top: 12px;
+  background: none;
+  border: 1px solid var(--green-dark);
+  color: var(--green-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.apply-contract:hover { background: var(--green); color: #000; border-color: var(--green); }
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 4000;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: var(--bg2);
+  border: 1px solid var(--green-dark);
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  animation: fadeIn 0.2s ease;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+.modal-close:hover { color: var(--red); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+footer a { color: var(--text-muted); cursor: pointer; transition: color 0.15s; }
+footer a:hover { color: var(--green-dim); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); }
+
+/* ════════ PATCH MOBILE v2 — ÉCHO ROUGE ════════ */
+.back-portal{position:fixed;bottom:18px;left:18px;z-index:400;width:48px;height:48px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:rgba(0,0,0,.92);border:1px solid var(--green,#00FF41);color:var(--green,#00FF41);
+ font-size:20px;text-decoration:none;box-shadow:0 0 14px rgba(0,255,65,.35);opacity:.9;}
+.nav-burger{display:none;background:none;cursor:pointer;border:1px solid var(--border,#1a3a1a);
+ color:var(--green,#00FF41);width:40px;height:40px;font-size:20px;line-height:1;
+ align-items:center;justify-content:center;margin-left:auto;}
+@media (max-width: 1100px){
+  html{ -webkit-text-size-adjust:100%%; }
+  .nav-burger{ display:flex; }
+  .nav-right{ display:none; }
+  .nav-links{
+    display:none !important; position:fixed; top:52px; left:0; right:0;
+    flex-direction:column; background:var(--panel,#0a0e0a);
+    border-bottom:1px solid var(--border,#1a3a1a); z-index:98;
+    box-shadow:0 12px 32px rgba(0,0,0,.8); max-height:calc(100vh - 52px); overflow-y:auto;
+  }
+  .nav-links.open{ display:flex !important; }
+  .nav-links a{ height:auto; padding:15px 20px; font-size:1rem; border-top:none;
+    border-bottom:1px solid var(--border,#1a3a1a); }
+  body{ font-size:clamp(16px,4.2vw,19px); line-height:1.6; }
+  .terminal-hero{ grid-template-columns:1fr !important; padding:12px; min-height:auto; }
+  .terminal-main,.terminal-side{ padding:22px 16px; }
+  .content-grid{ grid-template-columns:1fr !important; min-height:auto; }
+  .content-sidebar{ border-right:none; border-bottom:1px solid var(--border,#1a3a1a); padding:10px 0; }
+  .sb-link{ font-size:1rem; padding:12px 20px; }
+  .content-main{ padding:20px 14px; }
+  .doc-grid{ grid-template-columns:1fr !important; }
+  .market-cats{ flex-wrap:wrap; }
+  p, li{ font-size:clamp(15px,4vw,18px); }
+}
+</style>
+<!--i18n:style-->
+<style>
+.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
+  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
+  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
+  white-space:nowrap;transition:background .2s,color .2s;}
+.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
+.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
+.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
+.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
+.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
+.i18n-flag{font-size:13px;line-height:1;}
+@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
+  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
+@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
+</style>
+<!--/i18n:style-->
+<!--i18n:hreflang-->
+<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/echo-rouge-v2.html">
+<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/echo-rouge-v2.html">
+<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/echo-rouge-v2.html">
+<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/echo-rouge-v2.html">
+<!--/i18n:hreflang-->
+</head>
+<body>
+<!--i18n:switch-->
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../echo-rouge-v2.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="../en/echo-rouge-v2.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="echo-rouge-v2.html" hreflang="it" lang="it" class="is-active" aria-current="page" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<!--/i18n:switch-->
+
+<div id="portal">
+  <div class="portal-header">TOR NETWORK // NODO ECO-7.1 // CIFRATURA AES-512 ATTIVA</div>
+  <div class="portal-logo">ECO<br>ROSSO</div>
+  <div class="portal-subtitle">Rete di Resistenza Temporale</div>
+  <div class="connection-box">
+    <div id="conn-lines"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="passphrase-section" id="pp-section">
+      <div class="pp-label">// Identità dell’agente confermata</div>
+      <div style="background:#000;border:1px solid #0D2A14;padding:14px 16px;font-size:14px;color:#00FF41;letter-spacing:0.15em;">
+        AGENT :: <span id="agent-display" style="color:#00CC33">——</span>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#2A4A2A;letter-spacing:0.06em;">// Impronta temporale mascherata. Accesso autorizzato dal Coordinatore ER.</div>
+      <button class="pp-btn" onclick="enterSite()" style="margin-top:16px;width:100%;padding:12px;font-size:12px">ACCEDERE ALLA RETE →</button>
+    </div>
+  </div>
+  <div class="portal-warning">
+    Benvenuto nella Resistenza. Non rivelare mai il tuo nome in codice.<br>
+    Non conoscete i nostri nomi. Noi non conosciamo i vostri.<br>
+    È per questo che siamo ancora vivi.
+  </div>
+</div>
+
+<div id="site">
+
+  <div id="statusbar">
+    <div class="sb-left">
+      <span><span class="sb-dot"></span>TOR // NODO ECO-7 // ATTIVO</span>
+      <span><span class="sb-dot amber"></span>KASSANDRA // LIVELLO MINACCIA: MODERATO</span>
+      <span><span class="sb-dot red" style="animation-duration:0.8s"></span>CT-NET 2.0 // DISPIEGAMENTO IN CORSO</span>
+    </div>
+    <div class="sb-right">
+      <span id="sb-time">--:--:-- UTC</span>
+      <span>SESSION: ██████</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-logo" onclick="showSection('home')">
+      <span class="logo-mark">ÉR</span>
+      <span class="logo-text">ECO&nbsp;ROSSO</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" id="nav-portail"><span class="nav-prefix">00/</span>Portale</a></li>
+      <li><a onclick="showSection('home')" id="nav-home" class="active"><span class="nav-prefix">01/</span>Terminal</a></li>
+      <li><a onclick="showSection('propagande')" id="nav-propagande"><span class="nav-prefix">02/</span>Verità</a></li>
+      <li><a onclick="showSection('marche')" id="nav-marche"><span class="nav-prefix">03/</span>Mercato</a></li>
+      <li><a onclick="showSection('contrats')" id="nav-contrats"><span class="nav-prefix">04/</span>Contratti</a></li>
+      <li><a href="../signal-game.html" target="_blank" id="nav-game" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">05/</span>Terminal</a></li>
+      <li><a href="../mini-jeu-escape.html" target="_blank" id="nav-escape" style="color:var(--red);border-bottom-color:transparent" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--red)'"><span class="nav-prefix" style="color:var(--red)">06/</span>Escape Game</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu">&#9776;</button>
+    <div class="nav-right">
+      <span class="threat-level">⚠ MINACCIA: MODERATA</span>
+      <span class="nav-id">ID: ████-████</span>
+    </div>
+  </nav>
+
+  <section id="home" class="page-section active">
+    <div class="terminal-hero">
+
+      <div class="terminal-main">
+        <div class="term-prompt">// CONNESSIONE STABILITA — 28.01.2035 — SESSIONE PROTETTA</div>
+
+        <div class="ascii-logo">
+ ███████╗ ██████╗██╗  ██╗ ██████╗
+ ██╔════╝██╔════╝██║  ██║██╔═══██╗
+ █████╗  ██║     ███████║██║   ██║
+ ██╔══╝  ██║     ██╔══██║██║   ██║
+ ███████╗╚██████╗██║  ██║╚██████╔╝
+ ╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝
+        <span style="color:var(--red)"> ██████╗  ██████╗ ██╗   ██╗ ██████╗ ███████╗
+        ██╔══██╗██╔═══██╗██║   ██║██╔════╝ ██╔════╝
+        ██████╔╝██║   ██║██║   ██║██║  ███╗█████╗  
+        ██╔══██╗██║   ██║██║   ██║██║   ██║██╔══╝  
+        ██║  ██║╚██████╔╝╚██████╔╝╚██████╔╝███████╗
+        ╚═╝  ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝╚══════╝</span></div>
+
+        <div class="term-prompt">$ cat /var/eco/messaggio_benvenuto.txt</div>
+        <div class="term-text">
+          Benvenuto sulla rete <em>Eco Rosso</em>, Agente <span id="term-agent" style="color:var(--green)">——</span>.<br>
+          Fondata nel 2031 da <em>Sena Valkova</em>, Sofia-Praga.<br>
+          22 cellule attive. 5 cellule silenziose.<br><br>
+
+          Sei qui perché qualcuno si è fidato di te.<br>
+          <strong>Non deluderlo.</strong>
+        </div>
+
+        <div class="term-prompt">$ cat /var/eco/situazione_attuale.txt</div>
+        <div class="term-text">
+          Data: <em>28.01.2035</em> — Giorno G+32 post-Ananke.<br>
+          CT-NET 2.0 è in corso di dispiegamento sulle Tessiture attive.<br>
+          Tempo stimato prima della copertura totale: <strong>72 ore.</strong><br><br>
+
+          Due miliardi di Tessiture stanno per riaccendersi.<br>
+          Il termostato dell’obbedienza, regolato tre gradi più in alto.<br>
+          Non una lobotomia. <strong>Un sussurro.</strong><br><br>
+
+          È per questo che siamo ancora qui.
+        </div>
+
+        <div class="term-prompt">$ █<span class="blink-cursor"></span></div>
+      </div>
+
+      <div class="terminal-side">
+        <div class="side-widget">
+          <div class="widget-title">// rete eco rosso — stato</div>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-val">22</span>
+              <span class="stat-label">Cellule attive</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val red">5</span>
+              <span class="stat-label">Cellule silenziose</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val">3 200</span>
+              <span class="stat-label">Liberati a Prato</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-val amber">72h</span>
+              <span class="stat-label">Prima di CT-NET 2.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-widget">
+          <div class="widget-title">// allerte recenti</div>
+          <div class="alert-item">
+            <span class="a-tag critical">CRITICO</span>
+            <span>CT-NET 2.0: reset firmware Tessiture G+3 a G+7. Dispiegamento imminente.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag warn">ALLERTA</span>
+            <span>Budapest + Varsavia: nessun segnale da 72h. Compromissione probabile.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag warn">ALLERTA</span>
+            <span>Kassandra livello predittivo: gruppo FANTASMA-LYON localizzato al 12.3% di probabilità, Gerland.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag info">INFO</span>
+            <span>I Tessitori confermano 3 200 compressi liberati messi in sicurezza, Prato.</span>
+          </div>
+          <div class="alert-item">
+            <span class="a-tag info">INFO</span>
+            <span>Rotta Mediterranea: nuovo lotto di naniti liberi disponibile. Casablanca.</span>
+          </div>
+        </div>
+
+        <div class="side-widget">
+          <div class="widget-title">// accesso rapido</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="order-btn" onclick="showSection('propagande')" style="text-align:left;padding:8px 12px">→ Leggi il Manifesto Valkova (2026)</button>
+            <button class="order-btn" onclick="showSection('propagande')" style="text-align:left;padding:8px 12px">→ Dossier KREMLIN SUNSET (CIA)</button>
+            <button class="order-btn" onclick="showSection('marche')" style="text-align:left;padding:8px 12px">→ Mercato nero — Naniti liberi</button>
+            <button class="order-btn" onclick="showSection('contrats')" style="text-align:left;padding:8px 12px">→ Contratti attivi (7 disponibili)</button>
+            <button class="order-btn" onclick="window.open('../signal-game.html','_blank')" style="text-align:left;padding:8px 12px;border-color:var(--red);color:var(--red)">⬢ TERMINAL — Gioco da terminale Eco Rosso</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="propagande" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">VERITÀ <span>// archivi declassificati</span></div>
+      <div class="section-crumb">ECO-ROSSO / VERITÀ / INDEX</div>
+    </div>
+
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Categorie</div>
+          <a class="sb-link active" onclick="showProp('all', this)"><span class="sl-prefix">›</span>Tutti i documenti</a>
+          <a class="sb-link" onclick="showProp('sotchi', this)"><span class="sl-prefix">›</span>Sotchi / KREMLIN SUNSET</a>
+          <a class="sb-link" onclick="showProp('manifeste', this)"><span class="sl-prefix">›</span>Manifesto Valkova</a>
+          <a class="sb-link" onclick="showProp('ctcorp', this)"><span class="sl-prefix">›</span>CT Corp — Vero volto</a>
+          <a class="sb-link" onclick="showProp('timeline', this)"><span class="sl-prefix">›</span>Cronologia della Caduta</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Sources</div>
+          <a class="sb-link"><span class="sl-prefix">›</span>M@X_VRV (Verville)</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Dimitar & Irina Valkova</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Doc. CIA declassificato</a>
+          <a class="sb-link"><span class="sl-prefix">›</span>Vaedran Ilarion</a>
+        </div>
+      </div>
+
+      <div class="content-main">
+
+        <div id="prop-view-index">
+          <div class="prop-hero">
+            <span class="prop-tag">// documento prioritario — 15.11.2026</span>
+            <div class="prop-title">MANIFESTO PER LA RESISTENZA TEMPORALE</div>
+            <div class="prop-body">
+              <strong>« Sotchi non è stato un atto di terrorismo. È stato un atto fondativo. »</strong><br><br>
+              Compilato da Dimitar e Irina Valkova, giornalisti investigativi assassinati nel novembre 2025 in un’operazione congiunta FSB/CIA. La loro figlia, <em>Sena Valkova</em>, ha fondato la rete Eco Rosso l’anno successivo.<br><br>
+              Questo documento ha portato all’esecuzione di 93 persone e alla sparizione di altre 307 nei campi di compressione punitiva.
+            </div>
+            <div style="margin-top:16px">
+              <button class="order-btn" onclick="openManifeste()" style="padding:10px 20px;font-size:12px">→ LEGGI IL DOCUMENTO COMPLETO</button>
+            </div>
+            <div class="prop-stamp">HASH: 7e4f2a1b-r3d-s0tch1 // INTEGRITÀ: ✓ VERIFICATA // DIFFUSIONE: RETE DECENTRALIZZATA</div>
+          </div>
+
+          <div class="doc-grid">
+            <div class="doc-card" onclick="openModal('kremlin')">
+              <span class="doc-type">// Documento CIA — declassificato parziale</span>
+              <div class="doc-title">Operazione KREMLIN SUNSET<br>Analisi Post-Azione</div>
+              <div class="doc-excerpt">Memo interno: « KREMLIN SUNSET è una svolta. Il partner di oggi è il rivale di domani — e ci hanno appena mostrato di non avere assolutamente alcun limite. »</div>
+              <div class="doc-meta">Fonte: CIA / Settore Russia-EUR // Ott. 2024</div>
+              <span class="doc-tag">SOTCHI</span> <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">CLASSIFICATO</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('codex')">
+              <span class="doc-type">// Diario d’inchiesta — M@X_VRV</span>
+              <div class="doc-title">Il Codex Chronos<br>Diario di un Mondo dal Tempo Contato</div>
+              <div class="doc-excerpt">Maxime Verville era a Sotchi la notte del 23 ottobre 2024. Il suo diario cifrato, ritrovato dopo la sua morte. La verità dall’interno.</div>
+              <div class="doc-meta">Autore: Maxime « M@X_VRV » Verville // Ott. 2024 → Mar. 2026</div>
+              <span class="doc-tag">SOTCHI</span> <span class="doc-tag">TESTIMONE</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('pacte')">
+              <span class="doc-type">// Analisi — Rete Eco Rosso</span>
+              <div class="doc-title">Il Patto Cronos<br>Ciò che non ti diranno mai</div>
+              <div class="doc-excerpt">Firmatari: USA, Russia + 15 corporazioni. Budget iniziale: 500 trilioni. Clausola nascosta: Protocollo FENICE. Obiettivo reale: « Ordine Mondiale tramite il Controllo Temporale ».</div>
+              <div class="doc-meta">Eco Rosso / Praga // Gen. 2027</div>
+              <span class="doc-tag">PATTO CRONOS</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('perpetuity')">
+              <span class="doc-type">// Documenti interni CT Corp — esfiltrati</span>
+              <div class="doc-title">Progetto PERPETUITY<br>Le 3 Fasi del Dominio</div>
+              <div class="doc-excerpt">Fase 1: Mercificazione del lavoro ✓ — Fase 2: Mercificazione dell’esistenza (in corso) — Fase 3: Mercificazione della coscienza (Progetto Prometeo, segreto assoluto).</div>
+              <div class="doc-meta">Fonte: Lena Reinholt, disertrice CT Corp // 2031</div>
+              <span class="doc-tag">CT CORP</span> <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">CRITICO</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('prométhée')">
+              <span class="doc-type">// Rapporto dell’orrore — Fonte confidenziale</span>
+              <div class="doc-title">Progetto PROMETEO<br>[TOP SECRET — Direttorio esclusivo]</div>
+              <div class="doc-excerpt">Siti di test: orfanotrofi in Bielorussia, campi nello Xinjiang. 10 000 bambini in Fase 1. Aspettativa di vita post-protocollo: 25 anni massimo. Percezione temporale alterata in modo permanente.</div>
+              <div class="doc-meta">Esfiltrato da un agente Eco Rosso // 2033</div>
+              <span class="doc-tag" style="background:var(--red-dim);color:var(--red)">ESTREMO</span>
+            </div>
+
+            <div class="doc-card" onclick="openModal('ctnet')">
+              <span class="doc-type">// Intercept — Comunicazione interna CT Corp</span>
+              <div class="doc-title">CT-NET 2.0<br>« Un sussurro, non un martello »</div>
+              <div class="doc-excerpt">Classificazione: Delta / Direttorio esclusivo. « Il termostato dell’obbedienza, regolato tre gradi più in alto. I portatori non sapranno mai che il loro libero arbitrio è stato ricalibrato. »</div>
+              <div class="doc-meta">Intercettato da Mourad // 29.12.2034</div>
+              <span class="doc-tag">CT-NET 2.0</span> <span class="doc-tag" style="background:var(--amber-dim);color:var(--amber)">URGENT</span>
+            </div>
+          </div>
+
+          <div style="margin-top:32px">
+            <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px">// CRONOLOGIA DELLA CADUTA — Fatti verificati</div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-date">OCT<br>2024</div>
+                <div class="tl-content">
+                  <div class="tl-title">Teatro d’Inverno di Sotchi — Operazione KREMLIN SUNSET</div>
+                  <div class="tl-body">412 morti, invecchiati di 60 anni in 3,5 secondi da un’arma cronofaga ZEC. <em>Attribuita a torto al movimento Vesna.</em> Eseguita dall’FSB con supporto CIA (blackout SIGINT di 15 min). Atto fondativo di CT Corp.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">FÉV<br>2027</div>
+                <div class="tl-content">
+                  <div class="tl-title">Fondazione di CT Corp — Patto Cronos firmato</div>
+                  <div class="tl-body">USA + Russia + 15 corporazioni firmano il Patto Cronos. Budget: 500 trilioni. Monopolio mondiale sulla compressione temporale. <em>Il tempo cessa di appartenere all’umanità.</em></div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">NOV<br>2025</div>
+                <div class="tl-content">
+                  <div class="tl-title">Assassinio di Dimitar e Irina Valkova — Sofia</div>
+                  <div class="tl-body">Operazione congiunta FSB/CIA. Eliminati per aver scoperto la verità su Sotchi. La loro figlia Sena, 19 anni, entra nella resistenza. <em>Eco Rosso nasce dalla loro morte.</em></div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">MARS<br>2029</div>
+                <div class="tl-content">
+                  <div class="tl-title">Incidente di Mumbai — 3 000 morti</div>
+                  <div class="tl-body">Invecchiamento istantaneo per guasto GFT. CT Corp presenta l’incidente come « anomalia tecnica risolta ». Le famiglie non ricevono alcun risarcimento.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">JUIL<br>2028</div>
+                <div class="tl-content">
+                  <div class="tl-title">Leggi di Compressione Obbligatoria</div>
+                  <div class="tl-body">47 governi legalizzano la compressione forzata. <em>« Volontariato » inquadrato dalla necessità economica.</em> I compressi sono pagati a tempo soggettivo, mai a tempo reale.</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-date">DÉC<br>2034</div>
+                <div class="tl-content">
+                  <div class="tl-title">Evento Ananke — 27 dicembre, 16:00 UTC</div>
+                  <div class="tl-body">Segnale di desincronizzazione emesso dal Cuore Centrale di Lione. 2 miliardi di Tessiture in modalità errore. 3 200 compressi liberati a Prato. CT Corp prepara la risposta: <em>CT-NET 2.0.</em></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="prop-view-manifeste" class="manifeste-full">
+          <div class="m-back" onclick="closeManifeste()">Torna agli archivi</div>
+          <div class="prop-stamp" style="margin-bottom:16px">DOCUMENTO CLANDESTINO — RETE ECO ROSSO — 15.11.2026<br>COMPILATO DA DIMITAR E IRINA VALKOVA, GIORNALISTI INVESTIGATIVI<br>RITROVATO NEGLI ARCHIVI DIGITALI POST-ANANKE</div>
+          <div class="m-h1">MANIFESTO PER LA RESISTENZA TEMPORALE</div>
+
+          <div class="m-h2">I. SOTCHI: LA MENZOGNA FONDATIVA</div>
+          <div class="m-p">Nella notte tra il 23 e il 24 ottobre 2024, il regime russo-americano non ha subito un attentato terroristico. Ne ha perpetrato uno. Quattrocentododici persone sono state assassinate al Teatro d’Inverno di Sotchi da un’arma cronofaga di zona — invecchiate di settant’anni in tre secondi e mezzo. Tra loro: ventotto oligarchi troppo indipendenti, due generali troppo idealisti, e trecentottantadue vittime collaterali il cui unico crimine fu di essere presenti.</div>
+          <div class="m-p">Il movimento Vesna non ha mai posseduto questa tecnologia. Le « confessioni » televisive furono estorte sotto tortura. Il « sopravvissuto miracolato » Aleksandr Mikhailov morì di un « infarto » dodici ore dopo la sua testimonianza preconfezionata. La CIA fornì un blackout SIGINT di quindici minuti — il silenzio complice che permise all’FSB di mascherare un’epurazione da tragedia nazionale.</div>
+          <div class="m-p"><strong>Sotchi non è stato un atto di terrorismo. È stato un atto fondativo.</strong> La prima pietra del tempio dove l’umanità sarebbe stata sacrificata sull’altare del profitto temporale.</div>
+          <div class="m-quote">Ci rifiutiamo di dimenticare. Ci rifiutiamo di perdonare. E ci rifiutiamo, categoricamente, di vivere nel mondo che Sotchi ha legittimato.</div>
+
+          <div class="m-h2">II. LO SCHEMA CHE SI RIPETE</div>
+          <div class="m-p">La storia non si ripete, ma fa rima. Ogni grande svolta scientifica segue lo stesso arco: concepita per liberare, dirottata per dominare, privatizzata per sfruttare.</div>
+          <div class="m-p"><strong>1938 — Fissione nucleare.</strong> Il sogno: energia pulita per tutti. Sei anni dopo: Hiroshima. <strong>1991 — World Wide Web.</strong> Tim Berners-Lee lo rende di dominio pubblico. Trent’anni dopo: capitalismo della sorveglianza, ogni clic monetizzato. <strong>2012 — CRISPR.</strong> La promessa: eradicare le malattie genetiche. Il risultato: apartheid genetico. <strong>2024 — Compressione temporale.</strong> Kenji Nomura sviluppa la teoria, Jarek Mironen la applica per bonificare i suoli. Dieci anni dopo: <em>tre milioni di schiavi del tempo.</em></div>
+          <div class="m-p"><strong>Lo schema non è un difetto. È la funzione principale.</strong></div>
+
+          <div class="m-h2">III. CIÒ CHE IL SISTEMA ESIGE</div>
+          <div class="m-p">Il profitto esige la concentrazione del potere. Una tecnologia veramente liberatrice minaccia l’ordine economico. Deve essere catturata, brevettata, privatizzata. La sicurezza nazionale esige il monopolio della violenza. Ogni tecnologia trasformativa diventa una questione militare. Il controllo sociale esige la sorveglianza. Ogni rete diventa uno strumento di monitoraggio.</div>
+          <div class="m-p">CT Corp non ha corrotto la tecnologia di Mironen. <strong>Ne ha rivelato il destino inevitabile sotto questo sistema.</strong> Il sistema dev’essere distrutto. Non riformato. Distrutto.</div>
+
+          <div class="m-h2">IV. IL NOSTRO IMPEGNO</div>
+          <div class="m-p">Non siamo terroristi. Rifiutiamo ogni violenza cieca. Ma non siamo nemmeno pacifisti ingenui. Siamo pronti a sacrificare il nostro benessere, la nostra sicurezza, le nostre carriere. Siamo pronti a sacrificare il nostro tempo. Molti di noi si offrono volontari per infiltrarsi nei complessi, accettando un invecchiamento prematuro per sabotare il sistema dall’interno.</div>
+          <div class="m-p"><em>Siamo pronti a sacrificare le nostre vite.</em></div>
+          <div class="m-quote">L’acqua trova sempre la sua strada.<br>— Malek Veyran</div>
+          <div class="prop-stamp" style="margin-top:24px">FINE DEL DOCUMENTO — HASH VERIFICATO — DIFFUSIONE AUTORIZZATA SU TUTTI I NODI ER<br>Questo manifesto ha portato all’esecuzione di 93 persone. Diffondetelo.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="marche" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">MERCATO <span>// sotto banco</span></div>
+      <div class="section-crumb">ECO-ROSSO / MERCATO / CATALOGO</div>
+    </div>
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Reparti</div>
+          <a class="sb-link active" onclick="filterMarket('all', this)"><span class="sl-prefix">›</span>Tutto il catalogo <span class="sb-badge">14</span></a>
+          <a class="sb-link" onclick="filterMarket('nanites', this)"><span class="sl-prefix">›</span>Naniti & Bio <span class="sb-badge">4</span></a>
+          <a class="sb-link" onclick="filterMarket('firmware', this)"><span class="sl-prefix">›</span>Firmware & Tessiture <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterMarket('identite', this)"><span class="sl-prefix">›</span>Identità & Documenti <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterMarket('hardware', this)"><span class="sl-prefix">›</span>Hardware & Equipaggiamento <span class="sb-badge">4</span></a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Pagamento accettato</div>
+          <a class="sb-link" onclick="openInfoPage('credits-echo')" style="cursor:pointer">› Crediti Eco (CE)</a>
+          <a class="sb-link" onclick="openInfoPage('troc-temporel')" style="cursor:pointer">› Baratto temporale</a>
+          <a class="sb-link" onclick="openInfoPage('donnees-ct')" style="cursor:pointer">› Dati CT Corp esfiltrati</a>
+          <a class="sb-link" style="color:var(--red-dim)">✗ CTC rifiutato</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Consegna</div>
+          <a class="sb-link" onclick="openInfoPage('route-mediterraneenne')" style="cursor:pointer">› Rotta Mediterranea</a>
+          <a class="sb-link" onclick="openInfoPage('passeurs-memoire')" style="cursor:pointer">› Passatori di Memoria</a>
+          <a class="sb-link" onclick="openInfoPage('cellules-contact')" style="cursor:pointer">› Cellule di contatto</a>
+        </div>
+      </div>
+
+      <div class="content-main">
+        <div id="market-catalog">
+        <div class="market-banner">Mercato non sorvegliato — tutte le transazioni cifrate end-to-end. CTC tracciabile: rifiutato. Delazione: pena di morte sociale permanente.</div>
+
+        <div class="market-cats">
+          <button class="mcat-btn active" onclick="filterMarket('all', this)">Tutto</button>
+          <button class="mcat-btn" onclick="filterMarket('nanites', this)">Naniti & Bio</button>
+          <button class="mcat-btn" onclick="filterMarket('firmware', this)">Firmware & Tessiture</button>
+          <button class="mcat-btn" onclick="filterMarket('identite', this)">Identità</button>
+          <button class="mcat-btn" onclick="filterMarket('hardware', this)">Hardware</button>
+        </div>
+
+        <div class="listings" id="market-listings">
+
+          <div class="listing" data-cat="nanites" onclick="openItem('icare')">
+            <div>
+              <div class="listing-title">Naniti ICARE — lotto di 500 unità — Frequenza libera</div>
+              <div class="listing-desc">Naniti recuperati post-Ananke, complesso di Casablanca. Frequenza non registrata nel database NAOS. Ideali per Tessiture di sostituzione o lievi modifiche biologiche. Confezionamento ermetico.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Rare</span>
+                <span class="l-tag">Casablanca</span>
+                <span class="l-tag safe">Testato</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">450 CÉ</span>
+              <span class="price-unit">/ lotto 500 u.</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('stabilisant-ctr7')">
+            <div>
+              <div class="listing-title">Stabilizzante Biologico — CTR-7 modificato</div>
+              <div class="listing-desc">Tuta anti-radiazione temporale, versione modificata. Protezione fino a ×120 di compressione. Uso interno. Non figura negli inventari CT Corp. Fonte: Prato, esfiltrato da I Tessitori.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Critico</span>
+                <span class="l-tag">I Tessitori</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">180 CÉ</span>
+              <span class="price-unit">/ unità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('anticoagulant')">
+            <div>
+              <div class="listing-title">Anticoagulante Temporale — uso post-compressione</div>
+              <div class="listing-desc">Riduce gli effetti di disorientamento e la sindrome da decompressione negli ex compressi. Prodotto artigianale, zona dei Carpazi. 94% di efficacia dichiarata. Non certificato CT Corp — è proprio il punto.</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">Zona dei Carpazi</span>
+                <span class="l-tag">Artigianale</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">60 CÉ</span>
+              <span class="price-unit">/ dose 30gg</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="nanites" onclick="openItem('fantome-temporel')">
+            <div>
+              <div class="listing-title">Brouilleur Signature Biologique — "Fantôme Temporel"</div>
+              <div class="listing-desc">Maschera l’impronta temporale unica dell’individuo. Rende impossibile l’identificazione da parte di NAOS-9 per 6-18 ore a seconda del dosaggio. Iniettore discreto. Sviluppato da un disertore del progetto ORPHEUS.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Più venduto</span>
+                <span class="l-tag rare">Fonte ORPHEUS</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">220 CÉ</span>
+              <span class="price-unit">/ dose 12h</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('patch-sigma')">
+            <div>
+              <div class="listing-title">Patch Firmware Tessitura v3.x — Disattivazione Canale Sigma</div>
+              <div class="listing-desc">Taglia la trasmissione verso Kassandra senza far scattare un allarme per 48-72h. Compatibile v3.0-v3.9. Incompatibile v4.0+. Da applicare prima del dispiegamento di CT-NET 2.0. Finestra critica: ora.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">URGENT</span>
+                <span class="l-tag">solo v3.x</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">90 CÉ</span>
+              <span class="price-unit">/ licenza</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('exploit-sigma')">
+            <div>
+              <div class="listing-title">Exploit Tessitura v4.0 — Accesso in sola lettura Canale Sigma</div>
+              <div class="listing-desc">Permette di leggere le trasmissioni del Canale Sigma senza bloccarle. Solo per uso d’intelligence. Non interrompe la trasmissione — da combinare con la patch di disattivazione per un uso completo. Sviluppato da Lena Reinholt.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Lena Reinholt</span>
+                <span class="l-tag">v4.0</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">340 CÉ</span>
+              <span class="price-unit">/ licenza</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="firmware" onclick="openItem('clone-temporel')">
+            <div>
+              <div class="listing-title">Émulateur Signature Biologique — "Clone Temporel"</div>
+              <div class="listing-desc">Inietta un’impronta temporale sostitutiva nella Tessitura. NAOS-9 rileva un’altra persona al tuo posto. Durata limitata. Impronte disponibili: un database di 400 individui deceduti post-Ananke.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">Estremo</span>
+                <span class="l-tag">Rischio rilevamento</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">600 CÉ</span>
+              <span class="price-unit">/ identità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('identite-zones-grises')">
+            <div>
+              <div class="listing-title">Identità Completa — Livello Zone Grigie</div>
+              <div class="listing-desc">CET-ID, storico di compressione fittizio, biometria sincronizzata, alloggio assegnato. Convincente sotto Kassandra di livello standard. Tempi: 72h. Non supera gli audit Kassandra di livello massimo (Città-Vetrina).</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">72h</span>
+                <span class="l-tag">Zone Grigie</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">300 CÉ</span>
+              <span class="price-unit">/ identità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('identite-cite-vitrine')">
+            <div>
+              <div class="listing-title">Identità Città-Vetrina — Livello Quadro CT Corp</div>
+              <div class="listing-desc">Accesso alle zone premium. Supera l’audit Kassandra standard. Non supera l’audit di livello La Spirale (Bruxelles). Tempi: 2 settimane. Verifica biometrica inclusa. Solo 3 artigiani sulla rete sanno realizzarla.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Rare</span>
+                <span class="l-tag hot">2 settimane</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">1 200 CÉ</span>
+              <span class="price-unit">/ identità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="identite" onclick="openItem('passeport-memoire')">
+            <div>
+              <div class="listing-title">Passaporto Memoria — Passatore di Memoria certificato</div>
+              <div class="listing-desc">Trasmissione biologica di informazioni cifrate. Non tracciabile. Il Passatore memorizza il tuo messaggio, lo trasporta fisicamente, lo restituisce a destinazione. Capacità: fino a 50 KB di informazioni complesse. Tecnica mnemonica certificata Eco Rosso.</div>
+              <div class="listing-tags">
+                <span class="l-tag safe">100% non tracciabile</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">80 CÉ</span>
+              <span class="price-unit">/ message</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('brouilleur-nid')">
+            <div>
+              <div class="listing-title">Brouilleur EM portable — "Le Nid" — mod. Sofia</div>
+              <div class="listing-desc">Disturba i droni di sorveglianza in un raggio di 80 m. Sviluppato dalla cellula Le Nid (torre telecom, Sofia). Autonomia 6h. Peso 400g. Rilevato da Kassandra se usato per più di 20 minuti consecutivi.</div>
+              <div class="listing-tags">
+                <span class="l-tag">Le Nid, Sofia</span>
+                <span class="l-tag safe">Testato sul campo</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">250 CÉ</span>
+              <span class="price-unit">/ unità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('terminal-mesh')">
+            <div>
+              <div class="listing-title">Terminale Mesh decentralizzato — Guardiani del Segnale</div>
+              <div class="listing-desc">Comunicazione fuori dalla rete CT Corp. Cifratura peer-to-peer. Portata 40 km con i relè dei Guardiani del Segnale. Compatibile con il protocollo Eco Rosso. Manutenzione gestita dai Guardiani. 0% di metadati.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Guardiani del Segnale</span>
+                <span class="l-tag safe">0 metadati</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">400 CÉ</span>
+              <span class="price-unit">/ terminal</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('combinaison-ctr7')">
+            <div>
+              <div class="listing-title">Tuta CTR-7 completa — Protezione radiazione temporale</div>
+              <div class="listing-desc">Tuta riservata ai tecnici CT Corp. Esfiltrata dal complesso FiberCore, Prato. Taglia M. Protezione in zona GFT attiva fino a 50 m. Una sola unità disponibile. Solo emergenze operative.</div>
+              <div class="listing-tags">
+                <span class="l-tag hot">1 unità</span>
+                <span class="l-tag rare">Prato</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">800 CÉ</span>
+              <span class="price-unit">/ unità</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+          <div class="listing" data-cat="hardware" onclick="openItem('la-larme')">
+            <div>
+              <div class="listing-title">Générateur de Flux Temporel portable — "La Larme"</div>
+              <div class="listing-desc">GFT miniaturizzato, compressione ×3 massima. Crea una bolla di 2 m³. Uso: fuga, estrazione, operazioni brevi. Instabile oltre i 4 minuti. Prototipo unico costruito da Vaedran Ilarion. Nessun manuale. Buona fortuna.</div>
+              <div class="listing-tags">
+                <span class="l-tag rare">Prototipo unico</span>
+                <span class="l-tag hot">Instabile</span>
+              </div>
+            </div>
+            <div class="listing-price">
+              <span class="price-amount">2 000 CÉ</span>
+              <span class="price-unit">/ prototype</span>
+              <button class="order-btn" onclick="event.stopPropagation()">CONTATTARE →</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="market-disclaimer">* Tutte le transazioni sono irreversibili. Eco Rosso non garantisce la consegna nelle zone a livello di allerta Kassandra massimo. In caso di arresto, la rete nega ogni coinvolgimento. Non conoscete i nostri nomi. Noi non conosciamo i vostri. È per questo che siamo ancora vivi.</div>
+        </div><!-- /market-catalog -->
+
+        <div id="market-info-page" class="info-page">
+          <div class="m-back" onclick="closeInfoPage()">Torna al catalogo</div>
+          <div id="ip-content"></div>
+        </div>
+
+        <div id="market-detail" class="market-detail">
+          <div class="m-back" onclick="closeItemDetail()">Torna al catalogo</div>
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contrats" class="page-section">
+    <div class="section-bar">
+      <div class="section-tag">CONTRATTI <span>// missioni attive</span></div>
+      <div class="section-crumb">ECO-ROSSO / CONTRATTI / CRUSCOTTO</div>
+    </div>
+    <div class="content-grid">
+      <div class="content-sidebar">
+        <div class="sidebar-group">
+          <div class="sg-title">// Tipo di missione</div>
+          <a class="sb-link active" onclick="filterContracts('all', this)"><span class="sl-prefix">›</span>Tutte le missioni <span class="sb-badge">8</span></a>
+          <a class="sb-link" onclick="filterContracts('hack', this)"><span class="sl-prefix">›</span>Hacking & Intrusione</a>
+          <a class="sb-link" onclick="filterContracts('sabotage', this)"><span class="sl-prefix">›</span>Sabotaggio & GFT</a>
+          <a class="sb-link" onclick="filterContracts('espionnage', this)"><span class="sl-prefix">›</span>Spionaggio & Esfil</a>
+          <a class="sb-link" onclick="filterContracts('extraction', this)"><span class="sl-prefix">›</span>Estrazione umana</a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Livello di rischio</div>
+          <a class="sb-link" onclick="filterContractsBy('risk','low',this)" style="cursor:pointer">› Basso <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','med',this)" style="cursor:pointer">› Moderato <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','high',this)" style="cursor:pointer">› Elevato <span class="sb-badge">3</span></a>
+          <a class="sb-link" onclick="filterContractsBy('risk','critical',this)" style="color:var(--red);cursor:pointer">› Critico <span class="sb-badge">2</span></a>
+        </div>
+        <div class="sidebar-group">
+          <div class="sg-title">// Committenti</div>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','er',this)" style="cursor:pointer">› Eco Rosso (interno) <span class="sb-badge">4</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','cartel',this)" style="cursor:pointer">› Cartello delle Terre Libere <span class="sb-badge">2</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','tessitori',this)" style="cursor:pointer">› I Tessitori (Prato) <span class="sb-badge">1</span></a>
+          <a class="sb-link" onclick="filterContractsBy('sponsor','carpates',this)" style="cursor:pointer">› Zona Rossa dei Carpazi <span class="sb-badge">1</span></a>
+        </div>
+      </div>
+
+      <div class="content-main">
+        <div id="contracts-catalog">
+        <div class="contracts-intro">
+          Ogni missione elencata qui è stata <strong>verificata e approvata da un coordinatore ER</strong>. Ogni candidato è sottoposto a una verifica d’identità tramite il protocollo Passatore di Memoria prima di qualsiasi assegnazione. Compromettere una missione comporta l’espulsione definitiva dalla rete. <strong>Non c’è una seconda possibilità.</strong>
+        </div>
+
+        <div class="contract-tabs">
+          <button class="ct-tab active" onclick="filterContracts('all', this)">Tutto (8)</button>
+          <button class="ct-tab" onclick="filterContracts('hack', this)">Hacking</button>
+          <button class="ct-tab" onclick="filterContracts('sabotage', this)">Sabotaggio</button>
+          <button class="ct-tab" onclick="filterContracts('espionnage', this)">Spionaggio</button>
+          <button class="ct-tab" onclick="filterContracts('extraction', this)">Estrazione</button>
+        </div>
+
+        <div class="contract-list">
+
+          <div class="contract-card" data-cat="hack" data-risk="critical" data-sponsor="er" onclick="openContract('h001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-H-001 — Intercettazione CT-NET 2.0: mappatura del dispiegamento firmware</div>
+              <span class="cc-risk critical">CRITICO</span>
+            </div>
+            <div class="cc-body">Obiettivo: mappare in tempo reale le ondate di dispiegamento di CT-NET 2.0 sulle Tessiture attive. Identificare le zone di copertura, i tempi per cellula, le priorità del Direttorio. Informazione vitale per coordinare il contro-dispiegamento della patch Eco Rosso entro la finestra di 72h.<br><br>Accesso richiesto: Canale Sigma, livello lettura. Richiesto l’exploit Lena Reinholt (disponibile al Mercato). Rischio rilevamento Kassandra: elevato. Durata stimata: 6h continue.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag amber">72h max</span>
+              <span class="cc-tag red">Canale Sigma</span>
+              <span class="cc-payout">800 CE <span>+ dati condivisi</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="hack" data-risk="high" data-sponsor="er" onclick="openContract('h002')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-H-002 — Esfiltrazione database Kassandra — cellule Eco Budapest/Varsavia</div>
+              <span class="cc-risk high">ELEVATO</span>
+            </div>
+            <div class="cc-body">Budapest e Varsavia sono silenziose da 72h. Capire cosa è successo è la priorità: una compromissione di Aegis-CD, un raid, o un semplice guasto delle comunicazioni? Richiesto l’accesso al modulo di predizione Kassandra per Budapest e Varsavia. Identificare i nomi compromessi prima che vengano usati.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag">Intelligence</span>
+              <span class="cc-payout">500 CE</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="hack" data-risk="med" data-sponsor="er" onclick="openContract('h003')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-H-003 — Iniezione segnale parassita in ChronoVision — cellula Praga</div>
+              <span class="cc-risk med">MODERATO</span>
+            </div>
+            <div class="cc-body">Iniettare da 4 a 7 secondi di segnale non-CT Corp nel flusso ChronoVision di una zona grigia bersaglio. Contenuto fornito dal committente (cellula Praga). Obiettivo: dimostrare la falla nel controllo dei media. Impatto psicologico sui compressi > impatto tecnico. Finestra d’azione: trasmissione notturna 02:00-04:00.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Hacking</span>
+              <span class="cc-tag">Propaganda</span>
+              <span class="cc-payout">200 CE</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="sabotage" data-risk="critical" data-sponsor="er" onclick="openContract('s001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-S-001 — Disattivazione GFT — Complesso n°6, Gdańsk, ala ovest</div>
+              <span class="cc-risk critical">CRITICO</span>
+            </div>
+            <div class="cc-body">Il Complesso n°6 di Gdańsk continua a funzionare nonostante Ananke. 2 400 compressi ancora in bolla. Obiettivo: disattivare i GFT dell’ala ovest senza provocare un invecchiamento accelerato (l’arresto brusco uccide). È disponibile una procedura di disattivazione progressiva — ma richiede un tecnico in tuta CTR-7 all’interno del complesso per 40 minuti. Potenziale missione suicida.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Sabotage</span>
+              <span class="cc-tag amber">Sul campo</span>
+              <span class="cc-tag red">CTR-7 richiesta</span>
+              <span class="cc-payout">1 500 CE <span>+ estrazione garantita</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="sabotage" data-risk="high" data-sponsor="cartel" onclick="openContract('s002')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-S-002 — Perturbazione infrastruttura CT-NET 2.0 — nodo relè Bruxelles</div>
+              <span class="cc-risk high">ELEVATO</span>
+            </div>
+            <div class="cc-body">Il dispiegamento di CT-NET 2.0 transita per 12 nodi fisici. Il nodo di Bruxelles copre il 28% delle Tessiture europee. Un sovraccarico fisico mirato (4-6h di inattività) ritarderebbe in modo significativo il dispiegamento. Committente: Cartello delle Terre Libere. Squadra di 3 minimo. Profili richiesti: elettronico, esperto di sistemi di raffreddamento, copertura sociale Città-Vetrina.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Sabotage</span>
+              <span class="cc-tag red">Squadra 3+</span>
+              <span class="cc-tag">Cartel</span>
+              <span class="cc-payout">1 200 CE</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="espionnage" data-risk="high" data-sponsor="cartel" onclick="openContract('e001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-E-001 — Infiltrazione WeavePort Casablanca — mappatura post-Ananke</div>
+              <span class="cc-risk high">ELEVATO</span>
+            </div>
+            <div class="cc-body">Il complesso di Casablanca è nel caos da Ananke — mafie algerine, milizie locali, agenti del Cartello. Nessuno controlla niente. Obiettivo: mappare la situazione reale (chi controlla cosa, dove sono i 2 000-5 000 compressi), identificare i canali sicuri per un’evacuazione futura. Copertura richiesta: giornalista o agente logistico CT Corp locale.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Spionaggio</span>
+              <span class="cc-tag">Intelligence</span>
+              <span class="cc-tag amber">Casablanca</span>
+              <span class="cc-payout">700 CE</span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="extraction" data-risk="med" data-sponsor="carpates" onclick="openContract('x001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-X-001 — Estrazione: 3 compressi liberati — Zona Grigia, Lione 7°</div>
+              <span class="cc-risk med">MODERATO</span>
+            </div>
+            <div class="cc-body">Tre compressi liberati post-Ananke, identificati nella Zona Grigia del 7° arrondissement di Lione. Disorientati, senza risorse, Tessiture in modalità errore. Probabilità Kassandra nel settore: 12.3% (bassa). Da estrarre verso la Zona Rossa dei Carpazi tramite la Rotta Mediterranea. Veicolo necessario. Conoscenza della rete delle Lande tra Lione e il Rodano indispensabile.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Extraction</span>
+              <span class="cc-tag">Lyon</span>
+              <span class="cc-payout">350 CE <span>+ logistica fornita</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+          <div class="contract-card" data-cat="espionnage" data-risk="low" data-sponsor="tessitori" onclick="openContract('r001')" style="cursor:pointer">
+            <div class="cc-header">
+              <div class="cc-title">#ER-R-001 — Recupero materiale — ala dismessa, FiberCore, Prato</div>
+              <span class="cc-risk low">BASSO</span>
+            </div>
+            <div class="cc-body">L’ala sud di FiberCore è abbandonata da Ananke. All’interno: componenti Tessitura, filtri CTR grezzi, utensili di precisione — una scorta che I Tessitori vogliono recuperare prima che CT Corp reinventari il sito. Sorveglianza minima: un passaggio di drone ogni 4 ore, nessuna pattuglia a terra. Profilo richiesto: corriere discreto, buona condizione fisica. Conoscenza di Prato un plus.</div>
+            <div class="cc-meta">
+              <span class="cc-tag">Recupero</span>
+              <span class="cc-tag">Prato</span>
+              <span class="cc-tag safe">Primo contratto accettato</span>
+              <span class="cc-payout">150 CE <span>+ accesso prioritario al catalogo</span></span>
+            </div>
+            <button class="apply-contract" onclick="event.stopPropagation()">// CANDIDARSI</button>
+          </div>
+
+
+        </div>
+
+        <div class="market-disclaimer" style="margin-top:16px">
+          // Eco Rosso paga solo a missione compiuta e verificata. Ogni candidato arrestato non conosce alcun nome, alcun indirizzo, alcuna struttura della rete — è così che la rete è costruita. Sai sempre meno di quanto credi. È la tua protezione.
+        </div>
+        </div><!-- /contracts-catalog -->
+
+        <div id="contract-detail" class="contract-detail">
+          <div class="m-back" onclick="closeContractDetail()">Torna alle missioni</div>
+          <div id="cd-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>ECO ROSSO // NODO ECO-7 // SESSIONE CIFRATA</span>
+    <div style="display:flex;gap:20px">
+      <a>Protocollo di disconnessione d’emergenza</a>
+      <a>Contatta un coordinatore</a>
+      <a style="color:var(--red-dim)">Brucia questo nodo</a>
+    </div>
+  </footer>
+
+</div>
+
+<div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">[ CHIUDI ]</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── PORTAIL — IDENTIFICATION PAR NOM DE CODE ─────
+const params = new URLSearchParams(window.location.search);
+const agentName = params.get('agent') || sessionStorage.getItem('er_codename') || localStorage.getItem('er_codename') || 'AGENT_INCONNU';
+
+// ── PARTAGE DE L'IDENTITÉ VERS LES AUTRES ONGLETS (mini-jeu Escape, etc.) ──
+if (agentName && agentName !== 'AGENT_INCONNU') {
+  try { localStorage.setItem('er_codename', agentName); } catch (e) {}
+  try { sessionStorage.setItem('er_codename', agentName); } catch (e) {}
+}
+// Ceinture + bretelles : on passe aussi le nom de code en paramètre du lien du mini-jeu
+(function () {
+  var escapeLink = document.getElementById('nav-escape');
+  if (escapeLink) escapeLink.href = '../mini-jeu-escape.html?agent=' + encodeURIComponent(agentName);
+})();
+
+const connLines = [
+  { t: 'Connessione alla rete Tor...', cls: '', d: 200 },
+  { t: '> Nodo 1: Frankfurt-7 // OK', cls: 'ok', d: 500 },
+  { t: '> Nodo 2: Praga-Eco // OK', cls: 'ok', d: 800 },
+  { t: '> Nodo 3: Sofia-Le-Nid // cifratura AES-512... OK', cls: 'ok', d: 1200 },
+  { t: '> Nodo 4: Lyon-Confluence-7 // ECO ROSSO // OK', cls: 'ok', d: 1600 },
+  { t: 'Verifica del certificato di anonimato...', cls: '', d: 2000 },
+  { t: '⚠ Sorveglianza Kassandra rilevata — BLOCCATA', cls: 'warn', d: 2400 },
+  { t: 'Impronta temporale neutralizzata.', cls: 'ok', d: 2900 },
+  { t: '> Verifica identità agente: ' + agentName + '... OK', cls: 'ok', d: 3300 },
+  { t: 'Connessione sicura stabilita. Benvenuto.', cls: 'ok', d: 3700 },
+];
+
+const container = document.getElementById('conn-lines');
+const bar = document.getElementById('progress');
+const ppSection = document.getElementById('pp-section');
+
+// Set agent name display
+document.getElementById('agent-display').textContent = agentName;
+
+connLines.forEach((line, i) => {
+  setTimeout(() => {
+    if (line.t) {
+      const el = document.createElement('div');
+      el.className = 'conn-line' + (line.cls ? ' ' + line.cls : '');
+      el.textContent = line.t;
+      el.style.animationDelay = '0s';
+      container.appendChild(el);
+    }
+    bar.style.width = ((i + 1) / connLines.length * 100) + '%';
+    if (i === connLines.length - 1) {
+      setTimeout(() => ppSection.classList.add('visible'), 300);
+    }
+  }, line.d);
+});
+
+function enterSite() {
+  const portal = document.getElementById('portal');
+  portal.style.opacity = '0';
+  portal.style.transition = 'opacity 1s ease';
+  setTimeout(() => {
+    portal.style.display = 'none';
+    document.getElementById('site').classList.add('active');
+    // Update nav ID with agent name
+    document.querySelector('.nav-id').textContent = 'AGENT: ' + agentName;
+    startClock();
+  }, 1000);
+}
+
+// Auto-enter after sequence if came from index
+if (params.get('agent')) {
+  setTimeout(() => enterSite(), 4200);
+}
+
+// ── HORLOGE ──────────────────────────────────────
+function startClock() {
+  const termAgent = document.getElementById('term-agent');
+  if (termAgent) termAgent.textContent = agentName;
+  setInterval(() => {
+    const now = new Date();
+    const t = now.toUTCString().split(' ')[4] + ' UTC';
+    document.getElementById('sb-time').textContent = t;
+  }, 1000);
+}
+
+// ── NAVIGATION ───────────────────────────────────
+function showSection(name) {
+  if (document.getElementById('market-detail')) closeItemDetail();
+  if (document.getElementById('market-info-page')) closeInfoPage();
+  if (document.getElementById('contract-detail')) closeContractDetail();
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  const nav = document.getElementById('nav-' + name);
+  if (nav) nav.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── PROPAGANDE VIEWS ─────────────────────────────
+function showProp(cat, btn) {
+  document.querySelectorAll('.content-sidebar .sb-link').forEach(l => l.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('prop-view-index').style.display = 'block';
+  document.getElementById('prop-view-manifeste').classList.remove('active');
+}
+
+function openManifeste() {
+  document.getElementById('prop-view-index').style.display = 'none';
+  document.getElementById('prop-view-manifeste').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeManifeste() {
+  document.getElementById('prop-view-index').style.display = 'block';
+  document.getElementById('prop-view-manifeste').classList.remove('active');
+}
+
+// ── MARCHÉ FILTRES ───────────────────────────────
+function filterMarket(cat, btn) {
+  document.querySelectorAll('.mcat-btn, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.listing').forEach(el => {
+    if (cat === 'all' || el.dataset.cat === cat) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── CONTRATS FILTRES ─────────────────────────────
+function filterContracts(cat, btn) {
+  document.querySelectorAll('.ct-tab, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.contract-card').forEach(el => {
+    if (cat === 'all' || el.dataset.cat === cat) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── MODAUX ───────────────────────────────────────
+const modals = {
+  kremlin: `
+    <div class="prop-stamp" style="margin-bottom:16px">CLASSIFICAZIONE: TOP SECRET // ORCON / NOFORN<br>SETTORE RUSSIA/EUR, DIRETTORATO DELLE OPERAZIONI // 27.10.2024</div>
+    <div class="m-h1">KREMLIN SUNSET<br><span style="font-size:16px;color:var(--text-dim)">Memorandum di Analisi Operativa</span></div>
+    <div class="m-h2">1. Contesto e Obiettivi</div>
+    <div class="m-p">L’operazione, designata dai nostri partner russi con il nome in codice "Чистка" (L’Epurazione), si è svolta come previsto nella notte tra il 23 e il 24 ottobre 2024 al Teatro d’Inverno di Sotchi.</div>
+    <div class="m-p"><strong>Obiettivo primario:</strong> Neutralizzazione del Consorzio Energetico del Mar Nero. <strong>Obiettivo secondario:</strong> Eliminazione della fazione militare dissidente GRU/Marina. <strong>Obiettivo superiore:</strong> Creare un casus belli che giustifichi la creazione di un’entità di sicurezza transnazionale con monopolio temporale — la futura CT Corp.</div>
+    <div class="m-h2">2. Il nostro ruolo (Op. SILENT SKY)</div>
+    <div class="m-p">Supporto passivo. Una finestra di blackout SIGINT di 15 minuti in un raggio di 5 km. Zero comunicazioni. Zero tracce. Piena negabilità plausibile.</div>
+    <div class="m-h2">3. Conclusion</div>
+    <div class="m-quote">« KREMLIN SUNSET è una svolta. Segna la fine dell’era delle lotte post-sovietiche e l’inizio di una governance giustificata da una minaccia tecnologica fabbricata. Il partner di oggi è il rivale di domani — e ci hanno appena mostrato di non avere assolutamente alcun limite. »</div>`,
+
+  codex: `
+    <div class="prop-stamp" style="margin-bottom:16px">MAXIME "M@X_VRV" VERVILLE // DIARIO CIFRATO // SERVER MORTO<br>"Se stai leggendo questo, probabilmente sono morto."</div>
+    <div class="m-h1">Il Codex Chronos</div>
+    <div class="m-h2">Voce: 23 ottobre 2024 — Sotchi</div>
+    <div class="m-p">Sono a Sotchi. L’aria è elettrica. Il gala di Putin. Gli ultimi grandi oligarchi indipendenti sorridono alle telecamere. Le loro guardie del corpo sono nervose.</div>
+    <div class="m-p"><em>Aggiornamento, 23:10:</em> È successo. Non una bomba. Non degli assassini. Qualcos’altro. Le comunicazioni sono interrotte. "Incidente." È l’evento di Sotchi.</div>
+    <div class="m-h2">Voce: 25 ottobre 2024 — In viaggio, confine georgiano</div>
+    <div class="m-p">Le prime immagini sono trapelate. Corpi. Centinaia. Non feriti. Vecchi. Avvizziti. Mummificati nei loro smoking. Un’arma cronofaga di zona. Accusano Vesna. È l’assassinio di Francesco Ferdinando del nostro secolo.</div>
+    <div class="m-h2">Voce: 20 aprile 2025 — Rifugio, Sofia</div>
+    <div class="m-p">Ho pranzato con un fisico fuggito dal Progetto ORPHEUS. Un uomo terrorizzato di nome Vaedran Ilarion. Mi ha confermato che la tecnologia è già stata testata come arma (OZYMANDIAS). Mi ha dato un documento CIA. Lo chiamano KREMLIN SUNSET. La prova che Sotchi è stata un’operazione russo-americana. Il mondo deve saperlo.</div>`,
+
+  pacte: `
+    <div class="m-h1">Il Patto Cronos<br><span style="font-size:16px;color:var(--text-dim)">Ciò che non ti diranno mai</span></div>
+    <div class="m-h2">I firmatari</div>
+    <div class="m-p">USA + Russia + 15 corporazioni. Budget iniziale: 500 trilioni di dollari. Obiettivo segreto: "Ordine Mondiale tramite il Controllo Temporale." Accordo principale: condivisione di tecnologia in cambio del monopolio. <strong>Clausola nascosta: Protocollo FENICE — distruzione mutua assicurata.</strong></div>
+    <div class="m-h2">Cosa significa</div>
+    <div class="m-p">Il tempo stesso è stato privatizzato. Non una risorsa. Non una tecnologia. Il tempo. Ciò che ogni essere umano ha posseduto in egual misura dall’alba dei tempi — sei ore per loro, sei ore per te, sei ore per chiunque.</div>
+    <div class="m-p">Dal 2027, non è più vero. Il tuo tempo ti appartiene ancora. Il diritto di venderlo o comprimerlo appartiene a CT Corp.</div>
+    <div class="m-quote">« Hanno provocato la malattia, venduto la cura, e ora possiedono il paziente. E il paziente siamo tutti noi. »<br>— M@X_VRV, Codex Chronos, 10.03.2026</div>`,
+
+  perpetuity: `
+    <div class="prop-stamp" style="margin-bottom:16px">FONTE: LENA REINHOLT, DISERTRICE CT CORP // 2031<br>DOCUMENTO INTERNO — PROGETTO PERPETUITY — CLASSIFICAZIONE DELTA</div>
+    <div class="m-h1">Progetto PERPETUITY<br><span style="font-size:16px;color:var(--text-dim)">Le 3 fasi del dominio</span></div>
+    <div class="m-h2">Fase 1 — Mercificazione del lavoro ✓ COMPLETATA</div>
+    <div class="m-p">Lavoro umano venduto a tempo soggettivo. 2 miliardi di Tessiture dispiegate. Sfruttamento invisibile, acconsentito sotto coercizione economica. Risultato: CT Corp controlla il lavoro dell’umanità.</div>
+    <div class="m-h2">Fase 2 — Mercificazione dell’esistenza ← IN CORSO (2033–2043)</div>
+    <div class="m-p">Sonno, cibo, svago, salute. Il Programma Nyx (sonno), CT-Nutri (cibo), Paradiso Temporale (svago). Ogni momento dell’esistenza diventa una transazione CTC. Risultato: CT Corp controlla la vita umana.</div>
+    <div class="m-h2">Fase 3 — Mercificazione della coscienza ← PROGETTO PROMETEO</div>
+    <div class="m-p"><strong style="color:var(--red)">TOP SECRET. Solo Direttorio.</strong> Alterazione permanente della percezione temporale umana tramite protocolli di impianto precoce. Siti di test: orfanotrofi in Bielorussia, campi nello Xinjiang. 10 000 bambini. Risultato voluto: CT Corp controlla la mente umana.</div>`,
+
+  prométhée: `
+    <div class="prop-stamp" style="margin-bottom:16px">CLASSIFICAZIONE: ESTREMA — SOLO DIRETTORIO<br>FONTE: AGENTE ER NON IDENTIFICABILE // 2033</div>
+    <div class="m-h1" style="color:var(--red)">Progetto PROMETEO<br><span style="font-size:16px">Questo documento non dovrebbe esistere.</span></div>
+    <div class="m-p" style="color:var(--text)">Siti di test: orfanotrofi in Bielorussia. Campi di rieducazione nello Xinjiang. 10 000 bambini in Fase 1. Consenso dei genitori: inesistente o contraffatto.</div>
+    <div class="m-p"><strong>Risultati preliminari:</strong> Percezione temporale alterata in modo permanente. Riflessi del 300% superiori al normale. Aspettativa di vita post-protocollo: 25 anni massimo.</div>
+    <div class="m-p">Questi bambini non invecchiano normalmente. Il loro cervello elabora il tempo in modo diverso. Percepiscono 3 secondi dove noi ne percepiamo uno. Utili come operatori nei GFT di precisione. Inutili come esseri umani dopo i 25 anni.</div>
+    <div class="m-quote" style="border-color:var(--red);color:var(--text)">Abbiamo i nomi dei responsabili. Abbiamo le coordinate GPS dei siti. Eco Rosso aspetta il momento giusto. Quel momento arriverà.</div>`,
+
+  ctnet: `
+    <div class="prop-stamp" style="margin-bottom:16px">INTERCETTAZIONE MOURAD // 29.12.2034 // CLASSIFICAZIONE DELTA<br>DESTINATARIO: SOLO DIRETTORIO</div>
+    <div class="m-h1">CT-NET 2.0<br><span style="font-size:16px;color:var(--text-dim)">« Un sussurro, non un martello »</span></div>
+    <div class="m-h2">Meccanismo</div>
+    <div class="m-p">Le Tessiture in modalità errore post-Ananke eseguono un reset automatico entro 48-72h. Alla riconnessione, CT-NET 2.0 sostituisce DEUSFALL con un sistema di influenza graduata.</div>
+    <div class="m-h2">Le 3 fasi</div>
+    <div class="m-p"><strong>Fase 1 (G+3 a G+7):</strong> Riconnessione passiva. Il ronzio familiare riprende. Sollievo. Normalizzazione.<br><strong>Fase 2 (G+7 a G+14):</strong> Micro-aggiustamenti cognitivi. Bias d’attenzione, bias di fiducia, bias di conformità. Non ordini — suggerimenti.<br><strong>Fase 3 (G+14 a G+30):</strong> Integrazione. Il "normale" è stato ridefinito. Soglie di ribellione più alte. Pensiero critico più lento. Consenso più facile.</div>
+    <div class="m-quote">« Non una lobotomia — un termostato. Il termostato dell’obbedienza, regolato tre gradi più in alto. I portatori non sapranno mai che il loro libero arbitrio è stato ricalibrato. »<br>— Documento interno CT Corp, 29.12.2034</div>
+    <div class="m-p"><strong style="color:var(--red)">Abbiamo 72 ore.</strong> La patch di disattivazione Tessitura v3.x è disponibile al Mercato. Distribuzione di priorità assoluta.</div>`,
+};
+
+function openModal(key) {
+  document.getElementById('modal-content').innerHTML = modals[key] || '<p>Documento non disponibile.</p>';
+  document.getElementById('modal-overlay').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+
+
+
+// ── CONTRATS — FILTRE PAR RISQUE / COMMANDITAIRE ──────────
+function filterContractsBy(dim, val, btn) {
+  document.querySelectorAll('.ct-tab, .content-sidebar .sb-link').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.contract-card').forEach(el => {
+    if (el.dataset[dim] === val) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+// ── CONTRATS — BANDEAUX SVG ───────────────────────────────
+function ctBanner(kind) {
+  const base = (inner) => `<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bgv-${kind}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#031208"/><stop offset="1" stop-color="#010402"/>
+      </linearGradient>
+      <pattern id="scan-${kind}" width="3" height="3" patternUnits="userSpaceOnUse">
+        <rect width="3" height="1.2" fill="#00ff41" opacity="0.035"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="300" fill="url(#bgv-${kind})"/>
+    ${inner}
+    <rect width="800" height="300" fill="url(#scan-${kind})"/>
+    <rect x="2" y="2" width="796" height="296" fill="none" stroke="#0a5028" stroke-width="1" opacity="0.5"/>
+  </svg>`;
+
+  const G='#00ff41', GD='#1f7a3f', R='#ff2020', A='#ffb000', W='#cfeede';
+
+  if (kind==='h001') return base(`
+    <g opacity="0.85" font-family="monospace">
+      ${[...Array(11)].map((_,i)=>`<text x="${40+i*70}" y="${60+(i%4)*55}" fill="${G}" font-size="11" opacity="${0.2+0.07*(i%5)}">${['1010','0x4F','SIGMA','1101','NULL','0xA3','READ','0011'][i%8]}</text>`).join('')}
+      <rect x="300" y="110" width="200" height="80" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="400" y="145" fill="${G}" font-size="18" text-anchor="middle" font-family="monospace" letter-spacing="3">CT-NET 2.0</text>
+      <text x="400" y="170" fill="${A}" font-size="11" text-anchor="middle" font-family="monospace">DISPIEGAMENTO // MAPPATURA</text>
+      <line x1="200" y1="150" x2="300" y2="150" stroke="${G}" stroke-width="1" stroke-dasharray="4 4"/>
+      <line x1="500" y1="150" x2="600" y2="150" stroke="${R}" stroke-width="1" stroke-dasharray="4 4"/>
+      <circle cx="600" cy="150" r="6" fill="${R}"/><circle cx="200" cy="150" r="6" fill="${G}"/>
+    </g>`);
+
+  if (kind==='h002') return base(`
+    <g font-family="monospace">
+      <text x="400" y="90" fill="${R}" font-size="40" text-anchor="middle" letter-spacing="8" opacity="0.9">SILENCE</text>
+      <text x="250" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">BUDAPEST</text>
+      <text x="550" y="160" fill="${W}" font-size="22" text-anchor="middle" letter-spacing="2">VARSOVIE</text>
+      <text x="250" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <text x="550" y="185" fill="${R}" font-size="12" text-anchor="middle">[ NO SIGNAL ]</text>
+      <line x1="180" y1="220" x2="620" y2="220" stroke="${R}" stroke-width="1" opacity="0.4"/>
+      <text x="400" y="245" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">KASSANDRA // ESFILTRAZIONE RICHIESTA</text>
+    </g>`);
+
+  if (kind==='h003') return base(`
+    <g font-family="monospace">
+      ${[...Array(8)].map((_,i)=>`<rect x="${60+i*90}" y="80" width="70" height="140" fill="none" stroke="${GD}" stroke-width="1" opacity="0.4"/>`).join('')}
+      <rect x="330" y="80" width="140" height="140" fill="${R}" opacity="0.12"/>
+      <rect x="330" y="80" width="140" height="140" fill="none" stroke="${R}" stroke-width="1.5"/>
+      <text x="400" y="140" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">SIGNAL</text>
+      <text x="400" y="160" fill="${R}" font-size="14" text-anchor="middle" letter-spacing="2">PARASITE</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CHRONOVISION // 02:00 - 04:00</text>
+    </g>`);
+
+  if (kind==='s001') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="150" r="70" fill="none" stroke="${R}" stroke-width="2" opacity="0.7"/>
+      <circle cx="400" cy="150" r="100" fill="none" stroke="${R}" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
+      <circle cx="400" cy="150" r="45" fill="${R}" opacity="0.1"/>
+      <text x="400" y="145" fill="${R}" font-size="20" text-anchor="middle" letter-spacing="3">GFT</text>
+      <text x="400" y="168" fill="${W}" font-size="12" text-anchor="middle">COMPLEXE N°6</text>
+      <text x="120" y="270" fill="${A}" font-size="11" letter-spacing="2">GDAŃSK // 2400 COMPRESSI</text>
+      <text x="680" y="270" fill="${R}" font-size="11" text-anchor="end" letter-spacing="2">CTR-7 RICHIESTA</text>
+    </g>`);
+
+  if (kind==='s002') return base(`
+    <g font-family="monospace">
+      <circle cx="400" cy="140" r="10" fill="${R}"/>
+      ${[...Array(11)].map((_,i)=>{const a=i*(360/11)*Math.PI/180;const x=400+Math.cos(a)*120;const y=140+Math.sin(a)*90;return `<circle cx="${x}" cy="${y}" r="5" fill="${i===0?A:GD}"/><line x1="400" y1="140" x2="${x}" y2="${y}" stroke="${GD}" stroke-width="0.8" opacity="0.5"/>`;}).join('')}
+      <text x="400" y="270" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">NODO BRUXELLES // 28% DELLE TESSITURE</text>
+      <text x="400" y="110" fill="${R}" font-size="10" text-anchor="middle">BERSAGLIO</text>
+    </g>`);
+
+  if (kind==='e001') return base(`
+    <g font-family="monospace">
+      <path d="M150 200 Q250 120 400 160 T650 140" fill="none" stroke="${GD}" stroke-width="1.5" opacity="0.6"/>
+      ${[[200,180],[330,150],[470,165],[600,140]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${A}" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="2" fill="${A}"/>`).join('')}
+      <text x="400" y="100" fill="${W}" font-size="20" text-anchor="middle" letter-spacing="3">WEAVEPORT</text>
+      <text x="400" y="255" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">CASABLANCA // STATO SCONOSCIUTO</text>
+    </g>`);
+
+  if (kind==='x001') return base(`
+    <g font-family="monospace">
+      <circle cx="180" cy="150" r="30" fill="none" stroke="${R}" stroke-width="1.5" opacity="0.7"/>
+      <text x="180" y="155" fill="${R}" font-size="10" text-anchor="middle">LYON 7e</text>
+      <circle cx="620" cy="150" r="30" fill="none" stroke="${G}" stroke-width="1.5"/>
+      <text x="620" y="148" fill="${G}" font-size="9" text-anchor="middle">ZONA</text>
+      <text x="620" y="160" fill="${G}" font-size="9" text-anchor="middle">ROSSA</text>
+      <line x1="215" y1="150" x2="585" y2="150" stroke="${G}" stroke-width="1.5" stroke-dasharray="8 6"/>
+      <polygon points="585,144 600,150 585,156" fill="${G}"/>
+      ${[1,2,3].map(i=>`<circle cx="${360+i*25}" cy="120" r="6" fill="${W}" opacity="0.7"/>`).join('')}
+      <text x="400" y="250" fill="${A}" font-size="11" text-anchor="middle" letter-spacing="2">ESTRAZIONE // 3 LIBERATI // KASSANDRA 12.3%</text>
+    </g>`);
+
+  if (kind==='r001') return base(`
+    <g font-family="monospace">
+      ${[...Array(5)].map((_,i)=>`<rect x="${180+i*90}" y="120" width="60" height="60" fill="none" stroke="${GD}" stroke-width="1.2" opacity="0.6"/><rect x="${190+i*90}" y="130" width="40" height="8" fill="${G}" opacity="0.25"/>`).join('')}
+      <text x="400" y="95" fill="${W}" font-size="18" text-anchor="middle" letter-spacing="3">FIBERCORE — ALA SUD</text>
+      <text x="400" y="230" fill="${G}" font-size="11" text-anchor="middle" letter-spacing="2">PRATO // SORVEGLIANZA MINIMA</text>
+      <text x="400" y="252" fill="${A}" font-size="10" text-anchor="middle">PRIMO CONTRATTO ACCETTATO</text>
+    </g>`);
+
+  return base('');
+}
+
+// ── CONTRATS — FICHES DÉTAILLÉES ──────────────────────────
+const contractData = {
+  'h001': {
+    ref:'#ER-H-001', risk:'CRITICAL', riskClass:'critical',
+    title:'Intercettazione CT-NET 2.0 — mappatura del dispiegamento firmware',
+    sponsor:'Eco Rosso (interno)', type:'Hacking & Intrusione',
+    payout:'800 EC + shared data',
+    brief:`CT-NET 2.0 è l’aggiornamento che trasforma la Tessitura da spia passiva a organo di controllo attivo. Una volta dispiegato, chiude la finestra a ogni resistenza firmware. Questa missione consiste nel <strong>mappare in tempo reale le ondate di dispiegamento</strong> — quali cellule, quali tempi, quali priorità del Direttorio — affinché la rete possa collocare la sua contro-patch nella finestra di 72 h che precede ogni reset.`,
+    objectives:['Stabilire un accesso in sola lettura al Canale Sigma tramite l’exploit Lena Reinholt (disponibile al Mercato).','Identificare l’ordine di dispiegamento per zona geografica e per cellula.','Registrare i tempi esatti tra annuncio e reset effettivo del firmware.','Trasmettere la mappatura alla coordinazione prima di ogni finestra di 72 h.'],
+    requirements:[['Accesso','Canale Sigma, livello lettura'],['Materiale','Exploit v4.0 Lena Reinholt (Mercato)'],['Durata','6 h di intercettazione continua'],['Profilo','Hacker confermato, sangue freddo sotto correlazione Kassandra']],
+    risks:['Intercettazione prolungata: oltre le 6 ore continue, la correlazione di latenza rende l’operatore rilevabile da Kassandra.','L’exploit non protegge: durante la lettura, il Canale Sigma continua a trasmettere i dati dell’operatore. Una seconda Tessitura con patch è obbligatoria.','La firma dell’exploit è nota ad Aegis-CD da gennaio. Una correzione CT Corp può neutralizzare l’accesso in qualsiasi momento, missione in corso compresa.'],
+    dry:'Stai leggendo sopra la spalla di Kassandra. Il giorno in cui gira la testa, hai sei secondi per non essere più lì.'
+  },
+  'h002': {
+    ref:'#ER-H-002', risk:'HIGH', riskClass:'high',
+    title:'Esfiltrazione database Kassandra — cellule Budapest / Varsavia',
+    sponsor:'Eco Rosso (interno)', type:'Hacking & Intrusione',
+    payout:'500 EC',
+    brief:`Budapest e Varsavia non rispondono più. Diciotto giorni di silenzio. Tre ipotesi: una compromissione di Aegis-CD, un raid fisico, o un’interruzione delle comunicazioni. Finché non sappiamo, <strong>ogni nome noto a queste cellule è una bomba a orologeria</strong> — se sono cadute, i loro contatti saranno usati come esca. Questa missione deve accedere al modulo regionale di predizione Kassandra per queste due zone e stabilire la verità prima che la rete sanguini.`,
+    objectives:['Accedere al modulo di predizione Kassandra per i settori di Budapest e Varsavia.','Determinare la causa del silenzio: raid, compromissione, o guasto.','Identificare i nomi compromessi prima che vengano usati come esca.','Stabilire se ci sono membri da estrarre — o da avvertire.'],
+    requirements:[['Accesso','Modulo predittivo Kassandra regionale'],['Profilo','Hacker + analista d’intelligence'],['Copertura','Nessun contatto fisico con le cellule bersaglio'],['Urgenza','Massima — ogni giorno aggrava l’esposizione']],
+    risks:['Se le cellule sono compromesse, la loro infrastruttura digitale è probabilmente una trappola tesa da Aegis-CD. Ogni connessione può essere tracciata a ritroso.','Accedere a Kassandra, anche in lettura, su una zona sotto sorveglianza attiva, comporta un alto rischio di contro-rilevamento.','La verità può essere peggiore del silenzio: confermare una compromissione impone decisioni che nessuno vuole prendere.'],
+    dry:'Cerchiamo fantasmi. Il pericolo è che forse anche loro cercano noi.'
+  },
+  'h003': {
+    ref:'#ER-H-003', risk:'MODERATE', riskClass:'med',
+    title:'Iniezione segnale parassita in ChronoVision — cellula Praga',
+    sponsor:'Eco Rosso (interno)', type:'Hacking & Intrusione',
+    payout:'200 EC',
+    brief:`ChronoVision è il flusso che i compressi guardano durante le loro rare ore di riposo non compresso — il rubinetto di immagini dolci che CT Corp apre per anestetizzare. Questa missione consiste nell’<strong>iniettare da 4 a 7 secondi di segnale non-CT Corp</strong> in quel flusso, su una zona grigia bersaglio. Il contenuto è fornito dalla cellula di Praga. L’obiettivo non è tecnico: è incrinare, per lo spazio di una manciata di secondi, l’illusione che CT Corp controlli tutto ciò che vedi.`,
+    objectives:['Accedere al relè ChronoVision della zona bersaglio, fisicamente o logicamente.','Iniettare il contenuto fornito (da 4 a 7 secondi) durante la trasmissione notturna.','Privilegiare l’impatto psicologico: essere visti conta più che durare.','Ritirarsi senza lasciare una traccia sfruttabile sul relè.'],
+    requirements:[['Finestra','Trasmissione notturna 02:00 - 04:00'],['Contenuto','Fornito dalla cellula di Praga — non modificabile'],['Profilo','Hacker, accesso al relè media'],['Discrezione','Ritiro pulito imperativo']],
+    risks:['Il relè media è meno sorvegliato di un nodo Tessitura, ma un’iniezione lascia una finestra temporale sfruttabile: agire in fretta, andarsene in fretta.','Il contenuto trasmesso può scatenare una reazione sproporzionata di Aegis-CD nella zona — avvertire la cellula locale prima della trasmissione.','Un’iniezione fallita o troppo lunga brucia il relè per le operazioni future.'],
+    dry:'Quattro secondi di verità in un oceano di menzogne. Non è molto. È tutto ciò che serve perché qualcuno dubiti.'
+  },
+  's001': {
+    ref:'#ER-S-001', risk:'CRITICAL', riskClass:'critical',
+    title:'Disattivazione GFT — Complesso n°6, Gdańsk, ala ovest',
+    sponsor:'Eco Rosso (interno)', type:'Sabotaggio & GFT',
+    payout:'1,500 EC + guaranteed extraction',
+    brief:`Il Complesso n°6 di Gdańsk funziona ancora. Ananke ha liberato il mondo, ma non l’ala ovest: <strong>2 400 persone sono ancora in bolla</strong>, invecchiando a ×100 mentre fuori la rivoluzione è già avvenuta. Liberarle richiede di disattivare i loro GFT — ma un arresto brusco uccide per decompressione. La procedura di disattivazione progressiva esiste. Richiede un tecnico all’interno, in tuta CTR-7, per 40 minuti. Nel cuore della zona di radiazione temporale.`,
+    objectives:['Introdursi nell’ala ovest del Complesso n°6 in tuta CTR-7.','Applicare la procedura di disattivazione progressiva dei GFT (fornita).','Mantenere la presenza per 40 minuti senza interrompere la sequenza.','Consentire la decompressione sicura dei 2 400 compressi.'],
+    requirements:[['Materiale','Tuta CTR-7 completa (Mercato) — vitale'],['Durata','40 min all’interno della zona attiva'],['Profilo','Tecnico / Orologiaio formato sui GFT'],['Supporto','Estrazione garantita dalla rete dopo la missione']],
+    risks:['Esposizione alla radiazione temporale: la CTR-7 protegge per 45 minuti al massimo. Il margine su una procedura di 40 minuti è nullo. Un ritardo uccide.','Un arresto brusco dei GFT — per errore, panico o guasto — provoca l’invecchiamento istantaneo dei 2 400 compressi. Non è in gioco solo la tua vita.','Il complesso potrebbe essere ancora sorvegliato. La procedura presuppone un accesso libero, che non è garantito.','Missione classificata come potenziale suicidio. La rete non mente su questo.'],
+    dry:'Quaranta minuti. Duemilaquattrocento vite. E una tuta che ne dura quarantacinque. Fai il conto prima di candidarti.'
+  },
+  's002': {
+    ref:'#ER-S-002', risk:'HIGH', riskClass:'high',
+    title:'Perturbazione infrastruttura CT-NET 2.0 — nodo relè Bruxelles',
+    sponsor:'Cartello delle Terre Libere', type:'Sabotaggio & GFT',
+    payout:'1,200 EC',
+    brief:`Il dispiegamento di CT-NET 2.0 transita per 12 nodi fisici. Quello di Bruxelles ne copre il 28% da solo. Un <strong>sovraccarico fisico mirato</strong> — che provochi da 4 a 6 ore di inattività — ritarderebbe in modo significativo il blocco delle Tessiture europee, aprendo una finestra per la contro-patch. Il committente è il Cartello delle Terre Libere. Il bersaglio è un edificio di Città-Vetrina: la difficoltà non è tecnica, è sociale.`,
+    objectives:['Penetrare il nodo relè sotto copertura di quadro Città-Vetrina.','Provocare un sovraccarico dei sistemi di raffreddamento del nodo.','Garantire da 4 a 6 h di inattività senza distruzione permanente (che allarmerebbe di più).','Evacuare la squadra prima del ripristino e dell’indagine.'],
+    requirements:[['Squadra','3 persone minimo'],['Profili','Elettronico, esperto di raffreddamento, copertura Città-Vetrina'],['Identità','Livello quadro CT Corp (Mercato) consigliata'],['Committente','Cartello delle Terre Libere']],
+    risks:['Una Città-Vetrina è sotto Kassandra di livello massimo. Una singola incoerenza comportamentale in un membro della squadra fa scattare un audit.','Il coordinamento a tre moltiplica i punti di rottura: la compromissione di un solo membro espone gli altri due.','Un sovraccarico mal calibrato può causare danni permanenti — quindi un’indagine approfondita, quindi una caccia all’uomo.'],
+    dry:'La parte più difficile non è bruciare il nodo. È portare il vestito abbastanza bene da farti avvicinare.'
+  },
+  'e001': {
+    ref:'#ER-E-001', risk:'HIGH', riskClass:'high',
+    title:'Infiltrazione WeavePort Casablanca — mappatura post-Ananke',
+    sponsor:'Cartello delle Terre Libere', type:'Spionaggio & Esfil',
+    payout:'700 EC',
+    brief:`Da Ananke, il complesso WeavePort di Casablanca è una zona di non-diritto: mafie algerine, milizie locali, agenti del Cartello si contendono le macerie. Da qualche parte in questo caos, tra <strong>2 000 e 5 000 compressi</strong> attendono una liberazione che nessuno organizza. Questa missione non ti chiede di agire — solo di capire: chi controlla cosa, dove sono i compressi, quali canali permetteranno un’evacuazione futura.`,
+    objectives:['Infiltrarsi sotto copertura di giornalista o agente logistico CT Corp locale.','Mappare il controllo reale del complesso: fazioni, territori, rapporti di forza.','Localizzare e stimare il numero di compressi ancora prigionieri.','Identificare i canali sicuri per un’evacuazione successiva.'],
+    requirements:[['Copertura','Giornalista o logista CT Corp locale'],['Profilo','Agente sul campo, osservazione, lingue'],['Zone','Casablanca — instabile, multi-fazione'],['Committente','Cartello delle Terre Libere']],
+    risks:['Nessuna fazione controlla il complesso: le alleanze cambiano da un giorno all’altro, una copertura valida al mattino può essere bruciata la sera.','Essere preso per un agente di una fazione rivale è pericoloso quanto essere smascherato come resistente.','La mappatura è un dato prezioso — quindi un bersaglio. La sua perdita o intercettazione compromette l’evacuazione futura di migliaia di persone.'],
+    dry:'Non ti chiediamo di salvarli. Ti chiediamo di tornare con la mappa che lo renderà possibile. È più pesante da portare di quanto sembri.'
+  },
+  'x001': {
+    ref:'#ER-X-001', risk:'MODERATE', riskClass:'med',
+    title:'Estrazione — 3 compressi liberati, Zona Grigia, Lione 7°',
+    sponsor:'Zona Rossa dei Carpazi', type:'Estrazione umana',
+    payout:'350 EC + logistics provided',
+    brief:`Tre compressi liberati da Ananke vagano nella Zona Grigia del 7° arrondissement di Lione. Disorientati, senza risorse, le loro Tessiture in modalità errore — vulnerabili. La probabilità di presenza Kassandra nel settore è bassa (12.3%), il che rende questa estrazione una missione abbordabile. <strong>Portarli vivi fino alla Zona Rossa dei Carpazi</strong>, tramite la Rotta Mediterranea, dove troveranno rifugio e cure di decompressione.`,
+    objectives:['Localizzare e avvicinare i tre liberati senza spaventarli (stato di disorientamento avanzato).','Stabilizzare le loro Tessiture in modalità errore o neutralizzarle se necessario (Orologiaio in supporto).','Organizzare il trasporto verso la Zona Rossa dei Carpazi tramite la Rotta Mediterranea.','Consegnare le tre persone vive alla cellula dei Carpazi.'],
+    requirements:[['Veicolo','Necessario — non fornito'],['Conoscenza','Rete delle Lande Lione ↔ Rodano indispensabile'],['Profilo','Estrazione, contatto umano, sangue freddo'],['Kassandra','12.3% nel settore — bassa']],
+    risks:['Le Tessiture in modalità errore possono emettere segnali erratici capaci di attirare l’attenzione nonostante la bassa probabilità Kassandra.','I liberati disorientati possono farsi prendere dal panico, fuggire o rifiutarsi di seguire — l’estrazione umana non è mai puramente logistica.','Il tragitto tramite la Rotta Mediterranea aggiunge i propri rischi (vedi scheda Consegna): 4% di perdita sulla strada.'],
+    dry:'Tre persone che hanno vissuto anni in pochi mesi. Non sanno ancora che giorno è. Sii gentile. Anche questo è il lavoro.'
+  },
+  'r001': {
+    ref:'#ER-R-001', risk:'LOW', riskClass:'low',
+    title:'Recupero materiale — ala dismessa, FiberCore, Prato',
+    sponsor:'I Tessitori (Prato)', type:'Recupero',
+    payout:'150 EC + priority catalog access',
+    brief:`L’ala sud del complesso FiberCore è abbandonata da Ananke. CT Corp non ha ancora reinventariato il sito — e finché l’inventario non è fatto, ciò che c’è non appartiene a nessuno. I Tessitori vogliono recuperare questa scorta prima della Corporazione: <strong>componenti Tessitura, filtri CTR grezzi, utensili di precisione</strong>. È il contratto ideale per mettersi alla prova con la rete — rischio reale ma gestibile, e la porta d’accesso a missioni di fiducia.`,
+    objectives:['Introdursi nell’ala sud dismessa di FiberCore tra due passaggi di drone.','Recuperare il materiale elencato da I Tessitori (manifesto fornito).','Instradare la scorta al punto di consegna tramite una cellula di contatto o la Rotta Mediterranea.','Non innescare nulla: il valore della missione è che resti invisibile.'],
+    requirements:[['Sorveglianza','1 passaggio di drone / 4 h, nessuna pattuglia a terra'],['Profilo','Corriere discreto, buona condizione fisica'],['Luogo','Prato — conoscenza locale gradita'],['Stato','Primo contratto accettato per i nuovi operatori']],
+    risks:['« Basso » non vuol dire « nullo »: il ciclo dei droni lascia una finestra, ma un ritardo all’interno la richiude.','Un reinventario CT Corp può avvenire in qualsiasi momento — se la Corporazione arriva durante il recupero, abbandona il materiale e ritirati.','Il materiale è pesante e ingombrante: la tentazione di sovraccaricare è la prima trappola dei principianti.'],
+    dry:'Il contratto più semplice del tabellone. È esattamente per questo che guardiamo come lo fai.'
+  }
+};
+
+function openContract(id) {
+  const c = contractData[id];
+  if (!c) return;
+  let h = '';
+  h += '<div class="cd-banner">' + ctBanner(id) + '</div>';
+  h += '<div class="ip-header"><div class="ip-category">ÉCHO-ROUGE / CONTRATS / ' + c.ref + '</div>';
+  h += '<div class="ip-title">' + c.title + '</div>';
+  h += '<div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">';
+  h += '<span class="cc-risk ' + c.riskClass + '">' + c.risk + '</span>';
+  h += '<span class="l-tag">' + c.type + '</span>';
+  h += '<span class="l-tag">Committente: ' + c.sponsor + '</span>';
+  h += '<span class="cc-payout" style="margin-left:auto">' + c.payout + '</span></div></div>';
+
+  h += '<div class="ip-section-title">// Briefing</div><div class="ip-p">' + c.brief + '</div>';
+
+  h += '<div class="ip-section-title">// Obiettivi</div>';
+  c.objectives.forEach((o,i)=>{ h += '<div class="ip-route-stop"><div class="rs-num">'+(i+1)+'</div><div class="rs-body"><div class="rs-text">'+o+'</div></div></div>'; });
+
+  h += '<div class="ip-section-title">// Condizioni operative</div><table class="ip-table">';
+  c.requirements.forEach(r=>{ h += '<tr><td class="td-label">'+r[0]+'</td><td>'+r[1]+'</td></tr>'; });
+  h += '</table>';
+
+  h += '<div class="md-warnings"><div class="w-title">⚠ Rischi — lettura obbligatoria prima di candidarsi</div>';
+  c.risks.forEach(r=>{ h += '<div class="w-item">'+r+'</div>'; });
+  h += '<div class="md-dry">'+c.dry+'</div></div>';
+
+  h += '<div class="md-footer"><button class="apply-contract" style="padding:10px 24px" onclick="event.stopPropagation()">// CANDIDARSI A QUESTA MISSIONE</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// verifica Passatore di Memoria richiesta — nessuna seconda possibilità</span></div>';
+
+  document.getElementById('cd-content').innerHTML = h;
+  document.getElementById('contracts-catalog').style.display = 'none';
+  document.getElementById('contract-detail').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function closeContractDetail() {
+  document.getElementById('contract-detail').classList.remove('active');
+  document.getElementById('contracts-catalog').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ── MARCHÉ — SOUS-PAGES PAIEMENT & LIVRAISON ────────────────
+const infoPages = {
+
+  'credits-echo': {
+    category: 'PAGAMENTO ACCETTATO',
+    title: 'Crediti Eco (CE)',
+    subtitle: '« Il denaro di chi non ha più denaro. »',
+    html: `
+      <div class="ip-section-title">// Cos’è un Credito Eco?</div>
+      <div class="ip-p">Il Credito Eco (CE) è la moneta interna della rete Eco Rosso. Non esiste su alcun server CT Corp, in alcun database, su alcuna Tessitura registrata. È una <strong>moneta di fiducia distribuita</strong> — emessa, verificata e garantita dai nodi della rete stessa, senza autorità centrale.</div>
+      <div class="ip-p">Non circola su terminali connessi a CT-NET. Non lascia traccia nei registri di Kassandra. Per CT Corp, <em>non esiste</em>.</div>
+
+      <div class="ip-section-title">// Come ottenerli?</div>
+      <table class="ip-table">
+        <tr><th>Fonte</th><th>Dettaglio</th></tr>
+        <tr><td class="td-label">Missioni ER</td><td>Compenso standard per ogni contratto compiuto e verificato da un coordinatore. Tariffe indicate su ogni scheda contratto.</td></tr>
+        <tr><td class="td-label">Fornitura alla rete</td><td>Ospitare resistenti, prestare materiale, trasporto, cure mediche. Tariffe negoziate con la cellula locale.</td></tr>
+        <tr><td class="td-label">Conversione baratto</td><td>Tasso variabile a seconda della cellula. Un Orologiaio, un medico, un tecnico vale più delle razioni CT-Nutri.</td></tr>
+        <tr><td class="td-label">Dati CT Corp</td><td>Vedi sezione dedicata. Tasso calcolato in base alla classificazione e alla sfruttabilità immediata.</td></tr>
+      </table>
+
+      <div class="ip-section-title">// Come funziona concretamente?</div>
+      <div class="ip-p">I CE non sono conservati su un unico supporto fisico. Esistono sotto forma di <strong>token crittografici frammentati</strong> tra più nodi del mesh dei Guardiani del Segnale. Una transazione richiede la validazione di tre nodi indipendenti. Nessun nodo centrale. Nessun punto di rottura unico.</div>
+      <div class="ip-p">Per le transazioni senza terminale mesh, le cellule locali usano un sistema di <strong>gettoni di fiducia</strong> — marcatori fisici unici, distrutti dopo la verifica. Arcaico. Inviolabile.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Regole assolute</div>
+        <div class="ip-rule">I CE non sono mai convertibili in CTC — in nessuna direzione, a nessun tasso. Chiunque proponga questa conversione lavora per Aegis-CD.</div>
+        <div class="ip-rule">Un saldo CE non è trasferibile a un’identità CT Corp. Non sarà mai dichiarato, dichiarabile, né tracciato.</div>
+        <div class="ip-rule">In caso di compromissione di un terminale mesh, i saldi collegati vengono congelati e riassegnati dopo la verifica di tre coordinatori ER.</div>
+        <div class="ip-dry">Il CTC compra tempo. Il CE compra libertà. Nessuno dei due vale nulla per l’altro.</div>
+      </div>
+    `
+  },
+
+  'troc-temporel': {
+    category: 'PAGAMENTO ACCETTATO',
+    title: 'Baratto temporale',
+    subtitle: '« L’unica moneta che CT Corp non può svalutare. »',
+    html: `
+      <div class="ip-section-title">// Il principio</div>
+      <div class="ip-p">Nelle Zone Grigie, prima che Eco Rosso esistesse, prima che i CE circolassero — i compressi già si scambiavano. <em>« Faccio il tuo turno se badi ai miei figli. »</em> <em>« Ti do due ore di riposo in cambio della tua razione. »</em> Nessuna traccia digitale. Nessun contratto. La parola data come infrastruttura.</div>
+      <div class="ip-p">Il mercato di Eco Rosso accetta questo sistema per le transazioni locali, gli ordini di basso importo, e ogni situazione in cui il circuito CE è inaccessibile. <strong>Il baratto è sovrano.</strong> Kassandra non può tassarlo senza distruggere la stessa produttività da cui CT Corp dipende.</div>
+
+      <div class="ip-section-title">// Cosa accettiamo</div>
+      <table class="ip-table">
+        <tr><th>Tipo di baratto</th><th>Valore indicativo</th><th>Condizioni</th></tr>
+        <tr><td class="td-label">Competenze tecniche</td><td>Variabile — negoziato dalla cellula</td><td>Orologiaio, medico, elettronico, hacker. I profili rari valgono più delle razioni.</td></tr>
+        <tr><td class="td-label">Alloggio sicuro</td><td>50–150 CE-equivalenti / settimana</td><td>Rifugio verificato, Zona Grigia o Landa, fuori dalla sorveglianza Kassandra.</td></tr>
+        <tr><td class="td-label">Trasporto</td><td>In base a distanza e rischio</td><td>Veicolo pulito, autista affidabile. La Rotta Mediterranea ha le proprie tariffe.</td></tr>
+        <tr><td class="td-label">Razioni / materiale medico</td><td>Tariffa fissata dalla cellula locale</td><td>CT-Nutri, medicinali, bende. Valore indicizzato alla scarsità nella zona operativa.</td></tr>
+        <tr><td class="td-label">Turni di compressione</td><td>No. Mai.</td><td>Vendere tempo al sistema per pagare la rete: una contraddizione fondamentale.</td></tr>
+      </table>
+
+      <div class="ip-section-title">// Protocollo di validazione</div>
+      <div class="ip-p">Ogni baratto che comporti una transazione superiore a 200 CE-equivalenti deve essere validato da un coordinatore di cellula. Al di sotto, la parola di entrambe le parti basta — <strong>a condizione che entrambe le parti siano note alla rete.</strong> Uno sconosciuto non baratta. Compra in CE o aspetta.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Ciò che la rete non tollera</div>
+        <div class="ip-rule">Un accordo di baratto non onorato comporta l’esclusione definitiva dalla rete. Nelle Zone Grigie, l’ostracismo significa la morte. Conosciamo entrambe le parti, ricordiamo entrambe le parti.</div>
+        <div class="ip-rule">Il baratto di dati CT Corp segue le regole della sezione dedicata — non i capricci degli acquirenti.</div>
+        <div class="ip-dry">CT Corp ha tutto il tempo del mondo per aspettarti. La rete ha la memoria lunga.</div>
+      </div>
+    `
+  },
+
+  'donnees-ct': {
+    category: 'PAGAMENTO ACCETTATO',
+    title: 'Dati CT Corp esfiltrati',
+    subtitle: '« Ci hanno preso tutto. Riprendiamo ciò che possiamo. »',
+    html: `
+      <div class="ip-section-title">// Perché i dati CT Corp sono un pagamento</div>
+      <div class="ip-p">I dati di CT Corp hanno un valore operativo diretto per la Resistenza: <strong>mappe di sorveglianza, schemi di infrastrutture, frequenze Aegis-CD, protocolli Kassandra, liste di bersagli</strong>. Un dato ben scelto vale più di qualsiasi somma in CE — può salvare vite, aprire porte, o smantellare un intero dispiegamento.</div>
+      <div class="ip-p">Questo metodo di pagamento è accettato per le transazioni importanti e i venditori ricorrenti. La valutazione è fissata dal team di analisi di Eco Rosso dopo una perizia.</div>
+
+      <div class="ip-section-title">// Classificazione dei dati accettati</div>
+      <table class="ip-table">
+        <tr><th>Livello</th><th>Tipo</th><th>Valore indicativo</th></tr>
+        <tr><td class="td-label">Livello 1</td><td>Orari di pattuglia, zone di copertura droni, posizioni dei checkpoint</td><td>20–80 CE a seconda della freschezza</td></tr>
+        <tr><td class="td-label">Livello 2</td><td>Schemi di infrastruttura di complesso, frequenze Tessitura locali, dati biometrici raccolti</td><td>100–300 CE</td></tr>
+        <tr><td class="td-label">Livello 3</td><td>Protocolli Kassandra regionali, liste del personale Aegis-CD, piani CT-NET 2.0</td><td>300–800 CE</td></tr>
+        <tr><td class="td-label">Livello 4</td><td>Dati progetto PROMETEO, accessi interni del Direttorio, schemi NAOS</td><td>Valutazione individuale — contattare la coordinazione</td></tr>
+      </table>
+
+      <div class="ip-example">
+        <div class="ex-title">// Esempio di transazione — anonimizzato</div>
+        <div class="ex-line"><span>Fonte:</span> Dipendente CT Corp, reparto logistica, complesso n°4, Varsavia</div>
+        <div class="ex-line"><span>Dati:</span> Calendario di manutenzione GFT ala nord — 14 giorni, finestre di accesso non sorvegliate</div>
+        <div class="ex-line"><span>Valutazione:</span> Livello 2 / freschezza G+0 / sfruttabilità immediata confermata</div>
+        <div class="ex-line"><span>Valorizzazione:</span> 240 CE + accesso prioritario al catalogo per 30 giorni</div>
+        <div class="ex-line"><span>Uso:</span> Contratto #ER-S-001 reso possibile. 2 400 compressi interessati.</div>
+      </div>
+
+      <div class="ip-section-title">// Protocollo di consegna</div>
+      <div class="ip-p">I dati non transitano mai per CT-NET né per alcun terminale connesso. Consegna fisica tramite <strong>Passatore di Memoria</strong> o supporto cifrato disconnesso, in mano propria a un coordinatore ER. Ogni dato la cui origine può essere risalita fino a una fonte identificabile viene rifiutato — per proteggere la fonte, non la rete.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Ciò che la rete rifiuta</div>
+        <div class="ip-rule">Dati la cui raccolta mette in pericolo un terzo non consenziente.</div>
+        <div class="ip-rule">Dati già noti alla rete presentati come esclusivi.</div>
+        <div class="ip-rule">Qualsiasi file il cui vettore di esfiltrazione non sia stato messo in sicurezza — un file trappola distrugge più di quanto rende.</div>
+        <div class="ip-dry">Ciò che ci porti riguarda te. Ciò che ci porti può uccidere qualcuno — e questo riguarda entrambi.</div>
+      </div>
+    `
+  },
+
+  'route-mediterraneenne': {
+    category: 'CONSEGNA',
+    title: 'Rotta Mediterranea',
+    subtitle: '« Il mare non appartiene a nessuno. È per questo che CT Corp non lo controlla ancora. »',
+    html: `
+      <div class="ip-section-title">// Cos’è la Rotta</div>
+      <div class="ip-p">La Rotta Mediterranea è il principale corridoio di contrabbando fisico tra l’Europa meridionale e l’Africa del Nord. Collega le coste abbandonate della <strong>periferia sud del Protettorato</strong> — Grecia, Sicilia, Algarve, Costa Azzurra — alle reti del Cartello delle Terre Libere nel Maghreb e nell’Africa subsahariana.</div>
+      <div class="ip-p">CT Corp non la controlla. Sorvegliarla costerebbe più di quanto renderebbe — un calcolo che la Resistenza mantiene deliberatamente tenendo il volume appena sotto la soglia di redditività della repressione.</div>
+
+      <div class="ip-section-title">// Il tragitto standard</div>
+      <div class="ip-route-stop">
+        <div class="rs-num">1</div>
+        <div class="rs-body">
+          <div class="rs-label">PUNTO D’ORIGINE — cellula di contatto locale</div>
+          <div class="rs-text">L’articolo lascia un rifugio in Zona Grigia o Landa. Confezionamento discreto fornito dal venditore. Coordinate trasmesse tramite Passatore o terminale mesh, mai via CT-NET.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">2</div>
+        <div class="rs-body">
+          <div class="rs-label">TRANSITO COSTIERO — relè delle Lande periferiche</div>
+          <div class="rs-text">Passaggio dalla Zona Grigia ai territori non sorvegliati del sud. Tempi variabili: da 2 a 7 giorni a seconda dell’attività delle pattuglie Aegis-CD. Le Lande delle Alpi e degli Appennini fanno da tappe intermedie.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">3</div>
+        <div class="rs-body">
+          <div class="rs-label">TRAVERSATA — reti marittime del Cartello</div>
+          <div class="rs-text">Imbarcazioni leggere tra le coste. La traversata in sé dura meno di 12 ore. Il Cartello delle Terre Libere gestisce la parte marittima in cambio di una percentuale sulla transazione. I droni CT Corp non coprono il settore al di fuori dei porti ufficiali.</div>
+        </div>
+      </div>
+      <div class="ip-route-stop">
+        <div class="rs-num">4</div>
+        <div class="rs-body">
+          <div class="rs-label">DESTINAZIONE — cache ER o consegna diretta</div>
+          <div class="rs-text">Consegna al destinatario finale da parte di un coordinatore di cellula. Conferma di ricezione trasmessa via Passatore. Transazione liberata 24 h dopo la conferma.</div>
+        </div>
+      </div>
+
+      <div class="ip-section-title">// Tempi e vincoli</div>
+      <table class="ip-table">
+        <tr><th>Variabile</th><th>Valore</th></tr>
+        <tr><td class="td-label">Tempo standard</td><td>da 7 a 21 giorni a seconda della zona di partenza e di arrivo</td></tr>
+        <tr><td class="td-label">Tasso di perdita</td><td>4% (sequestro Aegis-CD o imprevisto marittimo). Non rimborsato — la rotta è quella che è.</td></tr>
+        <tr><td class="td-label">Articoli esclusi</td><td>Niente di vivo. Niente di abbastanza pesante da rallentare un’imbarcazione. La Larme: solo trasporto individuale.</td></tr>
+        <tr><td class="td-label">Tracciabilità</td><td>Zero. Né il mittente né il destinatario conoscono i nomi degli intermediari.</td></tr>
+      </table>
+
+      <div class="ip-warning-final">Il mare è libero. Ma uccide anche. Il 4% di perdita è la cifra fredda. Cosa rappresenta, ogni operatore della Rotta lo sa meglio di noi.</div>
+    `
+  },
+
+  'passeurs-memoire': {
+    category: 'CONSEGNA',
+    title: 'Passatori di Memoria',
+    subtitle: '« Non tracciabile perché biologico. L’unica tecnologia che Kassandra non può violare. »',
+    html: `
+      <div class="ip-section-title">// Il principio</div>
+      <div class="ip-p">In un mondo in cui ogni comunicazione digitale è intercettata da Kassandra, la Resistenza ha resuscitato la più antica tecnologia di trasmissione: <strong>il cervello umano che cammina da un punto A a un punto B</strong>. Nessun segnale. Nessun metadato. Nessuna traccia in alcun registro.</div>
+      <div class="ip-p">I Passatori memorizzano le informazioni con tecniche mnemoniche certificate Eco Rosso — codici, coordinate, schemi, messaggi personali — e le trasportano fisicamente. La restituzione è alla lettera, verificata da una somma di controllo mnemonica.</div>
+
+      <div class="ip-section-title">// Cosa trasportano i Passatori per il Mercato</div>
+      <div class="ip-p">Per le consegne immateriali — firmware, identità digitali, chiavi di decifratura, codici di attivazione — i Passatori sono l’<strong>unico vettore di consegna sicuro</strong>. Un firmware su un supporto fisico può essere intercettato. Un firmware in un cervello non può essere perquisito da un drone.</div>
+
+      <div class="ip-section-title">// Opzioni di consegna</div>
+      <table class="ip-table">
+        <tr><th>Opzione</th><th>Capacità</th><th>Tempo</th><th>Costo aggiuntivo</th></tr>
+        <tr><td class="td-label">Passatore singolo</td><td>Fino a 50 KB di info strutturate</td><td>Variabile a seconda dell’itinerario</td><td>Incluso nel prezzo di catalogo</td></tr>
+        <tr><td class="td-label">Frammentazione multi-Passatore</td><td>Illimitata in teoria — suddivisa tra N portatori</td><td>Richiesta la riunione dei frammenti</td><td>+40 CE per ogni frammento aggiuntivo</td></tr>
+        <tr><td class="td-label">Passatore-Orologiaio</td><td>Dati tecnici complessi + installazione fisica</td><td>Su appuntamento coordinato</td><td>Tariffa Orologiaio in aggiunta</td></tr>
+      </table>
+
+      <div class="ip-section-title">// La frammentazione mnemonica</div>
+      <div class="ip-p">Per le informazioni critiche — liste di contatti, codici di cifratura della rete, coordinate dei rifugi — la rete raccomanda la frammentazione: <strong>più Passatori portano ciascuno un frammento inutilizzabile da solo</strong>. Solo la riunione fisica di tutti i portatori ricostituisce l’informazione completa. Una crittografia puramente biologica. Kassandra non può estrarre ciò che cinque cervelli, separati in tre Paesi, contengono ciascuno solo in parte.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Rischio da conoscere</div>
+        <div class="ip-rule">Se un Passatore viene catturato e sottoposto al Programma Tabula Rasa (cancellazione mnemonica Aegis-CD), ciò che trasporta è perduto — e potenzialmente estratto prima della cancellazione. La frammentazione è l’unica difesa.</div>
+        <div class="ip-rule">Non dare mai al Passatore il contesto di ciò che porta. Memorizza una sequenza, non un significato. Ciò che ignora non può essere estratto, nemmeno sotto Tabula Rasa.</div>
+        <div class="ip-dry">Un Passatore catturato che non sa nulla non può tradire nessuno. È la sua protezione. Onoratela.</div>
+      </div>
+    `
+  },
+
+  'cellules-contact': {
+    category: 'CONSEGNA',
+    title: 'Cellule di contatto',
+    subtitle: '« Non sei tu a contattarci. Siamo noi a contattare te. »',
+    html: `
+      <div class="ip-section-title">// Cosa sono le cellule</div>
+      <div class="ip-p">Le cellule di contatto sono i <strong>nodi fisici della rete Eco Rosso</strong> — gruppi da 3 a 9 persone, compartimentati, che assicurano il coordinamento locale di transazioni, consegne, contratti e sicurezza operativa. Ogni cellula conosce solo le sue vicine immediate. Nessuna conosce la struttura globale.</div>
+      <div class="ip-p">Per il mercato, svolgono tre ruoli: <strong>punto di consegna fisica</strong> per gli articoli hardware, <strong>interfaccia di verifica</strong> delle transazioni, e <strong>relè di fiducia</strong> per i nuovi acquirenti che non hanno ancora uno storico nella rete.</div>
+
+      <div class="ip-section-title">// Cellule attive note — mappa parziale</div>
+      <table class="ip-table">
+        <tr><th>Nodo</th><th>Tipo</th><th>Copertura</th><th>Stato</th></tr>
+        <tr><td class="td-label">Praga</td><td>Hacktivismo + coordinamento</td><td>Europa centrale</td><td style="color:var(--green)">ATTIVA</td></tr>
+        <tr><td class="td-label">Sofia — Le Nid</td><td>Hub tecnico + disturbatori</td><td>Balcani, Rotta Est</td><td style="color:var(--green)">ATTIVA</td></tr>
+        <tr><td class="td-label">Lione — Confluence</td><td>Logistica urbana + copertura</td><td>Europa occidentale</td><td style="color:var(--green)">ATTIVA</td></tr>
+        <tr><td class="td-label">Gdańsk</td><td>Campo + estrazione</td><td>Baltico, complessi del nord</td><td style="color:var(--green)">ATTIVA</td></tr>
+        <tr><td class="td-label">Zona Rossa dei Carpazi</td><td>Rifugio + base arretrata</td><td>Europa orientale profonda</td><td style="color:var(--green)">ATTIVA</td></tr>
+        <tr><td class="td-label">Budapest</td><td>—</td><td>—</td><td style="color:var(--red)">SILENZIO — STATO SCONOSCIUTO</td></tr>
+        <tr><td class="td-label">Varsavia</td><td>—</td><td>—</td><td style="color:var(--red)">SILENZIO — STATO SCONOSCIUTO</td></tr>
+      </table>
+
+      <div class="ip-section-title">// Come stabilire il contatto</div>
+      <div class="ip-p">Non si cerca una cellula. Si <strong>diventa visibili</strong> alla rete attraverso azioni che segnalano fiducia: completare una missione a basso rischio, fornire un servizio alla rete, essere presentati da un membro esistente. Il contatto viene da noi, non da te. È così per progetto.</div>
+      <div class="ip-p">Per gli acquirenti del mercato senza una cellula locale: gli articoli digitali passano per i <strong>Passatori di Memoria</strong>. Gli articoli fisici passano per la <strong>Rotta Mediterranea</strong> con consegna presso le cache di transito. Non esiste una consegna diretta a domicilio — sarebbe un indirizzo, e un indirizzo è un file Kassandra.</div>
+
+      <div class="ip-rules">
+        <div class="r-title">⚠ Sicurezza operativa</div>
+        <div class="ip-rule">Un membro di cellula arrestato non conosce alcun nome al di fuori della sua cellula immediata. È una protezione per lui tanto quanto per la rete. Non cercare di sapere più di quanto la tua cellula ti dice.</div>
+        <div class="ip-rule">Le cellule di Budapest e Varsavia sono in silenzio da 18 giorni. Ogni contatto in arrivo che pretenda di rappresentare queste cellule deve essere considerato compromesso fino a verifica da parte della coordinazione centrale.</div>
+        <div class="ip-dry">La rete tiene perché nessuno la conosce per intero. Nemmeno noi.</div>
+      </div>
+    `
+  }
+
+};
+
+function openInfoPage(id) {
+  const pg = infoPages[id];
+  if (!pg) return;
+  let h = '';
+  h += '<div class="ip-header">';
+  h += '<div class="ip-category">ÉCHO-ROUGE / MARCHÉ / ' + pg.category + '</div>';
+  h += '<div class="ip-title">' + pg.title + '</div>';
+  h += '<div class="ip-subtitle">' + pg.subtitle + '</div>';
+  h += '</div>';
+  h += pg.html;
+  document.getElementById('ip-content').innerHTML = h;
+  document.getElementById('market-catalog').style.display = 'none';
+  if (document.getElementById('market-detail').classList.contains('active')) {
+    document.getElementById('market-detail').classList.remove('active');
+  }
+  document.getElementById('market-info-page').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeInfoPage() {
+  document.getElementById('market-info-page').classList.remove('active');
+  document.getElementById('market-catalog').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ── MARCHÉ — FICHES DÉTAILLÉES ───────────────────
+const marketItems = {
+
+  'icare': {
+    ref: 'ER-MKT-N01', cat: 'Naniti & Bio',
+    title: 'ICARE Nanites — batch of 500 units — Free frequency',
+    price: '450 CÉ', unit: '/ lot 500 u.',
+    tags: '<span class="l-tag hot">Rare</span> <span class="l-tag">Casablanca</span> <span class="l-tag safe">Testé</span>',
+    tech: `<div class="md-p">Naniti di generazione Tessitura recuperati dalle macerie del complesso WeavePort di Casablanca, tre giorni dopo Ananke. La loro particolarità — e il loro valore: la frequenza di sincronizzazione non è mai stata registrata nel database NAOS. Per i sistemi di CT Corp, queste unità <strong>non esistono</strong>. Nessun tracciamento Kassandra, nessun Canale Sigma, nessuna ricalibrazione CT-NET 2.0.</div>
+      <div class="md-p">Uso consigliato: assemblaggio di Tessiture di sostituzione da parte di un Orologiaio, o lievi modifiche biologiche (rinforzo nervoso periferico, interfaccia sensore). Le 500 unità di un lotto condividono la stessa frequenza: un lotto = un portatore.</div>
+      <div class="md-specs">
+        <span class="sk">Confezionamento</span><span class="sv">Capsula ermetica sotto argon, sigillo Eco Rosso intatto</span>
+        <span class="sk">Viabilità</span><span class="sv">14 mesi a partire dal riconfezionamento (01.2035)</span>
+        <span class="sk">Conservazione</span><span class="sv">Sotto gli 8 °C, al riparo da qualsiasi campo GFT</span>
+        <span class="sk">Compatibilità</span><span class="sv">Protocolli Tessitura v2.x e v3.x — non testato su v4.0</span>
+      </div>`,
+    prov: `Esfiltrazione Rotta Mediterranea, tramite le cache del Cartello a Casablanca. Lotto testato su tre portatori volontari della cellula di Sofia — nessun rigetto a 30 giorni. Tre portatori. Non cinquecento.`,
+    warnings: [
+      "Non iniettare mai in un portatore la cui Tessitura CT Corp è ancora attiva: il conflitto di protocollo tra due frequenze provoca una cascata infiammatoria sinaptica, irreversibile in 48 h.",
+      "Impianto solo da parte di un Orologiaio qualificato. L’auto-iniezione è la prima causa di perdita di lotti — e di portatori.",
+      "Una frequenza libera resta una frequenza: una scansione spettrale Aegis-CD entro 10 m può rilevare un’emissione non catalogata. Evita i checkpoint per 72 h dopo l’impianto.",
+      "Capsula aperta = conto alla rovescia. I naniti non impiantati si degradano in 6 h all’aria aperta."
+    ],
+    dry: "Un nanite libero non chiede il permesso a nessuno. Dall’iniezione in poi, nemmeno tu."
+  },
+
+  'stabilisant-ctr7': {
+    ref: 'ER-MKT-N02', cat: 'Naniti & Bio',
+    title: 'Biological Stabilizer — modified CTR-7',
+    price: '180 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">Critique</span> <span class="l-tag">I Tessitori</span>',
+    tech: `<div class="md-p">Sospensione iniettabile derivata dal polimero attivo delle tute CTR-7 — la protezione che CT Corp riserva ai suoi tecnici. I chimici di I Tessitori hanno isolato il composto che assorbe la radiazione temporale e l’hanno reso assimilabile per via intramuscolare. Risultato: una <strong>protezione biologica interna</strong> contro gli effetti di un differenziale di compressione fino a ×120.</div>
+      <div class="md-p">Concepito per le operazioni in cui la tuta è impossibile: infiltrazione in abiti civili, estrazione di compressi da una bolla attiva, attraversamento rapido di una zona di esclusione.</div>
+      <div class="md-specs">
+        <span class="sk">Via</span><span class="sv">Intramuscolare — auto-iniettore fornito</span>
+        <span class="sk">Latenza</span><span class="sv">Efficace 20 min dopo l’iniezione</span>
+        <span class="sk">Durata</span><span class="sv">Protezione nominale 6 h, decrescita rapida in seguito</span>
+        <span class="sk">Tracciabilità</span><span class="sv">Assente dagli inventari CT Corp — è proprio il punto</span>
+      </div>`,
+    prov: `Produzione artigianale, laboratorio clandestino di I Tessitori, Prato. Formulazione derivata dall’analisi delle tute esfiltrate dal complesso FiberCore. Ogni lotto è numerato a mano.`,
+    warnings: [
+      "Questa non è una tuta. In una zona GFT attiva (raggio 50 m), lo stabilizzante ritarda l’invecchiamento accelerato — non lo annulla. Oltre i 45 minuti di esposizione, la protezione crolla.",
+      "Controindicato nei portatori di una Tessitura v4.0: interazione documentata con il Canale Sigma, picchi di febbre e perdita di coordinazione.",
+      "Effetti collaterali osservati: tremori alle estremità (4 h), gusto metallico persistente, grave disidratazione. Bevi prima, durante, dopo.",
+      "Mai due dosi in meno di 7 giorni. La saturazione del composto è epatotossica."
+    ],
+    dry: "Sei ore di protezione. La radiazione temporale, dal canto suo, non fa pause."
+  },
+
+  'anticoagulant': {
+    ref: 'ER-MKT-N03', cat: 'Naniti & Bio',
+    title: 'Anticoagulante Temporale — uso post-compressione',
+    price: '60 CÉ', unit: '/ dose 30j',
+    tags: '<span class="l-tag safe">Zone Carpates</span> <span class="l-tag">Artisanal</span>',
+    tech: `<div class="md-p">Trattamento di fondo contro la sindrome da decompressione — il male silenzioso dei liberati di Ananke. Disorientamento cronico, micro-coaguli, percezione temporale frammentata: il corpo di un ex compresso ha vissuto anni che il mondo non ha contato, e glielo fa pagare.</div>
+      <div class="md-p">Questa formulazione artigianale, messa a punto nella Zona Rossa dei Carpazi per le ondate di liberati di Prato e Gdańsk, fluidifica la circolazione e attenua gli episodi di dissociazione. <strong>94% di efficacia dichiarata</strong> sui sintomi da lievi a moderati.</div>
+      <div class="md-specs">
+        <span class="sk">Posologia</span><span class="sv">1 dose orale / 24 h, preferibilmente al mattino</span>
+        <span class="sk">Confezionamento</span><span class="sv">Blister da 30 dosi, confezione neutra</span>
+        <span class="sk">Certificazione</span><span class="sv">Nessuna. Non certificato CT Corp — è proprio il punto</span>
+      </div>`,
+    prov: `Laboratori delle Lande, Zona Rossa dei Carpazi. Distribuzione gratuita sul posto per i liberati; il prezzo richiesto qui finanzia la produzione.`,
+    warnings: [
+      "Il « 94% » è la cifra del produttore, su una coorte non documentata. Eco Rosso non l’ha verificata. I riscontri sul campo sono buoni — sono solo riscontri.",
+      "Dosaggio rigoroso: mai due dosi in 24 h. Un sovradosaggio trasforma un anticoagulante in un’emorragia che aspetta il suo momento.",
+      "Incompatibile con l’alcol e gli stimolanti da turno. Scegli.",
+      "In caso di crisi grave (perdita di coscienza, emorragie), trova un medico delle Lande o un Orologiaio. Non un centro medico CT Corp: una sindrome da decompressione nei loro file è un liberato localizzato."
+    ],
+    dry: "La sindrome non perdona. Nemmeno i file medici di CT Corp."
+  },
+
+  'fantome-temporel': {
+    ref: 'ER-MKT-N04', cat: 'Naniti & Bio',
+    title: 'Disturbatore di Firma Biologica — « Fantasma Temporale »',
+    price: '220 CÉ', unit: '/ dose 12h',
+    tags: '<span class="l-tag hot">Top vendeur</span> <span class="l-tag rare">Source ORPHEUS</span>',
+    tech: `<div class="md-p">Ogni essere umano porta un’impronta temporale unica — la firma biologica che NAOS-9 e Kassandra usano per identificarti attraverso qualsiasi sensore, qualsiasi folla. Il « Fantasma Temporale » la <strong>disturba alla fonte</strong>: un cocktail di marcatori metabolici che rende la tua impronta illeggibile per 6-18 ore a seconda del dosaggio.</div>
+      <div class="md-p">Sviluppato da un disertore del progetto ORPHEUS che conosceva gli algoritmi di identificazione dall’interno. È lo strumento di riferimento per gli spostamenti in zona sorvegliata — da cui il suo status di più venduto del catalogo.</div>
+      <div class="md-specs">
+        <span class="sk">Somministrazione</span><span class="sv">Iniettore sottocutaneo discreto, formato penna</span>
+        <span class="sk">Latenza</span><span class="sv">Effetto completo 30 min dopo l’iniezione</span>
+        <span class="sk">Durata</span><span class="sv">6 h (mezza dose) a 18 h (dose piena)</span>
+      </div>`,
+    prov: `Sintesi assicurata da due laboratori della rete, formula d’origine ORPHEUS. Il disertore all’origine del prodotto non accetta più alcun contatto. Lo si capisce.`,
+    warnings: [
+      "Una firma che scompare è essa stessa un evento. Kassandra correla: se la tua impronta si spegne regolarmente alle stesse ore, negli stessi luoghi, il vuoto diventa la tua firma.",
+      "Il prodotto maschera l’impronta temporale — non il tuo volto, non la tua andatura, non i tuoi documenti. Alle telecamere ottiche non importa.",
+      "Intervallo minimo di 72 h tra due dosi. Al di sotto, il fegato ne risente e l’efficacia scende sotto il 50%.",
+      "Non combinare mai con l’Emulatore « Clone Temporale »: due alterazioni simultanee di firma creano un artefatto che NAOS-9 classifica come anomalia prioritaria."
+    ],
+    dry: "Sarai invisibile. Non intoccabile."
+  },
+
+  'patch-sigma': {
+    ref: 'ER-MKT-F01', cat: 'Firmware & Tessiture',
+    title: 'Patch Firmware Tessitura v3.x — Disattivazione Canale Sigma',
+    price: '90 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag hot">URGENT</span> <span class="l-tag">v3.x uniquement</span>',
+    tech: `<div class="md-p">Il Canale Sigma è il canale di scrittura nascosto della tua Tessitura — la porta attraverso cui Kassandra legge, e attraverso cui CT-NET 2.0 sta per scrivere. Questa patch <strong>taglia la trasmissione in uscita</strong> senza far scattare l’allarme di integrità del firmware: per i server di CT Corp, la tua Tessitura risponde normalmente. Semplicemente non invia più nulla di utile.</div>
+      <div class="md-p">Silenzio garantito da 48 a 72 h per applicazione. Compatibile con i firmware da v3.0 a v3.9. <em>Incompatibile con v4.0 e successivi.</em> Con il dispiegamento di CT-NET 2.0 in corso, la finestra di applicazione si sta chiudendo: una Tessitura resettata torna a v4.x e la patch diventa inutile.</div>
+      <div class="md-specs">
+        <span class="sk">Applicazione</span><span class="sv">Iniezione locale tramite interfaccia Orologiaio — 40 secondi</span>
+        <span class="sk">Durata d’effetto</span><span class="sv">da 48 a 72 h, variabile a seconda della versione esatta del firmware</span>
+        <span class="sk">Rilevabilità</span><span class="sv">Nulla a distanza; visibile durante un audit fisico della Tessitura</span>
+      </div>`,
+    prov: `Sviluppo interno Eco Rosso, sulla base degli schemi del Canale Sigma esfiltrati. Distribuzione di priorità assoluta ordinata dalla coordinazione — da cui il prezzo, volutamente al minimo.`,
+    warnings: [
+      "Finestra critica: da applicare PRIMA del reset CT-NET 2.0 della tua Tessitura (G+3 a G+7). Dopo il reset, il firmware passa a v4.x e ogni tentativo di applicazione provoca un blocco hardware — e un allarme automatico.",
+      "L’applicazione dura 40 secondi e non deve mai essere interrotta. Una patch parziale lascia la Tessitura in uno stato che le diagnostiche CT Corp segnalano immediatamente.",
+      "Allo scadere delle 72 h, la trasmissione riprende senza alcun segno percepibile per il portatore. Annota l’ora di applicazione. Ri-applica la patch prima della scadenza o consideràti ascoltato.",
+      "La patch taglia l’emissione, non la raccolta: i dati si accumulano localmente e partiranno al primo ripristino. Combina con una purga della memoria se la posta in gioco lo giustifica."
+    ],
+    dry: "72 ore di silenzio. Contale. Nessuno lo farà al posto tuo."
+  },
+
+  'exploit-sigma': {
+    ref: 'ER-MKT-F02', cat: 'Firmware & Tessiture',
+    title: 'Exploit Tessitura v4.0 — Accesso in sola lettura Canale Sigma',
+    price: '340 CÉ', unit: '/ licence',
+    tags: '<span class="l-tag rare">Lena Reinholt</span> <span class="l-tag">v4.0</span>',
+    tech: `<div class="md-p">Lo strumento d’intelligence più prezioso del catalogo. Questo exploit apre un <strong>accesso in sola lettura</strong> alle trasmissioni del Canale Sigma di una Tessitura v4.0: vedi ciò che CT Corp raccoglie, ciò che Kassandra richiede, e — da dicembre — le trame stesse di dispiegamento di CT-NET 2.0.</div>
+      <div class="md-p">Non interrompe nulla: la trasmissione continua, intatta, verso i server di CT Corp. È la sua forza (non rilevabile nel flusso) e il suo limite (non protegge nessuno). Sviluppato da Lena Reinholt, disertrice CT Corp, che ha scritto parte del protocollo originale.</div>
+      <div class="md-specs">
+        <span class="sk">Bersaglio</span><span class="sv">Firmware v4.0 esclusivamente</span>
+        <span class="sk">Modalità</span><span class="sv">Lettura passiva — nessuna scrittura, nessun blocco</span>
+        <span class="sk">Uso tipico</span><span class="sv">Contratto #ER-H-001 (mappatura CT-NET 2.0)</span>
+      </div>`,
+    prov: `Codice sorgente firmato Lena Reinholt, 2031, adattato a v4.0 dalla cellula di Praga. Licenza rilasciata con chiave unica per operatore — niente copie, niente rivendita.`,
+    warnings: [
+      "Questo strumento NON protegge. Mentre leggi il Canale Sigma, il Canale Sigma continua a parlare di te. Per un uso completo, combina con la patch di disattivazione v3.x su una seconda Tessitura.",
+      "I registri di intercettazione si conservano solo offline. Un log Sigma trovato su un terminale connesso identifica l’operatore, il bersaglio e la cellula.",
+      "La firma dell’exploit è nota ad Aegis-CD da gennaio 2035. Una correzione CT Corp può arrivare in qualsiasi momento: considera ogni licenza deperibile.",
+      "Sei ore di intercettazione continua al massimo — oltre, la correlazione di latenza diventa rilevabile da Kassandra."
+    ],
+    dry: "Leggere sopra la spalla di Kassandra ha un prezzo. Assicurati che lei non legga sopra la tua."
+  },
+
+  'clone-temporel': {
+    ref: 'ER-MKT-F03', cat: 'Firmware & Tessiture',
+    title: 'Emulatore di Firma Biologica — « Clone Temporale »',
+    price: '600 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag hot">Extrême</span> <span class="l-tag">Risque détection</span>',
+    tech: `<div class="md-p">Là dove il « Fantasma Temporale » cancella, il « Clone Temporale » <strong>sostituisce</strong>. L’emulatore inietta nella tua Tessitura l’impronta temporale di un altro individuo: per NAOS-9, non sei più tu a varcare quel checkpoint — è qualcun altro. Qualcuno che non rischia nulla.</div>
+      <div class="md-p">Le impronte provengono da un database di 400 individui deceduti post-Ananke, la cui morte non è ancora stata consolidata nei registri CT Corp. Il caos amministrativo di gennaio è la tua copertura. Non durerà.</div>
+      <div class="md-specs">
+        <span class="sk">Supporto</span><span class="sv">Modulo di emulazione innestato sulla Tessitura da un Orologiaio</span>
+        <span class="sk">Durata d’uso</span><span class="sv">4 h massimo per attivazione</span>
+        <span class="sk">Attribuzione</span><span class="sv">L’impronta è scelta dalla rete, mai dal cliente</span>
+      </div>`,
+    prov: `Database di impronte costituito incrociando i registri dei decessi delle Zone Grigie e i dati esfiltrati da tre complessi. Ogni impronta è venduta una sola volta.`,
+    warnings: [
+      "Se il decesso della tua impronta viene consolidato nei registri mentre la usi, NAOS-9 vede un morto che cammina. Allarme immediato, caccia all’uomo prioritaria. La rete ritira le impronte consolidate — con un ritardo che non controlla.",
+      "4 ore massimo per attivazione. Oltre, la deriva tra l’impronta emulata e i tuoi parametri reali diventa rilevabile.",
+      "Un doppio rilevamento — tu sotto emulazione qui, la tua vera firma captata altrove (oggetto personale, vecchio prelievo) — classifica il caso come falsificazione d’identità temporale. Categoria Alpha.",
+      "Incompatibile con il « Fantasma Temporale ». Una firma alla volta."
+    ],
+    dry: "Prendi in prestito la vita di un morto. Restituiscila pulita."
+  },
+
+  'identite-zones-grises': {
+    ref: 'ER-MKT-I01', cat: 'Identità & Documenti',
+    title: 'Identità Completa — Livello Zone Grigie',
+    price: '300 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag safe">72h</span> <span class="l-tag">Zones Grises</span>',
+    tech: `<div class="md-p">Lo standard della rete per sparire nella massa. Il pacchetto comprende: <strong>CET-ID completo</strong>, uno storico di compressione fittizio coerente su cinque anni (complessi, rapporti, periodi di riposo), biometria sincronizzata con i database regionali, e un alloggio reale assegnato in una Zona Grigia a scelta del cliente.</div>
+      <div class="md-p">Calibrata per reggere sotto i controlli Kassandra di livello standard — quelli delle pattuglie, dei checkpoint di quartiere e delle verifiche di assunzione. Sufficiente per vivere, lavorare, spostarsi.</div>
+      <div class="md-specs">
+        <span class="sk">Tempi</span><span class="sv">72 h dopo la validazione del modello</span>
+        <span class="sk">Copertura</span><span class="sv">Audit Kassandra standard: sì. Audit di livello massimo (Città-Vetrina): no</span>
+        <span class="sk">Consegna</span><span class="sv">Cellula di contatto o Passatore di Memoria (frammenti di attivazione)</span>
+      </div>`,
+    prov: `Il laboratorio di identità della rete — artigiani formati sugli schemi CET-ID esfiltrati. Ogni storico di compressione è unico: nessun modello viene riutilizzato.`,
+    warnings: [
+      "L’identità non mente al posto tuo. Impara la tua leggenda — complessi, date, nomi dei capisquadra — prima della consegna, non dopo il primo controllo.",
+      "Rottura totale con la vecchia vita: una sola connessione a un vecchio indirizzo, un vecchio contatto, un vecchio terminale, e le due identità si contaminano a vicenda.",
+      "Non tentare mai un accesso a una Città-Vetrina con questo livello. L’audit massimo incrocia database che questo modello non copre.",
+      "In caso di controllo approfondito che va male: brucia l’identità, non la copertura della rete. Non conosci alcun nome. È vero, ed è la tua migliore difesa."
+    ],
+    dry: "Un’identità tiene finché tiene il suo portatore. Il contrario non è garantito."
+  },
+
+  'identite-cite-vitrine': {
+    ref: 'ER-MKT-I02', cat: 'Identità & Documenti',
+    title: 'Identità Città-Vetrina — Livello Quadro CT Corp',
+    price: '1 200 CÉ', unit: '/ identité',
+    tags: '<span class="l-tag rare">Rare</span> <span class="l-tag hot">2 semaines</span>',
+    tech: `<div class="md-p">L’apice dell’artigianato della rete. Un’identità di <strong>quadro intermedio CT Corp</strong>: accesso alle zone premium delle Città-Vetrina, uno storico di carriera aziendale, un profilo CTC credibile, verifica biometrica completa inclusa. Supera l’audit Kassandra standard — quello che filtra l’ingresso alle bolle.</div>
+      <div class="md-p">Non supera l’audit di livello La Spirale (Bruxelles): la sede europea incrocia database HR interni a cui nessuno ha accesso. Tre artigiani in tutta la rete sanno produrre questo modello. I tempi di due settimane non sono negoziabili — è il tempo che gli anni di carriera fittizi impiegano a infondersi nei database giusti.</div>
+      <div class="md-specs">
+        <span class="sk">Tempi</span><span class="sv">2 settimane, incomprimibili</span>
+        <span class="sk">Copertura</span><span class="sv">Città-Vetrina: sì. La Spirale e i piani del Direttorio: no</span>
+        <span class="sk">Incluso</span><span class="sv">Biometria, profilo CTC, storico di carriera, guardaroba consigliato</span>
+      </div>`,
+    prov: `Uno dei tre artigiani. Quale — non lo saprai. Il modello viene distrutto dopo la consegna: nessun duplicato, nessuna seconda possibilità.`,
+    warnings: [
+      "Un quadro CT Corp ha un tenore di vita. Spese CTC coerenti, un’agenda piena, una cerchia sociale plausibile: l’identità fornisce il costume, non il comportamento. Una sola incoerenza di condotta basta a far scattare un audit approfondito.",
+      "Non accedere mai ai piani del Direttorio né a La Spirale, qualunque sia l’urgenza. Il modello non vi sopravvive, e nemmeno il suo artigiano.",
+      "Perdita o compromissione: segnala immediatamente tramite Passatore. L’artigiano brucia ciò che resta del dossier — non esisterà alcun duplicato.",
+      "Questa identità vale 1 200 CE a catalogo e dieci volte tanto per Aegis-CD. Il portatore diventa un bersaglio in sé. Discrezione assoluta sulla sua esistenza, anche all’interno della rete."
+    ],
+    dry: "Il costume è perfetto. Resta da saperlo portare."
+  },
+
+  'passeport-memoire': {
+    ref: 'ER-MKT-I03', cat: 'Identità & Documenti',
+    title: 'Passaporto Memoria — Passatore di Memoria certificato',
+    price: '80 CÉ', unit: '/ message',
+    tags: '<span class="l-tag safe">100% non tracciabile</span>',
+    tech: `<div class="md-p">La più antica tecnologia di trasmissione al mondo: un cervello umano che cammina da un punto A a un punto B. Il Passatore memorizza il tuo messaggio con tecniche mnemoniche certificate Eco Rosso, lo trasporta fisicamente, lo restituisce parola per parola a destinazione. <strong>Nessun segnale. Nessuna traccia. Nessun metadato.</strong> Kassandra sorveglia tutto ciò che emette — questo non emette nulla.</div>
+      <div class="md-p">Capacità: fino a 50 KB di informazioni complesse — codici di cifratura, schemi tecnici, liste di contatti, coordinate. Per i contenuti critici, la rete propone la <strong>frammentazione mnemonica</strong>: più Passatori portano ciascuno un frammento, e solo la loro riunione ricostituisce il messaggio. Una crittografia puramente biologica.</div>
+      <div class="md-specs">
+        <span class="sk">Capacità</span><span class="sv">Fino a 50 KB di informazioni strutturate</span>
+        <span class="sk">Restituzione</span><span class="sv">Alla lettera, verificata da somma di controllo mnemonica</span>
+        <span class="sk">Opzione</span><span class="sv">Frammentazione multi-Passatore (+40 CE per frammento)</span>
+      </div>`,
+    prov: `Passatori formati e certificati dalla rete. Itinerari inter-strato e transfrontalieri, in coordinamento con la Rotta Mediterranea per i collegamenti sud.`,
+    warnings: [
+      "Se un Passatore viene catturato e sottoposto alla Cancellazione Mnemonica (programma Tabula Rasa), il messaggio è perduto — e potenzialmente estratto prima della cancellazione. Per ogni dato critico, esigi la frammentazione multi-Passatore.",
+      "I tempi non sono garantiti. Il Passatore cammina, aggira, aspetta. Un messaggio urgente a orario fisso richiede un altro strumento — o un altro piano.",
+      "Non dare mai al Passatore il contesto di ciò che porta. Memorizza una sequenza, non un significato. Ciò che ignora non può essere estratto.",
+      "Un messaggio, un Passatore, una volta. Non affidare mai due messaggi collegati allo stesso portatore."
+    ],
+    dry: "Il Passatore non sa cosa trasporta. È la sua protezione. E la tua."
+  },
+
+  'brouilleur-nid': {
+    ref: 'ER-MKT-H01', cat: 'Hardware & Equipaggiamento',
+    title: 'Disturbatore EM portatile — « Le Nid » — mod. Sofia',
+    price: '250 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag">Le Nid, Sofia</span> <span class="l-tag safe">Testé terrain</span>',
+    tech: `<div class="md-p">Progettato, assemblato e collaudato dalla cellula Le Nid, nella torre telecom abbandonata di Sofia. Questo disturbatore elettromagnetico neutralizza i collegamenti di controllo dei <strong>droni di sorveglianza in un raggio di 80 m</strong>: le unità colpite passano in modalità rientro-base o volo stazionario cieco. Il modello « mod. Sofia » è la terza iterazione — quella che ha coperto le evacuazioni dell’inverno.</div>
+      <div class="md-specs">
+        <span class="sk">Raggio effettivo</span><span class="sv">80 m (droni di pattuglia standard Aegis-CD)</span>
+        <span class="sk">Autonomia</span><span class="sv">6 h in cicli d’uso consigliati</span>
+        <span class="sk">Massa</span><span class="sv">400 g, formato thermos, tracolla inclusa</span>
+        <span class="sk">Alimentazione</span><span class="sv">Cella al litio artigianale, ricaricabile su rete 220 V</span>
+      </div>`,
+    prov: `Produzione Le Nid, Sofia. Ogni unità è testata in condizioni reali prima di entrare a catalogo — « testato sul campo » non è un argomento di vendita, è il protocollo.`,
+    warnings: [
+      "Più di 20 minuti di emissione continua = rilevamento Kassandra quasi certo. Un buco elettromagnetico di 80 m è una firma in sé. Cicli di 15 min massimo, pausa di 10 min.",
+      "Inefficace contro i sensori ottici passivi e l’osservazione umana. Il disturbatore acceca i droni — non le finestre.",
+      "La cella al litio è artigianale: nessun urto violento, nessuna esposizione al calore, nessuna foratura. Una cella forata brucia a 800 °C.",
+      "Non attivare mai il disturbatore vicino a un Terminale Mesh alleato attivo: disturba anche le tue stesse comunicazioni."
+    ],
+    dry: "80 metri di silenzio radio. Tutto ciò che ha occhi continua a vedere."
+  },
+
+  'terminal-mesh': {
+    ref: 'ER-MKT-H02', cat: 'Hardware & Equipaggiamento',
+    title: 'Terminale Mesh decentralizzato — Guardiani del Segnale',
+    price: '400 CÉ', unit: '/ terminal',
+    tags: '<span class="l-tag rare">Gardiens du Signal</span> <span class="l-tag safe">0 métadonnée</span>',
+    tech: `<div class="md-p">Comunicare fuori dalla rete CT Corp: è esattamente ciò per cui esistono i Guardiani del Segnale. Questo terminale si collega al loro <strong>mesh decentralizzato</strong> — cifratura peer-to-peer, instradamento opportunistico, portata di 40 km tramite i relè nomadi che i Guardiani mantengono in tutta Europa. Compatibile con il protocollo Eco Rosso nativo.</div>
+      <div class="md-p">Nessun metadato viene generato, memorizzato o instradato: nessun mittente, nessun destinatario, nessun timestamp sfruttabile. Là dove Kassandra analizza i grafi di comunicazione, il mesh non le offre alcun grafo.</div>
+      <div class="md-specs">
+        <span class="sk">Portata</span><span class="sv">40 km con i relè dei Guardiani; 2-5 km diretto terminale-a-terminale</span>
+        <span class="sk">Cifratura</span><span class="sv">Peer-to-peer, chiavi effimere, protocollo ER nativo</span>
+        <span class="sk">Manutenzione</span><span class="sv">Gestita dai Guardiani nei punti di passaggio concordati</span>
+        <span class="sk">Accoppiamento</span><span class="sv">Chiave fisica unica fornita alla consegna</span>
+      </div>`,
+    prov: `Assemblaggio dei Guardiani del Segnale, componenti recuperati e riqualificati. L’acquisto include l’accesso al mesh — non la sua proprietà. La rete appartiene a chi la mantiene.`,
+    warnings: [
+      "Il mesh dipende dalla rete dei Guardiani: esistono zone morte che si spostano con i relè. Verifica la copertura della tua zona operativa prima di dipenderne.",
+      "NON collegare MAI il terminale a un’apparecchiatura CT Corp, nemmeno offline. La contaminazione del firmware è l’unico vettore noto di compromissione del mesh.",
+      "Il contenuto è illeggibile, ma il volume di traffico resta osservabile per triangolazione. Messaggi brevi, emissioni distanziate.",
+      "In caso di compromissione: distruggi fisicamente la chiave di accoppiamento. Senza di essa, il terminale è solo una scatola vuota — con essa, è una porta d’ingresso."
+    ],
+    dry: "La rete di CT Corp sa tutto. Questa non sa nulla — nemmeno chi sei. È proprio il punto."
+  },
+
+  'combinaison-ctr7': {
+    ref: 'ER-MKT-H03', cat: 'Hardware & Equipaggiamento',
+    title: 'Tuta CTR-7 completa — Protezione radiazione temporale',
+    price: '800 CÉ', unit: '/ unité',
+    tags: '<span class="l-tag hot">1 unité</span> <span class="l-tag rare">Prato</span>',
+    tech: `<div class="md-p">L’equipaggiamento che CT Corp riserva esclusivamente ai suoi tecnici — perché la Corporazione sa esattamente cosa fa la radiazione temporale a un corpo non protetto. Questa CTR-7 completa (tuta, casco, guanti, sigilli) è stata <strong>esfiltrata dal complesso FiberCore di Prato</strong> da I Tessitori durante il caos post-Ananke.</div>
+      <div class="md-p">Protezione nominale in zona GFT attiva fino a 50 m dal generatore — il raggio esatto dell’invecchiamento accelerato. Indispensabile per ogni operazione in un complesso attivo: la procedura di disattivazione progressiva di un GFT (vedi contratto #ER-S-001, Gdańsk) richiede 40 minuti all’interno. Senza una CTR-7, quei 40 minuti costano anni.</div>
+      <div class="md-specs">
+        <span class="sk">Taglia</span><span class="sv">M — non regolabile</span>
+        <span class="sk">Protezione</span><span class="sv">Zona GFT attiva fino a 50 m, esposizione continua 45 min max</span>
+        <span class="sk">Stato</span><span class="sv">Sigilli intatti, giunti controllati da I Tessitori al 01.2035</span>
+        <span class="sk">Disponibilità</span><span class="sv">Una sola unità. Solo emergenze operative</span>
+      </div>`,
+    prov: `Esfiltrazione I Tessitori, FiberCore, Prato. L’unica CTR-7 del catalogo — e probabilmente l’unica in circolazione fuori dall’inventario CT Corp nell’Europa occidentale.`,
+    warnings: [
+      "45 minuti di esposizione continua al massimo, in conformità con gli stessi protocolli di CT Corp. La tuta attenua la radiazione temporale — non la annulla.",
+      "Controllo dei giunti obbligatorio prima di ogni uso: la polvere temporale degrada i sigilli. Un giunto del polso difettoso invecchia la mano del portatore mentre il resto del corpo non sente nulla.",
+      "Taglia M, non regolabile. Una tuta larga crea sacche d’aria alle giunzioni — altrettanti punti di rottura del sigillo. Se non ti va bene, non ti protegge.",
+      "Dopo l’uso in zona attiva: decontaminazione completa prima del rientro. Non riportare mai una CTR-7 esposta in un rifugio abitato — la polvere temporale viaggia con il tessuto."
+    ],
+    dry: "Una unità. Taglia M. Se non è la tua, non è la tua."
+  },
+
+  'la-larme': {
+    ref: 'ER-MKT-H04', cat: 'Hardware & Equipaggiamento',
+    title: 'Generatore di Flusso Temporale portatile — « La Larme »',
+    price: '2 000 CÉ', unit: '/ prototype',
+    tags: '<span class="l-tag rare">Prototype unique</span> <span class="l-tag hot">Instable</span>',
+    tech: `<div class="md-p">L’oggetto più caro del catalogo, e di gran lunga il più pericoloso. « La Larme » è un GFT miniaturizzato — la tecnologia che normalmente richiede una centrale nucleare, ridotta a un cilindro trasportabile da <strong>Vaedran Ilarion</strong> in persona. Compressione ×3 massima, bolla di 2 m³: tre minuti vissuti per un minuto trascorso fuori.</div>
+      <div class="md-p">Uso previsto: fuga, estrazione, operazioni brevi — guadagnare tempo quando non ce n’è più. Una persona nella bolla dispone di qualche minuto soggettivo in più per scassinare, curare, disinnescare, sparire. Il prototipo è unico. Non esiste <em>alcun manuale d’uso</em>: il suo costruttore non ne ha mai scritto uno, e non è più raggiungibile.</div>
+      <div class="md-specs">
+        <span class="sk">Compressione</span><span class="sv">×3 massimo — blocco hardware</span>
+        <span class="sk">Volume bolla</span><span class="sv">2 m³ — una persona accovacciata e il suo equipaggiamento</span>
+        <span class="sk">Stabilità</span><span class="sv">4 minuti di attivazione continua. Non uno di più</span>
+        <span class="sk">Alimentazione</span><span class="sv">Cella dedicata, 3 attivazioni prima della ricarica specializzata</span>
+      </div>`,
+    prov: `Costruito da Vaedran Ilarion. La rete non dirà né quando, né dove, né perché è stato messo a catalogo. Il prezzo riflette meno il suo valore che la volontà di filtrare gli acquirenti.`,
+    warnings: [
+      "Instabile oltre i 4 minuti: il collasso di una bolla attiva espone il suo occupante a un cesoiamento temporale — il differenziale ×3 si riassorbe in un istante attraverso i tessuti. Spegni a 3 min 30. Sempre.",
+      "Mai vicino a una massa d’acqua importante: l’effetto di risonanza documentato sui GFT si applica anche alle micro-bolle, in modo imprevedibile.",
+      "Radiazione temporale residua in un raggio di 3 m per diversi minuti dopo lo spegnimento. Non lasciare avvicinare nessuno immediatamente.",
+      "Non esiste alcun supporto tecnico. In caso di comportamento anomalo — vibrazione, alone, distorsione visiva dei bordi della bolla — spegni e abbandona l’oggetto. Nessuna missione vale ciò che fa a un corpo."
+    ],
+    dry: "Quattro minuti. Vaedran lo sapeva. Ora, anche tu."
+  }
+};
+
+function openItem(id) {
+  const it = marketItems[id];
+  if (!it) return;
+  const imgPath = '../assets/marche/er-' + id + '.png';
+  let h = '';
+  h += '<div class="md-image">';
+  h += '<div class="md-noimg"><div class="ni-frame">// VISUALE IN TRASMISSIONE</div><div>' + imgPath + ' — 16:9</div></div>';
+  h += '<img src="' + imgPath + '" alt="' + it.title.replace(/"/g, '&quot;') + '" onerror="this.style.display=\'none\'">';
+  h += '</div>';
+  h += '<div class="md-ref">' + it.ref + ' // ' + it.cat.toUpperCase() + ' // ECO-ROSSO / MERCATO / SCHEDA</div>';
+  h += '<div class="md-header"><div><div class="md-title">' + it.title + '</div><div class="listing-tags" style="margin-top:10px">' + it.tags + '</div></div>';
+  h += '<div class="md-price"><span class="price-amount">' + it.price + '</span><span class="price-unit">' + it.unit + '</span>';
+  h += '<button class="order-btn" style="margin-top:10px;padding:8px 16px;font-size:11px">CONTATTARE →</button></div></div>';
+  h += '<div class="md-section-title">// SCHEDA TECNICA</div>' + it.tech;
+  h += '<div class="md-section-title">// PROVENANCE</div><div class="md-p">' + it.prov + '</div>';
+  h += '<div class="md-warnings"><div class="w-title">⚠ Avvertenze d’uso — lettura obbligatoria prima del contatto</div>';
+  it.warnings.forEach(w => { h += '<div class="w-item">' + w + '</div>'; });
+  h += '<div class="md-dry">' + it.dry + '</div></div>';
+  h += '<div class="md-footer"><button class="order-btn" style="padding:10px 24px;font-size:12px" onclick="event.stopPropagation()">CONTATTARE IL VENDITORE →</button>';
+  h += '<span style="font-size:10px;color:var(--text-muted);letter-spacing:0.06em">// transazione cifrata — CTC rifiutato — nessuna garanzia nelle zone Kassandra massime</span></div>';
+  document.getElementById('md-content').innerHTML = h;
+  document.getElementById('market-catalog').style.display = 'none';
+  document.getElementById('market-detail').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeItemDetail() {
+  document.getElementById('market-detail').classList.remove('active');
+  document.getElementById('market-catalog').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ── EASTER EGG : NAOS-9 ──────────────────────────
+let keyBuf = '';
+document.addEventListener('keydown', e => {
+  keyBuf += e.key.toUpperCase();
+  if (keyBuf.length > 8) keyBuf = keyBuf.slice(-8);
+  if (keyBuf.includes('NAOS')) {
+    keyBuf = '';
+    const flash = document.createElement('div');
+    flash.style.cssText = `position:fixed;bottom:24px;left:24px;z-index:9999;
+      background:rgba(2,8,4,0.96);border:1px solid #004420;
+      padding:16px 20px;font-family:'Share Tech Mono',monospace;font-size:12px;
+      color:#00FF41;letter-spacing:0.08em;max-width:400px;line-height:1.7;
+      animation:fadeIn 0.3s ease;`;
+    flash.innerHTML = `<span style="color:#00A82A">// NAOS-9 // CANALE APERTO</span><br>
+"Sena. Ti vedo. Nodo Lyon-7.<br>Il contro-segnale esiste.<br>Ma non hai bisogno di me per trovarlo."<br>
+<span style="color:#004420;font-size:10px">// connessione chiusa — 0.003ms</span>`;
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 6000);
+  }
+});
+</script>
+
+<style>
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; } }
+.listing.hidden, .contract-card.hidden { display:none; }
+</style>
+
+<!-- mobile : retour portail -->
+<a class="back-portal" href="index.html" aria-label="Torna al portale">&#9666;</a>
+
+<script>
+(function(){
+  var L=document.querySelector('.nav-links'),B=document.querySelector('.nav-burger');
+  if(!L||!B)return;
+  B.addEventListener('click',function(){L.classList.toggle('open');});
+  L.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){L.classList.remove('open');});});
+})();
+</script>
+<!--i18n:js-->
+<script src="../assets/js/lang-switch.js" defer></script>
+<!--/i18n:js-->
+</body>
+</html>
