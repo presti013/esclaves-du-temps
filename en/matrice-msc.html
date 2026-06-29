@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MSC — CONSOLE DE MAINTENANCE // ÉCHO ROUGE</title>
-<meta name="description" content="Matrice de Synchronisation Chronomorphique. Console de maintenance captée sur les systèmes CT Corp. Protocole Orphée — réouverture des portes.">
+<title>CSM — MAINTENANCE CONSOLE // RED ECHO</title>
+<meta name="description" content="Chronomorphic Synchronization Matrix. Maintenance console tapped from CT Corp systems. Orpheus Protocol — reopening the 147 gates.">
+<link rel="canonical" href="https://presti013.github.io/esclaves-du-temps/en/matrice-msc.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/en/matrice-msc.html">
+<meta property="og:title" content="CSM — Maintenance Console // Red Echo">
+<meta property="og:description" content="Chronomorphic Synchronization Matrix tapped from CT Corp. Reopen the 147 Orpheus gates.">
+<meta property="og:image" content="/assets/og-echo-rouge.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CSM — Maintenance Console // Red Echo">
+<meta name="twitter:description" content="Chronomorphic Synchronization Matrix tapped from CT Corp. Reopen the 147 Orpheus gates.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
@@ -206,14 +216,14 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
 </head>
 <body>
 <!--i18n:switch-->
-<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="matrice-msc.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/matrice-msc.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="it/matrice-msc.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="../matrice-msc.html" hreflang="fr" lang="fr" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="matrice-msc.html" hreflang="en" lang="en" class="is-active" aria-current="page" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="../it/matrice-msc.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
 <!--/i18n:switch-->
 <div class="page">
   <header class="erbar">
-    <a class="back" href="echo-rouge-v2.html">◄ RÉSEAU</a>
+    <a class="back" href="echo-rouge-v2.html">◄ NETWORK</a>
     <div class="er-mid">
-      <span><span class="erdot"></span>TOR // NŒUD ÉCHO-7 // ACTIF</span>
-      <span><span class="erdot red"></span>MSC // LIAISON CT CORP DÉTOURNÉE</span>
+      <span><span class="erdot"></span>TOR // ECHO-7 NODE // ACTIVE</span>
+      <span><span class="erdot red"></span>CSM // CT CORP LINK HIJACKED</span>
     </div>
     <div class="er-right">
       <span class="agent">AGENT :: <span id="agent">——</span></span>
@@ -221,46 +231,46 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
     </div>
   </header>
   <main class="stage">
-    <section class="console" id="console" aria-label="Console de maintenance MSC">
+    <section class="console" id="console" aria-label="CSM maintenance console">
       <div class="console-head">
         <div class="wordmark">
           <div class="wm-glyph">CT</div>
           <div class="wm-txt"><div class="a">CT&nbsp;CORP</div><div class="b">GLOBAL INDUSTRIAL SOLUTIONS</div></div>
         </div>
         <div class="head-titles">
-          <div class="t1">MSC — CONSOLE DE MAINTENANCE</div>
-          <div class="t2">Diagnostic de synchronisation chronomorphique · v4.7</div>
-          <div class="t3">// protocole orphée — réouverture des portes</div>
+          <div class="t1">CSM — MAINTENANCE CONSOLE</div>
+          <div class="t2">Chronomorphic synchronization diagnostics · v4.7</div>
+          <div class="t3">// orpheus protocol — reopening the gates</div>
         </div>
         <div class="head-tools">
-          <button class="ctbtn" id="muteBtn" aria-pressed="false">SON ●</button>
+          <button class="ctbtn" id="muteBtn" aria-pressed="false">SOUND ●</button>
           <button class="ctbtn" id="menuBtn">MENU</button>
         </div>
       </div>
       <div class="console-body">
         <aside class="panel">
           <div class="lvl-card">
-            <div class="lvl-tag" id="lvlTag">SECTEUR —</div>
+            <div class="lvl-tag" id="lvlTag">SECTOR —</div>
             <div class="lvl-name" id="lvlName">—</div>
             <div class="lvl-brief" id="lvlBrief">—</div>
             <div class="lvl-sub" id="lvlSub"></div>
           </div>
           <div class="cryo">
-            <div class="cryo-top"><span class="cryo-lbl">STASE CRYOGÉNIQUE</span><span class="cryo-temp" id="cryoTemp">−184,2°C</span></div>
+            <div class="cryo-top"><span class="cryo-lbl">CRYO-STASIS</span><span class="cryo-temp" id="cryoTemp">−184.2°C</span></div>
             <div class="cryo-row">
               <div class="cryo-track"><div class="cryo-fill" id="cryoFill" style="height:100%"></div></div>
-              <div class="cryo-info"><div class="cryo-status" id="cryoStatus">Stase nominale.</div><div class="cryo-ghost" id="cryoGhost">// fragmentation_</div></div>
+              <div class="cryo-info"><div class="cryo-status" id="cryoStatus">Stasis nominal.</div><div class="cryo-ghost" id="cryoGhost">// fragmentation_</div></div>
             </div>
           </div>
           <div class="doors">
-            <div class="doors-lbl">PORTES D'ORPHÉE</div>
+            <div class="doors-lbl">ORPHEUS GATES</div>
             <div class="doors-val"><span id="doorsVal">000</span> <span class="sep">/ 147</span></div>
             <div class="doors-bar"><i id="doorsBar"></i></div>
-            <div class="doors-sub" id="doorsSub">Nœuds du secteur : <b><span id="nodeOn">0</span>/<span id="nodeTot">0</span></b></div>
+            <div class="doors-sub" id="doorsSub">Sector nodes : <b><span id="nodeOn">0</span>/<span id="nodeTot">0</span></b></div>
           </div>
           <div class="panel-actions">
-            <button class="ctbtn" id="resetBtn">RÉINITIALISER LE SECTEUR</button>
-            <button class="ctbtn" id="skipBtn" style="display:none">PASSER LE PROLOGUE →</button>
+            <button class="ctbtn" id="resetBtn">RESET SECTOR</button>
+            <button class="ctbtn" id="skipBtn" style="display:none">SKIP PROLOGUE →</button>
           </div>
         </aside>
         <div class="gridwrap"><div class="grid" id="grid"></div></div>
@@ -271,37 +281,37 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
 <div class="overlay show" id="boot"><div class="ov-box"><div id="bootLines"></div></div></div>
 <div class="overlay" id="phase">
   <div class="ov-box">
-    <div class="ph-glyph">MSC</div>
-    <h1>MATRICE DE SYNCHRONISATION CHRONOMORPHIQUE</h1>
-    <div class="ph-sub">Console de maintenance — accès distant autorisé</div>
-    <div class="ph-ghost">// derrière le masque : 147 portes à rouvrir. Une conscience à libérer.</div>
+    <div class="ph-glyph">CSM</div>
+    <h1>CHRONOMORPHIC SYNCHRONIZATION MATRIX</h1>
+    <div class="ph-sub">Maintenance console — remote access authorized</div>
+    <div class="ph-ghost">// behind the mask: 147 gates to reopen. A consciousness to set free.</div>
     <div class="ph-choices">
-      <button class="ph-choice" id="goProto"><span class="pc-arrow">▶</span><span><span class="pc-t">Protocole d'Orphée — prologue</span><span class="pc-d">Calibrer les membranes des trois espaces · recommandé pour démarrer</span></span></button>
-      <button class="ph-choice alt" id="goMatrix"><span class="pc-arrow">▶</span><span><span class="pc-t">Accès direct à la Matrice</span><span class="pc-d">Passer le prologue et router la résonance</span></span></button>
+      <button class="ph-choice" id="goProto"><span class="pc-arrow">▶</span><span><span class="pc-t">Orpheus Protocol — prologue</span><span class="pc-d">Calibrate the membranes of the three spaces · recommended to start</span></span></button>
+      <button class="ph-choice alt" id="goMatrix"><span class="pc-arrow">▶</span><span><span class="pc-t">Direct access to the Matrix</span><span class="pc-d">Skip the prologue and route the resonance</span></span></button>
     </div>
   </div>
 </div>
 <div class="overlay" id="inter">
   <div class="ov-box">
     <div class="it-mark" id="itMark">◇</div>
-    <h2 id="itTitle">SECTEUR SYNCHRONISÉ</h2>
+    <h2 id="itTitle">SECTOR SYNCHRONIZED</h2>
     <div class="it-line" id="itLine">—</div>
     <div class="it-doors" id="itDoors"></div>
-    <div class="vactions" style="opacity:1;margin-top:26px"><button id="itNext">CONTINUER →</button></div>
+    <div class="vactions" style="opacity:1;margin-top:26px"><button id="itNext">CONTINUE →</button></div>
   </div>
 </div>
 <div class="overlay" id="victory">
   <div class="vflood"></div>
   <div class="ov-box">
-    <div class="vtitle">SYNCHRONISATION COMPLÈTE</div>
-    <div class="vbody">147&nbsp;portes. Une seule note.<br>Le froid a tenu.<br><br>Deux consciences dans le même espace —<br>distinctes, et reliées.<br>Ni lui. Ni elle.<br><span class="nous">Nous.</span></div>
+    <div class="vtitle">SYNCHRONIZATION COMPLETE</div>
+    <div class="vbody">147&nbsp;gates. A single note.<br>The cold held.<br><br>Two consciousnesses in the same space —<br>distinct, and bound.<br>Neither him. Nor her.<br><span class="nous">Us.</span></div>
     <div class="vrule">— · —</div>
-    <div class="vwhisper">Ce qui fut dissous s'est lié.<br>Descends, et tu trouveras.</div>
-    <div class="vactions"><a href="echo-rouge-v2.html">◄ RETOUR AU RÉSEAU</a><button id="vReplay">Relancer le protocole</button></div>
+    <div class="vwhisper">What was dissolved has bound itself.<br>Descend, and you will find.</div>
+    <div class="vactions"><a href="echo-rouge-v2.html">◄ BACK TO NETWORK</a><button id="vReplay">Restart the protocol</button></div>
   </div>
 </div>
 <script>
-const LEVELS = /*__LEVELS__*/[{"name":"Espace-Kael — Stabilisation","phase":"A1","rows":4,"cols":4,"doorsMilestone":0,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"straight","r":0,"role":"rubidium"},{"t":"end","r":0,"role":"source"},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"end","r":1,"role":"sink"},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3}]},{"name":"Les Trois Espaces — Membranes","phase":"A2","rows":5,"cols":5,"doorsMilestone":0,"tiles":[{"t":"end","r":1,"role":"source","flow":"K"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"straight","r":3},{"t":"corner","r":2},{"t":"straight","r":3},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":2},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0,"role":"us"},{"t":"corner","r":3},{"t":"corner","r":1},{"t":"corner","r":3},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"tee","r":2},{"t":"straight","r":3},{"t":"end","r":1,"role":"source","flow":"N"},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":1},{"t":"tee","r":1}]},{"name":"Secteur 01 — Réveil des cristaux","phase":"B1","rows":5,"cols":5,"doorsMilestone":23,"tiles":[{"t":"end","r":1,"role":"source"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"end","r":0,"role":"sink"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3}]},{"name":"Secteur 02 — Cascade","phase":"B2","rows":5,"cols":6,"doorsMilestone":61,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"end","r":2,"role":"source"},{"t":"corner","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"end","r":3,"role":"sink"}]},{"name":"Secteur 03 — Résonance","phase":"B3","rows":6,"cols":6,"doorsMilestone":108,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"end","r":0,"role":"source"},{"t":"straight","r":0},{"t":"end","r":1,"role":"sink"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":0,"role":"rubidium"},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3}]},{"name":"Le Moyeu — Synchronisation finale","phase":"B4","rows":6,"cols":6,"doorsMilestone":147,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2,"role":"rubidium"},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3,"role":"rubidium"},{"t":"end","r":0,"role":"source"},{"t":"straight","r":0,"role":"moyeu"},{"t":"end","r":1,"role":"sink"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1,"role":"rubidium"},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":1},{"t":"corner","r":2,"role":"rubidium"},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"corner","r":3}]}]/*__END__*/;
+const LEVELS = /*__LEVELS__*/[{"name":"Kael-Space — Stabilization","phase":"A1","rows":4,"cols":4,"doorsMilestone":0,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"straight","r":0,"role":"rubidium"},{"t":"end","r":0,"role":"source"},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"end","r":1,"role":"sink"},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3}]},{"name":"The Three Spaces — Membranes","phase":"A2","rows":5,"cols":5,"doorsMilestone":0,"tiles":[{"t":"end","r":1,"role":"source","flow":"K"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"straight","r":3},{"t":"corner","r":2},{"t":"straight","r":3},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":2},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0,"role":"us"},{"t":"corner","r":3},{"t":"corner","r":1},{"t":"corner","r":3},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"tee","r":2},{"t":"straight","r":3},{"t":"end","r":1,"role":"source","flow":"N"},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":1},{"t":"tee","r":1}]},{"name":"Sector 01 — Crystal Awakening","phase":"B1","rows":5,"cols":5,"doorsMilestone":23,"tiles":[{"t":"end","r":1,"role":"source"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"end","r":0,"role":"sink"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3}]},{"name":"Sector 02 — Cascade","phase":"B2","rows":5,"cols":6,"doorsMilestone":61,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"end","r":2,"role":"source"},{"t":"corner","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"end","r":3,"role":"sink"}]},{"name":"Sector 03 — Resonance","phase":"B3","rows":6,"cols":6,"doorsMilestone":108,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0,"role":"rubidium"},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"end","r":0,"role":"source"},{"t":"straight","r":0},{"t":"end","r":1,"role":"sink"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":0,"role":"rubidium"},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1,"role":"rubidium"},{"t":"straight","r":1},{"t":"corner","r":3}]},{"name":"The Hub — Final Synchronization","phase":"B4","rows":6,"cols":6,"doorsMilestone":147,"tiles":[{"t":"corner","r":1},{"t":"corner","r":2,"role":"rubidium"},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"corner","r":1},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"corner","r":3,"role":"rubidium"},{"t":"end","r":0,"role":"source"},{"t":"straight","r":0,"role":"moyeu"},{"t":"end","r":1,"role":"sink"},{"t":"straight","r":1},{"t":"corner","r":2},{"t":"corner","r":1,"role":"rubidium"},{"t":"corner","r":2},{"t":"straight","r":0},{"t":"corner","r":1},{"t":"corner","r":2,"role":"rubidium"},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"straight","r":0},{"t":"corner","r":0},{"t":"corner","r":3},{"t":"corner","r":0},{"t":"straight","r":1},{"t":"straight","r":1},{"t":"corner","r":3}]}]/*__END__*/;
 const N=0,E=1,S=2,W=3, DR=[-1,0,1,0], DC=[0,1,0,-1], OPP=[2,3,0,1];
 const BASE={empty:[0,0,0,0],straight:[1,0,1,0],corner:[1,1,0,0],tee:[1,1,1,0],cross:[1,1,1,1],end:[1,0,0,0]};
 function ports(type,r){let p=BASE[type].slice();r=((r%4)+4)%4;for(let k=0;k<r;k++)p=[p[3],p[0],p[1],p[2]];return p;}
@@ -339,14 +349,14 @@ const state={tiles:[],render:null,heat:0,win:false,nodeOn:0,nodeTotal:0};
 const grid=document.getElementById('grid');
 function isLocked(t){return t.role==='source'||t.role==='sink'||t.role==='us';}
 const BRIEFS={
-  A1:["Aligner le flux de l'unité organique jusqu'au point de stabilisation.","// espace-Kael · apprendre à pivoter les tuiles"],
-  A2:["Acheminer les deux flux vers le nœud central sans jamais qu'ils se touchent.","// membranes : perméables mais distinctes"],
-  B1:["Réveiller les cristaux de rubidium du secteur 01.","// nanites genesis · première résonance"],
-  B2:["Cascade de synchronisation — propager l'accord, secteur 02.","// chaque porte, un fragment de Jarek"],
-  B3:["Aligner la résonance jusqu'à saturation — secteur 03.",""],
-  B4:["Atteindre le moyeu. Fermer l'accord. Ouvrir la dernière porte.","// nœud 074 — le moyeu de Jarek"]
+  A1:["Align the organic unit's flow to the stabilization point.","// Kael-space · learn to rotate the tiles"],
+  A2:["Route the two flows to the central node without ever letting them touch.","// membranes: permeable but distinct"],
+  B1:["Awaken the rubidium crystals of sector 01.","// genesis nanites · first resonance"],
+  B2:["Synchronization cascade — propagate the chord, sector 02.","// each gate, a fragment of Jarek"],
+  B3:["Align the resonance to saturation — sector 03.",""],
+  B4:["Reach the hub. Close the chord. Open the last gate.","// node 074 — Jarek's hub"]
 };
-const TAGS={A1:'PROLOGUE 01/02',A2:'PROLOGUE 02/02',B1:'SECTEUR 01',B2:'SECTEUR 02',B3:'SECTEUR 03',B4:'SECTEUR FINAL'};
+const TAGS={A1:'PROLOGUE 01/02',A2:'PROLOGUE 02/02',B1:'SECTOR 01',B2:'SECTOR 02',B3:'SECTOR 03',B4:'FINAL SECTOR'};
 function loadLevel(idx){
   cur=idx; solving=false;
   const lv=LEVELS[idx];
@@ -375,7 +385,7 @@ function buildGrid(){
     grid.appendChild(b);
   });
 }
-function ariaFor(t){const role={source:'source',sink:'destination',us:'nœud central Nous',rubidium:'nœud rubidium',moyeu:'le moyeu'}[t.role]||'conduit';return role+' — '+(isLocked(t)?'verrouillé':'pivoter');}
+function ariaFor(t){const role={source:'source',sink:'destination',us:'central Us node',rubidium:'rubidium node',moyeu:'the hub'}[t.role]||'conduit';return role+' — '+(isLocked(t)?'locked':'rotate');}
 function recompute(){
   const lv=LEVELS[cur], t=state.tiles, L={cols:lv.cols,rows:lv.rows,tiles:t};
   const sources=t.map((x,i)=>x.role==='source'?i:-1).filter(i=>i>=0);
@@ -409,11 +419,11 @@ function hx(n){return ('0'+Math.round(n).toString(16)).slice(-2);}
 function mix(a,b,t){const pa=[parseInt(a.slice(1,3),16),parseInt(a.slice(3,5),16),parseInt(a.slice(5,7),16)];const pb=[parseInt(b.slice(1,3),16),parseInt(b.slice(3,5),16),parseInt(b.slice(5,7),16)];return '#'+hx(pa[0]+(pb[0]-pa[0])*t)+hx(pa[1]+(pb[1]-pa[1])*t)+hx(pa[2]+(pb[2]-pa[2])*t);}
 function updateGauge(){
   const HEATMAX=8; let warmth=Math.min(1,state.heat/HEATMAX); if(state.win)warmth=0;
-  const tv=(184.2 - warmth*64).toFixed(1).replace('.',',');
+  const tv=(184.2 - warmth*64).toFixed(1);
   document.getElementById('cryoTemp').textContent='−'+tv+'°C';
   let col = warmth<0.5 ? mix('#5FE6F2','#FFB000',warmth/0.5) : mix('#FFB000','#FF3A3A',(warmth-0.5)/0.5);
   const fill=document.getElementById('cryoFill'); fill.style.background=col; fill.style.height=(100-warmth*72)+'%';
-  let s; if(warmth<0.14)s='Stase nominale.'; else if(warmth<0.5)s='Rendement thermique sous-optimal.'; else s='Alerte thermique — impasses détectées.';
+  let s; if(warmth<0.14)s='Stasis nominal.'; else if(warmth<0.5)s='Thermal output suboptimal.'; else s='Thermal alert — dead ends detected.';
   document.getElementById('cryoStatus').textContent=s;
   document.getElementById('cryoGhost').classList.toggle('on',warmth>=0.5);
 }
@@ -422,8 +432,8 @@ function updateDoors(){
   document.getElementById('doorsVal').textContent=String(doorsBase).padStart(3,'0');
   document.getElementById('doorsBar').style.width=(doorsBase/147*100)+'%';
   const sub=document.getElementById('doorsSub');
-  if(lv.phase[0]==='B'){ sub.style.opacity='1'; sub.innerHTML='Nœuds du secteur : <b>'+state.nodeOn+'/'+state.nodeTotal+'</b>'; }
-  else{ sub.style.opacity='.6'; sub.innerHTML='// portes verrouillées — calibrage des membranes'; }
+  if(lv.phase[0]==='B'){ sub.style.opacity='1'; sub.innerHTML='Sector nodes : <b>'+state.nodeOn+'/'+state.nodeTotal+'</b>'; }
+  else{ sub.style.opacity='.6'; sub.innerHTML='// gates locked — membrane calibration'; }
 }
 function rotate(i,dir){
   if(solving)return; const t=state.tiles[i]; if(t.t==='empty'||isLocked(t))return;
@@ -446,9 +456,9 @@ function animateDoors(from,to){
 function showInter(){
   const lv=LEVELS[cur]; const dual=lv.phase==='A2';
   document.getElementById('itMark').textContent=dual?'◈':'◇';
-  document.getElementById('itTitle').textContent=(lv.phase[0]==='A')?(dual?'MEMBRANES PRÉSERVÉES':'ESPACE STABILISÉ'):'SECTEUR SYNCHRONISÉ';
-  document.getElementById('itLine').textContent=(lv.phase[0]==='A')?(dual?'Les trois espaces tiennent. Kael, NAOS-9 — et Nous.':'Le flux est stable. Vous savez pivoter.'):'Résonance verrouillée. La cascade se propage.';
-  document.getElementById('itDoors').textContent=(lv.phase[0]==='B')?(String(lv.doorsMilestone).padStart(3,'0')+' / 147 portes ouvertes'):'';
+  document.getElementById('itTitle').textContent=(lv.phase[0]==='A')?(dual?'MEMBRANES PRESERVED':'SPACE STABILIZED'):'SECTOR SYNCHRONIZED';
+  document.getElementById('itLine').textContent=(lv.phase[0]==='A')?(dual?'The three spaces hold. Kael, NAOS-9 — and Us.':'The flow is stable. You know how to rotate.'):'Resonance locked. The cascade propagates.';
+  document.getElementById('itDoors').textContent=(lv.phase[0]==='B')?(String(lv.doorsMilestone).padStart(3,'0')+' / 147 gates open'):'';
   show('inter');
 }
 function showVictory(){
@@ -478,13 +488,13 @@ document.getElementById('itNext').addEventListener('click',()=>{hideAll();loadLe
 document.getElementById('vReplay').addEventListener('click',()=>{document.getElementById('console').classList.remove('dissolve');document.getElementById('victory').classList.remove('flood','reveal');doorsBase=0;hideAll();show('phase');});
 function clock(){const d=new Date();const p=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+' UTC';}
 clock();setInterval(clock,1000);
-(function(){try{const params=new URLSearchParams(location.search);const a=params.get('agent')||sessionStorage.getItem('er_codename')||localStorage.getItem('er_codename')||'AGENT_INCONNU';document.getElementById('agent').textContent=a;}catch(e){document.getElementById('agent').textContent='AGENT_INCONNU';}})();
+(function(){try{const params=new URLSearchParams(location.search);const a=params.get('agent')||sessionStorage.getItem('er_codename')||localStorage.getItem('er_codename')||'UNKNOWN_AGENT';document.getElementById('agent').textContent=a;}catch(e){document.getElementById('agent').textContent='UNKNOWN_AGENT';}})();
 const BOOT=[
-  "ÉCHO ROUGE // NŒUD LYON-7 — LIAISON CHIFFRÉE AES-512",
-  "<span class='dim'>&gt; ouverture du canal distant CT Corp ........</span> <span class='ok'>OK</span>",
-  "<span class='dim'>&gt; injection du masque de maintenance ........</span> <span class='ok'>OK</span>",
-  "<span class='dim'>&gt; cartographie des 147 portes d'Orphée .....</span> <span class='ok'>PRÊT</span>",
-  "PROTOCOLE ORPHÉE armé. <span class='boot-cursor'></span>"
+  "RED ECHO // LYON-7 NODE — AES-512 ENCRYPTED LINK",
+  "<span class='dim'>&gt; opening CT Corp remote channel ........</span> <span class='ok'>OK</span>",
+  "<span class='dim'>&gt; injecting maintenance mask ........</span> <span class='ok'>OK</span>",
+  "<span class='dim'>&gt; mapping the 147 Orpheus gates .....</span> <span class='ok'>READY</span>",
+  "ORPHEUS PROTOCOL armed. <span class='boot-cursor'></span>"
 ];
 (function boot(){
   const box=document.getElementById('bootLines');
@@ -493,7 +503,7 @@ const BOOT=[
 })();
 </script>
 <!--i18n:js-->
-<script src="assets/js/lang-switch.js" defer></script>
+<script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
 </body>
 </html>
