@@ -21,9 +21,9 @@ _CORE = {"index.html", "prologue.html", "bande-originale.html", "naos-9-fugue.ht
          "apropos-ctcorp.html", "ctcorp-prototype.html", "ctcorp-conformite.html"}
 AVAIL = {
     # EN: core + Red Echo + games.
-    "en": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html"},
+    "en": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html", "matrice-msc.html"},
     # IT: core + Red Echo + games.
-    "it": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html"},
+    "it": _CORE | {"echo-rouge-v2.html", "signal-game.html", "mini-jeu-escape.html", "matrice-msc.html"},
 }
 
 LANG_LABEL = {"fr": "Français", "en": "English", "it": "Italiano"}
@@ -105,6 +105,9 @@ SWITCH_OVERRIDE = {
     "ctcorp-prototype.html": ".i18n-switch{top:auto;bottom:14px;right:14px;}",
     "apropos-ctcorp.html":   ".i18n-switch{top:auto;bottom:14px;right:14px;}",
     "ctcorp-conformite.html":".i18n-switch{top:auto;bottom:14px;right:14px;}",
+    # Console MSC : barre fixe (agent/horloge) en haut à droite — on déplace le
+    # sélecteur en bas à droite pour ne pas recouvrir l'horloge (desktop + 390 px).
+    "matrice-msc.html":      ".i18n-switch{top:auto;bottom:14px;right:14px;}",
 }
 
 def build_style(page):
