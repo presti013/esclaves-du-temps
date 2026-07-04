@@ -2125,7 +2125,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">18 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2142,7 +2142,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">16 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2159,7 +2159,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">22 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2175,7 +2175,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">20 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2191,7 +2191,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">14 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2208,7 +2208,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">28 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2224,7 +2224,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">30 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2241,7 +2241,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">35 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2257,7 +2257,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">38 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2274,7 +2274,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">40 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2291,7 +2291,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">45 CTC/h</span>
               <span class="salary-note">Tempo soggettivo</span>
-              <button class="apply-btn">Candìdati</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candìdati</button>
             </div>
           </div>
 
@@ -2308,7 +2308,7 @@ footer {
             <div class="job-salary">
               <span class="salary-amount">200 CTC/h</span>
               <span class="salary-note">Temps réel</span>
-              <button class="apply-btn">Candidatura classificata</button>
+              <button class="apply-btn" onclick="applyJob(event)">Candidatura classificata</button>
             </div>
           </div>
 
@@ -3219,8 +3219,9 @@ function showJobsList() {
   if (list) list.style.display = 'block';
   document.querySelectorAll('.job-detail').forEach(function (d) { d.classList.remove('active'); });
 }
-function applyJob() {
-  alert("Candidatura registrata. Un referente CT Corp ti ricontatter\u00e0 dopo la verifica del tuo saldo di Crediti-Tempo e la programmazione della tua Tessitura Sinaptica.");
+function applyJob(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  window.open('https://www.linkedin.com/company/ctcorp-esclavesdutemps', '_blank', 'noopener');
 }
 
 // ── JOB FILTER ──────────────────────────────────────
