@@ -99,6 +99,14 @@ STYLE = """<!--i18n:style-->
 </style>
 <!--/i18n:style-->"""
 
+# Analytics (GoatCounter) — GitHub Pages est statique, on passe par un service
+# externe. Injecté (comme le sélecteur) sur toutes les pages, racine + en/it.
+# ⚠ Remplacer CODE_GOATCOUNTER par le code fourni par Laurent après création du
+# compte sur https://www.goatcounter.com/ (idem dans admin-stats.html).
+ANALYTICS = """<!--i18n:analytics-->
+<script data-goatcounter="https://CODE_GOATCOUNTER.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!--/i18n:analytics-->"""
+
 # Pages à en-tête dense : le sélecteur passe en bas à droite pour ne pas
 # chevaucher la barre de navigation fixe (vérifié desktop + 390 px).
 SWITCH_OVERRIDE = {
@@ -142,9 +150,13 @@ def _update_meta_url(html, lang, page):
 
 def inject(path, lang, page):
     html = io.open(path, encoding="utf-8").read()
+    # Normalise les liens internes des pages traduites (corrige les « ../ » erronés
+    # des builds antérieurs) AVANT de régénérer les blocs i18n (sélecteur, etc.).
+    html = rewrite_page_links(html, lang)
     html = _replace_block(html, "style", build_style(page), "</head>", after=False)
     html = _replace_block(html, "hreflang", build_hreflang(page), "</head>", after=False)
     html = _replace_block(html, "switch", build_switch(lang, page), r"<body[^>]*>", after=True)
+    html = _replace_block(html, "analytics", ANALYTICS, "</body>", after=False)
     html = _replace_block(html, "js", js_tag(lang), "</body>", after=False)
     html = _update_meta_url(html, lang, page)
     # <html lang="..">
@@ -155,6 +167,33 @@ def rewrite_asset_paths(html):
     # 'assets/...' -> '../assets/...' quand précédé d'un guillemet ou d'une parenthèse
     return re.sub(r'(["\'(])assets/', r'\1../assets/', html)
 
+# Ensemble des pages internes du site (toutes les pages .html à la racine).
+LOCAL_PAGES = frozenset(f for f in os.listdir(".") if f.endswith(".html"))
+# Motif : une référence de page interne ouverte par " ' ou (, éventuellement
+# préfixée d'un unique « ../ », suivie du nom d'une page connue. Trié du plus long
+# au plus court pour éviter les correspondances partielles.
+_PAGE_LINK_RE = re.compile(
+    r'(["\'(])(?:\.\./)?(%s)'
+    % "|".join(re.escape(p) for p in sorted(LOCAL_PAGES, key=len, reverse=True))
+) if LOCAL_PAGES else None
+
+def rewrite_page_links(html, lang):
+    """Normalise les liens de pages internes d'une page traduite (en/it).
+
+    Règle : dans une page /<lang>, un lien vers une page QUI EXISTE dans cette
+    langue (voir AVAIL) est relatif même-dossier (SANS « ../ ») ; un lien vers
+    une page FR-only est préfixé « ../ ». Ne touche pas aux URL absolues
+    (http/https, car elles ne débutent pas par un nom de page ou « ../ ») ni aux
+    chemins d'assets (non « .html »). Idempotent : réexécutable sans dérive.
+    """
+    if lang == "fr" or _PAGE_LINK_RE is None:
+        return html
+    def _repl(m):
+        quote, page = m.group(1), m.group(2)
+        prefix = "" if available(lang, page) else "../"
+        return "%s%s%s" % (quote, prefix, page)
+    return _PAGE_LINK_RE.sub(_repl, html)
+
 def scaffold(page, lang):
     out_dir = lang
     os.makedirs(out_dir, exist_ok=True)
@@ -163,6 +202,7 @@ def scaffold(page, lang):
         return out_path, False
     html = io.open(page, encoding="utf-8").read()
     html = rewrite_asset_paths(html)
+    html = rewrite_page_links(html, lang)
     io.open(out_path, "w", encoding="utf-8").write(html)
     return out_path, True
 
@@ -173,7 +213,12 @@ def _is_full_doc(f):
     except Exception:
         return False
 
-PAGES_FR = [f for f in sorted(os.listdir(".")) if f.endswith(".html") and _is_full_doc(f)]
+# Pages hors i18n (admin / outils internes) : pas de sélecteur ni de hreflang.
+# Elles embarquent l'analytics directement dans leur source.
+EXCLUDE = {"admin-stats.html"}
+
+PAGES_FR = [f for f in sorted(os.listdir("."))
+            if f.endswith(".html") and _is_full_doc(f) and f not in EXCLUDE]
 
 if __name__ == "__main__":
     import sys

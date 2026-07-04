@@ -620,13 +620,10 @@ body {
 .comps { font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
 .comps em { color:var(--text); font-style:normal; }
 
-/* FORM */
-.signup { display:flex; max-width:440px; margin:0 auto 10px; border:1px solid var(--gold-dim); }
-.signup input { flex:1; min-width:0; background:#000; border:none; color:var(--white); font-family:'Barlow Condensed', sans-serif; font-size:16px; padding:14px 18px; outline:none; letter-spacing:0.04em; }
-.signup input::placeholder { color:var(--text-dim); }
-.signup button { background:var(--gold); color:#1a1206; border:none; font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; padding:0 22px; cursor:pointer; transition:background .2s; }
-.signup button:hover { background:var(--gold2); }
-.form-note { font-family:'Orbitron', monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--red-bright); opacity:0.75; margin-bottom:28px; }
+/* LIVRE — MOCKUP */
+.book-mockup-link { display:inline-block; margin:0 auto 30px; max-width:300px; line-height:0; }
+.book-mockup { display:block; width:100%; height:auto; border:1px solid rgba(201,148,58,0.25); box-shadow:0 14px 44px rgba(0,0,0,0.6); transition:transform .25s ease, box-shadow .25s ease; }
+.book-mockup-link:hover .book-mockup, .book-mockup-link:focus-visible .book-mockup { transform:translateY(-4px); box-shadow:0 20px 54px rgba(201,148,58,0.28); }
 .secondary-actions { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
 
 /* BO */
@@ -671,6 +668,30 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 @media (max-width:680px) {
   #hero #titre-img { width:min(78vw,420px); max-width:88vw; }
 }
+
+/* ── DISCLAIMER (avant CT Corp / Écho Rouge) — style CRT/terminal ── */
+#disclaimer-overlay{ display:none; position:fixed; inset:0; z-index:1200;
+  background:rgba(0,0,0,0.93); align-items:center; justify-content:center; padding:24px;
+  font-family:'Share Tech Mono','Orbitron',monospace; }
+#disclaimer-overlay.active{ display:flex; }
+.disclaimer-modal{ position:relative; overflow:hidden; width:100%; max-width:560px;
+  padding:34px 32px; background:rgba(2,6,8,0.98); border:1px solid rgba(201,148,58,0.4);
+  box-shadow:0 0 60px rgba(201,148,58,0.12), inset 0 0 46px rgba(0,0,0,0.65); }
+.disclaimer-modal::after{ content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.16) 2px, rgba(0,0,0,0.16) 3px); }
+.disclaimer-modal > *{ position:relative; z-index:1; }
+.disclaimer-head{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.26em;
+  text-transform:uppercase; color:var(--gold2); margin-bottom:18px; }
+.disclaimer-text{ font-family:'Barlow Condensed',sans-serif; font-size:clamp(15px,2.2vw,17px);
+  line-height:1.7; color:#B9C0B2; letter-spacing:0.01em; margin-bottom:26px; }
+.disclaimer-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+.disclaimer-btn{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.16em;
+  text-transform:uppercase; padding:12px 22px; cursor:pointer; background:var(--gold);
+  color:#1a1206; border:1px solid var(--gold); transition:all .2s; }
+.disclaimer-btn:hover, .disclaimer-btn:focus-visible{ background:var(--gold2); }
+.disclaimer-btn.ghost{ background:transparent; color:var(--text-dim); border-color:rgba(122,112,96,0.5); }
+.disclaimer-btn.ghost:hover, .disclaimer-btn.ghost:focus-visible{ color:var(--white); border-color:var(--text); }
+@media (max-width:680px){ .disclaimer-modal{ padding:26px 20px; } .disclaimer-actions .disclaimer-btn{ flex:1; text-align:center; } }
 </style>
 <!--i18n:style-->
 <style>
@@ -712,14 +733,14 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 
   <!-- ============ HERO : LE LIVRE ============ -->
   <header id="hero">
-    <div class="eyebrow">A novel by Laurent Prestigiacomo</div>
+    <div class="eyebrow">A novel by <a href="https://www.facebook.com/profile.php?id=61577713296657" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Laurent Prestigiacomo</a></div>
     <h1 id="titre-img" style="font-family:'Cinzel Decorative',Cinzel,serif;font-weight:700;font-size:clamp(34px,8vw,84px);color:var(--gold);letter-spacing:0.03em;line-height:1.02;margin:0;text-shadow:0 0 24px rgba(201,148,58,0.35),0 2px 6px rgba(0,0,0,0.7);">Slaves of Time</h1>
     <div class="title-sub">Dystopian Science-Fiction Novel · 3Cinq7 · 2026</div>
     <div class="sep"></div>
     <p class="accroche">“What if your life lasted only a minute?”</p>
     <div class="hero-cta">
       <a class="btn primary" href="prologue.html">Read the prologue</a>
-      <a class="btn" href="#prevenir">Get notified at launch</a>
+      <a class="btn" href="https://www.la-commanderie.be/category/3cinq7-editions" target="_blank" rel="noopener">Buy the book</a>
     </div>
     <a class="scroll-cue" href="#pitch" aria-label="Discover the novel">&#9662;</a>
   </header>
@@ -732,20 +753,15 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
     <p class="comps">At the crossroads of <em>Dune</em>, <em>Ghost in the Shell</em> &amp; <em>Black Mirror</em></p>
   </section>
 
-  <!-- ============ ACTION : SORTIE / ACHAT ============ -->
+  <!-- ============ THE NOVEL ============ -->
   <section id="prevenir" class="band">
-    <h2 class="band-title">The novel is out in 2026</h2>
-    <p class="band-sub">Leave your email: we’ll let you know the moment it’s out. No spam, just the announcement.</p>
-    <!-- TODO_FORM_ENDPOINT : brancher un service tiers (Formspree, Buttondown, Mailchimp…). GitHub Pages est statique : sans endpoint, l'inscription N'EST PAS fonctionnelle. -->
-    <form class="signup" action="TODO_FORM_ENDPOINT" method="POST">
-      <input type="email" name="email" required placeholder="you@email.com" aria-label="Email address">
-      <button type="submit">Notify me</button>
-    </form>
-    <p class="form-note">⚠ Sign-up not active yet — endpoint to be connected (see PR).</p>
+    <h2 class="band-title">The novel</h2>
+    <a href="https://www.la-commanderie.be/category/3cinq7-editions" target="_blank" rel="noopener" class="book-mockup-link" aria-label="Buy the book — 3Cinq7">
+      <img src="../assets/img/Roman_Mockup.png" alt="Slaves of Time novel cover" class="book-mockup" loading="lazy">
+    </a>
     <div class="secondary-actions">
       <a class="btn primary" href="prologue.html">Read the prologue</a>
-      <!-- TODO_LIEN_ACHAT : remplacer par l'URL directe de la fiche produit du roman quand disponible (papier « bientôt »). -->
-      <a class="btn ghost" href="https://www.la-commanderie.be/category/3cinq7-editions" target="_blank" rel="noopener">Get the novel — 3Cinq7</a>
+      <a class="btn ghost" href="https://www.la-commanderie.be/category/3cinq7-editions" target="_blank" rel="noopener">Buy the book</a>
     </div>
   </section>
 
@@ -753,7 +769,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
   <section class="band bo-band">
     <p class="bo-line">The novel has a soundtrack.</p>
     <p class="bo-sub">33 tracks composed by the author, chapter by chapter. Not an illustration&nbsp;: another layer of the text.</p>
-    <a class="btn music-btn" href="../bande-originale.html">&#9658; Listen to the soundtrack</a>
+    <a class="btn music-btn" href="bande-originale.html">&#9658; Listen to the soundtrack</a>
   </section>
 
   <!-- ============ SEUIL : ENTRER DANS LE MONDE ============ -->
@@ -781,12 +797,12 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
         <div class="card-num">02 / ACCESS</div>
         <div class="card-icon">🎵</div>
         <div class="card-title">Original Soundtrack</div>
-        <div class="card-desc">The sound world of Slaves of Time<br>Available on multiple platforms</div>
+        <div class="card-desc">The sound world of Slaves of Time<br>Available on your favorite streaming platforms</div>
         <div class="card-cta">Listen →</div>
       </div>
 
       <!-- 3. CT Corp -->
-      <a class="portal-card card-ctcorp" href="../ctcorp-prototype.html" target="_blank">
+      <a class="portal-card card-ctcorp" href="ctcorp-prototype.html" target="_blank" rel="noopener" onclick="return ctcorpEnter(event);">
         <div class="card-num">03 / ACCESS</div>
         <div class="card-icon">⏱</div>
         <div class="card-title">CT Corp<br>Official Portal</div>
@@ -795,7 +811,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
       </a>
 
       <!-- 4. Echo Rouge -->
-      <div class="portal-card card-echo" onclick="openEcho()">
+      <div class="portal-card card-echo" onclick="echoEnter()">
         <div class="card-num">04 / RESTRICTED ACCESS</div>
         <div class="card-icon">🔴</div>
         <div class="card-title">Red Echo<br>Clandestine Network</div>
@@ -812,6 +828,41 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
   </div>
 
 </div>
+
+<!-- DISCLAIMER — BEFORE CT CORP / RED ECHO -->
+<div id="disclaimer-overlay" role="dialog" aria-modal="true" aria-labelledby="disclaimer-head">
+  <div class="disclaimer-modal">
+    <div class="disclaimer-head" id="disclaimer-head">// Access to the depths — warning</div>
+    <p class="disclaimer-text">To descend into the bowels of the earth is to risk finding more than you came looking for. Reader, you will not find the answers here — only enough to spoil the discovery for yourself. If you have not yet plunged into the pages of the novel, open these doors with your eyes wide open.</p>
+    <div class="disclaimer-actions">
+      <button type="button" class="disclaimer-btn" onclick="disclaimerContinue()">Continue</button>
+      <button type="button" class="disclaimer-btn ghost" onclick="disclaimerBack()">Back</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = 'edt_disclaimer_ack';
+  var pending = null;
+  function acknowledged(){ try { return sessionStorage.getItem(KEY) === '1'; } catch(e){ return false; } }
+  function remember(){ try { sessionStorage.setItem(KEY, '1'); } catch(e){} }
+  function overlay(){ return document.getElementById('disclaimer-overlay'); }
+  function show(action){ pending = action; overlay().classList.add('active'); }
+  window.disclaimerContinue = function(){ remember(); overlay().classList.remove('active'); var a = pending; pending = null; if (a) a(); };
+  window.disclaimerBack = function(){ overlay().classList.remove('active'); pending = null; };
+  window.ctcorpEnter = function(e){
+    if (acknowledged()) return true;
+    if (e && e.preventDefault) e.preventDefault();
+    show(function(){ window.open('ctcorp-prototype.html', '_blank', 'noopener'); });
+    return false;
+  };
+  window.echoEnter = function(){
+    if (acknowledged()) { openEcho(); return; }
+    show(function(){ openEcho(); });
+  };
+})();
+</script>
 
 <!-- ÉCHO ROUGE — MODAL CODENAME -->
 <div id="echo-overlay">
@@ -860,7 +911,7 @@ function enterEcho() {
   err.classList.remove('visible');
   // Store codename and open echo rouge site
   sessionStorage.setItem('er_codename', val);
-  window.open('../echo-rouge-v2.html?agent=' + encodeURIComponent(val), '_blank');
+  window.open('echo-rouge-v2.html?agent=' + encodeURIComponent(val), '_blank');
   closeEcho();
 }
 </script>
@@ -969,5 +1020,8 @@ function closeMusic() {
 <!--i18n:js-->
 <script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
+<!--i18n:analytics-->
+<script data-goatcounter="https://CODE_GOATCOUNTER.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!--/i18n:analytics-->
 </body>
 </html>
