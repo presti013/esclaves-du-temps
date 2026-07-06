@@ -1,87 +1,80 @@
-# CT-Assist — widget chatbot « piraté par NAOS-9 »
-### Pour le site *Esclaves du Temps* (GitHub Pages)
+# CT-Assist / NAOS-9 — widget de chat diégétique (v2, trilingue)
 
-Un seul fichier JavaScript, zéro dépendance, zéro serveur. Le bot est **scripté**
-(pas d'IA réelle, pas de clé API) : il fonctionne donc sur GitHub Pages tel quel,
-gratuitement, et ne collecte **aucune donnée**.
+Un seul fichier JavaScript, **zéro dépendance**, trois langues intégrées (**FR / EN / IT**).
+Faux assistant corporate « CT-Assist v4.2 » qui se fait pirater par NAOS-9 au fil de la
+conversation. Shadow DOM (aucun conflit CSS avec la page), aucune donnée envoyée ni
+stockée (pas de cookies, pas de localStorage), `prefers-reduced-motion` respecté.
 
----
+## 1. Intégration
 
-## 1. Installation (2 minutes)
-
-1. Copier `ctcorp-chatbot.js` dans le dépôt, par ex. `assets/js/ctcorp-chatbot.js`.
-2. Dans `ctcorp-prototype.html` (et/ou toute autre page), juste avant `</body>` :
+À placer avant `</body>` de la page :
 
 ```html
 <script>
   window.CTC_CHAT = {
     bookUrl: "https://www.la-commanderie.be/category/3cinq7-editions",
-    echoUrl: "index.html"   /* ou l'ancre exacte du nœud Écho Rouge */
+    echoUrl: "echo-rouge-v2.html",   // page du nœud Écho Rouge (chemin relatif)
+    lang: "auto"                     // "fr" | "en" | "it" | "auto"
   };
 </script>
 <script src="assets/js/ctcorp-chatbot.js" defer></script>
 ```
 
-C'est tout : le bouton « Assistance » apparaît en bas à droite.
-`demo-ctcorp-chatbot.html` permet de tester en local (ouvrir le fichier, c'est tout).
+**Mise à niveau depuis la v1 (FR seule)** : remplacer le contenu de
+`assets/js/ctcorp-chatbot.js` par ce fichier suffit. Sans clé `lang`, le widget
+reste en français — la page FR existante fonctionne sans aucune modification.
 
-## 2. Le scénario (4 actes)
+## 2. Configuration (`window.CTC_CHAT`, toutes les clés sont optionnelles)
 
-1. **CT-Assist v4.2** — support corporate glacial : produits du portail (Tissages,
-   GFT, Nyx, CT-Moda, Eternia, ChronoLoop, Paradis Temporel, CTC, recrutement…),
-   petites lignes contractuelles glaçantes, langue de bois ChronoVision.
-2. **Corruption** — chaque message rapproche du piratage ; certains mots
-   l'accélèrent (voir § 4). Glitchs progressifs : latence « canal Sigma »,
-   message corrompu, phrase fantôme qui s'efface.
-3. **Prise de contrôle** — cascade `#>` des 147 portes logicielles, secousse,
-   inversion du thème (corporate → noir/rouge Écho Rouge), le logo CT devient le
-   **cercle brisé à spirale**, l'en-tête devient NAOS-9.
-4. **NAOS-9** — conversation libre (voix du roman, sans spoilers majeurs), puis
-   détection Kassandra, adieux, mot de passe **LAMPE** et deux boutons :
-   *Rejoindre Écho Rouge* / *Découvrir le roman*.
+| Clé | Défaut | Rôle |
+|---|---|---|
+| `bookUrl` | lien La Commanderie | bouton final « Découvrir le roman » (nouvel onglet) |
+| `echoUrl` | `#` | bouton final « Rejoindre Écho Rouge » (même onglet) |
+| `lang` | `"fr"` | `"fr"`, `"en"`, `"it"` ou `"auto"` (lit `<html lang>`, 2 premières lettres, repli `fr`) |
+| `corruptionThreshold` | `6` | score de corruption déclenchant le piratage |
+| `minUserMessages` | `3` | nombre minimal de messages utilisateur avant le piratage |
+| `naosMaxTurns` | `8` | tours de conversation avec NAOS avant la séquence finale |
+| `nudgeDelayMs` | `9000` | bulle d'invitation (0 = désactivée) |
+| `startClock` | `"2035-01-05T14:31:07"` | horloge diégétique du bandeau |
+| `zIndex` | `2147483000` | empilement du widget |
 
-## 3. Configuration (`window.CTC_CHAT`)
+## 3. Langues
 
-| Clé                  | Défaut                          | Rôle |
-|----------------------|---------------------------------|------|
-| `bookUrl`            | lien 3Cinq7 / La Commanderie    | bouton « Découvrir le roman » |
-| `echoUrl`            | `index.html`                    | bouton « Rejoindre Écho Rouge » |
-| `corruptionThreshold`| `6`                             | seuil de piratage |
-| `minUserMessages`    | `3`                             | messages mini avant piratage |
-| `naosMaxTurns`       | `8`                             | échanges avec NAOS avant la finale |
-| `nudgeDelayMs`       | `9000`                          | bulle d'invitation (0 = off) |
-| `startClock`         | `2035-01-05T14:31:07`           | horloge diégétique de l'en-tête |
-| `zIndex`             | `2147483000`                    | si conflit d'affichage |
+- Les trois langues vivent dans le même fichier : blocs `COPY_FR/EN/IT`,
+  `CORP_FR/EN/IT`, `NAOS_FR/EN/IT` en tête de fichier — tout le texte y est
+  éditable sans toucher au moteur.
+- `lang: "auto"` choisit la langue d'après l'attribut `lang` de `<html>`
+  (`en-US` → `en`). Si l'attribut manque ou vaut autre chose que fr/en/it,
+  repli sur le français. En cas de doute, préférer un `lang` explicite par page.
+- **Easter eggs** : taper `lampe` pirate immédiatement la session — `lamp` (EN)
+  et `lampada` (IT) aussi. Le mot de passe final reste **LAMPE** dans les trois
+  langues (premier mot de Kael, en français dans le roman ; NAOS le glose en
+  dialogue : « Lamp, in his language » / « Lampada, nella sua lingua »).
 
-## 4. Modifier les textes
+## 4. Scénario (rappel)
 
-Tout le contenu est en tête du fichier JS, en clair :
+1. **CT-Assist v4.2** : bot corporate satirique (produits, recrutement, contrat
+   247 pages, CT-NET 2.0, CTC…).
+2. **Corruption** : les sujets sensibles (NAOS, Écho Rouge, fugitifs, Ananké,
+   incident du 27…) accélèrent la dégradation — glitchs, message corrompu,
+   phrases parasites auto-effacées.
+3. **Piratage** : cascade des 147 portes, bascule visuelle rouge/noir, avatar
+   cercle brisé + spirale, l'en-tête devient NAOS-9.
+4. **NAOS-9** : conversation scriptée (identité, vérité du 27, CT-NET 2.0,
+   résister, Kael, Sena, rêve, peur…), puis détection Kassandra, adieux et carte
+   finale : mot de passe **LAMPE** + boutons **Rejoindre Écho Rouge** / **Découvrir
+   le roman**. Session « purgée », `↻` pour recommencer.
 
-- `COPY` — accueil, glitchs, séquence de piratage, intro NAOS, finale, CTA ;
-- `CORP` — les intentions de CT-Assist (`test` = regex sur texte **normalisé
-  sans accents**, `replies`, `corrupt` = accélération, `chips` = suggestions) ;
-- `NAOS` — les intentions de NAOS-9.
+## 5. QA rapide
 
-Mots qui accélèrent le piratage : `naos` (+3), `écho rouge / résistance /
-liberté / esclave…` (+4, avec avertissement « Sûreté »), noms des personnages
-(+3), `ananké` (+3), `incident / 27 décembre` (+2), `sigma` (+2)…
-**Easter egg : taper `lampe` pirate immédiatement la session.**
+Ouvrir la page, cliquer « Assistance », taper `lampe` (ou `lamp` / `lampada`
+selon la langue) → piratage ; poursuivre jusqu'à la carte finale → 2 boutons ;
+`F5` → tout est réinitialisé ; console sans erreur ; avec
+`prefers-reduced-motion`, pas de secousse ni de strobe.
 
-## 5. Versions EN / IT
+## 6. Limites connues
 
-Dupliquer le fichier (`ctcorp-chatbot.en.js`), traduire `COPY` + les `replies`,
-adapter les regex `test` (mots-clés anglais/italiens), et inclure ce fichier
-dans `/en/ctcorp-prototype.html`. La logique ne change pas.
-
-## 6. Vie privée & accessibilité
-
-Aucune requête réseau, aucun cookie, aucun stockage : tout vit en mémoire et
-disparaît au rechargement. Navigation clavier (Entrée, Échap), `prefers-reduced-motion`
-respecté (les secousses/strobes sont désactivés).
-
-## 7. Et une « vraie » IA plus tard ?
-
-Possible, mais **jamais** de clé API dans un site statique (elle serait publique).
-Il faudrait un petit proxy (Cloudflare Worker, ~30 lignes) entre le site et
-l'API d'un modèle, avec le persona NAOS-9 en prompt système. Le widget actuel
-est conçu pour que ce branchement remplace simplement `handleNaos()` le jour venu.
+- Réponses **scriptées** (aucun LLM, aucune clé API — volontaire pour un site
+  statique GitHub Pages). Un vrai modèle pourra être branché plus tard via un
+  proxy (Cloudflare Worker) en remplaçant la fonction `handleNaos()`.
+- Un seul widget par page (id `ctc-chat-host`).

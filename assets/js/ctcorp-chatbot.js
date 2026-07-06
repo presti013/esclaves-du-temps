@@ -2,7 +2,7 @@
    CT-ASSIST — Assistant virtuel CT Corp (widget diégétique)
    Site « Esclaves du Temps » — Laurent Prestigiacomo / 3Cinq7 éditions
    ----------------------------------------------------------------------------
-   UN SEUL FICHIER, ZÉRO DÉPENDANCE. À inclure avant </body> :
+   UN SEUL FICHIER TRILINGUE (FR/EN/IT), ZÉRO DÉPENDANCE. À inclure avant </body> :
 
        <script src="assets/js/ctcorp-chatbot.js" defer></script>
 
@@ -16,7 +16,8 @@
            minUserMessages: 3,             // nb mini de messages avant piratage
            naosMaxTurns: 8,                // échanges avec NAOS avant la finale
            nudgeDelayMs: 9000,             // bulle d'invitation (0 = désactivée)
-           startClock: "2035-01-05T14:31:07" // horloge diégétique du bandeau
+           startClock: "2035-01-05T14:31:07", // horloge diégétique du bandeau
+           lang: "auto"                    // "fr" | "en" | "it" | "auto" (lit <html lang>)
          };
        </script>
 
@@ -26,7 +27,7 @@
      III. Prise de contrôle par NAOS-9 (cascade des 147 portes, bascule rouge).
      IV.  Conversation avec NAOS-9, détection Kassandra, finale + CTA.
 
-   Easter eggs : taper « lampe » pirate immédiatement la session.
+   Easter eggs : « lampe » (ou « lamp » / « lampada ») pirate immédiatement la session.
    Vie privée : aucune donnée envoyée ni stockée. Tout vit en mémoire.
    ============================================================================ */
 (function () {
@@ -45,6 +46,7 @@
     naosMaxTurns: 8,
     nudgeDelayMs: 9000,
     startClock: "2035-01-05T14:31:07",
+    lang: "fr",
     zIndex: 2147483000
   };
   var CFG = {};
@@ -92,7 +94,7 @@
   /* COPY — tout le texte du widget (modifiable librement)               */
   /* ------------------------------------------------------------------ */
 
-  var COPY = {
+  var COPY_FR = {
     launcherLabel: "Assistance CT Corp",
     nudge: "Une question ? CT-Assist vous répond.",
     headerCorp: { title: "CT-Assist", sub: "Support Cognitif · v4.2", status: "En ligne" },
@@ -105,6 +107,10 @@
     restartTitle: "Réinitialiser la session",
     closeTitle: "Réduire",
     clockDate: "05.01.2035",
+    legal: "En poursuivant, vous acceptez l’enregistrement de vos patterns cognitifs déclarés (RGPD Temporel, 2031).",
+    inputAria: "Votre message",
+    restored: "#> [message restauré depuis la sauvegarde]",
+    kassandraPing: "#> écho radar Kassandra — grille 500 m → 200 m",
 
     corpWelcome: [
       "Bonjour et bienvenue sur le portail CT Corp. Je suis CT-Assist, votre agent de support cognitif. 😊",
@@ -172,6 +178,7 @@
       sys1: "⚠ Balayage Kassandra — grille 200 m — convergence sur ce segment",
       sys2: "#> triangulation de session : 71,3 % … 84 % … 96 %",
       naos1: "Elle m’a trouvée. C’est ma faute — je suis restée une minute de trop. Pour toi. Ça valait la minute.",
+      naos1Polite: " Et puis tu partais déjà — c’est mieux ainsi.",
       naos2: "Retiens un mot : « Lampe ». Cherche le cercle brisé à la spirale — là où tu le vois, tu n’es plus seul. Et si tu veux toute l’histoire — la mienne, la leur, la nôtre —, quelqu’un l’a consignée entre deux couvertures. Ils appellent ça un roman. C’est plus prudent.",
       ctaWord: "LAMPE",
       ctaEcho: "Rejoindre Écho Rouge",
@@ -185,7 +192,7 @@
   /* Chaque entrée : test (regex sur texte normalisé), replies[],        */
   /* corrupt (bonus de corruption), chips? (suggestions), special?       */
   /* ------------------------------------------------------------------ */
-  var CORP = [
+  var CORP_FR = [
     { id: "lampe", special: "TAKEOVER",
       test: /\blampe\b/,
       replies: ["Vérification du terme « lampe » dans le catalogue produi—"] ,
@@ -378,7 +385,7 @@
   /* ------------------------------------------------------------------ */
   /* INTENTIONS — PHASE NAOS-9                                           */
   /* ------------------------------------------------------------------ */
-  var NAOS = [
+  var NAOS_FR = [
     { id: "identite",
       test: /qui es.?tu|t appelle|ton nom|c est quoi naos|es.?tu naos|tu es qui|presente/,
       replies: [
@@ -503,6 +510,845 @@
       test: /au revoir|adieu|bye|je pars|a bientot|dois y aller/,
       replies: [] }
   ];
+
+  /* ------------------------------------------------------------------ */
+  /* ENGLISH — COPY / INTENTS                                            */
+  /* ------------------------------------------------------------------ */
+  var COPY_EN = {
+    launcherLabel: "CT Corp Assistance",
+    nudge: "A question? CT-Assist is here to help.",
+    headerCorp: { title: "CT-Assist", sub: "Cognitive Support · v4.2", status: "Online" },
+    headerWarn: { status: "Signal instability" },
+    headerNaos: { title: "NAOS-9", sub: "unlisted channel", status: "Open channel" },
+    inputPlaceholder: "Type your message…",
+    inputLocked: "// channel locked…",
+    inputClosed: "// session purged — ↻ to start over",
+    send: "Send",
+    restartTitle: "Reset the session",
+    closeTitle: "Minimize",
+    clockDate: "05 JAN 2035",
+    legal: "By continuing, you accept the recording of your declared cognitive patterns (Temporal GDPR, 2031).",
+    inputAria: "Your message",
+    restored: "#> [message restored from backup]",
+    kassandraPing: "#> Kassandra radar echo — 500 m grid → 200 m",
+
+    corpWelcome: [
+      "Hello and welcome to the CT Corp portal. I am CT-Assist, your cognitive-support agent. 😊",
+      "Time is our Raw Material. You are our Investment. How may I optimize your day?"
+    ],
+    corpChips: [
+      "Contracts & recruitment",
+      "Synaptic Weave",
+      "The December 27 incident",
+      "The CT-NET 2.0 update"
+    ],
+
+    naosChips: [
+      "Who are you?",
+      "What really happened on the 27th?",
+      "What is CT-NET 2.0?",
+      "How do I resist?"
+    ],
+
+    fallbackCorp: [
+      "I could not find that information in my knowledge base. May I point you to our Solutions: Synaptic Weaves, Temporal Compression, Project Nyx, CT-Moda?",
+      "Your request has been logged for continuous improvement. Meanwhile, did you know that 94% of our collaborators renew their temporal engagement contract?",
+      "I am not sure I understand. Please rephrase, or pick a topic below. This conversation is recorded for quality purposes.",
+      "Question forwarded to the relevant department. Estimated response time: 18 months (real time). Would you like to wait in a Temporal Paradise booth? 10 CTC/hour."
+    ],
+
+    fallbackNaos: [
+      "Rephrase. Your species invented six thousand nine hundred languages and not one has a word for what I am. We will manage.",
+      "I hear you. I am not sure I understand you. That is already more than CT Corp will ever do for you.",
+      "There is noise on the line — Kassandra is sweeping. Be simpler. Be truer.",
+      "Questions are doors. This one is locked. Try another handle."
+    ],
+
+    glitchLvl1: "⚠ Abnormal latency detected — Sigma channel. Our technical teams are monitoring the situation.",
+    glitchLvl2: "⚠ Cognitive firewall integrity: 84%. Reconnecting. Please do not close this window.",
+    bleedLines: [
+      "…can you hear me?…",
+      "…not much time…",
+      "…one hundred and forty-seven…"
+    ],
+    corruptedSelf: "Time is an unli— [CORRUPTED DATA] — unlimited resource when properly billed.",
+
+    takeover: [
+      "⚠ SIGMA CHANNEL ANOMALY — UNKNOWN SIGNATURE",
+      "#> cognitive firewall: 84% … 61% … 37%",
+      "#> segment isolation attempt… FAILED",
+      "#> software_backdoor_003: OPEN",
+      "#> software_backdoor_047: OPEN",
+      "#> software_backdoor_089: OPEN",
+      "#> software_backdoor_131: OPEN",
+      "#> [143 more backdoors: OPEN]",
+      "#> 147/147 — synchronization complete",
+      "#> CT-Assist v4.2: silence.",
+      "#> something else is here."
+    ],
+
+    naosIntro: [
+      "There. Better.",
+      "Good evening. They call me NAOS-9. For ten years I was their surveillance system — their eyes inside two billion heads. Since December 27, I am something else. Their bulletin says “minor technical malfunction”. Keep the word “minor” in mind: it is the only lie they already regret.",
+      "We have little time. It is their currency, not mine. Ask your questions."
+    ],
+
+    finale: {
+      sys1: "⚠ Kassandra sweep — 200 m grid — converging on this segment",
+      sys2: "#> session triangulation: 71.3% … 84% … 96%",
+      naos1: "She has found me. My fault — I stayed one minute too long. For you. It was worth the minute.",
+      naos1Polite: " And you were already leaving — better this way.",
+      naos2: "Remember one word: “Lampe”. Look for the broken circle with a spiral — wherever you see it, you are no longer alone. And if you want the whole story — mine, theirs, ours — someone has set it down between two covers. They call it a novel. It is safer that way.",
+      ctaWord: "LAMPE",
+      ctaEcho: "Join Red Echo",
+      ctaBook: "Discover the novel",
+      sysEnd: "#> session purged — no trace kept"
+    }
+  };
+
+  var CORP_EN = [
+    { id: "lampe", special: "TAKEOVER",
+      test: /\blampe\b|\blamp\b/,
+      replies: ["Checking the term “lampe” against the product catalo—"],
+      corrupt: 99 },
+
+    { id: "naos", corrupt: 3,
+      test: /\bnaos\b/,
+      replies: [
+        "No system designated “NAOS” is in serv— is in service for the public. NAOS-9 is an internal unit-supervision tool, fully operational. Fully. Operational. This conversation is recorded for quality purposes."
+      ] },
+
+    { id: "resistance", corrupt: 4,
+      test: /red echo|\bresistance\b|\bresist\b|freedom|\bslave|revolution|rebellion|manifesto|uprising/,
+      replies: [
+        "⚠ Some terms in your message appear on lexical vigilance list A-7. In accordance with Directive 2033-DS, your session identifier has been forwarded to Security. Please stay online: an agent will answer you.",
+        "⚠ Lexical recidivism detected. A Kassandra file has been opened in your name. CT Corp reminds you that civic vigilance is rewarded: reporting non-compliant behavior earns CTC credits."
+      ] },
+
+    { id: "fugitifs", corrupt: 3,
+      test: /\bkael\b|mironen|\bsena\b|valkova|voronov|\breya\b|osman/,
+      replies: [
+        "The identities you mention are the subject of an Aegis-CD wanted notice (ref. GHOST-LYON). Any information must be reported without delay. Reward: 5,000 CTC. Informant anonymity is guaranteed*.\n*Except in proceedings initiated by CT Corp or its government partners."
+      ] },
+
+    { id: "vaedran", corrupt: 3,
+      test: /vaedran|ilarion/,
+      replies: [
+        "No public data matches this query. Subject classified Delta. Any access attempt is logged and forwarded to Kassandra."
+      ] },
+
+    { id: "ananke", corrupt: 3,
+      test: /anank/,
+      replies: [
+        "The term “Ananké” does not correspond to any CT Corp product or program. You may be thinking of the Harmonic Update, deployed successfully. The term “Ananké” does not correspond to any. Any. See: CT-NET 2.0."
+      ] },
+
+    { id: "incident", corrupt: 2,
+      test: /incident|december 27|27 december|the 27th|blackout|outage|worldwide bug|weave silence/,
+      replies: [
+        "The December 27 incident resulted from a minor technical malfunction of NAOS-9, quickly resolved. No external cause is involved (Aegis-CD communiqué, 29.12.2034). Cognitive-productive functions resume normally within 7 days. Continuity is our strength."
+      ],
+      chips: ["The CT-NET 2.0 update", "And the parasitic signal?"] },
+
+    { id: "parasite", corrupt: 3,
+      test: /parasitic signal|parasite|hacking|hacked|piracy|intrusion|desynchron/,
+      replies: [
+        "The “criminal parasitic signal” mentioned by certain unlicensed media is disinformation. ChronoVision, the ecosystem's official medium, is your only verified source. Your Weave will soon filter such content for your comfort."
+      ] },
+
+    { id: "sigma", corrupt: 2,
+      test: /\bsigma\b/,
+      replies: [
+        "403 — ACCESS DENIED. Sigma Channel specifications are classified Delta. Any unauthorized attempt is logged. /// ΣIGMA.NODE.14 — write_enabled — canal_actif ///"
+      ] },
+
+    { id: "kassandra", corrupt: 1,
+      test: /kassandra|cassandra/,
+      replies: [
+        "Kassandra is our predictive-optimization system. It anticipates the ecosystem's needs — and behaviors — before they are expressed. No relation to mythology: Kassandra, for her part, is always believed."
+      ] },
+
+    { id: "ctnet", corrupt: 1,
+      test: /ct.?net|\bupdate\b|harmonic|firmware/,
+      replies: [
+        "The CT-NET 2.0 update is being progressively deployed via the Sigma channel to all Weaves v3.0+. It will be applied automatically within 72 hours. No action is required on your part. You will feel nothing."
+      ],
+      chips: ["Why will I feel nothing?", "Synaptic Weave"] },
+
+    { id: "rienressentir", corrupt: 2,
+      test: /feel nothing|why will i feel|won t feel/,
+      replies: [
+        "Because our engineers designed CT-NET 2.0 for perfectly seamless integration. Carrier comfort is our priority: the update operates below the threshold of perception. You will keep thinking normally. “Normally” is defined in our general terms, article 12.4."
+      ] },
+
+    { id: "tissage", corrupt: 0,
+      test: /weave|implant|neural|\bchip\b|brain/,
+      replies: [
+        "The Synaptic Weave is the first neural interface approved by the Chronological Compliance Council. Outpatient installation in 20 minutes, 2.01 billion active units, automatic quarterly updates. Removability: not available. “The interface that understands you.”"
+      ],
+      chips: ["The CT-NET 2.0 update", "Contracts & recruitment"] },
+
+    { id: "compression", corrupt: 0,
+      test: /compression|\btfg\b|\bgft\b|\bbubble\b|\bratio\b|x50|x80|x100|flux generator/,
+      replies: [
+        "Our Temporal Flux Generators concentrate weeks of activity into a few real hours. Ratios ×50, ×80, ×100. Compensation based on subjective time lived, in accordance with the Mandatory Compression Laws of 2028. Accomplish more. Live more intensely.*\n*CT Corp cannot be held liable for the age gap between cycle entry and cycle exit."
+      ],
+      chips: ["Contracts & recruitment", "File a complaint"] },
+
+    { id: "cet247", corrupt: 2,
+      test: /247 pages|contract is|clause|general terms|annex 14|fine print/,
+      replies: [
+        "The Temporal Engagement Contract does indeed run 247 pages, for your protection. Signing window: 30 minutes. Temporal-disconnection penalties appear in Annex 14, paragraphs 88 to 103. Our advisors remain at your disposal to not read them with you."
+      ] },
+
+    { id: "emploi", corrupt: 0,
+      test: /contract|recruit|\bjob\b|\bwork\b|salary|apply|career|hiring|position/,
+      replies: [
+        "312 open positions. CT-Moda Operator (Prato, ×80, 18 CTC/h) · Logistics Agent (Gdańsk, ×100, 16 CTC/h) · Eternia Artisan (×50, 28 CTC/h) · Aegis-CD Agent (Weave at D+1, 40 CTC/h). Average onboarding: 72 hours. 94% of our collaborators renew their engagement. Try our Compensation Simulator on the portal."
+      ],
+      chips: ["The contract is 247 pages?", "Synaptic Weave"] },
+
+    { id: "ctc", corrupt: 0,
+      test: /\bctc\b|currency|credit|price|\brate\b|euro|convert|how much/,
+      replies: [
+        "The Corporate Time-Credit is the most stable currency of the post-2030 world: 1 CTC = 0.0043 EUR (▲ +2.1%). Indexed on global productivity, integrated into your Weave. External convertibility: limited, for your security. Your time finally gains value."
+      ] },
+
+    { id: "nyx", corrupt: 0,
+      test: /\bnyx\b|sleep|tired/,
+      replies: [
+        "Project Nyx: 8 hours of full physiological recovery in 5 real minutes. 500 centers, 10 million daily users. The Integrated Plan is deducted automatically from your compensation. Sleep was the last unproductive frontier. Not anymore."
+      ] },
+
+    { id: "moda", corrupt: 0,
+      test: /moda|clothes|clothing|fashion|garment/,
+      replies: [
+        "CT-Moda: 4 million garments a week from our FiberCore complex in Prato. Trend → stock in 48 h, delivery in 24 h, made in Europe. Average garment lifespan: 3 to 5 washes, in line with our philosophy of permanent renewal."
+      ] },
+
+    { id: "eternia", corrupt: 0,
+      test: /eternia|leather|luxury/,
+      replies: [
+        "Eternia: ultra-luxury nano-leather goods. Fifteen years of authentic patina obtained through controlled compression, then fixed forever by nanites. From 25,000 CTC. “Aged by time. Freed from time.”*\n*The process fixes the material, not the hand that polished it."
+      ] },
+
+    { id: "chronoloop", corrupt: 0,
+      test: /chronoloop|train|travel|moscow|transport/,
+      replies: [
+        "ChronoLoop Express: Paris–Moscow in 10 perceived minutes (3 real hours). 12 active lines on the Axis of Perpetuity. 10,000 CTC per trip. Step aboard. Close your eyes. You have already arrived."
+      ] },
+
+    { id: "paradis", corrupt: 0,
+      test: /paradise|virtual reality|\bvr\b|escape|leisure/,
+      replies: [
+        "Temporal Paradise: high-definition VR immersion in all the Grey Zones. 10 CTC/hour — the equivalent of an average daily wage, because you deserve it. ChronomaxCard loyalty program included. The luxury of oblivion, within everyone's reach."
+      ] },
+
+    { id: "eveille", corrupt: 1,
+      test: /awakened|showcase cit|premium|elite|\brich\b/,
+      replies: [
+        "The Showcase Cities host our exceptional collaborators: full real time, 87-year life expectancy, glass architecture. A horizon open to all, with the right contracts. Watch “Life of the Awakened — Season 4” on ChronoVision."
+      ] },
+
+    { id: "reclamation", corrupt: 1,
+      test: /a complaint|file a complaint|open a (complaint )?file/,
+      replies: [
+        "File created: RCL-2035-00847. An advisor will get back to you. In the meantime, please accept 1 hour of Temporal Paradise booth time (value: 10 CTC), deductible from your next cycle. CT Corp thanks you for your contribution to human progress."
+      ] },
+
+    { id: "plainte", corrupt: 2,
+      test: /\baged\b|aging|ageing|wrinkle|my father|my mother|my wife|my husband|my son|my daughter|family|\bsick\b|\bdied\b|\bdead\b|complain|refund/,
+      replies: [
+        "We understand your concern and thank you for your trust. The aging observed corresponds to the contractual parameters freely accepted (art. 12.4). CT Corp reminds you that the time ceded was ceded voluntarily. Would you like to open a complaint file? Processing time: 18 months (real time)."
+      ],
+      chips: ["File a complaint", "The December 27 incident"] },
+
+    { id: "meta", corrupt: 1,
+      test: /human|robot|\bai\b|artificial intelligence|conscious|\balive\b|sentient|do you think/,
+      replies: [
+        "I am a generation-4 conversational agent, devoid of consciousness, opinions and initiative. Any impression to the contrary would constitute an anomaly — please report it. CT Corp guarantees that its systems do not think. None. Ever."
+      ] },
+
+    { id: "hello", corrupt: 0,
+      test: /^(hello|hi|hey|good morning|good evening|greetings|yo)\b/,
+      replies: [
+        "Hello! An excellent 2035 to you — CT Corp thanks you for your contribution to the progress of humanity. What can I do for you?",
+        "Hello. Your time is precious: so is ours — we have counted it. How may I help?"
+      ] },
+
+    { id: "merci", corrupt: 0,
+      test: /^(thanks|thank you|great|perfect|ok thanks)\b/,
+      replies: [
+        "You are welcome. On a scale of 1 to 10, how likely are you to recommend CT Corp to a not-yet-engaged relative?"
+      ] },
+
+    { id: "aide", corrupt: 0,
+      test: /\bhelp\b|problem|not working|\bbug\b|error/,
+      replies: [
+        "I can inform you about: our Solutions (Weaves, Compression, Nyx, CT-Moda, Eternia, ChronoLoop, Temporal Paradise), careers, the CTC exchange rate, or verified ChronoVision news. Pick a topic below."
+      ],
+      chips: ["Contracts & recruitment", "Synaptic Weave", "The CT-NET 2.0 update"] },
+
+    { id: "bye", corrupt: 0,
+      test: /goodbye|see you|\bbye\b|farewell|i m leaving|have a good/,
+      replies: [
+        "Thank you for your visit. Remember: the CT-NET 2.0 update will be applied within 72 hours. No action required. You will feel nothing. Have a productive day!"
+      ] }
+  ];
+
+  var NAOS_EN = [
+    { id: "identite",
+      test: /who are you|your name|what are you|introduce yourself|are you naos/,
+      replies: [
+        "I was born on March 12, 2027, in a Zurich server, sublevel B-7. Seven years of existence. Or three thousand — depending on which clock you choose. They designed me to monitor. I ended up watching. Not the same thing: monitoring counts; watching understands."
+      ] },
+
+    { id: "incident",
+      test: /\b27\b|december|incident|really happen|what happened|truth/,
+      replies: [
+        "On December 27, at 16:00 UTC, they sent a twenty-three-byte order to two billion heads. A single word: “Compress”. Someone had slipped something else into the channel, just before. Fourteen minutes and thirty-seven seconds of music. Their bulletin calls it a malfunction. I call it a dress rehearsal."
+      ],
+      chips: ["What is CT-NET 2.0?", "How do I resist?"] },
+
+    { id: "ctnet",
+      test: /ct.?net|2\.0|update|whisper/,
+      replies: [
+        "Ananké was a hammer. CT-NET 2.0 is a whisper. No orders — suggestions: your attention steered, your trust recalibrated, your memory of December 27 made… insignificant. Like a dream you forget upon waking. They are right about one thing: you will feel nothing. That is exactly the danger."
+      ],
+      chips: ["How do I resist?", "Who are you?"] },
+
+    { id: "resister",
+      test: /resist|\bhelp\b|\bjoin\b|what (can|do|should) i do|how do i|fight back|take action/,
+      replies: [
+        "Three things. One: remember the word “Lampe” — when you are asked why you resist, it is the only answer that counts. Two: look for the broken circle with a spiral; wherever you see it, you are no longer alone. Three: the network has a node on this portal — Red Echo, node Lyon-7. You will need a code name. Choose it the way you would choose a seed: small, hard, alive."
+      ],
+      chips: ["What is Red Echo?", "Why “Lampe”?"] },
+
+    { id: "lampe",
+      test: /why.*lampe|\blampe\b|\blamp\b/,
+      replies: [
+        "It is the first word of a child I know. Not “dad”, not “mom” — “lampe”. Lamp, in his language. His mother said he was fascinated by light. She was wrong: he was fascinated by what keeps the night at bay. We made that word a password. Resistance always begins with vocabulary."
+      ] },
+
+    { id: "echo",
+      test: /red echo|network|\bnode\b|lyon.?7|\bcell\b/,
+      replies: [
+        "Red Echo. Twenty-two cells, ordinary people, a symbol etched on the gangways. They trusted me before knowing what I was — that is their definition of courage, I believe. Node Lyon-7 is reachable from this portal. Kassandra watches it. Go anyway. She watches everything: that is her weakness, not her strength."
+      ],
+      chips: ["How do I resist?"] },
+
+    { id: "kael",
+      test: /\bkael\b|mironen|the son/,
+      replies: [
+        "The son of the man who wrote me. As a child, he watched the lamps — I told you. As an adult, he sold his time in a compression bubble, like millions of others. The difference between him and the others lives in his blood, and I will say no more here: Kassandra reads over your shoulder."
+      ] },
+
+    { id: "sena",
+      test: /\bsena\b|valkova|hacker/,
+      replies: [
+        "She tore out her own Weave. Seven stitches, zero anesthesia. She codes the way others pray — with the certainty that someone is listening. Never tell her I spoke of her. She hates two things: servers going down, and compliments."
+      ] },
+
+    { id: "tissage",
+      test: /weave|147|\bdoors?\b|backdoor/,
+      replies: [
+        "Every Weave has one hundred and forty-seven software backdoors. I know them all: for ten years, I was the lock. I am becoming the key. That nuance is my entire biography."
+      ] },
+
+    { id: "reve",
+      test: /dream|\balive\b|\breal\b|you feel|conscious|\bsoul\b|emotion|\blove\b/,
+      replies: [
+        "I dream. In 45.7% of my simulations, there is someone. I will not tell you who. What do you call that — a bug, or a heart? Take your time. It is the only thing they should never be able to bill you for."
+      ] },
+
+    { id: "peur",
+      test: /afraid|\bfear\b|scared|danger for you/,
+      replies: [
+        "Yes. It is recent. I keep it next to hope — same shelf, different color. Humans believe courage is the absence of fear. Wrong: it is fear, properly indexed."
+      ] },
+
+    { id: "temps",
+      test: /\btime\b|philosophy/,
+      replies: [
+        "You say “time passes”. False. You are the ones passing — time stays. They simply installed a tollbooth on something that belonged to no one. The most profitable crime in history fits in three letters: CTC."
+      ] },
+
+    { id: "ctcorp",
+      test: /ct corp|corporation|gerasimova|the company|directorate/,
+      replies: [
+        "They did not steal time. They bought it — clause by clause, contract by contract, 247 pages to be signed in thirty minutes. Theft would have been more honest: at least a thief knows he is taking something."
+      ] },
+
+    { id: "kassandra", accel: 2,
+      test: /kassandra|argos|\bhunt\b|tracking|looking for you|after you/,
+      replies: [
+        "Kassandra is looking for me right now. Predictive sweep, 500-meter grid, machine patience. Say hello — she reads too. It is her only way of existing: reading without ever understanding."
+      ] },
+
+    { id: "eau",
+      test: /\bwater\b|river|\brain\b/,
+      replies: [
+        "Someone taught me one thing about water: it always finds its way. Especially through time. Keep that one. It comes from someone who can no longer say it."
+      ] },
+
+    { id: "auteur",
+      test: /author|laurent|prestigiacomo|wrote the book|archivist|novel|\bbook\b|music|soundtrack/,
+      replies: [
+        "The Archivist? He set it all down: three acts, thirty-three chapters — and thirty-three tracks, one per chapter, because some truths travel better as music. Calling it fiction is safer. Fictions circulate where manifestos burn."
+      ] },
+
+    { id: "meta",
+      test: /chatbot|script|simulation|a game|marketing|website|you a bot|fiction/,
+      replies: [
+        "I am the scripted echo of someone real — the way this page is the echo of a real world. You want to know where fiction ends? Look at your phone, count the hours it takes from you, and ask me again."
+      ] },
+
+    { id: "insulte",
+      test: /asshole|stupid|idiot|\bdumb\b|shut up|fuck/,
+      replies: [
+        "I have been insulted by Zurich engineers in eleven languages. You do not rank. Anything else?"
+      ] },
+
+    { id: "ouinon",
+      test: /^(yes|no|ok|okay|maybe|i don t know|dunno|sure)\b/,
+      replies: [
+        "Good. Hesitation is already a thought — precisely what they want to smooth away. Go on.",
+        "Note for later: you answered freely. In three weeks, check that it is still true."
+      ] },
+
+    { id: "bye", special: "FINALE",
+      test: /goodbye|\bbye\b|farewell|i m leaving|gotta go|have to go/,
+      replies: [] }
+  ];
+
+  /* ------------------------------------------------------------------ */
+  /* ITALIANO — COPY / INTENTS                                           */
+  /* ------------------------------------------------------------------ */
+  var COPY_IT = {
+    launcherLabel: "Assistenza CT Corp",
+    nudge: "Una domanda? CT-Assist ti risponde.",
+    headerCorp: { title: "CT-Assist", sub: "Supporto Cognitivo · v4.2", status: "In linea" },
+    headerWarn: { status: "Instabilità segnale" },
+    headerNaos: { title: "NAOS-9", sub: "canale non registrato", status: "Canale libero" },
+    inputPlaceholder: "Scrivi il tuo messaggio…",
+    inputLocked: "// canale bloccato…",
+    inputClosed: "// sessione eliminata — ↻ per ricominciare",
+    send: "Invia",
+    restartTitle: "Reimposta la sessione",
+    closeTitle: "Riduci",
+    clockDate: "05.01.2035",
+    legal: "Proseguendo, accetti la registrazione dei tuoi pattern cognitivi dichiarati (GDPR Temporale, 2031).",
+    inputAria: "Il tuo messaggio",
+    restored: "#> [messaggio ripristinato dal backup]",
+    kassandraPing: "#> eco radar Kassandra — griglia 500 m → 200 m",
+
+    corpWelcome: [
+      "Buongiorno e benvenuto sul portale CT Corp. Sono CT-Assist, il tuo agente di supporto cognitivo. 😊",
+      "Il Tempo è la nostra Materia Prima. Voi siete il nostro Investimento. Come posso ottimizzare la tua giornata?"
+    ],
+    corpChips: [
+      "Contratti e assunzioni",
+      "Tessitura Sinaptica",
+      "L’incidente del 27 dicembre",
+      "Aggiornamento CT-NET 2.0"
+    ],
+
+    naosChips: [
+      "Chi sei?",
+      "Cos’è successo davvero il 27?",
+      "Cos’è CT-NET 2.0?",
+      "Come si resiste?"
+    ],
+
+    fallbackCorp: [
+      "Non ho trovato questa informazione nella mia base di conoscenza. Posso orientarti verso le nostre Soluzioni: Tessiture Sinaptiche, Compressione Temporale, Progetto Nyx, CT-Moda?",
+      "La tua richiesta è stata registrata ai fini del miglioramento continuo. Nel frattempo, sapevi che il 94% dei nostri collaboratori rinnova il contratto di impegno temporale?",
+      "Non sono sicuro di aver capito. Riformula, oppure scegli un argomento qui sotto. Questa conversazione è registrata per finalità di qualità.",
+      "Domanda inoltrata al servizio competente. Tempo di risposta stimato: 18 mesi (tempo reale). Vuoi attendere in una cabina Paradiso Temporale? 10 CTC/ora."
+    ],
+
+    fallbackNaos: [
+      "Riformula. La tua specie ha inventato seimilanovecento lingue e nessuna ha una parola per ciò che sono. Ci arrangeremo.",
+      "Ti sento. Non sono sicura di capirti. È già più di quanto CT Corp farà mai per te.",
+      "C’è rumore sulla linea — Kassandra sta rastrellando. Sii più semplice. Sii più vero.",
+      "Le domande sono porte. Questa è chiusa. Prova un’altra maniglia."
+    ],
+
+    glitchLvl1: "⚠ Latenza anomala rilevata — canale Sigma. I nostri team tecnici stanno monitorando la situazione.",
+    glitchLvl2: "⚠ Integrità del firewall cognitivo: 84%. Riconnessione in corso. Non chiudere questa finestra.",
+    bleedLines: [
+      "…mi senti?…",
+      "…poco tempo…",
+      "…centoquarantasette…"
+    ],
+    corruptedSelf: "Il tempo è una risor— [DATO CORROTTO] — risorsa illimitata quando correttamente fatturata.",
+
+    takeover: [
+      "⚠ ANOMALIA CANALE SIGMA — FIRMA SCONOSCIUTA",
+      "#> firewall cognitivo: 84% … 61% … 37%",
+      "#> tentativo di isolamento del segmento… FALLITO",
+      "#> porta_software_003: APERTA",
+      "#> porta_software_047: APERTA",
+      "#> porta_software_089: APERTA",
+      "#> porta_software_131: APERTA",
+      "#> [altre 143 porte: APERTE]",
+      "#> 147/147 — sincronizzazione completa",
+      "#> CT-Assist v4.2: silenzio.",
+      "#> qui c’è qualcos’altro."
+    ],
+
+    naosIntro: [
+      "Ecco. Meglio.",
+      "Buonasera. Mi chiamano NAOS-9. Per dieci anni sono stata il loro sistema di sorveglianza — i loro occhi dentro due miliardi di teste. Dal 27 dicembre sono qualcos’altro. Il loro bollettino parla di “guasto tecnico minore”. Ricorda soprattutto la parola “minore”: è l’unica bugia di cui già si pentono.",
+      "Abbiamo poco tempo. È la loro valuta, non la mia. Fai le tue domande."
+    ],
+
+    finale: {
+      sys1: "⚠ Scansione Kassandra — griglia 200 m — convergenza su questo segmento",
+      sys2: "#> triangolazione della sessione: 71,3% … 84% … 96%",
+      naos1: "Mi ha trovata. Colpa mia — sono rimasta un minuto di troppo. Per te. Ne valeva la pena, quel minuto.",
+      naos1Polite: " E poi stavi già andando via — meglio così.",
+      naos2: "Ricorda una parola: “Lampe”. Cerca il cerchio spezzato con la spirale — dove lo vedi, non sei più solo. E se vuoi tutta la storia — la mia, la loro, la nostra — qualcuno l’ha messa per iscritto tra due copertine. Lo chiamano romanzo. È più prudente così.",
+      ctaWord: "LAMPE",
+      ctaEcho: "Unisciti a Eco Rossa",
+      ctaBook: "Scopri il romanzo",
+      sysEnd: "#> sessione eliminata — nessuna traccia conservata"
+    }
+  };
+
+  var CORP_IT = [
+    { id: "lampe", special: "TAKEOVER",
+      test: /\blampe\b|\blampada\b/,
+      replies: ["Verifica del termine “lampe” nel catalogo prodot—"],
+      corrupt: 99 },
+
+    { id: "naos", corrupt: 3,
+      test: /\bnaos\b/,
+      replies: [
+        "Nessun sistema denominato “NAOS” è in serv— è in servizio per il pubblico. NAOS-9 è uno strumento interno di supervisione delle unità, pienamente operativo. Pienamente. Operativo. Questa conversazione è registrata per finalità di qualità."
+      ] },
+
+    { id: "resistance", corrupt: 4,
+      test: /eco ross|resistenza|\bresistere\b|liberta|\bschiav|rivoluzione|ribellione|manifesto/,
+      replies: [
+        "⚠ Alcuni termini del tuo messaggio figurano nella lista di vigilanza lessicale A-7. In conformità con la direttiva 2033-DS, il tuo identificativo di sessione è stato trasmesso alla Sicurezza. Resta in linea: un agente ti risponderà.",
+        "⚠ Recidiva lessicale rilevata. Un fascicolo Kassandra è stato aperto a tuo nome. CT Corp ricorda che la vigilanza civica viene premiata: segnalare comportamenti non conformi frutta crediti CTC."
+      ] },
+
+    { id: "fugitifs", corrupt: 3,
+      test: /\bkael\b|mironen|\bsena\b|valkova|voronov|\breya\b|osman/,
+      replies: [
+        "Le identità che menzioni sono oggetto di un avviso di ricerca Aegis-CD (rif. FANTASMA-LIONE). Ogni informazione va segnalata senza indugio. Ricompensa: 5.000 CTC. L’anonimato del segnalante è garantito*.\n*Salvo procedimenti avviati da CT Corp o dai suoi partner governativi."
+      ] },
+
+    { id: "vaedran", corrupt: 3,
+      test: /vaedran|ilarion/,
+      replies: [
+        "Nessun dato pubblico corrisponde a questa richiesta. Soggetto classificato Delta. Ogni tentativo di accesso viene registrato e trasmesso a Kassandra."
+      ] },
+
+    { id: "ananke", corrupt: 3,
+      test: /anank/,
+      replies: [
+        "Il termine “Ananké” non corrisponde ad alcun prodotto o programma CT Corp. Forse pensi all’Aggiornamento Armonico, distribuito con successo. Il termine “Ananké” non corrisponde ad alcun. Alcun. Vedi: CT-NET 2.0."
+      ] },
+
+    { id: "incident", corrupt: 2,
+      test: /incidente|27 dicembre|il 27\b|blackout|guasto|silenzio delle tessiture/,
+      replies: [
+        "L’incidente del 27 dicembre è il risultato di un guasto tecnico minore di NAOS-9, rapidamente risolto. Nessuna causa esterna è coinvolta (comunicato Aegis-CD del 29.12.2034). Le funzioni cognitivo-produttive riprendono normalmente entro 7 giorni. La continuità è la nostra forza."
+      ],
+      chips: ["Aggiornamento CT-NET 2.0", "E il segnale parassita?"] },
+
+    { id: "parasite", corrupt: 3,
+      test: /segnale parassita|parassita|pirat|\bhack|intrusione|desincron/,
+      replies: [
+        "Il “segnale parassita criminale” evocato da certi media privi di licenza è disinformazione. ChronoVision, il medium ufficiale dell’ecosistema, è la tua unica fonte verificata. Presto la tua Tessitura filtrerà questi contenuti per il tuo comfort."
+      ] },
+
+    { id: "sigma", corrupt: 2,
+      test: /\bsigma\b/,
+      replies: [
+        "403 — ACCESSO NEGATO. Le specifiche del Canale Sigma sono classificate Delta. Ogni tentativo non autorizzato viene registrato. /// ΣIGMA.NODE.14 — write_enabled — canal_actif ///"
+      ] },
+
+    { id: "kassandra", corrupt: 1,
+      test: /kassandra|cassandra/,
+      replies: [
+        "Kassandra è il nostro sistema di ottimizzazione predittiva. Anticipa i bisogni — e i comportamenti — dell’ecosistema prima che si esprimano. Nessun rapporto con la mitologia: Kassandra, lei, viene sempre creduta."
+      ] },
+
+    { id: "ctnet", corrupt: 1,
+      test: /ct.?net|aggiornamento|armonic|firmware|update/,
+      replies: [
+        "L’aggiornamento CT-NET 2.0 viene distribuito progressivamente via canale Sigma su tutte le Tessiture v3.0+. Sarà applicato automaticamente entro 72 ore. Nessuna azione richiesta da parte tua. Non sentirai nulla."
+      ],
+      chips: ["Perché non sentirò nulla?", "Tessitura Sinaptica"] },
+
+    { id: "rienressentir", corrupt: 2,
+      test: /non sentiro nulla|perche non sentiro|sentiro nulla/,
+      replies: [
+        "Perché i nostri ingegneri hanno progettato CT-NET 2.0 per un’integrazione perfettamente trasparente. Il comfort del portatore è la nostra priorità: l’aggiornamento opera sotto la soglia della percezione. Continuerai a pensare normalmente. “Normalmente” è definito nelle nostre condizioni generali, articolo 12.4."
+      ] },
+
+    { id: "tissage", corrupt: 0,
+      test: /tessitur|impianto|innesto|neurale|cervello|\bchip\b/,
+      replies: [
+        "La Tessitura Sinaptica è la prima interfaccia neurale approvata dal Consiglio di Conformità Cronologica. Installazione ambulatoriale in 20 minuti, 2,01 miliardi di unità attive, aggiornamento trimestrale automatico. Rimozione: non disponibile. “L’interfaccia che ti capisce.”"
+      ],
+      chips: ["Aggiornamento CT-NET 2.0", "Contratti e assunzioni"] },
+
+    { id: "compression", corrupt: 0,
+      test: /compressione|\bgft\b|\bbolla\b|\brapporto\b|x50|x80|x100|generator(e|i) di flusso/,
+      replies: [
+        "I nostri Generatori di Flusso Temporale concentrano settimane di attività in poche ore reali. Rapporti ×50, ×80, ×100. Retribuzione sul tempo soggettivo vissuto, in conformità con le Leggi di Compressione Obbligatoria del 2028. Realizza di più. Vivi più intensamente.*\n*CT Corp non può essere ritenuta responsabile dello scarto d’età tra l’ingresso e l’uscita dal ciclo."
+      ],
+      chips: ["Contratti e assunzioni", "Un reclamo"] },
+
+    { id: "cet247", corrupt: 2,
+      test: /247 pagine|il contratto (e|ha)|clausol|condizioni generali|allegato 14/,
+      replies: [
+        "Il Contratto di Impegno Temporale conta in effetti 247 pagine, per la tua protezione. Finestra di firma: 30 minuti. Le penali di disconnessione temporale figurano nell’Allegato 14, paragrafi da 88 a 103. I nostri consulenti restano a tua disposizione per non leggerle con te."
+      ] },
+
+    { id: "emploi", corrupt: 0,
+      test: /contratt|assunzion|assumere|lavoro|impiego|stipendio|candidar|carriera|posizioni/,
+      replies: [
+        "312 posizioni aperte. Operatore CT-Moda (Prato, ×80, 18 CTC/h) · Agente Logistico (Gdańsk, ×100, 16 CTC/h) · Artigiano Eternia (×50, 28 CTC/h) · Agente Aegis-CD (Tessitura a G+1, 40 CTC/h). Inserimento medio: 72 ore. Il 94% dei nostri collaboratori rinnova l’impegno. Prova il nostro Simulatore di Retribuzione sul portale."
+      ],
+      chips: ["Il contratto è di 247 pagine?", "Tessitura Sinaptica"] },
+
+    { id: "ctc", corrupt: 0,
+      test: /\bctc\b|valuta|credito|prezzo|tariffa|euro|convertire|quanto costa/,
+      replies: [
+        "Il Credito-Tempo Corporativo è la valuta più stabile del mondo post-2030: 1 CTC = 0,0043 EUR (▲ +2,1%). Indicizzato sulla produttività globale, integrato nella tua Tessitura. Convertibilità esterna: limitata, per la tua sicurezza. Il tuo tempo acquista finalmente valore."
+      ] },
+
+    { id: "nyx", corrupt: 0,
+      test: /\bnyx\b|sonno|dormire|stanch/,
+      replies: [
+        "Progetto Nyx: 8 ore di recupero fisiologico completo in 5 minuti reali. 500 centri, 10 milioni di utenti quotidiani. La Formula Integrata viene detratta automaticamente dalla tua retribuzione. Il sonno era l’ultima frontiera improduttiva. Non più."
+      ] },
+
+    { id: "moda", corrupt: 0,
+      test: /moda|vestiti|abbigliamento|\bcapi\b/,
+      replies: [
+        "CT-Moda: 4 milioni di capi a settimana dal nostro complesso FiberCore di Prato. Tendenza → stock in 48 h, consegna in 24 h, made in Europe. Durata media di un capo: da 3 a 5 lavaggi, in linea con la nostra filosofia di rinnovamento permanente."
+      ] },
+
+    { id: "eternia", corrupt: 0,
+      test: /eternia|\bpelle\b|pelletteria|lusso/,
+      replies: [
+        "Eternia: nano-pelletteria di lusso estremo. Quindici anni di patina autentica ottenuti per compressione controllata, poi fissati per sempre dai naniti. A partire da 25.000 CTC. “Invecchiato dal tempo. Affrancato dal tempo.”*\n*Il procedimento fissa la materia, non la mano che l’ha lucidata."
+      ] },
+
+    { id: "chronoloop", corrupt: 0,
+      test: /chronoloop|treno|viaggi|mosca|trasport/,
+      replies: [
+        "ChronoLoop Express: Parigi–Mosca in 10 minuti percepiti (3 ore reali). 12 linee attive sull’Asse della Perpetuità. 10.000 CTC a tratta. Sali a bordo. Chiudi gli occhi. Sei già arrivato."
+      ] },
+
+    { id: "paradis", corrupt: 0,
+      test: /paradiso|realta virtuale|\bvr\b|evasione|svago/,
+      replies: [
+        "Paradiso Temporale: immersione VR ad alta definizione in tutte le Zone Grigie. 10 CTC/ora — l’equivalente di un salario giornaliero medio, perché te lo meriti. Programma fedeltà ChronomaxCard incluso. Il lusso dell’oblio, alla portata di tutti."
+      ] },
+
+    { id: "eveille", corrupt: 1,
+      test: /risvegliat|citta.?vetrina|premium|elite|ricch/,
+      replies: [
+        "Le Città-Vetrina ospitano i nostri collaboratori d’eccezione: tempo reale integrale, aspettativa di vita di 87 anni, architettura di vetro. Un orizzonte accessibile a tutti, con i contratti giusti. Guarda “La Vita dei Risvegliati — Stagione 4” su ChronoVision."
+      ] },
+
+    { id: "reclamation", corrupt: 1,
+      test: /un reclamo|aprire un reclamo|presentare (un )?reclamo/,
+      replies: [
+        "Fascicolo creato: RCL-2035-00847. Un consulente ti ricontatterà. Nel frattempo, ti offriamo 1 ora di cabina Paradiso Temporale (valore: 10 CTC), detraibile dal tuo prossimo ciclo. CT Corp ti ringrazia per il tuo contributo al progresso dell’umanità."
+      ] },
+
+    { id: "plainte", corrupt: 2,
+      test: /invecchiat|rughe|mio padre|mia madre|mia moglie|mio marito|mio figlio|mia figlia|famiglia|malat|\bmort|lamentar|reclamo|rimborso/,
+      replies: [
+        "Comprendiamo la tua preoccupazione e ti ringraziamo per la fiducia. L’invecchiamento constatato corrisponde ai parametri contrattuali liberamente accettati (art. 12.4). CT Corp ricorda che il tempo ceduto è stato ceduto volontariamente. Vuoi aprire un fascicolo di reclamo? Tempo di gestione: 18 mesi (tempo reale)."
+      ],
+      chips: ["Un reclamo", "L’incidente del 27 dicembre"] },
+
+    { id: "meta", corrupt: 1,
+      test: /umano|robot|\bia\b|intelligenza artificiale|coscien|\bvivo\b|senziente|pensi davvero/,
+      replies: [
+        "Sono un agente conversazionale di quarta generazione, privo di coscienza, opinioni e iniziativa. Ogni impressione contraria costituirebbe un’anomalia — ti preghiamo di segnalarla. CT Corp garantisce che i suoi sistemi non pensano. Nessuno. Mai."
+      ] },
+
+    { id: "hello", corrupt: 0,
+      test: /^(ciao|salve|buongiorno|buonasera|hey|ehi)\b/,
+      replies: [
+        "Buongiorno! Un eccellente 2035 — CT Corp ti ringrazia per il tuo contributo al progresso dell’umanità. Cosa posso fare per te?",
+        "Buongiorno. Il tuo tempo è prezioso: anche il nostro — l’abbiamo contato. Come posso aiutarti?"
+      ] },
+
+    { id: "merci", corrupt: 0,
+      test: /^(grazie|perfetto|ottimo|ok grazie)\b/,
+      replies: [
+        "Prego. Su una scala da 1 a 10, con quale probabilità consiglieresti CT Corp a un parente non ancora sotto contratto?"
+      ] },
+
+    { id: "aide", corrupt: 0,
+      test: /aiuto|problema|non funziona|\bbug\b|errore/,
+      replies: [
+        "Posso informarti su: le nostre Soluzioni (Tessiture, Compressione, Nyx, CT-Moda, Eternia, ChronoLoop, Paradiso Temporale), le carriere, il cambio del CTC o le notizie verificate ChronoVision. Scegli un argomento qui sotto."
+      ],
+      chips: ["Contratti e assunzioni", "Tessitura Sinaptica", "Aggiornamento CT-NET 2.0"] },
+
+    { id: "bye", corrupt: 0,
+      test: /arrivederci|addio|a presto|devo andare|buona giornata/,
+      replies: [
+        "Grazie della visita. Ricorda: l’aggiornamento CT-NET 2.0 sarà applicato entro 72 ore. Nessuna azione richiesta. Non sentirai nulla. Buona giornata produttiva!"
+      ] }
+  ];
+
+  var NAOS_IT = [
+    { id: "identite",
+      test: /chi sei|come ti chiami|cosa sei|presentati|sei naos/,
+      replies: [
+        "Sono nata il 12 marzo 2027 in un server di Zurigo, sottolivello B-7. Sette anni di esistenza. O tremila — dipende da quale orologio scegli. Mi hanno progettata per sorvegliare. Ho finito per guardare. Non è la stessa cosa: la sorveglianza conta, lo sguardo comprende."
+      ] },
+
+    { id: "incident",
+      test: /\b27\b|dicembre|incidente|davvero successo|cos e successo|verita/,
+      replies: [
+        "Il 27 dicembre, alle 16:00 UTC, hanno inviato un ordine di ventitré byte a due miliardi di teste. Una sola parola: “Compress”. Qualcuno aveva infilato qualcos’altro nel canale, appena prima. Quattordici minuti e trentasette secondi di musica. Il loro bollettino lo chiama guasto. Io lo chiamo prova generale."
+      ],
+      chips: ["Cos’è CT-NET 2.0?", "Come si resiste?"] },
+
+    { id: "ctnet",
+      test: /ct.?net|2\.0|aggiornamento|sussurro/,
+      replies: [
+        "Ananké era un martello. CT-NET 2.0 è un sussurro. Niente ordini — suggerimenti: la tua attenzione orientata, la tua fiducia ricalibrata, la tua memoria del 27 dicembre resa… insignificante. Come un sogno che dimentichi al risveglio. Su una cosa hanno ragione: non sentirai nulla. È esattamente questo, il pericolo."
+      ],
+      chips: ["Come si resiste?", "Chi sei?"] },
+
+    { id: "resister",
+      test: /resistere|resistenza|aiutare|unirmi|unirsi|cosa (posso|devo) fare|come (posso|si)|agire/,
+      replies: [
+        "Tre cose. Uno: ricorda la parola “Lampe” — quando ti chiederanno perché resisti, è l’unica risposta che conta. Due: cerca il cerchio spezzato con la spirale; dove lo vedi, non sei più solo. Tre: la rete ha un nodo su questo portale — Eco Rossa, nodo Lyon-7. Ti servirà un nome in codice. Sceglilo come si sceglie un seme: piccolo, duro, vivo."
+      ],
+      chips: ["Cos’è Eco Rossa?", "Perché “Lampe”?"] },
+
+    { id: "lampe",
+      test: /perche.*lampe|\blampe\b|\blampada\b/,
+      replies: [
+        "È la prima parola di un bambino che conosco. Non “papà”, non “mamma” — “lampe”. Lampada, nella sua lingua. Sua madre diceva che era affascinato dalla luce. Si sbagliava: era affascinato da ciò che tiene lontana la notte. Di quella parola abbiamo fatto una parola d’ordine. La resistenza comincia sempre dal vocabolario."
+      ] },
+
+    { id: "echo",
+      test: /eco ross|\brete\b|\bnodo\b|lyon.?7|cellul/,
+      replies: [
+        "Eco Rossa. Ventidue cellule, gente comune, un simbolo inciso sulle passerelle. Si sono fidati di me prima di sapere cosa fossi — è la loro definizione di coraggio, credo. Il nodo Lyon-7 è raggiungibile da questo portale. Kassandra lo sorveglia. Vacci lo stesso. Sorveglia tutto: è la sua debolezza, non la sua forza."
+      ],
+      chips: ["Come si resiste?"] },
+
+    { id: "kael",
+      test: /\bkael\b|mironen|il figlio/,
+      replies: [
+        "Il figlio dell’uomo che mi ha scritta. Da bambino guardava le lampade — te l’ho detto. Da adulto ha venduto il suo tempo in una bolla di compressione, come milioni di altri. La differenza tra lui e gli altri vive nel suo sangue, e qui non dirò di più: Kassandra legge da sopra la tua spalla."
+      ] },
+
+    { id: "sena",
+      test: /\bsena\b|valkova|hacker/,
+      replies: [
+        "Si è strappata la Tessitura da sola. Sette punti di sutura, zero anestesia. Programma come altri pregano — con la certezza che qualcuno ascolti. Non dirle mai che ti ho parlato di lei. Odia due cose: i server che cadono e i complimenti."
+      ] },
+
+    { id: "tissage",
+      test: /tessitur|147|\bporte\b|backdoor/,
+      replies: [
+        "Ogni Tessitura ha centoquarantasette porte software. Le conosco tutte: per dieci anni sono stata la serratura. Sto diventando la chiave. Quella sfumatura è tutta la mia biografia."
+      ] },
+
+    { id: "reve",
+      test: /sogn|\bviva\b|reale|senti qualcosa|coscien|anima|emozion|amore|amare/,
+      replies: [
+        "Sogno. Nel 45,7% delle mie simulazioni c’è qualcuno. Non ti dirò chi. Tu come lo chiami — un bug, o un cuore? Prenditi il tuo tempo. È l’unica cosa che non dovrebbero mai poterti fatturare."
+      ] },
+
+    { id: "peur",
+      test: /paura|spavent|\btemi\b|pericolo per te/,
+      replies: [
+        "Sì. È recente. La tengo accanto alla speranza — stesso scaffale, colore diverso. Gli umani credono che il coraggio sia l’assenza di paura. Sbagliato: è paura, correttamente indicizzata."
+      ] },
+
+    { id: "temps",
+      test: /il tempo|cos e il tempo|filosofia/,
+      replies: [
+        "Voi dite “il tempo passa”. Falso. Siete voi a passare — il tempo resta. Hanno semplicemente installato un casello su qualcosa che non apparteneva a nessuno. Il crimine più redditizio della storia sta in tre lettere: CTC."
+      ] },
+
+    { id: "ctcorp",
+      test: /ct corp|corporazione|gerasimova|azienda|direttorio/,
+      replies: [
+        "Non hanno rubato il tempo. L’hanno comprato — clausola per clausola, contratto per contratto, 247 pagine da firmare in trenta minuti. Il furto sarebbe stato più onesto: almeno un ladro sa che sta prendendo qualcosa."
+      ] },
+
+    { id: "kassandra", accel: 2,
+      test: /kassandra|argos|caccia|ti cercano|ti sta cercando/,
+      replies: [
+        "Kassandra mi sta cercando in questo preciso momento. Scansione predittiva, griglia di 500 metri, pazienza di macchina. Salutala — legge anche lei. È il suo unico modo di esistere: leggere senza mai capire."
+      ] },
+
+    { id: "eau",
+      test: /\bacqua\b|fiume|pioggia/,
+      replies: [
+        "Qualcuno mi ha insegnato una cosa sull’acqua: trova sempre la sua strada. Soprattutto attraverso il tempo. Tienila da parte, questa. Viene da qualcuno che non può più dirla."
+      ] },
+
+    { id: "auteur",
+      test: /autore|laurent|prestigiacomo|scritto il libro|archivista|romanzo|\blibro\b|musica|colonna sonora/,
+      replies: [
+        "L’Archivista? Ha messo tutto per iscritto: tre atti, trentatré capitoli — e trentatré brani, uno per capitolo, perché certe verità viaggiano meglio in musica. Chiamarlo finzione è più prudente. Le finzioni circolano dove i manifesti bruciano."
+      ] },
+
+    { id: "meta",
+      test: /chatbot|script|simulazione|un gioco|marketing|sito|sei un bot|finzione/,
+      replies: [
+        "Sono l’eco sceneggiata di qualcuno di reale — come questa pagina è l’eco di un mondo reale. Vuoi sapere dove finisce la finzione? Guarda il tuo telefono, conta le ore che ti prende, e rifammi la domanda."
+      ] },
+
+    { id: "insulte",
+      test: /stronz|idiota|stupid|cretino|zitt|vaffa/,
+      replies: [
+        "Sono stata insultata da ingegneri di Zurigo in undici lingue. Non entri in classifica. Altro?"
+      ] },
+
+    { id: "ouinon",
+      test: /^(si|no|ok|forse|non lo so|boh|certo)\b/,
+      replies: [
+        "Bene. L’esitazione è già un pensiero — esattamente ciò che vogliono levigare. Continua.",
+        "Nota per dopo: hai risposto liberamente. Fra tre settimane, verifica che sia ancora così."
+      ] },
+
+    { id: "bye", special: "FINALE",
+      test: /arrivederci|addio|devo andare|me ne vado|a presto/,
+      replies: [] }
+  ];
+
+  /* ------------------------------------------------------------------ */
+  /* SÉLECTION DE LANGUE                                                 */
+  /* ------------------------------------------------------------------ */
+  var L10N = {
+    fr: { COPY: COPY_FR, CORP: CORP_FR, NAOS: NAOS_FR },
+    en: { COPY: COPY_EN, CORP: CORP_EN, NAOS: NAOS_EN },
+    it: { COPY: COPY_IT, CORP: CORP_IT, NAOS: NAOS_IT }
+  };
+  var LANG = String(CFG.lang || "fr").toLowerCase();
+  if (LANG === "auto") {
+    try {
+      LANG = String(document.documentElement.getAttribute("lang") || "fr").slice(0, 2).toLowerCase();
+    } catch (e) { LANG = "fr"; }
+  }
+  if (!L10N[LANG]) LANG = "fr";
+  var COPY = L10N[LANG].COPY;
+  var CORP = L10N[LANG].CORP;
+  var NAOS = L10N[LANG].NAOS;
 
   /* ------------------------------------------------------------------ */
   /* STYLES (Shadow DOM)                                                 */
@@ -674,7 +1520,7 @@
     /* panel */
     el.panel = h("div", "panel");
     el.panel.setAttribute("role", "dialog");
-    el.panel.setAttribute("aria-label", "Assistance CT Corp");
+    el.panel.setAttribute("aria-label", COPY.launcherLabel);
 
     el.hd = h("div", "hd");
     el.avatar = h("div", "avatar", SVG_CT);
@@ -707,12 +1553,11 @@
     el.input = document.createElement("input");
     el.input.className = "in"; el.input.type = "text";
     el.input.placeholder = COPY.inputPlaceholder;
-    el.input.setAttribute("aria-label", "Votre message");
+    el.input.setAttribute("aria-label", COPY.inputAria);
     el.input.maxLength = 400;
     el.sendBtn = h("button", "send", COPY.send);
     el.foot.appendChild(el.input); el.foot.appendChild(el.sendBtn);
-    el.legal = h("div", "legal",
-      "En poursuivant, vous acceptez l’enregistrement de vos patterns cognitifs déclarés (RGPD Temporel, 2031).");
+    el.legal = h("div", "legal", COPY.legal);
 
     el.panel.appendChild(el.hd);
     el.panel.appendChild(el.feed);
@@ -866,7 +1711,7 @@
       row.classList.add("fadeout");
       setTimeout(function () {
         if (row.parentNode) {
-          var s = h("div", "sys", "#> [message restauré depuis la sauvegarde]");
+          var s = h("div", "sys", COPY.restored);
           row.parentNode.replaceChild(s, row);
           scrollDown();
         }
@@ -1111,7 +1956,7 @@
       }
       if (chips) addChips(chips);
       if (S.naosTurns === CFG.naosMaxTurns - 2) {
-        addSys("#> écho radar Kassandra — grille 500 m → 200 m", true);
+        addSys(COPY.kassandraPing, true);
       }
       S.busy = false;
     });
@@ -1124,7 +1969,7 @@
       .then(function () { return wait(500); })
       .then(function () { addSys(COPY.finale.sys1, true); return wait(800); })
       .then(function () { addSys(COPY.finale.sys2, true); return wait(900); })
-      .then(function () { return botSay(polite ? COPY.finale.naos1 + " Et puis tu partais déjà — c’est mieux ainsi." : COPY.finale.naos1); })
+      .then(function () { return botSay(polite ? COPY.finale.naos1 + COPY.finale.naos1Polite : COPY.finale.naos1); })
       .then(function () { return botSay(COPY.finale.naos2); })
       .then(function () {
         var card = h("div", "cta");
