@@ -1,6 +1,7 @@
 /* ============================================================================
    CT-ASSIST — Assistant virtuel CT Corp (widget diégétique)
    Site « Esclaves du Temps » — Laurent Prestigiacomo / 3Cinq7 éditions
+   v2.0.1 — 07.07.2026 — correctif d'initialisation (boot déplacé en fin de fichier)
    ----------------------------------------------------------------------------
    UN SEUL FICHIER TRILINGUE (FR/EN/IT), ZÉRO DÉPENDANCE. À inclure avant </body> :
 
@@ -1492,8 +1493,6 @@
   var host = document.createElement("div");
   host.id = "ctc-chat-host";
   var shadow = host.attachShadow ? host.attachShadow({ mode: "open" }) : host;
-  document.addEventListener("DOMContentLoaded", mount);
-  if (document.readyState !== "loading") mount();
 
   var el = {};
   var mounted = false;
@@ -1996,5 +1995,12 @@
       });
     return seq;
   }
+
+
+  /* ------------------------------------------------------------------ */
+  /* BOOT — après ce point, tout l'état ci-dessus est initialisé         */
+  /* ------------------------------------------------------------------ */
+  document.addEventListener("DOMContentLoaded", mount);
+  if (document.readyState !== "loading") mount();
 
 })();
