@@ -3426,6 +3426,12 @@ document.addEventListener('keydown', e => {
 <script data-goatcounter="https://CODE_GOATCOUNTER.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <!--/i18n:analytics-->
 
+<!-- Sélecteur de langues : décalé au-dessus du launcher CT-Assist (hors sentinelle i18n → survit à inject()) -->
+<style>
+  body .i18n-switch{top:auto;bottom:96px;right:20px;}
+  @media (max-width:480px){body .i18n-switch{bottom:88px;right:12px;}}
+</style>
+
 <!-- CT-Assist — assistant de support (widget diégétique NAOS-9) -->
 <script>
   window.CTC_CHAT = {
