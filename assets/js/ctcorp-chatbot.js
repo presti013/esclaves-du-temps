@@ -11,7 +11,7 @@
 
        <script>
          window.CTC_CHAT = {
-           bookUrl:  "https://www.la-commanderie.be/category/3cinq7-editions",
+           bookUrl:  "https://www.la-commanderie.be/product/esclaves-du-temps",
            echoUrl:  "index.html#echo",   // lien vers le nœud Écho Rouge du site
            corruptionThreshold: 6,         // seuil de piratage (defaut 6)
            minUserMessages: 3,             // nb mini de messages avant piratage
@@ -40,7 +40,7 @@
   /* CONFIG                                                              */
   /* ------------------------------------------------------------------ */
   var DEFAULTS = {
-    bookUrl: "https://www.la-commanderie.be/category/3cinq7-editions",
+    bookUrl: "https://www.la-commanderie.be/product/esclaves-du-temps",
     echoUrl: "index.html",
     corruptionThreshold: 6,
     minUserMessages: 3,

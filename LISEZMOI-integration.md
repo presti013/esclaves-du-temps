@@ -12,7 +12,7 @@ stockée (pas de cookies, pas de localStorage), `prefers-reduced-motion` respect
 ```html
 <script>
   window.CTC_CHAT = {
-    bookUrl: "https://www.la-commanderie.be/category/3cinq7-editions",
+    bookUrl: "https://www.la-commanderie.be/product/esclaves-du-temps",
     echoUrl: "echo-rouge-v2.html",   // page du nœud Écho Rouge (chemin relatif)
     lang: "auto"                     // "fr" | "en" | "it" | "auto"
   };
