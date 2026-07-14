@@ -101,10 +101,10 @@ STYLE = """<!--i18n:style-->
 
 # Analytics (GoatCounter) — GitHub Pages est statique, on passe par un service
 # externe. Injecté (comme le sélecteur) sur toutes les pages, racine + en/it.
-# ⚠ Remplacer CODE_GOATCOUNTER par le code fourni par Laurent après création du
+# ⚠ Remplacer presti013 par le code fourni par Laurent après création du
 # compte sur https://www.goatcounter.com/ (idem dans admin-stats.html).
 ANALYTICS = """<!--i18n:analytics-->
-<script data-goatcounter="https://CODE_GOATCOUNTER.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://presti013.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <!--/i18n:analytics-->"""
 
 # Pages à en-tête dense : le sélecteur passe en bas à droite pour ne pas
