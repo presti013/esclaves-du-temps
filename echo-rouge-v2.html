@@ -949,6 +949,13 @@ nav {
   background: #020804; margin-bottom: 24px; overflow: hidden;
 }
 .cd-banner svg { width: 100%; height: 100%; display: block; }
+/* ER-CT-IMG : illustration de mission par-dessus le bandeau SVG (repli si absente) */
+.cd-banner { position: relative; }
+.cd-banner .cd-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; display: block;
+  opacity: 0; transition: opacity .6s ease;
+}
 
 /* ═══════════════════════════════════════
    MARCHÉ — SOUS-PAGES PAIEMENT / LIVRAISON
@@ -2547,7 +2554,8 @@ function openContract(id) {
   const c = contractData[id];
   if (!c) return;
   let h = '';
-  h += '<div class="cd-banner">' + ctBanner(id) + '</div>';
+  const ctImg = 'assets/contrats/er-' + id + '.png'; // ER-CT-IMG
+  h += '<div class="cd-banner">' + ctBanner(id) + '<img class="cd-img" src="' + ctImg + '" alt="' + c.title.replace(/"/g, '&quot;') + '" decoding="async" onload="this.style.opacity=1" onerror="this.remove()"></div>';
   h += '<div class="ip-header"><div class="ip-category">ÉCHO-ROUGE / CONTRATS / ' + c.ref + '</div>';
   h += '<div class="ip-title">' + c.title + '</div>';
   h += '<div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">';
