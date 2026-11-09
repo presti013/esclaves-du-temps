@@ -2554,7 +2554,7 @@ function openContract(id) {
   const c = contractData[id];
   if (!c) return;
   let h = '';
-  const ctImg = 'assets/contrats/er-' + id + '.png'; // ER-CT-IMG
+  const ctImg = 'assets/contrats/er-' + id + '.jpg'; // ER-CT-IMG
   h += '<div class="cd-banner">' + ctBanner(id) + '<img class="cd-img" src="' + ctImg + '" alt="' + c.title.replace(/"/g, '&quot;') + '" decoding="async" onload="this.style.opacity=1" onerror="this.remove()"></div>';
   h += '<div class="ip-header"><div class="ip-category">ÉCHO-ROUGE / CONTRATS / ' + c.ref + '</div>';
   h += '<div class="ip-title">' + c.title + '</div>';
