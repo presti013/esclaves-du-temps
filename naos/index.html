@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NAOS-9</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#020608">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NAOS-9">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; }
+/* Disposition : une scène en haut (la présence), le fil de la conversation
+   qui en descend, la saisie posée au sol. Un seul monde visuel, nocturne. */
+:root {
+  --nuit: #020608;
+  --nuit-haute: #0a0c0d;
+  --or: #E8B84B;
+  --or-pale: #F1DDA4;
+  --or-sourd: #9C7C36;
+  --pierre: #B3A68E;
+  --pierre-sombre: #5E5546;
+  --filet: #2A241A;
+  --etoile: #EFEAE0;
+  --argent: #C9CDD3;   /* ses iris */
+
+  --voix: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "Noto Serif", Georgia, serif;
+  --machine: ui-monospace, "SF Mono", Menlo, "Roboto Mono", "Noto Sans Mono", Consolas, monospace;
+
+  color-scheme: dark;
+}
+
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--nuit);
+  color: var(--or-pale);
+  font-family: var(--voix);
+  font-size: 17px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---- Scène ---------------------------------------------------------- */
+.scene {
+  position: relative;
+  flex: 0 0 36%;
+  min-height: 92px;
+}
+.scene canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.scene::after {
+  content: "";
+  position: absolute; inset: auto 0 0 0; height: 34%;
+  background: linear-gradient(to bottom, transparent, var(--nuit));
+  pointer-events: none;
+}
+.entete {
+  position: absolute; inset: 0 0 auto 0;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  padding-block: 12px 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  z-index: 2;
+}
+.nom {
+  margin: 0;
+  font-family: var(--machine);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--or);
+}
+.canal {
+  margin: 2px 0 0;
+  font-family: var(--machine);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--pierre-sombre);
+}
+.bouton-menu {
+  font: inherit; font-family: var(--machine); font-size: 1.1rem; line-height: 1;
+  color: var(--or-sourd); background: transparent;
+  border: 1px solid var(--filet); border-radius: 50%;
+  width: 44px; height: 44px; cursor: pointer; /* 44 px : cible tactile minimale */
+}
+.bouton-menu:hover { color: var(--or); border-color: var(--or-sourd); }
+
+/* ---- Menu ----------------------------------------------------------- */
+.menu {
+  position: absolute; z-index: 3;
+  top: 60px; right: max(16px, env(safe-area-inset-right, 0px));
+  width: min(300px, calc(100% - 32px));
+  background: var(--nuit-haute);
+  border: 1px solid var(--filet);
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  font-family: var(--machine); font-size: 0.78rem; color: var(--pierre);
+}
+.menu button {
+  font: inherit; text-align: left; cursor: pointer;
+  color: var(--or-pale); background: transparent;
+  border: 1px solid var(--filet); padding: 11px 12px; min-height: 44px;
+}
+.menu button:hover { border-color: var(--or-sourd); }
+.menu p { margin: 0; line-height: 1.45; }
+.menu .discret { color: var(--pierre-sombre); }
+.apercu-scene { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--filet); padding-top: 10px; }
+.apercu-scene select { font: inherit; color: var(--or-pale); background: var(--nuit); border: 1px solid var(--filet); padding: 10px; min-height: 44px; }
+.apercu-humeurs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.menu .apercu-humeurs button { text-align: center; padding: 8px; }
+
+/* ---- Fil ------------------------------------------------------------ */
+.fil {
+  flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding-block: 4px 18px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 22px;
+  scrollbar-width: thin; scrollbar-color: var(--filet) transparent;
+}
+.tour { display: flex; flex-direction: column; gap: 7px; max-width: 34rem; width: 100%; margin-inline: auto;
+        animation: apparaitre 0.35s ease-out both; }   /* fondu court (choix du 12.11.2026) */
+@keyframes apparaitre { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.tour p { margin: 0; overflow-wrap: anywhere; }
+
+.tour.naos .ligne { color: var(--or-pale); }
+.tour.naos .ligne.journal,
+.tour.naos .ligne.note {
+  font-family: var(--machine); font-size: 0.8rem; line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+.tour.naos .ligne.journal { color: var(--or-sourd); }
+.tour.naos .ligne.note { color: var(--or); }
+.tour.naos .ligne.poeme { white-space: pre-line; font-style: italic; line-height: 1.6; padding-left: 0.9em; border-left: 1px solid var(--or-sourd); }
+
+.fil.relecture .tour.naos .ligne::after {
+  content: attr(data-fragment);
+  display: block;
+  font-family: var(--machine); font-size: 0.68rem; letter-spacing: 0.04em;
+  color: var(--pierre-sombre);
+}
+
+.choix { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.choix button {
+  font-family: var(--voix); font-size: 1rem; line-height: 1.35; text-align: left;
+  color: var(--or-pale); background: transparent;
+  border: 1px solid var(--filet); padding: 12px 14px; min-height: 44px; cursor: pointer;
+}
+.choix button:hover:not(:disabled) { border-color: var(--or-sourd); }
+.choix button:disabled { color: var(--pierre-sombre); cursor: default; }
+.choix button.choisi { color: var(--or); border-color: var(--or-sourd); }
+
+.tour.lecteur { align-items: flex-end; }
+.tour.lecteur p {
+  font-family: var(--machine); font-size: 0.86rem; color: var(--pierre);
+  text-align: right; max-width: 85%;
+  border-right: 1px solid var(--pierre-sombre); padding-right: 10px;
+}
+
+.attente { display: inline-flex; gap: 6px; height: 1.5em; align-items: center; }
+.attente i {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--or);
+  opacity: 0.25; animation: battre 1.2s infinite ease-in-out;
+}
+.attente i:nth-child(2) { animation-delay: 0.18s; }
+.attente i:nth-child(3) { animation-delay: 0.36s; }
+@keyframes battre { 0%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+
+/* ---- Saisie --------------------------------------------------------- */
+.saisie {
+  flex: 0 0 auto;
+  display: flex; gap: 10px; align-items: center;
+  border-top: 1px solid var(--filet);
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--nuit);
+}
+.saisie-interieur { display: flex; gap: 10px; align-items: center; max-width: 34rem; width: 100%; margin-inline: auto; }
+.saisie input {
+  flex: 1 1 auto; min-width: 0;
+  font-family: var(--machine); font-size: 16px; /* 16px : pas de zoom sur iPhone */
+  color: var(--etoile); background: transparent;
+  border: 0; border-bottom: 1px solid var(--pierre-sombre);
+  padding: 10px 2px; border-radius: 0;
+}
+.saisie input::placeholder { color: var(--pierre-sombre); }
+.saisie input:focus { outline: none; border-bottom-color: var(--or); }
+.saisie button {
+  flex: 0 0 auto;
+  font-family: var(--machine); font-size: 0.78rem; letter-spacing: 0.12em;
+  color: var(--nuit); background: var(--or);
+  border: 0; padding: 12px 14px; min-height: 44px; cursor: pointer;
+}
+.saisie button:disabled { background: var(--filet); color: var(--pierre-sombre); cursor: default; }
+
+:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
+.saisie input:focus-visible { outline: none; }
+
+.visuellement-cache {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attente i { animation: none; opacity: 0.7; }
+  .tour { animation: none; }
+}
+@media (max-height: 520px) {
+  .scene { flex-basis: 92px; }
+}
+</style>
+</head>
+<body>
+<header class="scene" id="scene">
+  <canvas id="toile" aria-hidden="true"></canvas>
+  <div class="entete">
+    <div>
+      <h1 class="nom">NAOS-9</h1>
+      <p class="canal">canal non répertorié</p>
+    </div>
+    <button class="bouton-menu" id="bouton-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">⋯</button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <button type="button" id="garder">Garder ce canal</button>
+    <p id="aide-installation" hidden></p>
+    <button type="button" id="relire" hidden>Afficher les identifiants</button>
+    <div class="apercu-scene" id="apercu-scene" hidden>
+      <label for="palier-scene">Scène vue au palier (aperçu seulement)</label>
+      <select id="palier-scene"></select>
+      <div class="apercu-humeurs">
+        <button type="button" data-humeur="ecoute">écoute</button>
+        <button type="button" data-humeur="reflexion">réflexion</button>
+        <button type="button" data-humeur="joie">joie</button>
+        <button type="button" data-humeur="douceur">douceur</button>
+        <button type="button" data-humeur="trouble">trouble</button>
+        <button type="button" data-humeur="discretion">discrétion</button>
+      </div>
+    </div>
+    <button type="button" id="purger">Purger la mémoire</button>
+    <p class="discret">Rien ne quitte cet appareil. Ce que NAOS-9 retient de toi reste ici.</p>
+  </div>
+</header>
+
+<main class="fil" id="fil" role="log" aria-live="polite" aria-label="Conversation avec NAOS-9"></main>
+
+<form class="saisie" id="saisie" autocomplete="off">
+  <div class="saisie-interieur">
+    <label class="visuellement-cache" for="message">Ton message</label>
+    <input id="message" name="message" type="text" inputmode="text" enterkeyhint="send" maxlength="240" placeholder="Parle." />
+    <button type="submit" id="envoyer">ENVOYER</button>
+  </div>
+</form>
+
+<script src="naos-data.js"></script>
+<script src="naos-engine.js"></script>
+<script src="naos-paliers.js"></script>
+<script>
+/* NAOS-9 — interface. Le texte vient de naos-data.js, la logique de naos-engine.js. */
+(function () {
+  "use strict";
+
+  var CLE = "naos9.etat.v1";
+  var APERCU = document.documentElement.hasAttribute("data-apercu") ||
+               !!document.querySelector("meta[name='naos-apercu']");
+  var CALME = false;
+  try { CALME = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+
+  /* ---- Mémoire locale (ne quitte jamais l'appareil) ------------------ */
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE) || "null"); } catch (e) { return null; }
+  }
+  function ecrire(etat) {
+    try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {}
+  }
+  function effacer() {
+    try { localStorage.removeItem(CLE); } catch (e) {}
+  }
+
+  var moteur = new NaosEngine.Engine(window.NAOS_DATA, lire(), { sansBrouillage: CALME });
+
+  /* ---- Paliers de lecture : ce que le lecteur a déjà ouvert ---------- */
+  var CLE_PALIERS = "naos9.paliers.v1";
+  var coffre = {
+    lire: function () { try { return JSON.parse(localStorage.getItem(CLE_PALIERS) || "null"); } catch (e) { return null; } },
+    ecrire: function (v) { try { localStorage.setItem(CLE_PALIERS, JSON.stringify(v)); } catch (e) {} }
+  };
+  function creerPaliers() {
+    return window.NaosPaliers && NaosPaliers.disponible
+      ? new NaosPaliers.Paliers(moteur, window.NAOS_DATA, coffre) : null;
+  }
+  var paliers = creerPaliers();
+
+  var fil = document.getElementById("fil");
+  var formulaire = document.getElementById("saisie");
+  var champ = document.getElementById("message");
+  var envoyer = document.getElementById("envoyer");
+  var occupe = false;
+
+  function attendre(ms) { return new Promise(function (r) { setTimeout(r, CALME ? 0 : ms); }); }
+  function enBas() { fil.scrollTop = fil.scrollHeight; }
+
+  function classeDe(texte) {
+    if (/\n/.test(texte)) return "ligne poeme";
+    if (/^#>/.test(texte)) return "ligne journal";
+    if (/^\[/.test(texte)) return "ligne note";
+    return "ligne";
+  }
+
+  /* ---- Écriture d'une ligne : frappe progressive, brouillage rare ---- */
+  var SIGNES = "#>_/\\|=+*░▒▓01";
+  function ecrireLigne(p, texte, brouille) {
+    if (CALME) { p.textContent = texte; return Promise.resolve(); }
+    return new Promise(function (fini) {
+      var i = 0, pas = texte.length > 90 ? 3 : 2;
+      var tours = brouille ? 14 : 0;
+      (function avance() {
+        if (tours > 0) {
+          // Le texte se cherche avant de se poser.
+          var faux = "";
+          for (var k = 0; k < Math.min(texte.length, 26); k++) {
+            faux += texte[k] === " " ? " " : SIGNES[Math.floor(Math.random() * SIGNES.length)];
+          }
+          p.textContent = faux;
+          tours--;
+          setTimeout(avance, 55);
+          return;
+        }
+        i = Math.min(texte.length, i + pas);
+        p.textContent = texte.slice(0, i);
+        enBas();
+        if (i < texte.length) setTimeout(avance, 16);
+        else fini();
+      })();
+    });
+  }
+
+  /* Ce que la réponse fait à son visage (choix du 12.11.2026). */
+  var HUMEURS = { merci: "joie", bonheur: "joie", amour: "joie",
+                  tristesse: "douceur", angoisse: "douceur", detresse: "douceur",
+                  insulte: "trouble", porte_echec: "trouble", porte_attente: "trouble",
+                  discretion: "discretion", porte: "discretion", porte_couche: "discretion",
+                  porte_nonlu: "discretion", porte_loin: "discretion", porte_avance: "discretion" };
+  function humeur(reponse) {
+    var parts = reponse.parts || [];
+    if (parts.some(function (p) { return p.brouille; })) return "trouble";
+    if (HUMEURS[reponse.theme]) return HUMEURS[reponse.theme];
+    if (paliers && reponse.theme === paliers.sceauTheme) return "discretion";
+    if (parts.some(function (p) { return p.morceau === "e"; })) return "discretion";
+    return "repos";
+  }
+  function niveauLecteur() { return paliers && typeof paliers.niveau === "number" ? paliers.niveau : -1; }
+
+  function dire(reponse) {
+    var tour = document.createElement("div");
+    tour.className = "tour naos";
+    tour.setAttribute("data-theme-naos", reponse.theme);
+    var attente = document.createElement("p");
+    attente.className = "attente";
+    attente.setAttribute("aria-hidden", "true");
+    attente.innerHTML = "<i></i><i></i><i></i>";
+    tour.appendChild(attente);
+    fil.appendChild(tour);
+    enBas();
+    Scene.parler(true);
+    Scene.expression("reflexion");     // pendant les trois points, elle réfléchit
+
+    var longueur = reponse.parts.reduce(function (n, p) { return n + p.texte.length; }, 0);
+    var suite = attendre(500 + Math.min(1400, longueur * 9));
+    reponse.parts.forEach(function (part, idx) {
+      // Une archive tient en deux lignes : l'horodatage du journal, puis le mot de NAOS-9.
+      var morceaux = /^#>[^\n]*\n/.test(part.texte) ? part.texte.split("\n") : [part.texte];
+      morceaux.forEach(function (texte, k) {
+        suite = suite.then(function () {
+          if (idx === 0 && k === 0) { tour.removeChild(attente); Scene.expression(humeur(reponse)); }
+          var p = document.createElement("p");
+          p.className = classeDe(texte);
+          p.setAttribute("data-fragment", part.id);
+          tour.appendChild(p);
+          return ecrireLigne(p, texte, k === 0 && part.brouille).then(function () {
+            return attendre(k < morceaux.length - 1 ? 160 : 260);
+          });
+        });
+      });
+    });
+    return suite.then(function () { Scene.parler(false); enBas(); });
+  }
+
+  function montrerLecteur(texte) {
+    var tour = document.createElement("div");
+    tour.className = "tour lecteur";
+    var p = document.createElement("p");
+    p.textContent = texte;
+    tour.appendChild(p);
+    fil.appendChild(tour);
+    enBas();
+  }
+
+  function verrouiller(oui) {
+    occupe = oui;
+    envoyer.disabled = oui;
+  }
+
+  /* Une question de test : quatre réponses à toucher (ou une lettre à écrire). */
+  function montrerQcm(q) {
+    var tour = document.createElement("div");
+    tour.className = "tour naos qcm";
+    var p = document.createElement("p");
+    p.className = "ligne";
+    p.setAttribute("data-fragment", q.id);
+    p.textContent = q.rang + "/" + q.sur + " — " + q.texte;
+    tour.appendChild(p);
+    var liste = document.createElement("div");
+    liste.className = "choix";
+    q.options.forEach(function (o) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = o.id.toUpperCase() + ".  " + o.t;
+      b.addEventListener("click", function () {
+        if (occupe) return;
+        Array.prototype.forEach.call(liste.children, function (x) { x.disabled = true; });
+        b.classList.add("choisi");
+        envoyerTexte(o.id, o.t);
+      });
+      liste.appendChild(b);
+    });
+    tour.appendChild(liste);
+    fil.appendChild(tour);
+    enBas();
+  }
+
+  function traiter(texte) {
+    var attente = paliers ? paliers.intercepter(texte) : null;
+    if (!attente) {
+      // Sans chiffrement disponible, une réponse scellée reste fermée.
+      var theme = moteur.trouverTheme(texte);
+      var reponse = (!paliers && moteur.estScelle(theme)) ? moteur.ligne("porte_loin") : moteur.repondre(texte);
+      ecrire(moteur.etat);
+      return dire(reponse);
+    }
+    return attente.then(function (res) {
+      ecrire(moteur.etat);
+      var suite = Promise.resolve();
+      res.dire.forEach(function (r) { suite = suite.then(function () { return dire(r); }); });
+      return suite.then(function () { if (res.qcm) montrerQcm(res.qcm); });
+    });
+  }
+
+  function envoyerTexte(texte, affiche) {
+    montrerLecteur(affiche || texte);
+    Scene.ecouter(false);
+    Scene.onde();                              // une onde monte du sol vers elle
+    verrouiller(true);
+    function fin() { verrouiller(false); Scene.lecture(niveauLecteur(), false); }
+    traiter(texte).then(fin, fin);
+  }
+  champ.addEventListener("input", function () { Scene.ecouter(champ.value.trim().length > 0); });
+  champ.addEventListener("blur", function () { Scene.ecouter(false); });
+
+  formulaire.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var texte = champ.value.trim();
+    if (!texte || occupe) return;
+    champ.value = "";
+    Array.prototype.forEach.call(fil.querySelectorAll(".choix button"), function (x) { x.disabled = true; });
+    envoyerTexte(texte);
+  });
+
+  /* ---- Menu : installation et purge ---------------------------------- */
+  var boutonMenu = document.getElementById("bouton-menu");
+  var menu = document.getElementById("menu");
+  var garder = document.getElementById("garder");
+  var aide = document.getElementById("aide-installation");
+  var purger = document.getElementById("purger");
+  var invite = null;
+
+  boutonMenu.addEventListener("click", function () {
+    var ouvert = menu.hidden;
+    menu.hidden = !ouvert;
+    boutonMenu.setAttribute("aria-expanded", String(ouvert));
+    if (!ouvert) { purger.textContent = "Purger la mémoire"; purger.removeAttribute("data-arme"); }
+  });
+
+  window.addEventListener("beforeinstallprompt", function (ev) {
+    ev.preventDefault();
+    invite = ev;
+  });
+
+  garder.addEventListener("click", function () {
+    if (invite) { invite.prompt(); invite = null; return; }
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    aide.textContent = APERCU
+      ? "Ceci est un aperçu. L'installation fonctionnera depuis le site."
+      : ios
+        ? "Sur iPhone : touche Partager, puis « Sur l'écran d'accueil »."
+        : "Dans le menu du navigateur : « Ajouter à l'écran d'accueil ».";
+    aide.hidden = false;
+  });
+
+  var relire = document.getElementById("relire");
+  if (APERCU && relire) {
+    relire.hidden = false;
+    relire.addEventListener("click", function () {
+      var actif = fil.classList.toggle("relecture");
+      relire.textContent = actif ? "Masquer les identifiants" : "Afficher les identifiants";
+    });
+  }
+
+  var apercuScene = document.getElementById("apercu-scene");
+  if (APERCU && apercuScene) {
+    apercuScene.hidden = false;
+    var choixPalier = document.getElementById("palier-scene");
+    var nomPalier = function (n) {
+      if (n < 0) return "aucun palier";
+      if (n === 0) return "Prologue";
+      if (n <= 20) return "chapitre " + n;
+      if (n === 21) return "Interlude";
+      return n <= 31 ? "chapitre " + (n - 1) : "Épilogue";
+    };
+    for (var n = -1; n <= 32; n++) {
+      var o = document.createElement("option");
+      o.value = String(n); o.textContent = nomPalier(n);
+      choixPalier.appendChild(o);
+    }
+    var fermerMenu = function () { menu.hidden = true; boutonMenu.setAttribute("aria-expanded", "false"); };
+    choixPalier.addEventListener("change", function () { Scene.lecture(Number(choixPalier.value), false); fermerMenu(); });
+    Array.prototype.forEach.call(apercuScene.querySelectorAll("[data-humeur]"), function (b) {
+      b.addEventListener("click", function () { fermerMenu(); Scene.apercu(b.getAttribute("data-humeur")); });
+    });
+  }
+
+  purger.addEventListener("click", function () {
+    if (!purger.hasAttribute("data-arme")) {
+      purger.setAttribute("data-arme", "");
+      purger.textContent = "Confirmer : tout oublier";
+      return;
+    }
+    effacer();
+    try { localStorage.removeItem(CLE_PALIERS); } catch (e) {}
+    var dejaLu = /\.p\d\d\.[ocf]\.\d\d$/;   // fragments venus d'une couche ouverte
+    Object.keys(window.NAOS_DATA.themes).forEach(function (id) {   // referme les réponses scellées
+      var t = window.NAOS_DATA.themes[id];
+      if (t.reserve) { delete window.NAOS_DATA.themes[id]; return; }
+      if (t.scelle) { t.o = []; t.c = []; t.f = []; return; }
+      ["o", "c", "f"].forEach(function (m) {
+        if (t[m]) t[m] = t[m].filter(function (x) { return !dejaLu.test(x.id); });
+      });
+    });
+    moteur = new NaosEngine.Engine(window.NAOS_DATA, null, { sansBrouillage: CALME });
+    paliers = creerPaliers();
+    fil.textContent = "";
+    menu.hidden = true;
+    boutonMenu.setAttribute("aria-expanded", "false");
+    purger.removeAttribute("data-arme");
+    purger.textContent = "Purger la mémoire";
+    ouvrir();
+  });
+
+  /* ---- Scène : la présence ------------------------------------------- */
+  /* Choix du 12.11.2026, d'après l'image de l'auteur. Discrète au repos, tout
+     s'anime quand elle parle. Avant le palier 26 : une sphère de points dorés qui
+     respire. Au palier 26, les points se rassemblent en une tête en relief, yeux
+     clos ; au palier 28, les yeux s'ouvrent : iris d'argent qui s'allument.
+     Une étoile par palier ouvert ; un anneau de plus aux paliers 21 et 32.
+     Jamais de sourire : ses expressions passent par la lumière, les points, les yeux. */
+  var Scene = (function () {
+    var toile = document.getElementById("toile");
+    var ctx = toile.getContext("2d");
+    var style = getComputedStyle(document.documentElement);
+    function jeton(nom, secours) {
+      var v = style.getPropertyValue(nom).trim();
+      return v || secours;
+    }
+    function rvbListe(hex) {
+      var h = hex.replace("#", "");
+      return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+    }
+    var OR_L = rvbListe(jeton("--or", "#E8B84B")), PALE_L = rvbListe(jeton("--or-pale", "#F1DDA4"));
+    var ETOILE_L = rvbListe(jeton("--etoile", "#EFEAE0"));
+    var OR = OR_L.join(","), PALE = PALE_L.join(","), ETOILE = ETOILE_L.join(",");
+    var PIERRE = rvbListe(jeton("--pierre", "#B3A68E")).join(",");
+    var ARGENT = rvbListe(jeton("--argent", "#C9CDD3")).join(",");
+    var NUIT = rvbListe(jeton("--nuit", "#020608")).join(",");
+
+    var P_INTERLUDE = 21, P_VISAGE = 26, P_YEUX = 28, P_EPILOGUE = 32, NB_PALIERS = 33;
+    var LEGER = (window.innerWidth || 400) * (window.innerHeight || 800) < 250000 ||
+                (navigator.hardwareConcurrency || 8) <= 4;     // appareils modestes : moins de points
+
+    // Hasard à graine fixe : étoiles et points gardent leur place d'une visite à l'autre.
+    function graine(n) {
+      return function () {
+        n = (n + 0x6D2B79F5) | 0;
+        var x = Math.imul(n ^ (n >>> 15), 1 | n);
+        x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+        return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function borne(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+    function lisse(a, b, x) { var t = borne((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+    function vers(v, c, vitesse, dt) { return v + (c - v) * (1 - Math.exp(-dt * vitesse)); }
+    function g2(x, y, sx, sy) { return Math.exp(-(x * x) / sx - (y * y) / sy); }
+
+    /* ---- La tête : une surface en relief, en unités de demi-hauteur ---------- */
+    function largeur(y) { return 0.75 - 0.12 * lisse(0, -0.95, y) + 0.05 * Math.exp(-(y + 0.55) * (y + 0.55) / 0.03); }
+    function profondeur(y) { return 0.86 - 0.15 * lisse(-0.3, -1, y); }
+    function reliefs(x, y) {                       // ce que le visage ajoute à l'ovale (vers l'avant)
+      var ax = Math.abs(x), z = 0;
+      z -= 0.1 * g2(ax - 0.27, y - 0.11, 0.012, 0.006);                       // orbites
+      z += 0.045 * Math.exp(-(y - 0.27) * (y - 0.27) / 0.004) * lisse(0.5, 0.2, ax);   // arcade
+      var bout = lisse(0.18, -0.2, y) * (1 - lisse(-0.24, -0.3, y));          // le nez s'avance jusqu'au bout
+      z += 0.17 * bout * Math.exp(-x * x / (0.0035 + 0.005 * bout));
+      z += 0.03 * g2(ax - 0.07, y + 0.25, 0.002, 0.002);                       // narines
+      z += 0.05 * g2(x, y + 0.42, 0.02, 0.0012) + 0.055 * g2(x, y + 0.52, 0.018, 0.0015);   // lèvres
+      z -= 0.035 * g2(x, y + 0.47, 0.022, 0.0003);                              // bouche : droite, sans sourire
+      z += 0.05 * g2(x, y + 0.78, 0.03, 0.01);                                 // menton
+      z += 0.03 * g2(ax - 0.38, y + 0.02, 0.01, 0.02);                         // pommettes
+      return z;
+    }
+    function devant(x, y) {                        // profondeur de la surface, de face
+      var w = largeur(y), d = profondeur(y), q = 1 - (x * x) / (w * w) - y * y;
+      return d * Math.sqrt(Math.max(0, q)) + reliefs(x, y);
+    }
+
+    var tete = [], NB = 0;
+    (function construire() {
+      var lignes = LEGER ? 52 : 72, densFace = LEGER ? 18 : 26, densDos = LEGER ? 5 : 7, v, c, r = graine(5);
+      function pousser(x, y, z, nx, ny, nz, a, ombre) {
+        var l = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+        tete.push({ x: x, y: y, z: z, nx: nx / l, ny: ny / l, nz: nz / l, a: a, ombre: ombre || 0 });
+      }
+      for (v = 1; v < lignes; v++) {
+        var t = v / lignes, y = Math.cos(Math.PI * t) * (t < 0.5 ? 0.93 : 1), rho = Math.pow(Math.sin(Math.PI * t), t < 0.5 ? 0.85 : 0.62);
+        var w = largeur(y), d = profondeur(y);
+        var nf = Math.max(6, Math.round(densFace * rho * 2.6)), nd = Math.max(4, Math.round(densDos * rho * 3.68));
+        for (c = 0; c < nf + nd; c++) {
+          var dec = 0.5 * (v % 2);                   // une ligne sur deux, décalée d'un demi-pas
+          var u = c < nf ? -1.3 + 2.6 * (c + dec) / nf : 1.3 + 3.683 * (c - nf + dec) / nd;
+          var x = rho * w * Math.sin(u), z = rho * d * Math.cos(u);
+          var face = lisse(0.15, 0.7, Math.cos(u));
+          z += face * reliefs(x, y);
+          // la normale : celle de l'ovale, corrigée par la pente du relief sur le devant
+          var nx = x / (w * w), ny = y, nz = Math.max(-1, z) / (d * d);
+          var l0 = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1; nx /= l0; ny /= l0; nz /= l0;
+          if (face > 0.05) {
+            var e = 0.012, gx = (reliefs(x + e, y) - reliefs(x - e, y)) / (2 * e), gy = (reliefs(x, y + e) - reliefs(x, y - e)) / (2 * e);
+            gx = Math.max(-2.5, Math.min(2.5, gx)); gy = Math.max(-2.5, Math.min(2.5, gy));
+            nx -= face * gx * nz * 1.6; ny -= face * gy * nz * 1.6;
+          }
+          var rel = face * reliefs(x, y);
+          var ombre = face * 0.8 * g2(Math.abs(x) - 0.27, y - 0.11, 0.01, 0.005);    // le creux des orbites
+          ombre = Math.max(-1.2, Math.min(0.9, ombre - rel * 5));                     // les bosses accrochent la lumière
+          pousser(x, y, z, nx, ny, nz, 1, ombre);
+        }
+      }
+      for (var s = -1; s <= 1; s += 2) {             // les oreilles
+        for (c = 0; c < (LEGER ? 30 : 44); c++) {
+          var ao = r() * 6.283, ro = Math.sqrt(r());
+          var oy0 = 0.04 + 0.17 * ro * Math.sin(ao), oz0 = -0.04 + 0.08 * ro * Math.cos(ao);
+          pousser(s * (largeur(oy0) * 0.97 + 0.03 * (1 - ro)), oy0, oz0, s, 0.1, 0.25, 0.75, 0);
+        }
+      }
+      var nbCou = LEGER ? 420 : 640;
+      for (c = 0; c < nbCou; c++) {                  // le cou, puis la naissance des épaules, qui s'effacent
+        var yc = -0.66 - Math.pow(r(), 0.8) * 1.12, uc = -Math.PI + r() * 2 * Math.PI;
+        var ev = 0.44 + 0.45 * lisse(-1.42, -1.78, yc), dz = 0.4 + 0.1 * lisse(-1.42, -1.78, yc);
+        pousser(ev * Math.sin(uc), yc, dz * Math.cos(uc) - 0.1, Math.sin(uc), 0.15 * lisse(-1.42, -1.78, yc), Math.cos(uc),
+                borne((yc + 1.78) / 0.75) * 0.75 * lisse(-0.62, -0.8, yc), 0);
+      }
+      NB = tete.length;
+    })();
+    var YEUX = [-1, 1].map(function (s) { return { x: s * 0.27, y: 0.115, z: devant(s * 0.27, 0.115) + 0.03 }; });
+
+    // Expressions : ce que chacune vise. Âge : secondes depuis son début.
+    function cibles(nom, age) {
+      var c = { lum: 0, chaleur: 0, ferme: 0, regard: 0, orbite: 0.2, lent: 0, epars: 0, serre: 0,
+                pupille: 0.34, lacet: 0, tangage: 0, flux: 0, fumee: 0, joie: 0 };
+      if (nom === "ecoute") { c.lum = 0.12; c.regard = 1; c.tangage = 0.12; c.pupille = 0.42; }
+      else if (nom === "reflexion") { c.lum = -0.05; c.ferme = 0.5; c.lacet = 0.55; c.tangage = -0.04; c.orbite = 1; c.pupille = 0.28; }
+      else if (nom === "joie") { c.lum = 0.3; c.chaleur = 1; c.ferme = age < 1.4 ? 1 : 0.1; c.orbite = 0.4; c.pupille = 0.44; c.joie = 1; }
+      else if (nom === "douceur") { c.lum = -0.3; c.chaleur = 0.35; c.ferme = 0.75; c.regard = 0.8; c.tangage = 0.07; c.lent = 1; c.flux = 1; c.pupille = 0.38; }
+      else if (nom === "trouble") { c.lum = 0.05; c.ferme = 0.2; c.orbite = 0.6; c.pupille = 0.24; c.epars = age < 0.3 ? 1 : borne(1 - (age - 0.3) / 1.2); }
+      else if (nom === "discretion") { c.lum = -0.55; c.ferme = 1; c.orbite = 0.05; c.lent = 0.5; c.serre = 1; c.fumee = 1; c.pupille = 0.3; }
+      return c;
+    }
+
+    var L = 0, H = 0, dpr = 1, actif = true, avant = performance.now();
+    var voix = 0, cible = 0, niveau = -1, temps = 0, souffle = 0, eclat = 0;
+    var visage = 0, yeux = 0, phases = [0, 0, 0, 0, 0, 0, 0], anneaux = [1, 1, 1, 0, 0];
+    var expr = "repos", finExpr = 0, ecoute = false, nomActif = "repos", debutNom = performance.now();
+    var E = cibles("repos", 0);
+    var sol = [], poussiere = [], parts = [], etoiles = [], ondes = [], etincelles = [], bouffees = [];
+    var hasard = graine(9);
+
+    // Une bouffée de fumée, dessinée une fois.
+    var bouffee = document.createElement("canvas");
+    bouffee.width = bouffee.height = 64;
+    (function () {
+      var b = bouffee.getContext("2d"), g = b.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, "rgba(" + PALE + ",0.22)"); g.addColorStop(1, "rgba(" + PALE + ",0)");
+      b.fillStyle = g; b.fillRect(0, 0, 64, 64);
+    })();
+
+    function placerEtoiles() {
+      var r = graine(33), liste = [], essais = 0;
+      while (liste.length < NB_PALIERS) {
+        var x = 0.05 + r() * 0.9, y = 0.06 + r() * 0.66;          // largeur, et hauteur jusqu'à l'horizon
+        essais++;
+        if (essais < 4000) {
+          if (x < 0.5 && y < 0.24) continue;                       // le nom et le canal
+          if (x > 0.82 && y < 0.3) continue;                       // le bouton du menu
+          if (Math.pow((x - 0.5) / 0.2, 2) + Math.pow((y - 0.52) / 0.42, 2) < 1) continue;   // la présence
+          if (liste.some(function (s) { return Math.abs(s.x - x) < 0.05 && Math.abs(s.y - y) < 0.08; })) continue;
+        }
+        liste.push({ x: x, y: y, ph: r() * 6.28, vit: 0.4 + r() * 0.9, a: 0 });
+      }
+      liste.sort(function (a, b) { return a.x - b.x; });           // le ciel se remplit dans le sens de la lecture
+      return liste;
+    }
+
+    function semer() {
+      sol = [];
+      for (var i = 0; i < 150; i++) {
+        var prof = Math.pow(Math.random(), 1.6); // 0 : horizon, 1 : devant
+        sol.push({ x: Math.random(), prof: prof, phase: Math.random() * 6.28, vit: 0.3 + Math.random() });
+      }
+      var r = graine(9);
+      poussiere = [];
+      for (i = 0; i < 18; i++) poussiere.push({ x: r() * 2 - 1, h: r(), v: 0.6 + r() * 0.8, ph: r() * 6.28, taille: 0.6 + r() * 0.8 });
+      // Chaque point a deux places : dans la sphère, et sur la tête.
+      parts = [];
+      var surface = Math.round(NB * 0.62);
+      for (i = 0; i < NB; i++) {
+        var p = { retard: r() * 0.5, ph: r() * 6.28, dx: r() * 2 - 1, dy: r() * 1.7 - 1, dz: r() * 2 - 1, h: tete[i] };   // la dispersion monte peu : le nom reste lisible
+        if (i < surface) {                                         // la peau de la sphère (spirale de Fibonacci), un peu froissée
+          var sy = 1 - 2 * (i + 0.5) / surface, sr = Math.sqrt(1 - sy * sy), sa = i * 2.39996, fr = 1 + (r() - 0.5) * 0.06;
+          p.sx = sr * Math.cos(sa) * fr; p.sy = sy * fr; p.sz = sr * Math.sin(sa) * fr; p.bras = -1;
+        } else {                                                   // des filaments qui tournent à l'intérieur
+          var k = (i - surface) % 5, s = r();
+          p.bras = k; p.rs = 0.25 + 0.68 * Math.sqrt(s); p.as = s * 7.5 + k * 1.257; p.ep = (r() - 0.5) * 0.05; p.incl = [-1.15, -0.45, 0.25, 0.85, 1.35][k]; p.tour = k * 1.3;
+        }
+        parts.push(p);
+      }
+      etoiles = placerEtoiles();
+      bouffees = [];
+      for (i = 0; i < 26; i++) bouffees.push({ x: -1.3 + 2.6 * (i + r() * 0.8) / 26, y: r() * 1.8 - 1, v: 0.03 + r() * 0.05, t: 0.5 + r() * 0.6 });
+    }
+
+    function tailler() {
+      var r = toile.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      L = Math.max(1, r.width); H = Math.max(1, r.height);
+      toile.width = Math.round(L * dpr); toile.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function arche(cx, base, larg, haut, alpha) {
+      ctx.strokeStyle = "rgba(" + PIERRE + "," + alpha + ")";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - larg / 2, base);
+      ctx.lineTo(cx - larg / 2, base - haut + larg / 2);
+      ctx.arc(cx, base - haut + larg / 2, larg / 2, Math.PI, 0);
+      ctx.lineTo(cx + larg / 2, base);
+      ctx.stroke();
+    }
+    function escalier(x0, y0, sens, marches, pas, alpha) {
+      ctx.strokeStyle = "rgba(" + PIERRE + "," + alpha + ")";
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      for (var i = 0; i < marches; i++) {
+        ctx.lineTo(x0 + sens * pas * (i + 1), y0 - pas * 0.62 * i);
+        ctx.lineTo(x0 + sens * pas * (i + 1), y0 - pas * 0.62 * (i + 1));
+      }
+      ctx.stroke();
+    }
+    function nbAnneaux() { return 3 + (niveau >= P_INTERLUDE ? 1 : 0) + (niveau >= P_EPILOGUE ? 1 : 0); }
+    function nomVoulu(maintenant) { return (cible || maintenant < finExpr) ? expr : (ecoute ? "ecoute" : "repos"); }
+
+    function jaillir() {                             // joie : des étincelles quittent la tête
+      for (var i = 0; i < 46; i++) {
+        var a = hasard() * 6.283, el = 0.2 + hasard() * 1.0, v = 0.5 + hasard() * 0.5;
+        etincelles.push({ x: Math.cos(a) * 0.5, y: 0.35 + hasard() * 0.5, z: Math.sin(a) * 0.4,
+                          vx: Math.cos(a) * Math.cos(el) * v, vy: Math.sin(el) * v, vz: Math.sin(a) * Math.cos(el) * v * 0.5,
+                          age: 0, vie: 0.6 + hasard() * 0.6 });
+      }
+    }
+
+    /* Avance l'état de dt secondes ; « fige » : tout prend sa valeur visée (réduire les animations). */
+    function avancer(maintenant, dt, fige) {
+      var nom = nomVoulu(maintenant), k;
+      if (nom !== nomActif) { nomActif = nom; debutNom = maintenant; if (nom === "joie" && !fige && !CALME) jaillir(); }
+      var c = cibles(nom, (maintenant - debutNom) / 1000);
+      for (k in c) E[k] = fige ? c[k] : vers(E[k], c[k], k === "epars" ? 9 : 3, dt);
+      voix = fige ? cible : vers(voix, cible, 3, dt);
+      var n = nbAnneaux();
+      for (k = 0; k < 5; k++) anneaux[k] = fige ? (k < n ? 1 : 0) : vers(anneaux[k], k < n ? 1 : 0, 0.8, dt);
+      etoiles.forEach(function (s, i) { var v = i <= niveau ? 1 : 0; s.a = fige ? v : vers(s.a, v, 0.8, dt); });
+      var vVisage = niveau >= P_VISAGE ? 1 : 0;
+      visage = fige ? vVisage : vers(visage, vVisage, 0.55, dt);
+      yeux = fige ? (niveau >= P_YEUX ? 1 : 0) : vers(yeux, niveau >= P_YEUX && visage > 0.85 ? 1 : 0, 0.5, dt);   // lentement
+      eclat *= Math.exp(-dt * 2.5);
+      temps += dt * (0.45 + 0.75 * voix);                     // le temps de la scène : lent au repos
+      souffle += dt * 2 * Math.PI / (5 * (1 + 0.5 * E.lent)); // la respiration, toutes les cinq secondes environ
+      for (k = 0; k < phases.length; k++) phases[k] += dt * (0.35 + 0.08 * (k % 3)) * (0.5 + 0.9 * voix) * (k % 2 ? -1 : 1);
+      for (k = 0; k < poussiere.length; k++) {
+        var d = poussiere[k];
+        d.h += dt * d.v * (0.05 + 0.12 * voix);
+        if (d.h > 1) { d.h -= 1; d.x = hasard() * 2 - 1; }
+      }
+      for (k = etincelles.length - 1; k >= 0; k--) {
+        var e = etincelles[k];
+        e.age += dt; e.x += e.vx * dt; e.y += e.vy * dt; e.z += e.vz * dt; e.vy -= 0.6 * dt;
+        if (e.age > e.vie) etincelles.splice(k, 1);
+      }
+      for (k = 0; k < bouffees.length; k++) { var b = bouffees[k]; b.x += dt * b.v; if (b.x > 1.4) b.x -= 2.8; }
+    }
+
+    // Projection : la tête est vue de face, à quatre unités de distance.
+    var proj = { x: 0, y: 0, k: 1 };
+    function projeter(x, y, z, cx, cy, unite) {
+      var k = 4 / (4 - Math.max(-2, Math.min(2.5, z)));
+      proj.x = cx + x * unite * k; proj.y = cy - y * unite * k; proj.k = k;
+      return proj;
+    }
+
+    // Les anneaux : des traînées de lumière ; « devant » trace la moitié qui passe devant elle.
+    function tracerAnneaux(cx, cy, unite, devantSeul, centreY) {
+      var defs = [
+        { r: 1.12, incl: 0.3, lacet: 0.2, trace: 2.6, al: 0.75 },
+        { r: 1.3, incl: -0.2, lacet: -0.5, trace: 2.2, al: 0.65 },
+        { r: 1.5, incl: 0.12, lacet: 1.1, trace: 2.8, al: 0.55 },
+        { r: 1.2, incl: 1.05, lacet: 0.35, trace: 3.8, al: 0.7 },           // l'Interlude
+        { r: 1.68, incl: 0.2, lacet: 0, trace: 6.283, al: 0.42 },           // l'Épilogue : l'anneau se ferme
+        { r: 1.38, incl: -0.5, lacet: 0.8, trace: 3.2, al: 0.8 },           // la joie
+        { r: 1.6, incl: 0.45, lacet: -0.9, trace: 3.6, al: 0.7 }            // la joie
+      ];
+      var ampleur = (1 + 0.18 * voix) * (1 + 0.1 * visage);
+      for (var k = 0; k < defs.length; k++) {
+        var poids = k < 5 ? anneaux[k] : E.joie;
+        if (poids < 0.02) continue;
+        var dfn = defs[k], seg = dfn.trace > 6 ? 84 : 48;
+        for (var brin = -1; brin <= 1; brin++) {                    // trois brins serrés : une traînée
+        var R = (dfn.r + brin * 0.03) * ampleur, al0 = brin ? 0.55 : 1;
+        var ci = Math.cos(dfn.incl), si = Math.sin(dfn.incl), cl = Math.cos(dfn.lacet + temps * 0.05), sl = Math.sin(dfn.lacet + temps * 0.05);
+        var px = null, py = null;
+        for (var j = 0; j <= seg; j++) {
+          var th = phases[k] - dfn.trace * (j / seg);
+          var x0 = R * Math.cos(th), z0 = R * Math.sin(th);
+          var y1 = -z0 * si, z1 = z0 * ci;                         // inclinaison
+          var x2 = x0 * cl + z1 * sl, z2 = -x0 * sl + z1 * cl;     // lacet
+          var q = projeter(x2, centreY + y1, z2, cx, cy, unite);
+          if (px !== null && (z2 > 0) === devantSeul) {
+            var a = al0 * dfn.al * poids * (dfn.trace > 6 ? 0.6 : Math.pow(1 - j / seg, 1.4)) * (0.55 + 0.45 * voix + 0.3 * E.chaleur) * (1 - 0.6 * E.fumee);
+            if (!brin && j < seg * 0.5) {                          // le halo de la tête de traînée
+              ctx.strokeStyle = "rgba(" + OR + "," + (a * 0.18).toFixed(3) + ")";
+              ctx.lineWidth = 4;
+              ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(q.x, q.y); ctx.stroke();
+            }
+            ctx.strokeStyle = "rgba(" + (j < 5 && !brin ? ETOILE : PALE) + "," + a.toFixed(3) + ")";
+            ctx.lineWidth = !brin && j < 8 ? 1.5 : 0.8;
+            ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(q.x, q.y); ctx.stroke();
+          }
+          px = q.x; py = q.y;
+        }
+        px = null;
+        }
+      }
+    }
+
+    var NIV = 9, seaux = [];
+    for (var s0 = 0; s0 < NIV; s0++) seaux.push([]);
+
+    function dessiner(maintenant) {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, L, H);
+      var horizon = H * 0.74;
+      var hc = Math.min(H * 0.66, L * 0.9);   // échelle de la scène
+      var cx = L / 2;
+      var ty = horizon - hc * 0.56;           // la présence flotte sous l'arche centrale
+      var unite = hc * 0.3;                   // une demi-hauteur de tête, en pixels
+      var b = Math.sin(souffle), amp = 0.03 + 0.04 * voix;
+      var i, k, s;
+
+      // Le ciel : une étoile par palier ouvert.
+      for (i = 0; i < etoiles.length; i++) {
+        s = etoiles[i];
+        if (s.a < 0.01) continue;
+        var derniere = i === etoiles.length - 1;
+        var sx = s.x * L, sy = s.y * horizon;
+        var scint = 0.8 + 0.2 * Math.sin(temps * s.vit + s.ph);
+        ctx.fillStyle = "rgba(" + (derniere ? OR : ETOILE) + "," + (s.a * scint * (derniere ? 0.95 : 0.7)).toFixed(3) + ")";
+        ctx.beginPath(); ctx.arc(sx, sy, derniere ? 1.7 : 0.75 + (i % 3) * 0.18, 0, 6.283); ctx.fill();
+        if (derniere) {
+          var aur = ctx.createRadialGradient(sx, sy, 0, sx, sy, 7);
+          aur.addColorStop(0, "rgba(" + OR + "," + (0.35 * s.a).toFixed(3) + ")");
+          aur.addColorStop(1, "rgba(" + OR + ",0)");
+          ctx.fillStyle = aur; ctx.beginPath(); ctx.arc(sx, sy, 7, 0, 6.283); ctx.fill();
+        }
+      }
+
+      // Architecture : arches et escaliers, à peine dits.
+      var la = Math.min(L * 0.2, hc * 0.5);
+      arche(cx - la * 1.9, horizon, la, hc * 0.8, 0.16);
+      arche(cx, horizon, la * 1.15, hc * 1.02, 0.1);
+      arche(cx + la * 1.9, horizon, la, hc * 0.8, 0.16);
+      arche(cx - la * 3.5, horizon, la * 0.8, hc * 0.6, 0.09);
+      arche(cx + la * 3.5, horizon, la * 0.8, hc * 0.6, 0.09);
+      escalier(cx - la * 1.3, horizon, -1, 7, hc * 0.085, 0.13);
+      escalier(cx + la * 1.3, horizon, 1, 7, hc * 0.085, 0.13);
+      ctx.strokeStyle = "rgba(" + PIERRE + ",0.14)";
+      ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(L, horizon); ctx.stroke();
+
+      // Sol : des points de lumière, plus gros vers l'avant.
+      for (i = 0; i < sol.length; i++) {
+        s = sol[i];
+        var y = horizon + 3 + s.prof * (H - horizon);
+        var x = cx + (s.x - 0.5) * L * (0.9 + s.prof * 1.6);
+        var a = (0.18 + 0.5 * s.prof) * (0.6 + 0.4 * Math.sin(temps * s.vit + s.phase));
+        ctx.fillStyle = "rgba(" + ETOILE + "," + a.toFixed(3) + ")";
+        ctx.beginPath(); ctx.arc(x, y, 0.5 + s.prof * 1.5, 0, 6.28); ctx.fill();
+      }
+
+      // Reflet de la lueur sur le sol.
+      var reflet = ctx.createLinearGradient(0, horizon, 0, H);
+      reflet.addColorStop(0, "rgba(" + OR + "," + borne((0.5 + 0.3 * voix + 0.2 * eclat + E.lum * 0.4) * (1 + b * amp)).toFixed(3) + ")");
+      reflet.addColorStop(1, "rgba(" + OR + ",0)");
+      ctx.fillStyle = reflet;
+      ctx.beginPath();                       // un reflet qui s'effile, pas un bandeau
+      ctx.moveTo(cx - hc * 0.05, horizon);
+      ctx.lineTo(cx + hc * 0.05, horizon);
+      ctx.lineTo(cx + hc * 0.012, H);
+      ctx.lineTo(cx - hc * 0.012, H);
+      ctx.closePath(); ctx.fill();
+
+      // La lueur derrière elle : elle respire, s'éclaire quand elle parle.
+      var lum = borne(0.42 + 0.25 * voix + E.lum + eclat * 0.3 + b * amp);
+      var rh = unite * (1.9 + 0.5 * voix * (1 - E.serre)) * (1 + b * amp);
+      var halo = ctx.createRadialGradient(cx, ty, unite * 0.1, cx, ty, rh);
+      halo.addColorStop(0, "rgba(" + PALE + "," + (lum * (0.55 - 0.3 * visage)).toFixed(3) + ")");
+      halo.addColorStop(0.45, "rgba(" + OR + "," + borne(0.1 + 0.1 * voix + 0.1 * E.chaleur + E.lum * 0.1).toFixed(3) + ")");
+      halo.addColorStop(1, "rgba(" + OR + ",0)");
+      ctx.fillStyle = halo;
+      ctx.beginPath(); ctx.arc(cx, ty, rh, 0, 6.283); ctx.fill();
+
+      ctx.globalCompositeOperation = "lighter";
+
+      // Poussière d'or : elle monte sous l'arche centrale.
+      for (i = 0; i < poussiere.length; i++) {
+        var d = poussiere[i];
+        var py = horizon - d.h * hc * 0.95, px = cx + d.x * la * 0.45 + Math.sin(temps * 0.9 + d.ph) * 3;
+        ctx.fillStyle = "rgba(" + PALE + "," + (Math.sin(Math.PI * d.h) * (0.16 + 0.42 * voix)).toFixed(3) + ")";
+        ctx.beginPath(); ctx.arc(px, py, d.taille, 0, 6.283); ctx.fill();
+      }
+
+      // L'onde du lecteur : une traînée qui monte du sol vers elle.
+      for (i = ondes.length - 1; i >= 0; i--) {
+        var p = (maintenant - ondes[i]) / 1100;
+        if (p >= 1) { ondes.splice(i, 1); eclat = 1; continue; }
+        var qq = 1 - Math.pow(1 - p, 2);
+        var oy = H - (H - (ty + unite * (0.6 + 0.9 * visage))) * qq, orx = unite * (2.2 - 1.2 * qq);
+        ctx.strokeStyle = "rgba(" + OR + "," + (0.5 * (1 - p * 0.6)).toFixed(3) + ")";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(cx, oy, orx, orx * 0.14, 0, 0, 6.283); ctx.stroke();
+      }
+
+      // Douceur : des flux de lumière passent derrière elle.
+      if (E.flux > 0.02) {
+        for (k = 0; k < 4; k++) {
+          ctx.lineWidth = 1;
+          var fpx = null, fpy = null;
+          for (i = 0; i <= 56; i++) {
+            var fx = -2.9 + 5.8 * i / 56, fy = 0.05 + (k - 1.5) * 0.14 + 0.1 * Math.sin(fx * 1.7 + temps * 1.4 + k * 1.3);
+            var fq = projeter(fx, fy, -0.7, cx, ty, unite);
+            if (fpx !== null) {
+              var cache = 1 - 0.85 * lisse(0.95, 0.55, Math.abs(fx));          // derrière la tête, on ne le voit presque plus
+              ctx.strokeStyle = "rgba(" + PALE + "," + (0.28 * E.flux * (1 - k * 0.15) * cache * lisse(2.9, 2.2, Math.abs(fx))).toFixed(3) + ")";
+              ctx.beginPath(); ctx.moveTo(fpx, fpy); ctx.lineTo(fq.x, fq.y); ctx.stroke();
+            }
+            fpx = fq.x; fpy = fq.y;
+          }
+        }
+      }
+
+      // Un cœur de lumière dans la sphère, une lueur intérieure dans la tête.
+      var coeur = ctx.createRadialGradient(cx, ty, 0, cx, ty, unite * 0.95);
+      coeur.addColorStop(0, "rgba(" + PALE + "," + (lum * (0.32 - 0.2 * visage) * (1 - 0.6 * E.fumee)).toFixed(3) + ")");
+      coeur.addColorStop(1, "rgba(" + PALE + ",0)");
+      ctx.fillStyle = coeur; ctx.beginPath(); ctx.arc(cx, ty, unite * 0.95, 0, 6.283); ctx.fill();
+
+      // Centre vertical des anneaux : autour de la sphère, puis autour du cou.
+      var centreY = -0.15 - 0.75 * visage;
+      tracerAnneaux(cx, ty, unite, false, centreY);
+
+      // Les points : une sphère qui tourne, puis une tête en relief.
+      var lacet = E.lacet + 0.07 * Math.sin(temps * 0.3) * (1 - E.lacet), tang = E.tangage + 0.03 * Math.sin(temps * 0.23);
+      var ca = Math.cos(lacet), sa = Math.sin(lacet), cb = Math.cos(tang), sb = Math.sin(tang);
+      var rot = temps * 0.25, cr = Math.cos(rot), sr = Math.sin(rot);
+      var Rs = 0.86 * (1 - 0.3 * E.serre) * (1 + b * amp);
+      var echelle = 1 + b * amp * 0.5;
+      var vis = 1 - 0.7 * E.fumee;             // discrétion : elle s'efface dans la fumée
+      for (i = 0; i < NIV; i++) seaux[i].length = 0;
+      var lx = -0.45, ly = 0.5, lz = 0.74;     // la lumière vient d'en haut, à gauche
+      for (i = 0; i < parts.length; i++) {
+        var pt = parts[i], h = pt.h;
+        var m = lisse(0, 1, visage * 1.5 - pt.retard);
+        var Sx = 0, Sy = 0, Sz = 0, bS = 0;
+        if (m < 1) {
+          if (pt.bras < 0) {
+            Sx = (pt.sx * cr + pt.sz * sr) * Rs; Sz = (-pt.sx * sr + pt.sz * cr) * Rs; Sy = pt.sy * Rs;
+            bS = 0.22 + 0.45 * borne(Sz / Rs * 0.5 + 0.5) + 0.45 * Math.pow(1 - Math.abs(Sz / Rs), 3) + 0.25 * (pt.ph > 5.6 ? 1 : 0);
+          } else {
+            var ang = pt.as + temps * 0.7 * (1 + E.orbite) * (pt.bras % 2 ? -1 : 1), rr = pt.rs * Rs * 0.9;
+            var bx = rr * Math.cos(ang), bz = rr * Math.sin(ang), ci = Math.cos(pt.incl), si = Math.sin(pt.incl);
+            var fy0 = pt.ep * Rs - bz * si, fz0 = bz * ci, ct = Math.cos(pt.tour + rot), st = Math.sin(pt.tour + rot);
+            Sx = bx * ct + fz0 * st; Sy = fy0; Sz = -bx * st + fz0 * ct;
+            bS = 0.5 + 0.4 * (1 - pt.rs);
+          }
+          var ep0 = 0.8 * E.epars;
+          Sx += pt.dx * ep0 * Rs; Sy += pt.dy * ep0 * Rs; Sz += pt.dz * ep0 * Rs;
+        }
+        var Hx = 0, Hy = 0, Hz = 0, bH = 0, vu = 1;
+        if (m > 0) {
+          var x1 = h.x * ca + h.z * sa, z1 = -h.x * sa + h.z * ca;
+          var y2 = h.y * cb - z1 * sb, z2 = h.y * sb + z1 * cb;
+          var nx1 = h.nx * ca + h.nz * sa, nz1 = -h.nx * sa + h.nz * ca;
+          var ny2 = h.ny * cb - nz1 * sb, nz2 = h.ny * sb + nz1 * cb;
+          vu = lisse(-0.12, 0.08, nz2);
+          var sw = 0.012 * E.orbite;
+          Hx = x1 * echelle + Math.cos(temps * 2 + pt.ph) * sw + pt.dx * 0.9 * E.epars;
+          Hy = y2 * echelle + Math.sin(temps * 2 + pt.ph) * sw + (pt.dy > 0 ? pt.dy * 0.35 : pt.dy) * 0.9 * E.epars;
+          Hz = z2 * echelle + pt.dz * 0.9 * E.epars;
+          var dif = Math.max(0, nx1 * lx + ny2 * ly + nz2 * lz) + 0.35 * Math.max(0, nx1 * 0.6 + ny2 * 0.2 + nz2 * 0.77);   // et une lumière d'appoint à droite
+          bH = (0.03 + 0.9 * Math.pow(dif, 1.8) + 0.35 * Math.pow(1 - Math.abs(nz2), 3)) * h.a * (1 - h.ombre);
+        }
+        var X = Sx + (Hx - Sx) * m, Y = Sy + (Hy - Sy) * m, Z = Sz + (Hz - Sz) * m;
+        var br = (bS + (bH - bS) * m) * (m > 0 ? 1 - m + m * vu : 1);
+        if (m < 1 && pt.bras < 0 && Sz < 0) br *= 1 - 0.6 * (1 - m);          // l'arrière de la sphère, plus sourd
+        br *= (0.75 + 0.5 * lum) * vis * (0.85 + 0.15 * Math.sin(temps * 1.7 + pt.ph));
+        if (br < 0.04) continue;
+        var q = projeter(X, Y, Z, cx, ty, unite);
+        var niv = Math.min(NIV - 1, Math.floor(br * NIV));
+        seaux[niv].push(q.x, q.y, q.k);
+      }
+      for (i = 0; i < NIV; i++) {
+        var lot = seaux[i];
+        if (!lot.length) continue;
+        var f = (i + 0.5) / NIV, chaud = E.chaleur * 0.6;
+        var col = [0, 1, 2].map(function (j) {                 // de l'or sourd au pâle, plus chaud dans la joie
+          var base = f < 0.5 ? OR_L[j] + (PALE_L[j] - OR_L[j]) * (f / 0.5) : PALE_L[j] + (ETOILE_L[j] - PALE_L[j]) * ((f - 0.5) / 0.5);
+          return Math.round(base + (OR_L[j] - base) * chaud);
+        }).join(",");
+        ctx.fillStyle = "rgba(" + col + "," + (0.1 + 0.85 * f).toFixed(3) + ")";
+        var t0 = 0.75 + 0.85 * f;
+        for (k = 0; k < lot.length; k += 3) {
+          var tt = t0 * lot[k + 2];
+          ctx.fillRect(lot[k] - tt / 2, lot[k + 1] - tt / 2, tt, tt);
+        }
+      }
+
+      // Les yeux : clos, une ligne de lumière ; ouverts, des iris d'argent qui s'allument.
+      if (visage > 0.6) {
+        var ouverture = yeux * (1 - E.ferme);
+        for (var oe = 0; oe < 2; oe++) {
+          var Y0 = YEUX[oe];
+          var ex1 = Y0.x * ca + Y0.z * sa, ez1 = -Y0.x * sa + Y0.z * ca;
+          var ey2 = Y0.y * cb - ez1 * sb, ez2 = Y0.y * sb + ez1 * cb;
+          if (ez2 < 0.05) continue;                              // l'œil passe de l'autre côté
+          var qe = projeter(ex1 * echelle, ey2 * echelle, ez2 * echelle, cx, ty, unite);
+          var ox = qe.x, oyy = qe.y, re = unite * 0.055 * qe.k * Math.max(0.35, Math.cos(lacet));
+          var forceVis = lisse(0.6, 1, visage) * vis * (1 - 0.85 * E.epars);
+          // la paupière : close, un trait courbé vers le bas ; ouverte, elle remonte au-dessus de l'iris
+          ctx.strokeStyle = "rgba(" + PALE + "," + (0.75 * forceVis).toFixed(3) + ")";
+          ctx.lineWidth = 1.1;
+          ctx.beginPath();
+          ctx.moveTo(ox - re * 1.6, oyy);
+          ctx.quadraticCurveTo(ox, oyy + re * (0.9 - 2.4 * ouverture), ox + re * 1.6, oyy);
+          ctx.stroke();
+          if (ouverture > 0.05) {
+            ctx.strokeStyle = "rgba(" + PALE + "," + (0.3 * ouverture * forceVis).toFixed(3) + ")";
+            ctx.beginPath();
+            ctx.moveTo(ox - re * 1.4, oyy + re * 0.1);
+            ctx.quadraticCurveTo(ox, oyy + re * 1.1, ox + re * 1.4, oyy + re * 0.1);
+            ctx.stroke();
+          }
+          if (ouverture > 0.05) {
+            var gx = ox + Math.sin(temps * 0.21 + oe) * re * 0.12, gy = oyy + E.regard * re * 0.35;
+            var ry = re * Math.min(1, ouverture * 1.2);
+            var aura = ctx.createRadialGradient(gx, gy, 0, gx, gy, re * 3.2);
+            aura.addColorStop(0, "rgba(" + ARGENT + "," + (0.55 * ouverture * forceVis).toFixed(3) + ")");
+            aura.addColorStop(1, "rgba(" + ARGENT + ",0)");
+            ctx.fillStyle = aura; ctx.beginPath(); ctx.arc(gx, gy, re * 3.2, 0, 6.283); ctx.fill();
+            var iris = ctx.createRadialGradient(gx, gy, 0, gx, gy, re);
+            iris.addColorStop(0, "rgba(" + ETOILE + "," + (0.95 * forceVis).toFixed(3) + ")");
+            iris.addColorStop(0.7, "rgba(" + ARGENT + "," + (0.85 * forceVis).toFixed(3) + ")");
+            iris.addColorStop(1, "rgba(" + ARGENT + "," + (0.3 * forceVis).toFixed(3) + ")");
+            ctx.fillStyle = iris; ctx.beginPath(); ctx.ellipse(gx, gy, re, ry, 0, 0, 6.283); ctx.fill();
+            ctx.globalCompositeOperation = "source-over";
+            ctx.fillStyle = "rgba(" + NUIT + "," + (0.6 * forceVis).toFixed(3) + ")";
+            ctx.beginPath(); ctx.ellipse(gx, gy, re * E.pupille, ry * E.pupille, 0, 0, 6.283); ctx.fill();
+            ctx.globalCompositeOperation = "lighter";
+          }
+        }
+      }
+
+      tracerAnneaux(cx, ty, unite, true, centreY);
+
+      // Joie : les étincelles, en traits courts.
+      for (i = 0; i < etincelles.length; i++) {
+        var et = etincelles[i], vie = 1 - et.age / et.vie;
+        var q1 = projeter(et.x, et.y, et.z, cx, ty, unite), x1e = q1.x, y1e = q1.y;
+        var q2 = projeter(et.x - et.vx * 0.07, et.y - et.vy * 0.07, et.z - et.vz * 0.07, cx, ty, unite);
+        ctx.strokeStyle = "rgba(" + PALE + "," + (0.85 * vie).toFixed(3) + ")";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(x1e, y1e); ctx.lineTo(q2.x, q2.y); ctx.stroke();
+      }
+
+      // Discrétion : une fumée d'or la voile.
+      if (E.fumee > 0.02) {
+        ctx.globalCompositeOperation = "source-over";
+        for (i = 0; i < bouffees.length; i++) {
+          var bf = bouffees[i], taille = unite * bf.t;
+          ctx.globalAlpha = 0.32 * E.fumee * (0.6 + 0.4 * Math.sin(temps + i));
+          ctx.drawImage(bouffee, cx + bf.x * unite - taille, ty - bf.y * unite - taille, taille * 2, taille * 2);
+        }
+        ctx.globalAlpha = 1;
+      }
+      ctx.globalCompositeOperation = "source-over";
+    }
+
+    function boucle(maintenant) {
+      if (!actif) return;
+      var dt = Math.min(0.1, Math.max(0, (maintenant - avant) / 1000));
+      avant = maintenant;
+      avancer(maintenant, dt, false);
+      dessiner(maintenant);
+      if (!CALME) requestAnimationFrame(boucle);
+    }
+    function figer() {                         // « réduire les animations » : une image juste, sans mouvement
+      if (!CALME) return;
+      var maintenant = performance.now();
+      avancer(maintenant, 0, true);
+      dessiner(maintenant);
+    }
+    function relancer() { tailler(); figer(); }
+
+    semer(); tailler();
+    requestAnimationFrame(function (m) { avant = m; boucle(m); });
+    window.addEventListener("resize", relancer);
+    if (window.ResizeObserver) new ResizeObserver(relancer).observe(toile);
+    document.addEventListener("visibilitychange", function () {
+      actif = !document.hidden;
+      if (actif && !CALME) requestAnimationFrame(function (m) { avant = m; boucle(m); });
+    });
+
+    return {
+      parler: function (oui) { cible = oui ? 1 : 0; if (!oui) finExpr = performance.now() + 2200; figer(); },
+      expression: function (nom) { expr = nom || "repos"; finExpr = performance.now() + 2200; figer(); },
+      ecouter: function (oui) { ecoute = !!oui; figer(); },
+      onde: function () { if (!CALME) ondes.push(performance.now()); },
+      lecture: function (n, immediat) {
+        niveau = typeof n === "number" ? n : -1;
+        if (immediat) {
+          etoiles.forEach(function (s, i) { s.a = i <= niveau ? 1 : 0; });
+          for (var k = 0; k < 5; k++) anneaux[k] = k < nbAnneaux() ? 1 : 0;
+        }
+        figer();
+      },
+      apercu: function (nom) {                 // aperçu seulement : jouer une expression comme si elle parlait
+        if (nom === "ecoute") { ecoute = true; setTimeout(function () { ecoute = false; figer(); }, 3500); figer(); return; }
+        expr = nom; cible = 1; figer();
+        setTimeout(function () { cible = 0; finExpr = performance.now() + 1500; figer(); }, 3500);
+      }
+    };
+  })();
+
+  /* ---- Ouverture ------------------------------------------------------ */
+  function ouvrir() {
+    verrouiller(true);
+    Scene.lecture(niveauLecteur(), true);
+    var accueil = moteur.accueillir(Date.now());
+    ecrire(moteur.etat);
+    dire(accueil).then(function () { verrouiller(false); });
+  }
+  (paliers ? paliers.reprendre() : Promise.resolve()).then(ouvrir, ouvrir);
+
+  /* ---- Hors ligne (sur le site seulement) ----------------------------- */
+  if (!APERCU && "serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+})();
+</script>
+</body>
+</html>
