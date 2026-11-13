@@ -1,5 +1,5 @@
 /* NAOS-9 — fonctionnement hors ligne. La version change à chaque assemblage. */
-var VERSION = "naos9-04408e7ca2";
+var VERSION = "naos9-c616bc4219";
 var FICHIERS = ["./", "index.html", "naos-engine.js", "naos-paliers.js", "naos-data.js", "manifest.webmanifest",
                 "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
