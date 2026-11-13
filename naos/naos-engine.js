@@ -329,15 +329,19 @@
     var rappel = !suite && !insiste && !sensible && sujet && fil.theme !== theme && fil.vus.indexOf(theme) !== -1 &&
                  !couche && !!this.roles.rappel && this.rng() < P_RAPPEL;
     var fiche = this.data.themes[theme] || {};
-    var adresse = !insiste && !rappel && !suite && !!e.prenom && !sensible && !estRepli && !fiche.role && SANS_ADRESSE.indexOf(theme) === -1 &&
+    var viaRelais = this.viaRelais; this.viaRelais = false;
+    var relais = viaRelais && !insiste && !sensible && !!this.roles.relais;
+    if (relais) rappel = false;
+    var adresse = !insiste && !relais && !rappel && !suite && !!e.prenom && !sensible && !estRepli && !fiche.role && SANS_ADRESSE.indexOf(theme) === -1 &&
                   !!this.roles.adresse && this.rng() < P_ADRESSE;
-    var ouvre = !insiste && !adresse && !rappel && !suite && this.rng() < P_OUVERTURE;
+    var ouvre = !insiste && !relais && !adresse && !rappel && !suite && this.rng() < P_OUVERTURE;
     var self = this;
     var bord = function (morceau) {
       var meme = self.piocher(theme, morceau, function (f) { return coucheDe(f.id) === couche; });
       return meme || (couche ? self.piocher(theme, morceau, function (f) { return !coucheDe(f.id); }) : null);
     };
     if (insiste) parts.push(remplir(this.piocher(this.roles.insistance, "o"), { n: n }));
+    else if (relais) parts.push(this.piocher(this.roles.relais, "o"));
     else if (suite && !sensible && this.roles.suite) parts.push(this.piocher(this.roles.suite, "c"));
     else if (rappel) parts.push(remplir(this.piocher(this.roles.rappel, "c"), { sujet: sujet }));
     else if (adresse) parts.push(this.piocher(this.roles.adresse, "o"));
