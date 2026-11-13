@@ -355,7 +355,9 @@ body {
                   presentation: "joie", presentation_change: "joie", presentation_insiste: "joie",
                   presentation_naos: "joie", presentation_rappel: "douceur", presentation_refus: "reflexion",
                   presentation_doute: "reflexion", presentation_inconnu: "reflexion",
-                  presentation_oubli: "discretion", presentation_rien: "discretion" };
+                  presentation_oubli: "discretion", presentation_rien: "discretion",
+                  // Le fil de la conversation (choix du 13.11.2026).
+                  reponse_oui: "joie", reponse_libre: "douceur" };
   function humeur(reponse) {
     var parts = reponse.parts || [];
     if (parts.some(function (p) { return p.brouille; })) return "trouble";
