@@ -68,7 +68,7 @@
     "william arnaud aurelien benjamin bertrand boris cyril dylan emmanuel fabien franck gauthier gael hadrien joris " +
     "killian lionel marius morgan nils remi thibault thibaut xavier yannick wassim younes zakaria sami nabil bilal " +
     "hamza ilyes anas adem hicham khalid rachid mustapha farid nordine aicha fatima khadija meryem nour rania souad " +
-    "zineb dounia imane hajar malak maryam assia samira latifa naima hafsa mourad " +
+    "zineb dounia imane hajar malak maryam assia samira latifa naima hafsa mourad malek " +
     "anne-sophie marie-claire jean-marc jean-pierre jean-luc jean-paul anne-marie pierre-yves marie-christine").split(" ");
   // Ces prénoms sont aussi des mots (« je suis marié ») : admis seulement après « je m'appelle ».
   var AMBIGUS = "marie rose claire max pierre ange blanche aube aurore jade prune".split(" ");
@@ -82,7 +82,7 @@
     "combien quel quelle quels quelles lequel laquelle demain hier aujourd maintenant vite bientot tard tot ensuite alors " +
     "apres avant juste simplement seulement vraiment partout surtout presque ainsi autrement naos9 personne").split(" ");
   // Les noms du roman : refusés, sauf si le lecteur insiste. NAOS-9 a sa propre réplique.
-  var PERSONNAGES = "kael sena jarek malek marten hendrik seong vaedran ilarion adara kazimir tadeusz jansen reya janus argus".split(" ");
+  var PERSONNAGES = "kael sena jarek marten hendrik seong vaedran ilarion adara kazimir tadeusz jansen reya janus argus".split(" ");
   var SIENS = ["naos"];
   function cleNom(nom) { return norm(nom).replace(/ /g, ""); }
   PRENOMS = PRENOMS.map(cleNom); AMBIGUS = AMBIGUS.map(cleNom);
