@@ -446,7 +446,28 @@ body {
     enBas();
   }
 
+  /* L'écoute élargie (bible 16) : quand aucune clé ne reconnaît le message, un relais
+     demande à une IA de choisir un thème, et rien d'autre. La réponse reste un fragment
+     de l'app. Sans adresse de relais, sans réseau ou sans réponse rapide : le moteur seul. */
+  var RELAIS = "";
+  var RELAIS_MS = 3500;
+  function demanderTheme(texte) {
+    if (!RELAIS || RELAIS.charAt(0) === "_" || !window.fetch || navigator.onLine === false) return Promise.resolve(null);
+    if (!paliers || paliers.mode !== "repos" || !moteur.incompris(texte)) return Promise.resolve(null);
+    if (paliers.motDit && paliers.motDit(texte)) return Promise.resolve(null);       // le mot du sceau ne quitte jamais l'appareil
+    var arret = window.AbortController ? new AbortController() : null;
+    var minuterie = setTimeout(function () { if (arret) arret.abort(); }, RELAIS_MS);
+    return fetch(RELAIS, { method: "POST", headers: { "Content-Type": "text/plain" }, body: texte.slice(0, 300),
+                           signal: arret ? arret.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { clearTimeout(minuterie); return j && typeof j.theme === "string" ? moteur.cleDe(j.theme) : null; })
+      .catch(function () { clearTimeout(minuterie); return null; });
+  }
   function traiter(texte) {
+    return demanderTheme(texte).then(function (cle) { return traiterLocal(cle || texte); });
+  }
+
+  function traiterLocal(texte) {
     // Le lecteur se présente : avant les portes, jamais au milieu d'un test (choix du 13.11.2026).
     var pres = moteur.presentation(texte, !!(paliers && paliers.mode === "test"));
     if (pres) { ecrire(moteur.etat); return dire(pres); }
