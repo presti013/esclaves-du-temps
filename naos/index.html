@@ -469,7 +469,11 @@ body {
     var pres = moteur.presentation(texte, !!(paliers && paliers.mode === "test"));
     if (pres) { ecrire(moteur.etat); return Promise.resolve(dire(pres)); }
     if (moteur.chercherPrenom(texte)) return Promise.resolve(traiterLocal(texte));   // prénom gardé sans un mot (détresse)
-    return demanderTheme(texte).then(function (cle) { return traiterLocal(cle || texte); });
+    return demanderTheme(texte).then(function (cle) {
+      moteur.viaRelais = !!cle;                    // ouverture « relais » : le lecteur n'a pas dit les mots du thème
+      var fin = function () { moteur.viaRelais = false; };
+      return Promise.resolve(traiterLocal(cle || texte)).then(fin, function (e) { fin(); throw e; });
+    });
   }
 
   function traiterLocal(texte) {
