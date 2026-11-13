@@ -24,6 +24,18 @@
   var NOM_RETOUR = 0.85, NOM_RETOUR_O = 0.4;   // au retour : presque toujours, en ouverture ou dans le cœur
   var SANS_ADRESSE = ["salut", "adieu", "insulte"];
 
+  /* ---- Le fil de la conversation (choix du 13.11.2026) -------------------
+     Dernier sujet, sujets déjà abordés, question en attente : tout vit dans
+     l'état du moteur, sur l'appareil, et s'efface avec lui. */
+  var P_QUESTION = 1 / 8;      // elle pose parfois une question à la place de la finale
+  var QUESTION_APRES = 2;      // jamais dans les deux premiers échanges
+  var QUESTION_ECART = 4;      // ni deux questions à moins de quatre échanges
+  var P_RAPPEL = 0.6;          // quand le lecteur revient à un sujet déjà abordé
+  var P_RETOUR_SUJET = 0.5;    // au retour, elle peut nommer le dernier sujet
+  var SUITE = /^(pourquoi( ca| donc| pas)?|comment ca|c est a dire|continue|encore|vas y|raconte|raconte moi|explique|explique moi|dis m en plus|dis moi en plus|dis en plus|developpe|precise|et (alors|apres|ensuite|puis|donc|lui|elle|eux|toi)|ah bon|ah oui|vraiment|c est tout|la suite|ensuite|mais encore|et)$/;
+  var REP_OUI = /^(oui|si|ouais|ouaip|exact|exactement|bien sur|evidemment|carrement|un peu|je crois|je pense|souvent|toujours)( |$)/;
+  var REP_NON = /^(non|nan|pas du tout|pas vraiment|jamais|aucunement|rarement)( |$)/;
+
   var LETTRE = "A-Za-zÀ-ÖØ-öø-ÿ", FIN_MOT = "(?![" + LETTRE + "])";
   var NOM = "\\s*[:,]?\\s*([" + LETTRE + "][" + LETTRE + "'’-]*)";
   // « je m'appelle », « mon prénom est », « appelle-moi »… : le lecteur donne un nom.
@@ -221,6 +233,10 @@
 
   function remplir(part, vars) {
     if (!part) return part;
+    if (vars && vars.sujet && part.texte.indexOf("{sujet}") === 0) {
+      vars = Object.assign({}, vars, { sujet: vars.sujet.charAt(0).toUpperCase() + vars.sujet.slice(1) });
+      var tete = vars.sujet; part.texte = tete + part.texte.slice(7);
+    }
     part.texte = part.texte.replace(/\{(\w+)\}/g, function (m, k) {
       return vars && vars[k] !== undefined ? vars[k] : m;
     });
@@ -229,8 +245,28 @@
 
   /* Réponse à un message du lecteur. */
   Engine.prototype.repondre = function (texte) {
-    return this.repondreTheme(this.trouverTheme(texte));
+    var theme = this.trouverTheme(texte), e = this.etat, fil = this.fil(), t = norm(texte);
+    var vide = theme === this.roles.repli || theme === "ouinon";
+    // Elle a posé une question : la réplique suivante en tient compte, sauf si le lecteur change de sujet.
+    var q = fil.question; fil.question = null;
+    if (q && vide && t && this.roles.reponse_libre) {
+      var role = q === "fermee" && REP_OUI.test(t) ? "reponse_oui" : q === "fermee" && REP_NON.test(t) ? "reponse_non" : "reponse_libre";
+      e.tours++; e.vuLe = Date.now();
+      return { theme: this.roles[role], parts: [this.piocher(this.roles[role], "c")].filter(Boolean) };
+    }
+    // « Pourquoi ? », « continue », « et lui ? » : elle reste sur le dernier sujet.
+    if (theme === this.roles.repli && fil.theme && SUITE.test(t) && this.estDisponible(fil.theme)) {
+      return this.repondreTheme(fil.theme, true);
+    }
+    return this.repondreTheme(theme);
   };
+
+  Engine.prototype.fil = function () {
+    var e = this.etat;
+    if (!e.fil) e.fil = { theme: null, vus: [], question: null, qTour: 0 };
+    return e.fil;
+  };
+  Engine.prototype.sujetDe = function (theme) { return (this.data.themes[theme] || {}).sujet || null; };
 
   /* Un thème scellé ne répond que si son palier a été ouvert (naos-paliers.js). */
   Engine.prototype.estScelle = function (theme) {
@@ -259,8 +295,8 @@
     return { theme: theme, parts: parts.filter(Boolean) };
   };
 
-  Engine.prototype.repondreTheme = function (theme) {
-    var e = this.etat;
+  Engine.prototype.repondreTheme = function (theme, suite) {
+    var e = this.etat, fil = this.fil();
     e.tours++;
     e.comptes[theme] = (e.comptes[theme] || 0) + 1;
     var n = e.comptes[theme];
@@ -268,11 +304,15 @@
     var parts = [];
 
     var estRepli = theme === this.roles.repli;
-    var insiste = !estRepli && !sensible && this.roles.insistance && n >= INSISTE_A && n % INSISTE_A === 0;
+    var insiste = !suite && !estRepli && !sensible && this.roles.insistance && n >= INSISTE_A && n % INSISTE_A === 0;
+    var sujet = this.sujetDe(theme);
+    // Le lecteur revient à un sujet abordé plus tôt (pas le dernier) : elle le remarque.
+    var rappel = !suite && !insiste && !sensible && sujet && fil.theme !== theme && fil.vus.indexOf(theme) !== -1 &&
+                 !!this.roles.rappel && this.rng() < P_RAPPEL;
     var fiche = this.data.themes[theme] || {};
-    var adresse = !insiste && !!e.prenom && !sensible && !estRepli && !fiche.role && SANS_ADRESSE.indexOf(theme) === -1 &&
+    var adresse = !insiste && !rappel && !suite && !!e.prenom && !sensible && !estRepli && !fiche.role && SANS_ADRESSE.indexOf(theme) === -1 &&
                   !!this.roles.adresse && this.rng() < P_ADRESSE;
-    var ouvre = !insiste && !adresse && this.rng() < P_OUVERTURE;
+    var ouvre = !insiste && !adresse && !rappel && !suite && this.rng() < P_OUVERTURE;
     // Le cœur d'abord : s'il vient d'une couche, l'ouverture et la finale suivent la même couche.
     var coeur = this.piocherNom(theme, "c", NOM_THEME[theme]);
     var couche = coeur ? coucheDe(coeur.id) : null;
@@ -282,16 +322,31 @@
       return meme || (couche ? self.piocher(theme, morceau, function (f) { return !coucheDe(f.id); }) : null);
     };
     if (insiste) parts.push(remplir(this.piocher(this.roles.insistance, "o"), { n: n }));
+    else if (suite && !sensible && this.roles.suite) parts.push(this.piocher(this.roles.suite, "c"));
+    else if (rappel) parts.push(remplir(this.piocher(this.roles.rappel, "c"), { sujet: sujet }));
     else if (adresse) parts.push(this.piocher(this.roles.adresse, "o"));
     else if (ouvre) parts.push(bord("o"));
     parts.push(coeur);
-    if (this.rng() < P_FINALE) parts.push(bord("f"));
+    // Parfois, une question au lecteur prend la place de la finale ; sa réponse sera entendue.
+    var peutDemander = !sensible && !estRepli && !fiche.role && !fiche.scelle && SANS_ADRESSE.indexOf(theme) === -1 && theme !== "ouinon" &&
+                       !!this.roles.question_fermee && e.tours > QUESTION_APRES && e.tours - (fil.qTour || 0) >= QUESTION_ECART;
+    if (peutDemander && this.rng() < P_QUESTION) {
+      var genre = this.rng() < 0.5 ? "fermee" : "ouverte";
+      parts.push(this.piocher(this.roles["question_" + genre], "c"));
+      fil.question = genre; fil.qTour = e.tours;
+    }
+    else if (this.rng() < P_FINALE) parts.push(bord("f"));
     parts = parts.filter(Boolean);
 
     // Brouillage : jamais sur le cœur, qui porte l'information (bible 6.3), jamais sur un thème sensible.
     if (!this.sansBrouillage && !sensible && this.rng() < P_BROUILLAGE) {
       var bords = parts.filter(function (p) { return p.morceau !== "c"; });
       if (bords.length) bords[Math.floor(this.rng() * bords.length)].brouille = true;
+    }
+    // Le fil : dernier sujet (pour la suite), sujets nommables déjà abordés (pour le rappel).
+    if (!estRepli && !fiche.role && theme !== "ouinon" && SANS_ADRESSE.indexOf(theme) === -1) {
+      fil.theme = theme;
+      if (sujet && !sensible && fil.vus.indexOf(theme) === -1) { fil.vus.push(theme); if (fil.vus.length > 12) fil.vus.shift(); }
     }
     e.vuLe = Date.now();
     return { theme: theme, parts: parts };
@@ -427,9 +482,14 @@
     };
     if (role !== "reprise") parts.push(tirer("o"));
     parts.push(remplir(tirer("c"), vars));
-    if (role === "accueil" || (role === "retour" && this.rng() < 0.6)) {
+    var dernier = role === "retour" && e.fil && e.fil.theme && !(this.data.themes[e.fil.theme] || {}).sensible ? this.sujetDe(e.fil.theme) : null;
+    if (dernier && this.roles.retour_sujet && this.rng() < P_RETOUR_SUJET) {
+      parts.push(remplir(this.piocher(this.roles.retour_sujet, "c"), { sujet: dernier }));
+    }
+    else if (role === "accueil" || (role === "retour" && this.rng() < 0.6)) {
       parts.push(this.piocher(theme, "f"));
     }
+    if (e.fil) e.fil.question = null;
     e.visites++;
     e.vuLe = now;
     return { theme: theme, parts: parts.filter(Boolean) };
