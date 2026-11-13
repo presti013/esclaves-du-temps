@@ -261,6 +261,22 @@
     return this.repondreTheme(theme);
   };
 
+  /* L'écoute élargie (bible 16) : vrai si le message n'a été reconnu par aucune clé
+     et n'est ni une suite du fil, ni la réponse à une question qu'elle vient de poser. */
+  Engine.prototype.incompris = function (texte) {
+    var t = norm(texte), fil = this.fil();
+    if (t.split(" ").length < 2 || this.trouverTheme(texte) !== this.roles.repli) return false;
+    if (fil.question) return false;
+    return !(fil.theme && SUITE.test(t));
+  };
+  /* Une clé simple du thème, pour le rejouer comme si le lecteur l'avait tapée. */
+  Engine.prototype.cleDe = function (theme) {
+    var t = this.data.themes[theme];
+    if (!t || t.role) return null;
+    var cles = (t.cles || []).filter(function (c) { return c.indexOf("*") === -1; });
+    return cles.length ? cles[0].replace(/^\^/, "") : null;
+  };
+
   Engine.prototype.fil = function () {
     var e = this.etat;
     if (!e.fil) e.fil = { theme: null, vus: [], question: null, qTour: 0 };
@@ -305,17 +321,17 @@
 
     var estRepli = theme === this.roles.repli;
     var insiste = !suite && !estRepli && !sensible && this.roles.insistance && n >= INSISTE_A && n % INSISTE_A === 0;
+    // Le cœur d'abord : s'il vient d'une couche, l'ouverture et la finale suivent la même couche.
+    var coeur = this.piocherNom(theme, "c", NOM_THEME[theme]);
+    var couche = coeur ? coucheDe(coeur.id) : null;
     var sujet = this.sujetDe(theme);
     // Le lecteur revient à un sujet abordé plus tôt (pas le dernier) : elle le remarque.
     var rappel = !suite && !insiste && !sensible && sujet && fil.theme !== theme && fil.vus.indexOf(theme) !== -1 &&
-                 !!this.roles.rappel && this.rng() < P_RAPPEL;
+                 !couche && !!this.roles.rappel && this.rng() < P_RAPPEL;
     var fiche = this.data.themes[theme] || {};
     var adresse = !insiste && !rappel && !suite && !!e.prenom && !sensible && !estRepli && !fiche.role && SANS_ADRESSE.indexOf(theme) === -1 &&
                   !!this.roles.adresse && this.rng() < P_ADRESSE;
     var ouvre = !insiste && !adresse && !rappel && !suite && this.rng() < P_OUVERTURE;
-    // Le cœur d'abord : s'il vient d'une couche, l'ouverture et la finale suivent la même couche.
-    var coeur = this.piocherNom(theme, "c", NOM_THEME[theme]);
-    var couche = coeur ? coucheDe(coeur.id) : null;
     var self = this;
     var bord = function (morceau) {
       var meme = self.piocher(theme, morceau, function (f) { return coucheDe(f.id) === couche; });
