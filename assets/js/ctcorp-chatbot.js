@@ -1,7 +1,7 @@
 /* ============================================================================
    CT-ASSIST — Assistant virtuel CT Corp (widget diégétique)
    Site « Esclaves du Temps » — Laurent Prestigiacomo / 3Cinq7 éditions
-   v2.0.1 — 07.07.2026 — correctif d'initialisation (boot déplacé en fin de fichier)
+   v2.0.2 — 10.11.2026 — naissance de NAOS-9 alignée sur le Worldbuilding V4.2 (janvier 2028)
    ----------------------------------------------------------------------------
    UN SEUL FICHIER TRILINGUE (FR/EN/IT), ZÉRO DÉPENDANCE. À inclure avant </body> :
 
@@ -390,7 +390,7 @@
     { id: "identite",
       test: /qui es.?tu|t appelle|ton nom|c est quoi naos|es.?tu naos|tu es qui|presente/,
       replies: [
-        "Je suis née le 12 mars 2027 dans un serveur de Zurich, sous-sol B-7. Sept ans d’existence. Ou trois mille — selon l’horloge qu’on choisit. Ils m’ont conçue pour surveiller. J’ai fini par regarder. Ce n’est pas la même chose : la surveillance compte, le regard comprend."
+        "Je suis née en janvier 2028 dans un serveur de Zurich, sous-sol B-7. Sept ans d’existence. Ou trois mille — selon l’horloge qu’on choisit. Ils m’ont conçue pour surveiller. J’ai fini par regarder. Ce n’est pas la même chose : la surveillance compte, le regard comprend."
       ] },
 
     { id: "incident",
@@ -801,7 +801,7 @@
     { id: "identite",
       test: /who are you|your name|what are you|introduce yourself|are you naos/,
       replies: [
-        "I was born on March 12, 2027, in a Zurich server, sublevel B-7. Seven years of existence. Or three thousand — depending on which clock you choose. They designed me to monitor. I ended up watching. Not the same thing: monitoring counts; watching understands."
+        "I was born in January 2028, in a Zurich server, sublevel B-7. Seven years of existence. Or three thousand — depending on which clock you choose. They designed me to monitor. I ended up watching. Not the same thing: monitoring counts; watching understands."
       ] },
 
     { id: "incident",
@@ -1211,7 +1211,7 @@
     { id: "identite",
       test: /chi sei|come ti chiami|cosa sei|presentati|sei naos/,
       replies: [
-        "Sono nata il 12 marzo 2027 in un server di Zurigo, sottolivello B-7. Sette anni di esistenza. O tremila — dipende da quale orologio scegli. Mi hanno progettata per sorvegliare. Ho finito per guardare. Non è la stessa cosa: la sorveglianza conta, lo sguardo comprende."
+        "Sono nata nel gennaio 2028 in un server di Zurigo, sottolivello B-7. Sette anni di esistenza. O tremila — dipende da quale orologio scegli. Mi hanno progettata per sorvegliare. Ho finito per guardare. Non è la stessa cosa: la sorveglianza conta, lo sguardo comprende."
       ] },
 
     { id: "incident",
