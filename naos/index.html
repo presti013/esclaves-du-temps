@@ -350,7 +350,12 @@ body {
                   tristesse: "douceur", angoisse: "douceur", detresse: "douceur",
                   insulte: "trouble", porte_echec: "trouble", porte_attente: "trouble",
                   discretion: "discretion", porte: "discretion", porte_couche: "discretion",
-                  porte_nonlu: "discretion", porte_loin: "discretion", porte_avance: "discretion" };
+                  porte_nonlu: "discretion", porte_loin: "discretion", porte_avance: "discretion",
+                  // Le prénom du lecteur (choix du 13.11.2026).
+                  presentation: "joie", presentation_change: "joie", presentation_insiste: "joie",
+                  presentation_naos: "joie", presentation_rappel: "douceur", presentation_refus: "reflexion",
+                  presentation_doute: "reflexion", presentation_inconnu: "reflexion",
+                  presentation_oubli: "discretion", presentation_rien: "discretion" };
   function humeur(reponse) {
     var parts = reponse.parts || [];
     if (parts.some(function (p) { return p.brouille; })) return "trouble";
@@ -440,6 +445,9 @@ body {
   }
 
   function traiter(texte) {
+    // Le lecteur se présente : avant les portes, jamais au milieu d'un test (choix du 13.11.2026).
+    var pres = moteur.presentation(texte, !!(paliers && paliers.mode === "test"));
+    if (pres) { ecrire(moteur.etat); return dire(pres); }
     var attente = paliers ? paliers.intercepter(texte) : null;
     if (!attente) {
       // Sans chiffrement disponible, une réponse scellée reste fermée.
