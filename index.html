@@ -475,9 +475,6 @@
             <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-2">
                 <span id="sc-widget-status">● INITIALISATION DU FLUX SOUNDCLOUD...</span>
                 <div class="flex items-center gap-1.5">
-                    <button id="sc-run-test-btn" type="button" class="px-2 py-0.5 rounded bg-[#3ba4c7]/20 border border-[#3ba4c7]/50 text-[#7ad7f0] hover:bg-[#3ba4c7]/35 cursor-pointer" data-fr="TEST AUDIO" data-en="AUDIO TEST">TEST AUDIO</button>
-                    <label for="sc-csv-input" class="px-2 py-0.5 rounded bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] hover:bg-[#c9a24b]/35 cursor-pointer" title="Charger esclaves-du-temps-bande-originale.csv">CSV</label>
-                    <input id="sc-csv-input" type="file" accept=".csv,text/csv" class="hidden">
                     <button id="sc-drawer-close-btn" type="button" class="px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/15 text-slate-300 cursor-pointer" aria-label="Fermer le tiroir audio">✕</button>
                 </div>
             </div>
@@ -490,7 +487,7 @@
                 <select id="sc-track-select" aria-label="Sélectionner une piste" class="w-full bg-[#03080e] border border-[#c9a24b]/30 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-[#e3be68] truncate"></select>
             </div>
             <div id="sc-diag-log" class="mt-1.5 font-mono-tech text-[10px] text-slate-400 leading-snug">
-                Prêt — 33 pistes indexées. Cliquez sur ▶ ou « TEST AUDIO ».
+                Prêt — 33 pistes indexées. Cliquez sur ▶.
             </div>
         </div>
     </header>
@@ -689,15 +686,15 @@
             <!-- Non-overlapping Responsive Grid (Mobile: 1 col | Tablet: 2 cols | Desktop: 3 cols framing NAOS-9 Core) -->
             <div class="orbital-grid-desktop grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-6xl z-20">
                 
-                <!-- PORTAL 1: Acheter le Roman (Laurexa & La Commanderie) -->
-                <button type="button" onclick="openModal('roman')" class="orbital-node node-1 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                <!-- PORTAL 1: Découvrir le roman -> page acheter.html -->
+                <a href="acheter.html" class="orbital-node node-1 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
                         <span>[ PORTAIL 01 // ÉDITION ]</span>
                         <span class="group-hover:translate-x-0.5 transition-transform">◈</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Acheter le Roman" data-en="Buy the Novel">Acheter le Roman</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Commander sur Laurexa.be ou retrouver l'ouvrage à La Commanderie." data-en="Order on Laurexa.be or find the book at La Commanderie.">Commander sur Laurexa.be ou retrouver l'ouvrage à La Commanderie.</p>
-                </button>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Découvrir le roman" data-en="Discover the Novel">Découvrir le roman</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa." data-en="Read the prologue, then order the book from 3Cinq7 or Laurexa.">Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa.</p>
+                </a>
 
                 <!-- PORTAL 6: Portail CT-Corp -->
                 <button type="button" onclick="openModal('ctcorp')" class="orbital-node node-6 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#3ba4c7]/45 h-full">
@@ -1009,8 +1006,6 @@
         const scWidgetStatus = document.getElementById('sc-widget-status');
         const scTrackSelect = document.getElementById('sc-track-select');
         const scDiagLog = document.getElementById('sc-diag-log');
-        const scRunTestBtn = document.getElementById('sc-run-test-btn');
-        const scCsvInput = document.getElementById('sc-csv-input');
 
         function populateTrackDropdown() {
             scTrackSelect.innerHTML = '';
@@ -1118,7 +1113,7 @@
 
                     // Piste-à-piste : la liste officielle (33 titres, = CSV) fait foi ; le set SoundCloud n'en expose que quelques-uns.
                     scPlaylistMode = false;
-                    scDiagLog.textContent = `✓ ${SOUNDTRACK_TRACKS.length} pistes prêtes. Cliquez sur ▶ ou « TEST AUDIO ».`;
+                    scDiagLog.textContent = `✓ ${SOUNDTRACK_TRACKS.length} pistes prêtes. Cliquez sur ▶.`;
                     loadTrackByIndex(0, false);
                 });
 
@@ -1147,7 +1142,7 @@
                         scDiagLog.textContent = '↻ Bascule automatique sur l’URL individuelle du titre...';
                         loadTrackByIndex(currentTrackIndex, isAudioPlaying);
                     } else {
-                        scDiagLog.textContent = `⚠ Piste inaccessible sur SoundCloud (${SOUNDTRACK_TRACKS[currentTrackIndex]?.title}). Cliquez sur « CSV » pour charger votre fichier.`;
+                        scDiagLog.textContent = `⚠ Piste inaccessible sur SoundCloud (${SOUNDTRACK_TRACKS[currentTrackIndex]?.title}).`;
                     }
                 });
 
@@ -1215,68 +1210,6 @@
                 scShuffleLabel.setAttribute('data-en', 'SHUFFLE: OFF');
             }
             setLanguage(currentLang);
-        });
-
-        // CSV Loader for esclaves-du-temps-bande-originale.csv
-        scCsvInput.addEventListener('change', (e) => {
-            const file = e.target.files && e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const rawText = String(ev.target.result || '');
-                const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-                const parsed = [];
-
-                lines.forEach((line, idx) => {
-                    const urlMatch = line.match(/https?:\/\/[^\s;,"']+/i);
-                    if (!urlMatch) return;
-                    const url = urlMatch[0];
-                    if (idx === 0 && !url.includes('soundcloud.com')) return;
-
-                    const sep = line.includes(';') ? ';' : ',';
-                    const cols = line.split(sep).map(c => c.replace(/^["']|["']$/g, '').trim());
-                    const titleCol = cols.find(c => c && !c.startsWith('http') && isNaN(Number(c)));
-                    const slugTitle = url.split('/').filter(Boolean).pop().replace(/-/g, ' ');
-                    parsed.push({
-                        title: titleCol || slugTitle || `Piste ${parsed.length + 1}`,
-                        url
-                    });
-                });
-
-                if (parsed.length > 0) {
-                    SOUNDTRACK_TRACKS = parsed;
-                    scPlaylistMode = false;
-                    populateTrackDropdown();
-                    loadTrackByIndex(0, true);
-                    scDiagLog.textContent = `✓ CSV importé : ${parsed.length} URLs SoundCloud chargées et actives.`;
-                } else {
-                    scDiagLog.textContent = '⚠ Aucune URL valide trouvée dans ce fichier CSV.';
-                }
-            };
-            reader.readAsText(file, 'UTF-8');
-        });
-
-        // Built-in Automated Player Diagnostic Test
-        scRunTestBtn.addEventListener('click', () => {
-            setDrawerOpen(true);
-            const checks = [
-                typeof SC !== 'undefined' ? 'API SC: OK' : 'API SC: ABSENTE',
-                scReady ? 'Widget: PRÊT' : 'Widget: EN ATTENTE',
-                `Pistes: ${SOUNDTRACK_TRACKS.length}`,
-                `Aléatoire: ${isShuffle ? 'ON' : 'OFF'}`
-            ];
-            scDiagLog.textContent = `[TEST] ${checks.join(' | ')} — Vérification de lecture...`;
-
-            if (scWidget && scReady) {
-                loadTrackByIndex(currentTrackIndex, true);
-                setTimeout(() => {
-                    scWidget.isPaused((paused) => {
-                        scDiagLog.textContent = paused
-                            ? `[TEST] Widget prêt (cliquez sur ▶ dans le lecteur SoundCloud ci-dessus pour autoriser l'audio).`
-                            : `[TEST RÉUSSI] Lecture audio active : "${SOUNDTRACK_TRACKS[currentTrackIndex].title}".`;
-                    });
-                }, 1200);
-            }
         });
 
         /* ==========================================================================
