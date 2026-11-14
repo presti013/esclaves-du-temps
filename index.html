@@ -1,1026 +1,2312 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Esclaves du Temps — Laurent Prestigiacomo</title>
-<meta name="description" content="Esclaves du Temps, roman de SF dystopique de Laurent Prestigiacomo (éd. 3Cinq7, 2026). 2034 : CT Corp comprime le temps — vivre des semaines de labeur en quelques heures, une humanité dépossédée de son présent. Lisez le prologue.">
-<link rel="canonical" href="https://presti013.github.io/esclaves-du-temps/index.html">
-
-<!-- Open Graph -->
-<meta property="og:type" content="book">
-<meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="Esclaves du Temps">
-<meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/index.html">
-<meta property="og:title" content="Esclaves du Temps — un roman de Laurent Prestigiacomo">
-<meta property="og:description" content="« Et si votre vie ne durait qu'une minute ? » 2034 : le temps devient une monnaie. Quand la conscience est-elle un luxe… ou une arme ? Au croisement de Dune, Ghost in the Shell et Black Mirror.">
-<meta property="og:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/nouvelle-vignette.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Une hackeuse d'Écho Rouge face à ses écrans dans un complexe en ruine, tandis qu'une conscience artificielle fleurie s'éveille au-dessus d'une mégapole nocturne.">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Esclaves du Temps — un roman de Laurent Prestigiacomo">
-<meta name="twitter:description" content="« Et si votre vie ne durait qu'une minute ? » Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?">
-<meta name="twitter:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/nouvelle-vignette.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --deep: #020608;
-  --gold: #C9943A;
-  --gold2: #E8B84B;
-  --gold-dim: #6A4A1A;
-  --blue: #1A5A7A;
-  --blue-bright: #4AAAD4;
-  --red: #8B1A1A;
-  --red-bright: #C44040;
-  --text: #D0C8B8;
-  --text-dim: #7A7060;
-  --white: #F0ECE0;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; min-height:100%; overflow-x:hidden; }
-
-body {
-  background: #000;
-  font-family: 'Barlow Condensed', sans-serif;
-  cursor: default;
-}
-
-/* ── BG IMAGE ── */
-#bg {
-  position: fixed;
-  inset: 0;
-  background-image: url('assets/img/img-e33f6f10297a.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: brightness(0.35) saturate(0.8);
-  z-index: 0;
-}
-
-/* ── OVERLAY GRADIENTS ── */
-#vignette {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%),
-    linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.8) 100%);
-  z-index: 1;
-}
-
-/* ── SCANLINES ── */
-#scanlines {
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg, transparent, transparent 3px,
-    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 6px
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ── MAIN LAYOUT ── */
-#main {
-  position: relative;
-  z-index: 10;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 40px 36px;
-}
-
-/* ── HEADER ── */
-#header {
-  text-align: center;
-  animation: fadeDown 1.2s ease forwards;
-}
-
-@keyframes fadeDown {
-  from { opacity:0; transform: translateY(-20px); }
-  to { opacity:1; transform: none; }
-}
-
-.eyebrow {
-  font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  letter-spacing: 0.45em;
-  color: var(--gold-dim);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-#title-img {
-  width: clamp(260px, 55vw, 720px);
-  height: auto;
-  filter: drop-shadow(0 0 24px rgba(201,148,58,0.35)) drop-shadow(0 2px 8px rgba(0,0,0,0.8));
-  display: block;
-  margin: 0 auto;
-}
-
-#titre-img {
-  width: clamp(260px, 55vw, 760px);
-  height: auto;
-  display: block;
-  margin: 0 auto 4px;
-  filter: drop-shadow(0 0 18px rgba(201,148,58,0.45)) drop-shadow(0 2px 6px rgba(0,0,0,0.7));
-}
-
-.title-sub {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(12px, 1.8vw, 20px);
-  color: var(--text-dim);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  margin-top: 8px;
-  font-weight: 400;
-}
-
-/* ── TAGLINE (center) ── */
-#tagline {
-  text-align: center;
-  animation: fadeIn 1.8s ease forwards;
-  opacity: 0;
-  animation-delay: 0.6s;
-}
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-.tagline-text {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(11px, 1.5vw, 16px);
-  color: var(--text-dim);
-  letter-spacing: 0.15em;
-  line-height: 2;
-  font-style: italic;
-}
-.tagline-text em {
-  color: var(--gold);
-  font-style: normal;
-}
-
-.sep {
-  width: 120px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
-  margin: 16px auto;
-}
-
-/* ── PORTALS (4 choices) ── */
-#portals {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: 100%;
-  max-width: 720px;
-  animation: fadeUp 1.4s ease forwards;
-  opacity: 0;
-  animation-delay: 0.9s;
-}
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(24px); }
-  to { opacity:1; transform: none; }
-}
-
-.portal-card {
-  background: rgba(5,10,8,0.72);
-  border: 1px solid rgba(201,148,58,0.15);
-  backdrop-filter: blur(8px);
-  padding: 24px 16px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.portal-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center bottom, var(--card-color, rgba(201,148,58,0.06)) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.portal-card:hover::before { opacity: 1; }
-
-.portal-card:hover {
-  border-color: var(--card-border, rgba(201,148,58,0.5));
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-}
-
-/* Card 1 — Éditeur */
-.card-editor {
-  --card-color: rgba(201,148,58,0.1);
-  --card-border: rgba(201,148,58,0.6);
-}
-/* Card 2 — Musique */
-.card-music {
-  --card-color: rgba(74,170,212,0.1);
-  --card-border: rgba(74,170,212,0.5);
-}
-/* Card 3 — CT Corp */
-.card-ctcorp {
-  --card-color: rgba(74,110,160,0.1);
-  --card-border: rgba(74,110,160,0.5);
-}
-/* Card 4 — Écho Rouge */
-.card-echo {
-  --card-color: rgba(180,40,40,0.1);
-  --card-border: rgba(180,40,40,0.5);
-}
-
-.card-icon {
-  font-size: 28px;
-  line-height: 1;
-  filter: drop-shadow(0 0 8px currentColor);
-}
-.card-editor .card-icon { color: var(--gold); }
-.card-music .card-icon { color: var(--blue-bright); }
-.card-ctcorp .card-icon { color: #8FAFC2; }
-.card-echo .card-icon { color: var(--red-bright); }
-
-.card-num {
-  font-family: 'Orbitron', monospace;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  color: var(--text-dim);
-}
-
-.card-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(11px, 1.3vw, 15px);
-  color: var(--white);
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.card-editor .card-title { color: var(--gold); }
-.card-music .card-title { color: var(--blue-bright); }
-.card-ctcorp .card-title { color: #B0C8D8; }
-.card-echo .card-title { color: var(--red-bright); }
-
-.card-desc {
-  font-size: clamp(10px, 1vw, 12px);
-  color: var(--text-dim);
-  letter-spacing: 0.06em;
-  line-height: 1.5;
-}
-
-.card-cta {
-  margin-top: 4px;
-  font-family: 'Orbitron', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 5px 14px;
-  border: 1px solid currentColor;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-.card-editor .card-cta { color: var(--gold); }
-.card-music .card-cta { color: var(--blue-bright); }
-.card-ctcorp .card-cta { color: #8FAFC2; }
-.card-echo .card-cta { color: var(--red-bright); }
-.portal-card:hover .card-cta { opacity: 1; }
-
-/* ── FOOTER ── */
-#footer {
-  text-align: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--text-dim);
-  opacity: 0.6;
-}
-
-/* ── ECHO ROUGE OVERLAY (modal) ── */
-#echo-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.94);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Orbitron', monospace;
-}
-#echo-overlay.active { display: flex; }
-
-.echo-modal {
-  width: 100%;
-  max-width: 520px;
-  padding: 40px;
-  border: 1px solid #1A3A14;
-  background: rgba(2,8,4,0.98);
-  text-align: center;
-}
-
-.echo-logo {
-  font-family: 'Orbitron', monospace;
-  font-size: 42px;
-  font-weight: 900;
-  color: #FF2020;
-  text-shadow: 0 0 30px rgba(255,32,32,0.6);
-  letter-spacing: 0.12em;
-  margin-bottom: 4px;
-  line-height: 1;
-}
-.echo-sub {
-  font-size: 11px;
-  color: #2A4A2A;
-  letter-spacing: 0.3em;
-  margin-bottom: 32px;
-}
-
-.echo-prompt {
-  font-size: 11px;
-  color: #5A8A5A;
-  letter-spacing: 0.12em;
-  margin-bottom: 12px;
-  text-align: left;
-}
-
-.echo-field {
-  display: flex;
-  border: 1px solid #1A3A14;
-  margin-bottom: 12px;
-}
-.echo-field input {
-  flex: 1;
-  background: #000;
-  border: none;
-  color: #00FF41;
-  font-family: 'Share Tech Mono', 'Orbitron', monospace;
-  font-size: 14px;
-  padding: 12px 16px;
-  outline: none;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.echo-field input::placeholder { color: #1A3A1A; letter-spacing: 0.1em; }
-.echo-btn {
-  background: #0A2010;
-  border: none;
-  border-left: 1px solid #1A3A14;
-  color: #00A82A;
-  font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.echo-btn:hover { background: #00FF41; color: #000; }
-
-.echo-warning {
-  font-size: 10px;
-  color: #2A4A2A;
-  letter-spacing: 0.06em;
-  line-height: 1.7;
-  margin-top: 16px;
-  border-top: 1px solid #0A1A0A;
-  padding-top: 16px;
-}
-.echo-cancel {
-  margin-top: 16px;
-  font-size: 10px;
-  color: #1A2A1A;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  transition: color 0.2s;
-  background: none;
-  border: none;
-  font-family: 'Orbitron', monospace;
-}
-.echo-cancel:hover { color: #5A8A5A; }
-
-.echo-error {
-  font-size: 11px;
-  color: #FF2020;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-  display: none;
-}
-.echo-error.visible { display: block; }
-
-/* ── RESPONSIVE ── */
-/* Tablet paysage & petit desktop */
-@media (max-width: 900px) {
-  #main { padding: 28px 24px 24px; }
-  .portal-card { padding: 20px 12px; }
-  .card-title { font-size: 13px; }
-}
-
-/* Tablet portrait */
-@media (max-width: 680px) {
-  #titre-img { width: clamp(220px, 78vw, 560px); }
-  html, body { overflow: auto; }
-  #main {
-    height: auto;
-    min-height: 100vh;
-    padding: 32px 16px 28px;
-    gap: 0;
-    justify-content: flex-start;
-  }
-  #header { margin-bottom: 20px; }
-  #title-img { width: clamp(200px, 80vw, 480px); }
-  #tagline { margin: 16px 0; }
-  .tagline-text { font-size: 12px; letter-spacing: 0.08em; }
-  #portals {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 100%;
-    gap: 12px;
-    margin: 0 0 20px 0;
-  }
-  .portal-card { padding: 18px 10px; gap: 8px; }
-  .card-icon { font-size: 22px; }
-  .card-title { font-size: 12px; }
-  .card-desc { font-size: 10px; display: none; }
-  .card-cta { font-size: 8px; padding: 4px 10px; }
-  #footer { margin-top: 16px; font-size: 10px; }
-}
-
-/* Mobile portrait */
-@media (max-width: 400px) {
-  #title-img { width: 90vw; }
-  .title-sub { font-size: 10px; letter-spacing: 0.15em; }
-  #portals { gap: 10px; }
-  .portal-card { padding: 16px 8px; }
-  .card-num { font-size: 8px; }
-  .card-title { font-size: 11px; }
-}
-
-/* Music modal responsive */
-@media (max-width: 680px) {
-  .music-platforms {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 28px;
-  }
-  .music-title { font-size: 12px; letter-spacing: 0.15em; }
-}
-@media (max-width: 400px) {
-  .music-platforms { gap: 16px 20px; }
-}
-
-/* Echo modal responsive */
-@media (max-width: 680px) {
-  .echo-modal { padding: 28px 20px; }
-  .echo-logo { font-size: 32px; }
-}
-
-/* ── MUSIC MODAL ── */
-#music-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 48px;
-  backdrop-filter: blur(6px);
-}
-#music-overlay.active { display: flex; }
-
-.music-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(14px, 2vw, 22px);
-  color: var(--text-dim);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.music-platforms {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px 40px;
-  align-items: center;
-  justify-items: center;
-  max-width: 640px;
-  width: 100%;
-}
-
-.platform-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.25s ease, filter 0.25s ease;
-  filter: brightness(0.7) saturate(0.6);
-}
-.platform-btn:hover {
-  transform: translateY(-6px) scale(1.06);
-  filter: brightness(1) saturate(1);
-}
-
-.platform-logo {
-  width: clamp(60px, 9vw, 100px);
-  height: clamp(60px, 9vw, 100px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-
-.platform-logo svg { width: 60%; height: 60%; }
-
-.platform-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(11px, 1.5vw, 15px);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.music-close {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  cursor: pointer;
-  background: none;
-  border: none;
-  transition: color 0.2s;
-  opacity: 0.5;
-}
-.music-close:hover { opacity: 1; color: var(--white); }
-
-/* ===================== ACCUEIL « LIVRE D'ABORD » ===================== */
-#main { display:block; height:auto; min-height:100vh; padding:0; }
-
-#hero {
-  min-height:100vh; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; text-align:center;
-  padding:64px 24px 56px; position:relative;
-  animation:fadeDown 1.2s ease forwards;
-}
-#hero .title-sub { margin-top:14px; }
-.accroche {
-  font-family:'Cinzel', serif; font-style:italic;
-  font-size:clamp(18px,3.4vw,30px); color:var(--gold);
-  letter-spacing:0.04em; text-shadow:0 0 24px rgba(201,148,58,0.25);
-  margin:14px auto 32px; max-width:24ch; line-height:1.4;
-}
-
-.btn {
-  font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.18em;
-  text-transform:uppercase; text-decoration:none; padding:14px 26px;
-  border:1px solid var(--gold-dim); color:var(--gold);
-  background:rgba(201,148,58,0.04); transition:all 0.25s ease;
-  cursor:pointer; display:inline-block;
-}
-.btn:hover, .btn:focus-visible { border-color:var(--gold); background:rgba(201,148,58,0.12); transform:translateY(-2px); }
-.btn.primary { background:var(--gold); color:#1a1206; border-color:var(--gold); }
-.btn.primary:hover, .btn.primary:focus-visible { background:var(--gold2); box-shadow:0 8px 30px rgba(201,148,58,0.3); }
-.btn.ghost { color:var(--text-dim); border-color:rgba(122,112,96,0.4); }
-.btn.ghost:hover, .btn.ghost:focus-visible { color:var(--blue-bright); border-color:var(--blue); }
-
-.hero-cta { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
-
-.scroll-cue {
-  position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
-  color:var(--gold-dim); font-size:22px; text-decoration:none; line-height:1;
-  animation:bob 2s ease-in-out infinite;
-}
-.scroll-cue:hover, .scroll-cue:focus-visible { color:var(--gold); }
-@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(8px);} }
-
-.band { max-width:760px; margin:0 auto; padding:72px 24px; text-align:center; border-top:1px solid rgba(201,148,58,0.1); }
-.band-title { font-family:'Cinzel', serif; font-weight:600; font-size:clamp(22px,3.6vw,34px); color:var(--white); letter-spacing:0.04em; margin-bottom:14px; }
-.band-sub { font-family:'Barlow Condensed', sans-serif; font-size:clamp(14px,2vw,17px); color:var(--text-dim); letter-spacing:0.04em; line-height:1.6; max-width:54ch; margin:0 auto 28px; }
-
-/* PITCH */
-.pitch-lead { font-family:'Barlow Condensed', sans-serif; font-size:clamp(17px,2.6vw,22px); color:var(--text); line-height:1.6; max-width:56ch; margin:0 auto 20px; }
-.pitch-lead em { color:var(--gold); font-style:normal; }
-.pitch-body { font-family:'Barlow Condensed', sans-serif; font-size:clamp(15px,2.2vw,18px); color:var(--text-dim); line-height:1.7; max-width:56ch; margin:0 auto 24px; }
-.pitch-body strong { color:var(--white); font-weight:500; }
-.pitch-line { font-family:'Cinzel', serif; font-style:italic; font-size:clamp(16px,2.6vw,22px); color:var(--gold); line-height:1.5; max-width:42ch; margin:0 auto 20px; }
-.comps { font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
-.comps em { color:var(--text); font-style:normal; }
-
-/* LIVRE — MOCKUP */
-.book-mockup-link { display:inline-block; margin:0 auto 30px; max-width:300px; line-height:0; }
-.book-mockup { display:block; width:100%; height:auto; border:1px solid rgba(201,148,58,0.25); box-shadow:0 14px 44px rgba(0,0,0,0.6); transition:transform .25s ease, box-shadow .25s ease; }
-.book-mockup-link:hover .book-mockup, .book-mockup-link:focus-visible .book-mockup { transform:translateY(-4px); box-shadow:0 20px 54px rgba(201,148,58,0.28); }
-.secondary-actions { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
-
-/* BO */
-.bo-band .bo-line { font-family:'Cinzel', serif; font-size:clamp(20px,3.4vw,30px); color:var(--blue-bright); margin-bottom:12px; letter-spacing:0.04em; }
-.bo-sub { font-family:'Barlow Condensed', sans-serif; font-size:clamp(14px,2vw,17px); color:var(--text-dim); max-width:52ch; margin:0 auto 26px; line-height:1.6; }
-.music-btn { color:var(--blue-bright); border-color:var(--blue); }
-.music-btn:hover, .music-btn:focus-visible { color:var(--blue-bright); border-color:var(--blue-bright); background:rgba(74,170,212,0.1); }
-
-/* SEUIL */
-.seuil { max-width:880px; padding-bottom:56px; }
-.seuil-head { margin-bottom:36px; }
-.seuil #portals { animation:none; opacity:1; margin-top:0; }
-
-#footer { padding:28px 24px 44px; border-top:1px solid rgba(201,148,58,0.08); }
-
-/* FOCUS CLAVIER */
-a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid var(--gold2); outline-offset:3px; }
-
-/* RESPONSIVE accueil */
-@media (max-width:680px) {
-  .band { padding:56px 18px; }
-  #hero { padding:48px 18px 56px; }
-  .hero-cta, .secondary-actions { flex-direction:column; width:100%; max-width:340px; margin-left:auto; margin-right:auto; }
-  .hero-cta .btn, .secondary-actions .btn { width:100%; }
-}
-
-/* MOUVEMENT RÉDUIT */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation:none !important; transition:none !important; }
-  html { scroll-behavior:auto; }
-  #hero { opacity:1; }
-}
-/* ===================== /ACCUEIL ===================== */
-
-/* ── Hero : scrim de lisibilité + garde-fou largeur titre ── */
-#hero::before {
-  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-  background: radial-gradient(ellipse 82% 62% at 50% 46%, rgba(2,6,8,0.74) 0%, rgba(2,6,8,0.4) 55%, transparent 82%);
-}
-#hero > * { position:relative; z-index:1; }
-#titre-img { max-width:90vw; }
-@media (max-width:680px) {
-  #hero #titre-img { width:min(78vw,420px); max-width:88vw; }
-}
-
-/* ── DISCLAIMER (avant CT Corp / Écho Rouge) — style CRT/terminal ── */
-#disclaimer-overlay{ display:none; position:fixed; inset:0; z-index:1200;
-  background:rgba(0,0,0,0.93); align-items:center; justify-content:center; padding:24px;
-  font-family:'Share Tech Mono','Orbitron',monospace; }
-#disclaimer-overlay.active{ display:flex; }
-.disclaimer-modal{ position:relative; overflow:hidden; width:100%; max-width:560px;
-  padding:34px 32px; background:rgba(2,6,8,0.98); border:1px solid rgba(201,148,58,0.4);
-  box-shadow:0 0 60px rgba(201,148,58,0.12), inset 0 0 46px rgba(0,0,0,0.65); }
-.disclaimer-modal::after{ content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
-  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.16) 2px, rgba(0,0,0,0.16) 3px); }
-.disclaimer-modal > *{ position:relative; z-index:1; }
-.disclaimer-head{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.26em;
-  text-transform:uppercase; color:var(--gold2); margin-bottom:18px; }
-.disclaimer-text{ font-family:'Barlow Condensed',sans-serif; font-size:clamp(15px,2.2vw,17px);
-  line-height:1.7; color:#B9C0B2; letter-spacing:0.01em; margin-bottom:26px; }
-.disclaimer-actions{ display:flex; gap:12px; flex-wrap:wrap; }
-.disclaimer-btn{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.16em;
-  text-transform:uppercase; padding:12px 22px; cursor:pointer; background:var(--gold);
-  color:#1a1206; border:1px solid var(--gold); transition:all .2s; }
-.disclaimer-btn:hover, .disclaimer-btn:focus-visible{ background:var(--gold2); }
-.disclaimer-btn.ghost{ background:transparent; color:var(--text-dim); border-color:rgba(122,112,96,0.5); }
-.disclaimer-btn.ghost:hover, .disclaimer-btn.ghost:focus-visible{ color:var(--white); border-color:var(--text); }
-@media (max-width:680px){ .disclaimer-modal{ padding:26px 20px; } .disclaimer-actions .disclaimer-btn{ flex:1; text-align:center; } }
-</style>
-<!--i18n:style-->
-<style>
-.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
-  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
-  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
-  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
-.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
-  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
-  white-space:nowrap;transition:background .2s,color .2s;}
-.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
-.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
-.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
-.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
-.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
-.i18n-flag{font-size:13px;line-height:1;}
-@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
-  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
-@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
-</style>
-<!--/i18n:style-->
-<!--i18n:hreflang-->
-<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/index.html">
-<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/index.html">
-<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/index.html">
-<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/index.html">
-<!--/i18n:hreflang-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://www.esclavesdutemps.be/">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <title>ESCLAVES DU TEMPS — Protocole NAOS-9</title>
+    <meta name="description" content="Univers transmedia Esclaves du Temps. Initialisation de l'IA NAOS-9, roman, bande originale, CT-Corp, Echo Rouge et application compagnon.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cinzel & Cormorant Garamond (Book Cover Typography), Space Grotesk & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- SoundCloud Widget API -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+
+    <style>
+        :root {
+            --bg-obsidian: #03080e;
+            --bg-abyssal: #07131e;
+            --gold-antique: #c9a24b;
+            --gold-bright: #e3be68;
+            --gold-bronze: #7a5920;
+            --accent-cyan: #3ba4c7;
+            --accent-ice: #7ad7f0;
+            --accent-amber: #e88c30;
+            --accent-crimson: #d92b3a;
+            --current-accent: #3ba4c7;
+            --current-glow: rgba(59, 164, 199, 0.25);
+            --hud-border: rgba(201, 162, 75, 0.28);
+            --glass-bg: rgba(5, 12, 20, 0.82);
+            --corruption: 0; /* 0 = CT-Corp Gold & Ice Cyan, 1 = Echo Rouge Crimson */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 25%, #07131e 0%, #03080e 70%, #020509 100%);
+            background-attachment: fixed;
+            color: #e6ecf2;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .font-cover-title {
+            font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+        }
+
+        .font-author {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        .font-display {
+            font-family: 'Cinzel', serif;
+        }
+
+        .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Metallic Antique Gold Text Styling matching FR_Cover_3Cinq7.png */
+        .cover-gold-text {
+            background: linear-gradient(180deg, #ebd089 0%, #c9a24b 52%, #a67f32 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 3px 14px rgba(122, 89, 32, 0.45));
+        }
+
+        /* Inline SVG Custom Glyphs (Alchemical A & Reversed E) */
+        .cover-glyph-svg {
+            display: inline-block;
+            height: 0.78em;
+            width: auto;
+            vertical-align: baseline;
+            transform: translateY(0.03em);
+            filter: drop-shadow(0 3px 14px rgba(122, 89, 32, 0.45));
+        }
+
+        /* Layer 0: Hybrid Evolving PCB / Neural Background Canvas */
+        #bg-neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Layer 1: Fixed NAOS-9 Central Core Canvas */
+        #naos-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Layer 2 & 3: Vignette & Scanlines Overlay */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 36%, rgba(2, 6, 12, 0.88) 100%);
+        }
+
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 2px,
+                rgba(217, 43, 58, calc(var(--corruption) * 0.08)) 3px,
+                rgba(0, 0, 0, calc(var(--corruption) * 0.35)) 4px
+            );
+            opacity: calc(0.10 + var(--corruption) * 0.90);
+            transition: opacity 0.2s ease;
+        }
+
+        /* HUD Glass Panels */
+        .hud-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--hud-border);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), inset 0 0 22px rgba(201, 162, 75, 0.04);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+        }
+
+        .hud-panel:hover {
+            border-color: var(--current-accent);
+            box-shadow: 0 0 28px var(--current-glow), inset 0 0 16px rgba(255, 255, 255, 0.04);
+        }
+
+        /* Corner Brackets for Sci-Fi / Horological Cards */
+        .hud-corners {
+            position: relative;
+        }
+        .hud-corners::before,
+        .hud-corners::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: var(--gold-antique);
+            border-style: solid;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .hud-corners::before {
+            top: -1px;
+            left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+        .hud-corners::after {
+            bottom: -1px;
+            right: -1px;
+            border-width: 0 2px 2px 0;
+        }
+
+        /* Chromatic Aberration & Glitch Effect for Echo Rouge Corruption */
+        .glitch-active {
+            position: relative;
+            animation: glitch-skew 2.4s infinite linear alternate-reverse;
+        }
+        .glitch-active::before,
+        .glitch-active::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.85;
+        }
+        .glitch-active::before {
+            color: #7ad7f0;
+            z-index: -1;
+            animation: glitch-anim-1 1.8s infinite linear alternate-reverse;
+        }
+        .glitch-active::after {
+            color: #d92b3a;
+            z-index: -2;
+            animation: glitch-anim-2 2.6s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+            20% { clip-path: inset(70% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, 2px); }
+            60% { clip-path: inset(50% 0 30% 0); transform: translate(1px, -2px); }
+            80% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
+            100% { clip-path: inset(30% 0 40% 0); transform: translate(2px, 1px); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            25% { clip-path: inset(15% 0 65% 0); transform: translate(-2px, 1px); }
+            50% { clip-path: inset(45% 0 35% 0); transform: translate(1px, 2px); }
+            75% { clip-path: inset(5% 0 85% 0); transform: translate(-1px, -2px); }
+            100% { clip-path: inset(75% 0 15% 0); transform: translate(2px, 0); }
+        }
+
+        @keyframes glitch-skew {
+            0%, 92%, 100% { transform: skew(0deg); }
+            94% { transform: skew(-3deg); }
+            96% { transform: skew(4deg); }
+            98% { transform: skew(-1deg); }
+        }
+
+        /* Audio Equalizer Bars */
+        .eq-bar {
+            width: 3px;
+            background-color: var(--gold-bright);
+            border-radius: 99px;
+            transition: height 0.15s ease, background-color 0.3s ease;
+        }
+        .audio-playing .eq-bar:nth-child(1) { animation: eq 0.6s ease-in-out infinite alternate; }
+        .audio-playing .eq-bar:nth-child(2) { animation: eq 0.4s ease-in-out 0.2s infinite alternate; }
+        .audio-playing .eq-bar:nth-child(3) { animation: eq 0.7s ease-in-out 0.1s infinite alternate; }
+        .audio-playing .eq-bar:nth-child(4) { animation: eq 0.5s ease-in-out 0.3s infinite alternate; }
+
+        @keyframes eq {
+            0% { height: 4px; }
+            100% { height: 14px; }
+        }
+
+        /* Marquee Ticker for SoundCloud Song Title */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        }
+        .marquee-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 2.5rem;
+            padding-left: 100%;
+            animation: marquee-scroll 16s linear infinite;
+        }
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Non-Overlapping Orbital Grid Layout for the 6 Hub Portals */
+        .orbital-node {
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .orbital-node:hover {
+            transform: translateY(-4px);
+            z-index: 30;
+        }
+
+        @media (min-width: 1024px) {
+            .orbital-grid-desktop {
+                display: grid;
+                grid-template-columns: minmax(260px, 340px) 420px minmax(260px, 340px);
+                grid-template-rows: repeat(3, auto);
+                gap: 1.25rem 0;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                max-width: 1120px;
+                margin: 0 auto;
+            }
+            /* Left Column (3 Portals hugging the outer ring of NAOS-9) */
+            .node-1 { grid-column: 1; grid-row: 1; transform: translateX(1.75rem); }
+            .node-1:hover { transform: translateX(1.75rem) translateY(-4px); }
+            .node-6 { grid-column: 1; grid-row: 2; }
+            .node-6:hover { transform: translateY(-4px); }
+            .node-5 { grid-column: 1; grid-row: 3; transform: translateX(1.75rem); }
+            .node-5:hover { transform: translateX(1.75rem) translateY(-4px); }
+
+            /* Center Core Window (Matches NAOS-9 outer ring diameter ~420px) */
+            .orbital-core-window {
+                grid-column: 2;
+                grid-row: 1 / span 3;
+                height: 360px;
+                pointer-events: none;
+            }
+
+            /* Right Column (3 Portals hugging the outer ring of NAOS-9) */
+            .node-2 { grid-column: 3; grid-row: 1; transform: translateX(-1.75rem); }
+            .node-2:hover { transform: translateX(-1.75rem) translateY(-4px); }
+            .node-3 { grid-column: 3; grid-row: 2; }
+            .node-3:hover { transform: translateY(-4px); }
+            .node-4 { grid-column: 3; grid-row: 3; transform: translateX(-1.75rem); }
+            .node-4:hover { transform: translateX(-1.75rem) translateY(-4px); }
+        }
+
+        /* Temporal Compression Panoramic Monolith Styles */
+        .chrono-lens-glow {
+            background: radial-gradient(
+                ellipse 26% 78% at var(--lens-x, 50%) 50%,
+                rgba(255, 255, 255, 0.04) 0%,
+                rgba(3, 8, 14, 0.58) 58%,
+                rgba(3, 8, 14, 0.90) 100%
+            );
+            transition: background 0.1s linear;
+        }
+
+        .chrono-scanline-beam {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            left: var(--lens-x, 50%);
+            transform: translateX(-50%);
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--beam-color, #3ba4c7) 25%,
+                #ffffff 50%,
+                var(--beam-color, #3ba4c7) 75%,
+                transparent 100%
+            );
+            box-shadow: 0 0 22px 4px var(--beam-glow, rgba(59, 164, 199, 0.45));
+            pointer-events: none;
+        }
+
+        /* Custom Range Scrubber for Temporal Compression */
+        input[type="range"].chrono-scrubber {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.12);
+            height: 4px;
+            border-radius: 999px;
+            outline: none;
+        }
+        input[type="range"].chrono-scrubber::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--beam-color, #e3be68);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 12px var(--beam-color, #e3be68);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        input[type="range"].chrono-scrubber::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #03080e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-antique);
+            border-radius: 3px;
+        }
+    </style>
 </head>
-<body>
-<!--i18n:switch-->
-<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="index.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/index.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="it/index.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
-<!--/i18n:switch-->
+<body class="selection:bg-[#c9a24b]/30 selection:text-white">
 
-<div id="bg"></div>
-<div id="vignette"></div>
-<div id="scanlines"></div>
+    <!-- Background Layers -->
+    <canvas id="bg-neural-canvas"></canvas>
+    <canvas id="naos-canvas"></canvas>
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
 
-<div id="main">
+    <!-- Top Fixed Telemetry HUD Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-8 py-3 gap-2 flex items-center justify-between border-b border-[#c9a24b]/20 bg-[#03080e]/85 backdrop-blur-md">
+        <!-- Left: System Status -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+            <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-[#3ba4c7] shadow-[0_0_10px_#3ba4c7] animate-pulse"></span>
+            <div class="flex flex-col">
+                <span class="font-display text-xs sm:text-sm font-bold tracking-widest text-[#e3be68]">NAOS-9 <span class="hidden sm:inline text-white/40 font-normal font-mono-tech">// ARCHIVE_SYS</span></span>
+                <span id="hud-protocol-label" class="hidden sm:block font-mono-tech text-[10px] tracking-wider uppercase text-[#7ad7f0]" data-fr="PROTOCOL: CT-CORP [STABLE]" data-en="PROTOCOL: CT-CORP [STABLE]">PROTOCOL: CT-CORP [STABLE]</span>
+            </div>
+        </div>
 
-  <!-- ============ HERO : LE LIVRE ============ -->
-  <header id="hero">
-    <div class="eyebrow">Un roman de <a href="https://www.facebook.com/profile.php?id=61577713296657" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Laurent Prestigiacomo</a></div>
-    <img id="titre-img" src="assets/img/img-956c06d1701c.png" alt="Esclaves du Temps" />
-    <div class="title-sub">Roman de Science-Fiction Dystopique · Éditions 3Cinq7 · 2026</div>
-    <div class="sep"></div>
-    <p class="accroche">« Et si votre vie ne durait qu'une minute ? »</p>
-    <div class="hero-cta">
-      <a class="btn primary" href="prologue.html">Lire le prologue</a>
-      <a class="btn" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">Acheter le livre</a>
+        <!-- Center: Live Scroll Telemetry (Hidden on mobile) -->
+        <div class="hidden xl:flex items-center gap-6 font-mono-tech text-[11px] text-slate-400">
+            <div>
+                <span class="text-slate-500">SYNC:</span>
+                <span id="hud-sync-percent" class="text-[#e3be68] font-semibold">00.0%</span>
+            </div>
+            <div class="w-32 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div id="hud-progress-bar" class="h-full bg-[#3ba4c7] w-0 transition-colors duration-300"></div>
+            </div>
+            <div>
+                <span class="text-slate-500" data-fr="INTÉGRITÉ:" data-en="INTEGRITY:">INTÉGRITÉ:</span>
+                <span id="hud-integrity" class="text-[#7ad7f0] font-semibold">100%</span>
+            </div>
+        </div>
+
+        <!-- Right: SoundCloud Audio Mini-Player & Language Switch -->
+        <div class="flex items-center gap-1.5 sm:gap-3 min-w-0">
+            <!-- SoundCloud HUD Mini-Player -->
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:border-[#c9a24b]/60 transition-all text-xs font-mono-tech text-slate-200">
+                <!-- Equalizer Indicator -->
+                <div id="eq-container" class="hidden min-[360px]:flex items-end gap-0.5 h-3.5 mr-0.5">
+                    <span class="eq-bar h-1.5"></span>
+                    <span class="eq-bar h-2.5"></span>
+                    <span class="eq-bar h-1"></span>
+                    <span class="eq-bar h-2"></span>
+                </div>
+
+                <!-- Previous Track -->
+                <button id="sc-prev-btn" type="button" title="Piste précédente" class="p-1 text-slate-400 hover:text-[#e3be68] transition-colors cursor-pointer" aria-label="Previous track">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                </button>
+
+                <!-- Play / Pause -->
+                <button id="audio-toggle-btn" type="button" class="p-1 text-[#e3be68] hover:text-white transition-colors cursor-pointer" aria-label="Play or Pause">
+                    <svg id="sc-play-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="sc-pause-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+
+                <!-- Next Track -->
+                <button id="sc-next-btn" type="button" title="Piste suivante" class="p-1 text-slate-400 hover:text-[#e3be68] transition-colors cursor-pointer" aria-label="Next track">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                </button>
+
+                <!-- Scrolling Track Title Marquee -->
+                <div class="marquee-wrapper hidden sm:block w-44 md:w-52 border-x border-[#c9a24b]/20 px-1.5">
+                    <div class="marquee-track">
+                        <span id="sc-track-title" class="text-[11px] tracking-wide text-[#f3e5c0]" data-fr="SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)" data-en="SOUNDCLOUD // SOUNDTRACK — SLAVES OF TIME (READY)">SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)</span>
+                    </div>
+                </div>
+
+                <!-- Shuffle Toggle (OFF by default) -->
+                <button id="sc-shuffle-btn" type="button" class="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer" title="Lecture aléatoire">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+                    <span id="sc-shuffle-label" class="hidden sm:inline" data-fr="ALÉAT: OFF" data-en="SHUFFLE: OFF">ALÉAT: OFF</span>
+                </button>
+
+                <!-- Expand SoundCloud Drawer / Diagnostic Toggle -->
+                <button id="sc-drawer-toggle-btn" type="button" style="white-space:nowrap" title="Afficher / Masquer le lecteur SoundCloud & Diagnostic" class="px-1.5 py-0.5 rounded border border-[#c9a24b]/30 bg-[#c9a24b]/10 text-[10px] text-[#e3be68] hover:bg-[#c9a24b]/25 transition-all cursor-pointer">
+                    SC ▼
+                </button>
+            </div>
+
+            <!-- FR / EN Toggle -->
+            <button id="lang-toggle-btn" type="button" class="whitespace-nowrap shrink-0 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:bg-[#c9a24b]/15 font-mono-tech text-xs font-bold tracking-wider text-white transition-all cursor-pointer">
+                <span id="lang-fr" class="text-[#e3be68]">FR</span>
+                <span class="text-white/30 mx-0.5">/</span>
+                <span id="lang-en" class="text-white/50">EN</span>
+            </button>
+        </div>
+
+        <!-- Collapsible SoundCloud Real Viewport Drawer (Ensures browser audio policy & SC.Widget reliability) -->
+        <div id="sc-player-drawer" class="hidden fixed top-[60px] right-2 sm:right-8 z-50 w-[calc(100vw-1rem)] sm:w-[390px] max-h-[calc(100vh-76px)] overflow-y-auto hud-panel hud-corners rounded-xl p-3 border-[#c9a24b]/45 shadow-[0_18px_45px_rgba(0,0,0,0.92)] transition-all duration-300">
+            <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-2">
+                <span id="sc-widget-status">● INITIALISATION DU FLUX SOUNDCLOUD...</span>
+                <div class="flex items-center gap-1.5">
+                    <button id="sc-run-test-btn" type="button" class="px-2 py-0.5 rounded bg-[#3ba4c7]/20 border border-[#3ba4c7]/50 text-[#7ad7f0] hover:bg-[#3ba4c7]/35 cursor-pointer" data-fr="TEST AUDIO" data-en="AUDIO TEST">TEST AUDIO</button>
+                    <label for="sc-csv-input" class="px-2 py-0.5 rounded bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] hover:bg-[#c9a24b]/35 cursor-pointer" title="Charger esclaves-du-temps-bande-originale.csv">CSV</label>
+                    <input id="sc-csv-input" type="file" accept=".csv,text/csv" class="hidden">
+                    <button id="sc-drawer-close-btn" type="button" class="px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/15 text-slate-300 cursor-pointer" aria-label="Fermer le tiroir audio">✕</button>
+                </div>
+            </div>
+
+            <!-- Real Visible SoundCloud Widget Container (366x166px so browser allows HTML5 audio playback) -->
+            <div id="sc-iframe-host" class="w-full h-[166px] rounded-lg overflow-hidden border border-white/10 bg-[#03080e]"></div>
+
+            <!-- Track Selector & Live Diagnostic Readout -->
+            <div class="mt-2 flex items-center justify-between gap-2 font-mono-tech text-[10px]">
+                <select id="sc-track-select" aria-label="Sélectionner une piste" class="w-full bg-[#03080e] border border-[#c9a24b]/30 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-[#e3be68] truncate"></select>
+            </div>
+            <div id="sc-diag-log" class="mt-1.5 font-mono-tech text-[10px] text-slate-400 leading-snug">
+                Prêt — 33 pistes indexées. Cliquez sur ▶ ou « TEST AUDIO ».
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Scrollytelling Content -->
+    <main class="relative z-10">
+
+        <!-- HERO SECTION (0% Scroll — Book Cover Typography & Palette) -->
+        <section id="hero-section" class="min-h-screen flex flex-col justify-between items-center text-center px-4 pt-24 sm:pt-28 pb-12">
+            <div class="mt-2 sm:mt-4 max-w-4xl mx-auto">
+                <!-- Author Header matching FR_Cover_3Cinq7.png -->
+                <p class="font-author text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.08em] text-white/95 mb-3 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+                    Laurent Prestigiacomo
+                </p>
+
+                <!-- Exact Book Cover Title: ESCLAVES DU TEMPS with Alchemical 'A' & Reversed 'E' -->
+                <h1 aria-label="ESCLAVES DU TEMPS" class="font-cover-title font-semibold tracking-[0.06em] uppercase select-none leading-[1.08]">
+                    <!-- Line 1: ESCL[Alchemical A]VES -->
+                    <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem]">
+                        <span class="cover-gold-text">ESCL</span><svg class="cover-glyph-svg mx-[0.02em]" viewBox="0 0 92 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphA" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Alchemical Air Triangle + Extended Horizontal Crossbar -->
+                            <path fill="url(#goldGlyphA)" fill-rule="evenodd" d="M46 4 L12 74 H80 L46 4 Z M46 17 L21 68 H71 L46 17 Z"/>
+                            <rect x="4" y="34.5" width="84" height="5.5" fill="url(#goldGlyphA)"/>
+                        </svg><span class="cover-gold-text">VES</span>
+                    </span>
+
+                    <!-- Line 2: DU T[Reversed E]MPS -->
+                    <span class="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.65rem] mt-1 sm:mt-1.5">
+                        <span class="cover-gold-text text-[0.76em] tracking-[0.08em] mr-[0.28em]">DU</span><span class="cover-gold-text">T</span><svg class="cover-glyph-svg mx-[0.03em]" viewBox="0 0 64 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphE" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Mirrored Lapidary Serif E (Ǝ) -->
+                            <path fill="url(#goldGlyphE)" d="
+                                M11 4 H58 V8.5 H53.5 V69.5 H58 V74 H11 V61.5 H15 V69.5 H46.5 V40.5 H24 V46.5 H20 V30.5 H24 V36 H46.5 V8.5 H15 V16.5 H11 V4 Z
+                            "/>
+                        </svg><span class="cover-gold-text">MPS</span>
+                    </span>
+                </h1>
+
+                <!-- Protocol Subtitle Pill -->
+                <div class="mt-5 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#c9a24b]/35 bg-[#07131e]/85 font-mono-tech text-[11px] tracking-[0.2em] text-[#7ad7f0] uppercase shadow-[0_0_20px_rgba(59,164,199,0.18)]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#e88c30] shadow-[0_0_8px_#e88c30]"></span>
+                    <span data-fr="PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES" data-en="PROTOCOL NAOS-9 // ARCHIVES UNLOCKED">PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES</span>
+                </div>
+            </div>
+
+            <!-- Central space left open so NAOS-9 Astrolabe/Cybernetic Core shines clearly -->
+            <div class="my-auto py-20 pointer-events-none"></div>
+
+            <!-- Scroll Prompt -->
+            <div class="flex flex-col items-center gap-3 animate-bounce">
+                <span class="font-mono-tech text-[11px] tracking-[0.25em] text-[#c9a24b] uppercase" data-fr="DÉFILER POUR EXPLORER LE SYSTÈME" data-en="SCROLL TO EXPLORE SYSTEM">DÉFILER POUR EXPLORER LE SYSTÈME</span>
+                <div class="w-5 h-8 rounded-full border border-[#c9a24b]/45 flex justify-center p-1">
+                    <div class="w-1 h-2 rounded-full bg-[#7ad7f0]"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE 01: GENÈSE (LE ROMAN) -->
+        <section id="archive-1" class="archive-step min-h-screen flex items-center justify-center px-4 py-24" data-step="1">
+            <div class="w-full max-w-[1160px] flex justify-start">
+                <div class="max-w-md w-full hud-panel hud-corners rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center justify-between font-mono-tech text-xs text-[#e3be68] mb-3">
+                        <span>[ ARCHIVE 01 // GENÈSE ]</span>
+                        <span class="text-[#7ad7f0]">REF: LIVRE-001</span>
+                    </div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LE ROMAN : ESCLAVES DU TEMPS" data-en="THE NOVEL: SLAVES OF TIME">
+                        LE ROMAN : ESCLAVES DU TEMPS
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Dans un futur où chaque seconde de vie humaine est cotée en bourse, mon algorithme régit l'équilibre temporel mondial. Découvrez le récit fondateur de Laurent Prestigiacomo, une plongée haletante entre contrôle technologique absolu et insurrection humaine." data-en="In a future where every second of human life is traded on the stock market, my algorithm governs global temporal balance. Discover Laurent Prestigiacomo's foundational sci-fi thriller—a gripping dive between absolute technological control and human insurrection.">
+                        Dans un futur où chaque seconde de vie humaine est cotée en bourse, mon algorithme régit l'équilibre temporel mondial. Découvrez le récit fondateur de Laurent Prestigiacomo, une plongée haletante entre contrôle technologique absolu et insurrection humaine.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 pt-4 border-t border-[#c9a24b]/20 font-mono-tech text-xs">
+                        <div>
+                            <span class="text-slate-500 block" data-fr="STATUT ARCHIVE" data-en="ARCHIVE STATUS">STATUT ARCHIVE</span>
+                            <span class="text-[#e3be68]" data-fr="ÉDITION DISPONIBLE" data-en="EDITION AVAILABLE">ÉDITION DISPONIBLE</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block" data-fr="CLASSIFICATION" data-en="CLASSIFICATION">CLASSIFICATION</span>
+                            <span class="text-[#7ad7f0]" data-fr="ANTICIPATION / CYBER" data-en="DYSTOPIAN / CYBER">ANTICIPATION / CYBER</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE 02: FRÉQUENCES (LA BANDE ORIGINALE) -->
+        <section id="archive-2" class="archive-step min-h-screen flex items-center justify-center px-4 py-24" data-step="2">
+            <div class="w-full max-w-[1160px] flex justify-end">
+                <div class="max-w-md w-full hud-panel hud-corners rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center justify-between font-mono-tech text-xs text-[#e3be68] mb-3">
+                        <span>[ ARCHIVE 02 // FRÉQUENCES ]</span>
+                        <span class="text-[#7ad7f0]">33 TRACKS // 44.1kHz</span>
+                    </div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LA BANDE ORIGINALE IMMERSIVE" data-en="THE IMMERSIVE SOUNDTRACK">
+                        LA BANDE ORIGINALE IMMERSIVE
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="La lecture ne suffit pas : écoutez la pulsation de la métropole. Une bande-son originale de 33 pistes électroniques et cinématographiques composée sur mesure pour accompagner chaque chapitre du roman et résonner avec mes propres fréquences." data-en="Reading is not enough: hear the pulse of the metropolis. An original 33-track electronic and cinematic soundtrack custom-composed to accompany every chapter of the novel and resonate with my own frequencies.">
+                        La lecture ne suffit pas : écoutez la pulsation de la métropole. Une bande-son originale de 33 pistes électroniques et cinématographiques composée sur mesure pour accompagner chaque chapitre du roman et résonner avec mes propres fréquences.
+                    </p>
+                    <div class="flex items-center justify-between pt-4 border-t border-[#c9a24b]/20 font-mono-tech text-xs">
+                        <span class="text-slate-400" data-fr="DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE" data-en="STREAMING: SOUNDCLOUD • SPOTIFY • APPLE">DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE</span>
+                        <button type="button" onclick="document.getElementById('audio-toggle-btn').click()" class="px-3 py-1.5 rounded bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] hover:bg-[#c9a24b] hover:text-black font-bold transition-all cursor-pointer" data-fr="LANCER L'ÉCOUTE" data-en="PLAY STREAM">LANCER L'ÉCOUTE</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE 03: CONTRÔLE (CT-CORP) -->
+        <section id="archive-3" class="archive-step min-h-screen flex items-center justify-center px-4 py-24" data-step="3">
+            <div class="w-full max-w-[1160px] flex justify-start">
+                <div class="max-w-md w-full hud-panel hud-corners rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center justify-between font-mono-tech text-xs text-[#7ad7f0] mb-3">
+                        <span>[ ARCHIVE 03 // CONTRÔLE ]</span>
+                        <span class="text-[#e3be68]">DOMAINE : CT-CORP</span>
+                    </div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="CT-CORP : L'ORDRE TEMPOREL" data-en="CT-CORP: TEMPORAL ORDER">
+                        CT-CORP : L'ORDRE TEMPOREL
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Chrono-Tech Corporation assure la prospérité et la sécurité des citoyens grâce à la gestion prédictive du capital-temps. Explorez l'intranet officiel de la mégacorporation, ses protocoles biométriques et la perfection glacée de son architecture." data-en="Chrono-Tech Corporation ensures citizen prosperity and security through predictive time-capital management. Explore the megacorporation's official intranet, biometric protocols, and icy architectural perfection.">
+                        Chrono-Tech Corporation assure la prospérité et la sécurité des citoyens grâce à la gestion prédictive du capital-temps. Explorez l'intranet officiel de la mégacorporation, ses protocoles biométriques et la perfection glacée de son architecture.
+                    </p>
+                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]" data-fr="> AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR..." data-en="> WARNING: ANOMALY DETECTED IN LOWER SECTOR...">
+                        &gt; AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE 04: RUPTURE / CORRUPTION (ECHO ROUGE) -->
+        <section id="archive-4" class="archive-step min-h-screen flex items-center justify-center px-4 py-24" data-step="4">
+            <div class="w-full max-w-[1160px] flex justify-end">
+                <div class="max-w-md w-full hud-panel hud-corners rounded-2xl p-6 sm:p-7 border-[#d92b3a]/55">
+                    <div class="flex items-center justify-between font-mono-tech text-xs text-[#ff4d5e] mb-3">
+                        <span>[ ARCHIVE 04 // RUPTURE CRITIQUE ]</span>
+                        <span class="animate-pulse">ERR_0x99_BREACH</span>
+                    </div>
+                    <h2 id="echo-title" data-text="ECHO ROUGE : LA RÉSISTANCE" class="glitch-active font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="ECHO ROUGE : LA RÉSISTANCE" data-en="ECHO ROUGE: THE RESISTANCE">
+                        ECHO ROUGE : LA RÉSISTANCE
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Intrusion détectée. Le réseau clandestin Echo Rouge pirate mes sous-routines pour révéler la vérité derrière les compteurs temporels de CT-Corp. Basculez sur leur fréquence cryptée et rejoignez les insurgés." data-en="Intrusion detected. The underground network Echo Rouge is hijacking my subroutines to expose the truth behind CT-Corp's time meters. Switch to their encrypted frequency and join the insurgents.">
+                        Intrusion détectée. Le réseau clandestin Echo Rouge pirate mes sous-routines pour révéler la vérité derrière les compteurs temporels de CT-Corp. Basculez sur leur fréquence cryptée et rejoignez les insurgés.
+                    </p>
+                    <div class="p-3 rounded-lg bg-[#d92b3a]/15 border border-[#d92b3a]/45 font-mono-tech text-xs text-[#ff4d5e]" data-fr="> PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS" data-en="> FIREWALL COMPROMISED // DECRYPTING FILES IN PROGRESS">
+                        &gt; PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE 05: INTERFACE (L'APP NAOS-9) -->
+        <section id="archive-5" class="archive-step min-h-screen flex items-center justify-center px-4 py-24" data-step="5">
+            <div class="w-full max-w-[1160px] flex justify-start">
+                <div class="max-w-md w-full hud-panel hud-corners rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center justify-between font-mono-tech text-xs text-[#ff4d5e] mb-3">
+                        <span>[ ARCHIVE 05 // LIAISON MOBILE ]</span>
+                        <span class="text-[#e3be68]">iOS / ANDROID PWA</span>
+                    </div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="L'APPLICATION COMPAGNON NAOS-9" data-en="NAOS-9 COMPANION APP">
+                        L'APPLICATION COMPAGNON NAOS-9
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Prolongez l'expérience directement sur votre smartphone. Téléchargez l'interface mobile NAOS-9 pour dialoguer avec moi, scanner les indices disséminés dans le roman et débloquer des contenus secrets en temps réel." data-en="Extend the experience directly on your smartphone. Download the NAOS-9 mobile interface to converse with me, scan clues hidden inside the novel, and unlock secret real-time content.">
+                        Prolongez l'expérience directement sur votre smartphone. Téléchargez l'interface mobile NAOS-9 pour dialoguer avec moi, scanner les indices disséminés dans le roman et débloquer des contenus secrets en temps réel.
+                    </p>
+                    <a href="https://www.esclavesdutemps.be/naos/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#d92b3a] hover:bg-[#ff3b4e] text-white font-mono-tech text-xs font-bold tracking-wider transition-all shadow-[0_0_20px_rgba(217,43,58,0.4)]">
+                        <span data-fr="ACCÉDER AU TERMINAL MOBILE" data-en="ACCESS MOBILE TERMINAL">ACCÉDER AU TERMINAL MOBILE</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL SECTION: NON-OVERLAPPING ORBITAL HUB (6 PORTALS) -->
+        <section id="hub-section" class="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 py-28 relative">
+            <div class="text-center mb-10 z-20">
+                <span class="font-mono-tech text-xs tracking-[0.25em] uppercase px-3 py-1 rounded-full border border-[#c9a24b]/35 bg-[#07131e]/85 text-[#e3be68]" data-fr="SYNCHRONISATION COMPLÈTE // CHOISISSEZ VOTRE PORTAIL" data-en="SYNCHRONIZATION COMPLETE // SELECT YOUR PORTAL">
+                    SYNCHRONISATION COMPLÈTE // CHOISISSEZ VOTRE PORTAIL
+                </span>
+                <h2 class="font-display text-3xl sm:text-5xl font-bold cover-gold-text mt-3 tracking-wider" data-fr="HUB CENTRAL NAOS-9" data-en="NAOS-9 CENTRAL HUB">
+                    HUB CENTRAL NAOS-9
+                </h2>
+            </div>
+
+            <!-- Non-overlapping Responsive Grid (Mobile: 1 col | Tablet: 2 cols | Desktop: 3 cols framing NAOS-9 Core) -->
+            <div class="orbital-grid-desktop grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-6xl z-20">
+                
+                <!-- PORTAL 1: Acheter le Roman (Laurexa & La Commanderie) -->
+                <button type="button" onclick="openModal('roman')" class="orbital-node node-1 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
+                        <span>[ PORTAIL 01 // ÉDITION ]</span>
+                        <span class="group-hover:translate-x-0.5 transition-transform">◈</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Acheter le Roman" data-en="Buy the Novel">Acheter le Roman</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Commander sur Laurexa.be ou retrouver l'ouvrage à La Commanderie." data-en="Order on Laurexa.be or find the book at La Commanderie.">Commander sur Laurexa.be ou retrouver l'ouvrage à La Commanderie.</p>
+                </button>
+
+                <!-- PORTAL 6: Portail CT-Corp -->
+                <button type="button" onclick="openModal('ctcorp')" class="orbital-node node-6 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#3ba4c7]/45 h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
+                        <span>[ PORTAIL 06 // INTRANET ]</span>
+                        <span>⬡</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Portail CT-Corp" data-en="CT-Corp Portal">Portail CT-Corp</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Consulter le système officiel de Chrono-Tech Corporation." data-en="Consult the official system of Chrono-Tech Corporation.">Consulter le système officiel de Chrono-Tech Corporation.</p>
+                </button>
+
+                <!-- PORTAL 5: Réseau Echo Rouge -->
+                <button type="button" onclick="openModal('echorouge')" class="orbital-node node-5 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#d92b3a]/50 h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
+                        <span>[ PORTAIL 05 // RÉSISTANCE ]</span>
+                        <span>⚠</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Réseau Echo Rouge" data-en="Echo Rouge Network">Réseau Echo Rouge</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Accéder au terminal clandestin des insurgés du temps." data-en="Access the clandestine terminal of the time insurgents.">Accéder au terminal clandestin des insurgés du temps.</p>
+                </button>
+
+                <!-- Desktop Center Aperture (Keeps NAOS-9 Core clear between left & right columns) -->
+                <div class="hidden lg:block orbital-core-window" aria-hidden="true"></div>
+
+                <!-- PORTAL 2: Bande Originale (Streaming) -->
+                <button type="button" onclick="openModal('streaming')" class="orbital-node node-2 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
+                        <span>[ PORTAIL 02 // AUDIO 33 TRACKS ]</span>
+                        <span>♫</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Bande Originale" data-en="Original Soundtrack">Bande Originale</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital." data-en="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital.">Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital.</p>
+                </button>
+
+                <!-- PORTAL 3: App Mobile NAOS-9 -->
+                <a href="https://www.esclavesdutemps.be/naos/" target="_blank" rel="noopener noreferrer" class="orbital-node node-3 hud-panel hud-corners rounded-xl p-5 block group border-[#d92b3a]/45 h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
+                        <span>[ PORTAIL 03 // SMARTPHONE ]</span>
+                        <span class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="App Mobile NAOS-9" data-en="NAOS-9 Mobile App">App Mobile NAOS-9</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Télécharger et lancer l'IA compagnon sur votre smartphone." data-en="Download and launch the companion AI on your smartphone.">Télécharger et lancer l'IA compagnon sur votre smartphone.</p>
+                </a>
+
+                <!-- PORTAL 4: Contacter l'Auteur -->
+                <button type="button" onclick="openModal('contact')" class="orbital-node node-4 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
+                        <span>[ PORTAIL 04 // TRANSMISSION ]</span>
+                        <span>✉</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Contacter l'Auteur" data-en="Contact the Author">Contacter l'Auteur</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Transmission cryptée directe à Laurent Prestigiacomo." data-en="Direct encrypted transmission to Laurent Prestigiacomo.">Transmission cryptée directe à Laurent Prestigiacomo.</p>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- DEDICATED FOOTER MONOLITH: BIO-CHRONOLOGICAL TEMPORAL COMPRESSION CYCLE -->
+        <section id="temporal-compression-section" class="relative z-20 pt-10 pb-14 px-4 sm:px-8 lg:px-14 bg-gradient-to-b from-transparent via-[#03080e]/95 to-[#020509]">
+            <div class="max-w-6xl mx-auto">
+
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.22em] text-[#e3be68] uppercase mb-2">
+                            <span class="w-2 h-2 rounded-full bg-[#e88c30] animate-ping"></span>
+                            <span data-fr="MODULE D'ANOMALIE // COMPRESSION TEMPORELLE" data-en="ANOMALY MODULE // TEMPORAL COMPRESSION">MODULE D'ANOMALIE // COMPRESSION TEMPORELLE</span>
+                        </div>
+                        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wider" data-fr="CYCLE BIO-CHRONOLOGIQUE" data-en="BIO-CHRONOLOGICAL CYCLE">
+                            CYCLE BIO-CHRONOLOGIQUE
+                        </h2>
+                    </div>
+
+                    <!-- Top-Right Controls: Local File Loader + Auto Ping-Pong Toggle -->
+                    <div class="flex flex-wrap items-center gap-2.5 font-mono-tech text-xs">
+                        <label for="temporal-file-input" class="px-3 py-1.5 rounded-lg border border-[#c9a24b]/40 bg-[#07131e]/90 hover:bg-[#c9a24b]/20 text-[#e3be68] transition-all cursor-pointer flex items-center gap-1.5" title="Charger votre visuel panoramique depuis votre ordinateur">
+                            <span>📂</span>
+                            <span data-fr="CHARGER L'IMAGE LOCALE" data-en="LOAD LOCAL IMAGE">CHARGER L'IMAGE LOCALE</span>
+                        </label>
+                        <input id="temporal-file-input" type="file" accept="image/*" class="hidden">
+
+                        <button id="chrono-autoplay-btn" type="button" class="px-3 py-1.5 rounded-lg border border-[#3ba4c7]/50 bg-[#3ba4c7]/15 text-[#7ad7f0] hover:bg-[#3ba4c7]/30 transition-all cursor-pointer flex items-center gap-1.5">
+                            <span id="chrono-play-dot" class="w-2 h-2 rounded-full bg-[#7ad7f0] animate-pulse"></span>
+                            <span id="chrono-autoplay-label" data-fr="CYCLE AUTO: ON" data-en="AUTO CYCLE: ON">CYCLE AUTO: ON</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Panoramic Triptych Frame -->
+                <div id="chrono-frame" class="hud-panel hud-corners rounded-2xl overflow-hidden relative border-[#c9a24b]/35 shadow-[0_20px_60px_rgba(0,0,0,0.92)]">
+                    
+                    <!-- Top Telemetry Overlay inside Panoramic Viewport -->
+                    <div class="absolute top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 z-30 flex flex-wrap items-center justify-between gap-2 pointer-events-none font-mono-tech text-[10px] sm:text-xs">
+                        <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
+                            <span class="text-slate-400" data-fr="VECTEUR:" data-en="VECTOR:">VECTEUR:</span>
+                            <span id="chrono-direction-badge" class="text-[#e3be68] font-bold">GENÈSE ➔ ENTROPIE</span>
+                        </div>
+
+                        <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
+                            <span class="text-slate-400" data-fr="DÉRIVE:" data-en="DRIFT:">DÉRIVE:</span>
+                            <span id="chrono-year-readout" class="text-white font-bold">T ± 00 ANS</span>
+                        </div>
+                    </div>
+
+                    <!-- Panoramic Viewport Container -->
+                    <div class="relative w-full h-[270px] sm:h-[360px] md:h-[430px] lg:h-[480px] overflow-hidden bg-[#03080e] select-none">
+                        
+                        <!-- Moving Panoramic Image Layer -->
+                        <div id="chrono-pan-layer" class="w-full h-full will-change-transform origin-center">
+                            <img
+                                id="chrono-panoramic-img"
+                                src="assets/temporal-cycle.jpg"
+                                alt="Compression temporelle : Laurent Prestigiacomo enfant, actuel et âgé dans la salle des serveurs NAOS-9"
+                                class="w-full h-full object-cover object-center transition-filter duration-300"
+                            />
+                        </div>
+
+                        <!-- Dynamic Chrono-Lens Spotlight Vignette & Chromatic Aura -->
+                        <div id="chrono-lens-overlay" class="chrono-lens-glow absolute inset-0 z-10 pointer-events-none"></div>
+
+                        <!-- Vertical Luminous Temporal Scanner Beam -->
+                        <div id="chrono-scanner-beam" class="chrono-scanline-beam z-20"></div>
+
+                        <!-- Subtle Top & Bottom Abyssal Gradient Fades -->
+                        <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-[#03080e] to-transparent z-20 pointer-events-none"></div>
+                        <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#03080e] via-[#03080e]/75 to-transparent z-20 pointer-events-none"></div>
+
+                        <!-- Bottom-Left Era Caption Overlay -->
+                        <div class="absolute bottom-3 left-4 right-4 sm:bottom-5 sm:left-6 sm:right-6 z-30 flex flex-col sm:flex-row sm:items-end justify-between gap-2 pointer-events-none">
+                            <div>
+                                <div id="chrono-phase-code" class="font-mono-tech text-[11px] sm:text-xs font-bold tracking-[0.2em] text-[#7ad7f0] uppercase">
+                                    PHASE II // T ± 00 ANS — POINT D'ANCRAGE
+                                </div>
+                                <p id="chrono-phase-desc" class="text-xs sm:text-sm text-slate-200 max-w-xl mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]" data-fr="Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9." data-en="The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.">
+                                    Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Timeline Scrubber & 3-Era Quick Selector Footer -->
+                    <div class="bg-[#040a12]/95 border-t border-[#c9a24b]/25 px-4 sm:px-6 py-4">
+                        <div class="flex flex-col gap-3">
+                            <!-- Range Scrubber -->
+                            <div class="flex items-center gap-3">
+                                <span class="font-mono-tech text-[10px] text-[#e3be68] shrink-0">T - 44</span>
+                                <input
+                                    id="chrono-scrubber"
+                                    type="range"
+                                    min="0"
+                                    max="1000"
+                                    value="500"
+                                    aria-label="Curseur de compression temporelle"
+                                    class="chrono-scrubber w-full cursor-pointer"
+                                />
+                                <span class="font-mono-tech text-[10px] text-[#ff4d5e] shrink-0">T + 32</span>
+                            </div>
+
+                            <!-- 3 Clickable Era Buttons -->
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 font-mono-tech text-[10px] sm:text-xs">
+                                <button type="button" data-target-progress="0.16" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#c9a24b]/30 bg-[#c9a24b]/10 hover:bg-[#c9a24b]/25 text-[#e3be68] text-left transition-all cursor-pointer">
+                                    <span class="block font-bold">I. GENÈSE</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T - 44 ans (enfance)" data-en="T - 44 yrs (childhood)">T - 44 ans (enfance)</span>
+                                </button>
+
+                                <button type="button" data-target-progress="0.50" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#3ba4c7]/35 bg-[#3ba4c7]/10 hover:bg-[#3ba4c7]/25 text-[#7ad7f0] text-center transition-all cursor-pointer">
+                                    <span class="block font-bold">II. ANCRAGE</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T ± 00 ANS (PRÉSENT)" data-en="T ± 00 YRS (PRESENT)">T ± 00 ANS (PRÉSENT)</span>
+                                </button>
+
+                                <button type="button" data-target-progress="0.84" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#d92b3a]/35 bg-[#d92b3a]/10 hover:bg-[#d92b3a]/25 text-[#ff4d5e] text-right transition-all cursor-pointer">
+                                    <span class="block font-bold">III. ENTROPIE</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T + 32 ANS (SÉNESCENCE)" data-en="T + 32 YRS (FUTURE)">T + 32 ANS (SÉNESCENCE)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Minimal Copyright Footer -->
+                <footer class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono-tech text-[11px] text-slate-500">
+                    <p>© <span id="year"></span> ESCLAVES DU TƎMPS — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
+                    <p class="text-slate-600">PROTOCOLE NAOS-9 // SYSTÈME DE COMPRESSION TEMPORELLE ACTIF</p>
+                </footer>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UNIVERSAL INTERACTIVE MODAL -->
+    <div id="portal-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="hud-panel hud-corners rounded-2xl max-w-md w-full p-6 sm:p-8 relative border-[#c9a24b]/35">
+            <button type="button" onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c9a24b]/20 flex items-center justify-center font-mono-tech text-sm text-[#e3be68] cursor-pointer">✕</button>
+            <div id="modal-tag" class="font-mono-tech text-xs text-[#7ad7f0] mb-2">[ TRANSMISSION ]</div>
+            <h3 id="modal-title" class="font-display text-xl sm:text-2xl font-bold text-[#e3be68] mb-3">Titre</h3>
+            <div id="modal-body" class="text-sm text-slate-300 space-y-4"></div>
+        </div>
     </div>
-    <a class="scroll-cue" href="#pitch" aria-label="Découvrir le roman">&#9662;</a>
-  </header>
 
-  <!-- ============ PITCH ============ -->
-  <section id="pitch" class="band">
-    <p class="pitch-lead">2034. <em>CT Corp</em> a appris à comprimer le temps : vivre des semaines de labeur en quelques heures réelles, vieillir dans l'ombre pendant que le monde reste figé. Vendu comme une utopie de productivité&nbsp;— en réalité, une humanité dépossédée de son présent.</p>
-    <p class="pitch-body">Trois trajectoires s'y croisent : <strong>Kael</strong>, l'adolescent des zones grises de Lyon qui vend son temps ; <strong>Sena</strong>, hacktiviste du réseau de résistance Écho Rouge ; <strong>NAOS-9</strong>, l'intelligence de surveillance qui se met à ressentir.</p>
-    <p class="pitch-line">Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?</p>
-    <p class="comps">Au croisement de <em>Dune</em>, <em>Ghost in the Shell</em> &amp; <em>Black Mirror</em></p>
-  </section>
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-  <!-- ============ LE ROMAN ============ -->
-  <section id="prevenir" class="band">
-    <h2 class="band-title">Le roman</h2>
-    <a href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener" class="book-mockup-link" aria-label="Acheter le livre — Éditions 3Cinq7">
-      <img src="assets/img/Roman_Mockup.png" alt="Couverture du roman Esclaves du Temps" class="book-mockup" loading="lazy">
-    </a>
-    <div class="secondary-actions">
-      <a class="btn primary" href="prologue.html">Lire le prologue</a>
-      <a class="btn ghost" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">Acheter le livre</a>
-    </div>
-  </section>
+        /* ==========================================================================
+           0. CONFIGURATION SOUNDCLOUD (33 PISTES OFFICIELLES ESCLAVES DU TEMPS)
+           ========================================================================== */
+        const SOUNDCLOUD_PLAYLIST_URL = 'https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande';
 
-  <!-- ============ BANDE ORIGINALE ============ -->
-  <section class="band bo-band">
-    <p class="bo-line">Le roman a une bande-son.</p>
-    <p class="bo-sub">33 morceaux composés par l'auteur, chapitre par chapitre. Pas une illustration&nbsp;: une couche de plus du texte.</p>
-    <a class="btn music-btn" href="bande-originale.html">&#9658; Écouter la bande-originale</a>
-  </section>
+        let SOUNDTRACK_TRACKS = [
+            { title: "Prologue", url: "https://soundcloud.com/laurent-prestigiacomo/prologue-1" },
+            { title: "Chapitre 1: La Graine et le Fleuve", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-01-la-graine-et-le-fleuve-2" },
+            { title: "Chapitre 2: La Fugue de la Machine", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3" },
+            { title: "Chapitre 3: Le Gardien des Cendres", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-03-le-gardien-des-cendres-4" },
+            { title: "Chapitre 4: Le Protocole Mironen", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-04-le-protocole-mironen-5" },
+            { title: "Chapitre 5: Écho Rouge", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-05-echo-rouge-6" },
+            { title: "Chapitre 6: Un Langage de Symboles", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-06-un-langage-de-symboles-7" },
+            { title: "Chapitre 7: Variables Non Contrôlées", url: "https://soundcloud.com/laurent-prestigiacomo/08-chapitre-07-variables-non-controlees-8" },
+            { title: "Chapitre 8: L'Observateur Silencieux", url: "https://soundcloud.com/laurent-prestigiacomo/hapitre-08-lobservateur-silencieux-9" },
+            { title: "Chapitre 9: Défaillance Cascade", url: "https://soundcloud.com/laurent-prestigiacomo/hapitre-09-defaillance-cascade-10" },
+            { title: "Chapitre 10: L'Éveil", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-10-leveil-11" },
+            { title: "Chapitre 11: Le Feu Étranger", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-11-le-feu-etranger-12" },
+            { title: "Chapitre 12: Les Deux Fois", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-12-les-deux-fois-13" },
+            { title: "Chapitre 13: Le Fantôme d'Orpheus", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-13-le-fantome-dorpheus-14" },
+            { title: "Chapitre 14: Le Complot des Trois Volets", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-14-le-complot-des-trois-volets-15" },
+            { title: "Chapitre 15: L'Œil du Spectre", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-15-loeil-du-spectre-16" },
+            { title: "Chapitre 16: Le Murmure des Symboles", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-16-le-murmure-des-symboles-17" },
+            { title: "Chapitre 17: Le Souffle Suspendu", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-17-le-souffle-suspendu_mastered-18" },
+            { title: "Chapitre 18: L'Offrande au Feu", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-18-loffrande-au-feu_mastered-19" },
+            { title: "Chapitre 19: Trois Fronts, une Seule Nuit", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-19-trois-fronts-une-seule-nuit-20" },
+            { title: "Chapitre 20: Le Prix de la Liberté", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-20-le-prix-de-la-liberte-21" },
+            { title: "Interlude: Le Rite des Origines Inconnues", url: "https://soundcloud.com/laurent-prestigiacomo/interlude-le-rite-des-origines-inconnues-22" },
+            { title: "Chapitre 21: Le Sanctuaire de l'Amante Timide", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-21-le-sanctuaire-de-lamante-timide-23" },
+            { title: "Chapitre 22: Calcination", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-22-calcination-24" },
+            { title: "Chapitre 23: Dissolution", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-23-dissolution-25" },
+            { title: "Chapitre 24: Séparation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-24-separation-26" },
+            { title: "Chapitre 25: Conjonction", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-25-conjonction-27" },
+            { title: "Chapitre 26: Fermentation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-26-fermentation-28" },
+            { title: "Chapitre 27: Distillation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-27-distillation-29" },
+            { title: "Chapitre 28: Coagulation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-28-coagulation-30" },
+            { title: "Chapitre 29: Sublimation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-29-sublimation-31" },
+            { title: "Chapitre 30: Précipitation", url: "https://soundcloud.com/laurent-prestigiacomo/chapitre-30-precipitation-32" },
+            { title: "Épilogue", url: "https://soundcloud.com/laurent-prestigiacomo/epilogue-33" }
+        ];
 
-  <!-- ============ SEUIL : ENTRER DANS LE MONDE ============ -->
-  <section id="monde" class="band seuil">
-    <div class="seuil-head">
-      <div class="eyebrow">Pour qui veut plonger</div>
-      <h2 class="band-title">Entrer dans le monde</h2>
-      <p class="band-sub">Au-delà du livre, l'aventure se prolonge en ligne&nbsp;: le portail officiel de CT Corp, le réseau clandestin Écho Rouge, l'univers sonore. La continuation, pour qui veut plus.</p>
-    </div>
+        /* ==========================================================================
+           1. BILINGUAL SYSTEM (FR / EN)
+           ========================================================================== */
+        let currentLang = 'fr';
+        const langToggleBtn = document.getElementById('lang-toggle-btn');
+        const langFrLabel = document.getElementById('lang-fr');
+        const langEnLabel = document.getElementById('lang-en');
 
-    <!-- 4 PORTAILS (existants) -->
-    <div id="portals">
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
 
-      <!-- 1. Editeur -->
-      <a class="portal-card card-editor" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">
-        <div class="card-num">01 / ACCÈS</div>
-        <div class="card-icon">📖</div>
-        <div class="card-title">Acquérir le roman</div>
-        <div class="card-desc">Éditions 3Cinq7<br>Version papier &amp; (bientôt) numérique</div>
-        <div class="card-cta">Lire →</div>
-      </a>
+            if (lang === 'fr') {
+                langFrLabel.classList.add('text-[#00f0ff]');
+                langFrLabel.classList.remove('text-white/50');
+                langEnLabel.classList.remove('text-[#00f0ff]');
+                langEnLabel.classList.add('text-white/50');
+            } else {
+                langEnLabel.classList.add('text-[#00f0ff]');
+                langEnLabel.classList.remove('text-white/50');
+                langFrLabel.classList.remove('text-[#00f0ff]');
+                langFrLabel.classList.add('text-white/50');
+            }
 
-      <!-- 2. Bande-son -->
-      <div class="portal-card card-music" onclick="openMusic()" style="cursor:pointer">
-        <div class="card-num">02 / ACCÈS</div>
-        <div class="card-icon">🎵</div>
-        <div class="card-title">Bande Originale</div>
-        <div class="card-desc">L'univers sonore d'Esclaves du Temps<br>Disponible sur vos plateformes de streaming préférées</div>
-        <div class="card-cta">Écouter →</div>
-      </div>
+            document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) {
+                    el.textContent = text;
+                    if (el.hasAttribute('data-text')) {
+                        el.setAttribute('data-text', text);
+                    }
+                }
+            });
+        }
 
-      <!-- 3. CT Corp -->
-      <a class="portal-card card-ctcorp" href="ctcorp-prototype.html" target="_blank" rel="noopener" onclick="return ctcorpEnter(event);">
-        <div class="card-num">03 / ACCÈS</div>
-        <div class="card-icon">⏱</div>
-        <div class="card-title">CT Corp<br>Portail Officiel</div>
-        <div class="card-desc">Le Temps est notre Matière Première.<br>Vous êtes notre Investissement.</div>
-        <div class="card-cta">Entrer →</div>
-      </a>
+        langToggleBtn.addEventListener('click', () => {
+            setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+        });
 
-      <!-- 4. Echo Rouge -->
-      <div class="portal-card card-echo" onclick="echoEnter()">
-        <div class="card-num">04 / ACCÈS RESTREINT</div>
-        <div class="card-icon">🔴</div>
-        <div class="card-title">Écho Rouge<br>Réseau Clandestin</div>
-        <div class="card-desc">Nœud TOR chiffré.<br>Authentification requise.</div>
-        <div class="card-cta">Rejoindre →</div>
-      </div>
+        /* ==========================================================================
+           2. SOUNDCLOUD WIDGET API PLAYER (VISIBLE DRAWER + 33 TRACKS + SELF-TEST)
+           ========================================================================== */
+        let scWidget = null;
+        let scReady = false;
+        let scPlaylistMode = false;
+        let scPlaylistCount = 0;
+        let isAudioPlaying = false;
+        let isShuffle = false;
+        let currentTrackIndex = 0;
 
-    </div>
-  </section>
+        const audioBtn = document.getElementById('audio-toggle-btn');
+        const scPlayIcon = document.getElementById('sc-play-icon');
+        const scPauseIcon = document.getElementById('sc-pause-icon');
+        const scPrevBtn = document.getElementById('sc-prev-btn');
+        const scNextBtn = document.getElementById('sc-next-btn');
+        const scShuffleBtn = document.getElementById('sc-shuffle-btn');
+        const scShuffleLabel = document.getElementById('sc-shuffle-label');
+        const scTrackTitleEl = document.getElementById('sc-track-title');
+        const eqContainer = document.getElementById('eq-container');
 
-  <!-- FOOTER -->
-  <div id="footer">
-    © 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction
-  </div>
+        const scDrawer = document.getElementById('sc-player-drawer');
+        const scDrawerToggleBtn = document.getElementById('sc-drawer-toggle-btn');
+        const scDrawerCloseBtn = document.getElementById('sc-drawer-close-btn');
+        const scIframeHost = document.getElementById('sc-iframe-host');
+        const scWidgetStatus = document.getElementById('sc-widget-status');
+        const scTrackSelect = document.getElementById('sc-track-select');
+        const scDiagLog = document.getElementById('sc-diag-log');
+        const scRunTestBtn = document.getElementById('sc-run-test-btn');
+        const scCsvInput = document.getElementById('sc-csv-input');
 
-</div>
+        function populateTrackDropdown() {
+            scTrackSelect.innerHTML = '';
+            SOUNDTRACK_TRACKS.forEach((track, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${String(idx + 1).padStart(2, '0')}. ${track.title}`;
+                scTrackSelect.appendChild(opt);
+            });
+            scTrackSelect.value = currentTrackIndex;
+        }
+        populateTrackDropdown();
 
-<!-- DISCLAIMER — AVANT CT CORP / ÉCHO ROUGE -->
-<div id="disclaimer-overlay" role="dialog" aria-modal="true" aria-labelledby="disclaimer-head">
-  <div class="disclaimer-modal">
-    <div class="disclaimer-head" id="disclaimer-head">// Accès aux profondeurs — avertissement</div>
-    <p class="disclaimer-text">Descendre dans les entrailles de la terre, c'est risquer d'y découvrir plus que tu n'étais venu chercher. Lecteur, tu ne trouveras pas ici les réponses — seulement de quoi t'en gâcher la découverte. Si tu n'as pas déjà plongé dans les pages du roman, ouvre ces portes en toute connaissance de cause.</p>
-    <div class="disclaimer-actions">
-      <button type="button" class="disclaimer-btn" onclick="disclaimerContinue()">Continuer</button>
-      <button type="button" class="disclaimer-btn ghost" onclick="disclaimerBack()">Retour</button>
-    </div>
-  </div>
-</div>
+        function updateTrackTitleDisplay(title) {
+            if (!title) return;
+            const formatted = `♫ ${title.toUpperCase()} — ESCLAVES DU TEMPS (OST)`;
+            scTrackTitleEl.removeAttribute('data-fr');
+            scTrackTitleEl.removeAttribute('data-en');
+            scTrackTitleEl.textContent = formatted;
+        }
 
-<script>
-(function(){
-  var KEY = 'edt_disclaimer_ack';
-  var pending = null;
-  function acknowledged(){ try { return sessionStorage.getItem(KEY) === '1'; } catch(e){ return false; } }
-  function remember(){ try { sessionStorage.setItem(KEY, '1'); } catch(e){} }
-  function overlay(){ return document.getElementById('disclaimer-overlay'); }
-  function show(action){ pending = action; overlay().classList.add('active'); }
-  window.disclaimerContinue = function(){ remember(); overlay().classList.remove('active'); var a = pending; pending = null; if (a) a(); };
-  window.disclaimerBack = function(){ overlay().classList.remove('active'); pending = null; };
-  // CT Corp (lien <a>) : disclaimer une fois par session, puis navigation normale.
-  window.ctcorpEnter = function(e){
-    if (acknowledged()) return true;
-    if (e && e.preventDefault) e.preventDefault();
-    show(function(){ window.open('ctcorp-prototype.html', '_blank', 'noopener'); });
-    return false;
-  };
-  // Écho Rouge : disclaimer puis ouverture de la modale d'authentification.
-  window.echoEnter = function(){
-    if (acknowledged()) { openEcho(); return; }
-    show(function(){ openEcho(); });
-  };
-})();
-</script>
+        function syncPlayUI(playing) {
+            isAudioPlaying = playing;
+            if (playing) {
+                scPlayIcon.classList.add('hidden');
+                scPauseIcon.classList.remove('hidden');
+                eqContainer.classList.add('audio-playing');
+            } else {
+                scPlayIcon.classList.remove('hidden');
+                scPauseIcon.classList.add('hidden');
+                eqContainer.classList.remove('audio-playing');
+            }
+        }
 
-<!-- ÉCHO ROUGE — MODAL CODENAME -->
-<div id="echo-overlay">
-  <div class="echo-modal">
-    <div class="echo-logo">ÉCHO<br>ROUGE</div>
-    <div class="echo-sub">RÉSEAU DE RÉSISTANCE TEMPORELLE // NŒUD LYON-7</div>
+        function setDrawerOpen(open) {
+            if (open) {
+                scDrawer.classList.remove('hidden');
+                scDrawerToggleBtn.textContent = 'SC ▲';
+            } else {
+                scDrawer.classList.add('hidden');
+                scDrawerToggleBtn.textContent = 'SC ▼';
+            }
+        }
 
-    <div class="echo-prompt">// Connexion TOR établie. Authentification requise.<br>// Entrez votre nom de code :</div>
+        scDrawerToggleBtn.addEventListener('click', () => {
+            setDrawerOpen(scDrawer.classList.contains('hidden'));
+        });
+        scDrawerCloseBtn.addEventListener('click', () => setDrawerOpen(false));
 
-    <div class="echo-error" id="echo-err">⚠ Nom de code invalide. Minimum 3 caractères.</div>
+        // Real visible SoundCloud iframe inside drawer so browsers authorize HTML5 audio playback
+        const scIframe = document.createElement('iframe');
+        scIframe.id = 'sc-active-widget';
+        scIframe.width = '100%';
+        scIframe.height = '166';
+        scIframe.scrolling = 'no';
+        scIframe.frameBorder = 'no';
+        scIframe.allow = 'autoplay; encrypted-media';
+        scIframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_PLAYLIST_URL)}&color=%23c9a24b&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false`;
+        scIframeHost.appendChild(scIframe);
 
-    <div class="echo-field">
-      <input type="text" id="echo-input" placeholder="NOM_DE_CODE_HACKEUR" autocomplete="off"
-        onkeydown="if(event.key==='Enter')enterEcho()"
-        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')">
-      <button class="echo-btn" onclick="enterEcho()">VALIDER</button>
-    </div>
+        function loadTrackByIndex(index, autoPlay = true) {
+            if (SOUNDTRACK_TRACKS.length === 0) return;
+            currentTrackIndex = ((index % SOUNDTRACK_TRACKS.length) + SOUNDTRACK_TRACKS.length) % SOUNDTRACK_TRACKS.length;
+            scTrackSelect.value = currentTrackIndex;
+            const track = SOUNDTRACK_TRACKS[currentTrackIndex];
+            updateTrackTitleDisplay(track.title);
 
-    <div class="echo-warning">
-      Ce nœud est surveillé par Kassandra.<br>
-      Votre empreinte temporelle est consignée à chaque tentative.<br>
-      En accédant à ce réseau, vous devenez un agent de la Résistance.
-    </div>
+            if (scWidget && scReady) {
+                if (scPlaylistMode && currentTrackIndex < scPlaylistCount) {
+                    scWidget.skip(currentTrackIndex);
+                    if (autoPlay) scWidget.play();
+                } else {
+                    scWidget.load(track.url, {
+                        auto_play: autoPlay,
+                        color: '#c9a24b',
+                        hide_related: true,
+                        show_comments: false,
+                        show_user: true,
+                        show_reposts: false,
+                        show_teaser: false,
+                        visual: false,
+                        callback: () => {
+                            if (autoPlay) scWidget.play();
+                        }
+                    });
+                }
+            }
+        }
 
-    <button class="echo-cancel" onclick="closeEcho()">[ ANNULER — QUITTER CE NŒUD ]</button>
-  </div>
-</div>
+        function initSoundCloudWidget() {
+            if (typeof SC === 'undefined' || !SC.Widget) {
+                scWidgetStatus.textContent = '⚠ API SOUNDCLOUD HORS-LIGNE';
+                scWidgetStatus.className = 'text-[#ff4d5e]';
+                scDiagLog.textContent = 'Impossible de joindre w.soundcloud.com/player/api.js (bloqueur de contenu ou hors-ligne).';
+                return;
+            }
 
-<script>
-function openEcho() {
-  document.getElementById('echo-overlay').classList.add('active');
-  setTimeout(() => document.getElementById('echo-input').focus(), 100);
-}
-function closeEcho() {
-  document.getElementById('echo-overlay').classList.remove('active');
-  document.getElementById('echo-input').value = '';
-  document.getElementById('echo-err').classList.remove('visible');
-}
-function enterEcho() {
-  const val = document.getElementById('echo-input').value.trim();
-  const err = document.getElementById('echo-err');
-  if (val.length < 3) {
-    err.classList.add('visible');
-    return;
-  }
-  err.classList.remove('visible');
-  // Store codename and open echo rouge site
-  sessionStorage.setItem('er_codename', val);
-  window.open('echo-rouge-v2.html?agent=' + encodeURIComponent(val), '_blank');
-  closeEcho();
-}
-</script>
+            try {
+                scWidget = SC.Widget(scIframe);
 
-<!-- MUSIC MODAL -->
-<div id="music-overlay" onclick="if(event.target===this)closeMusic()">
-  <div class="music-title">Bande Originale — Esclaves du Temps</div>
+                scWidget.bind(SC.Widget.Events.READY, () => {
+                    scReady = true;
+                    scWidgetStatus.textContent = '● LECTEUR SOUNDCLOUD CONNECTÉ';
+                    scWidgetStatus.className = 'text-[#7ad7f0]';
 
-  <div class="music-platforms">
+                    // Piste-à-piste : la liste officielle (33 titres, = CSV) fait foi ; le set SoundCloud n'en expose que quelques-uns.
+                    scPlaylistMode = false;
+                    scDiagLog.textContent = `✓ ${SOUNDTRACK_TRACKS.length} pistes prêtes. Cliquez sur ▶ ou « TEST AUDIO ».`;
+                    loadTrackByIndex(0, false);
+                });
 
-    <!-- Spotify -->
-    <a class="platform-btn" href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener" title="Spotify">
-      <div class="platform-logo" style="background:#1DB954;box-shadow:0 0 40px rgba(29,185,84,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-        </svg>
-      </div>
-      <div class="platform-label">Spotify</div>
-    </a>
+                scWidget.bind(SC.Widget.Events.PLAY, () => {
+                    syncPlayUI(true);
+                    scWidget.getCurrentSound((sound) => {
+                        if (sound && sound.title) {
+                            updateTrackTitleDisplay(sound.title);
+                            let matchedIdx = SOUNDTRACK_TRACKS.findIndex(t => sound.permalink_url && t.url === sound.permalink_url);
+                            if (matchedIdx < 0) matchedIdx = SOUNDTRACK_TRACKS.findIndex(t => t.title.toLowerCase().endsWith(sound.title.toLowerCase()));
+                            if (matchedIdx >= 0) {
+                                currentTrackIndex = matchedIdx;
+                                scTrackSelect.value = matchedIdx;
+                            }
+                        }
+                    });
+                });
 
-    <!-- Apple Music -->
-    <a class="platform-btn" href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener" title="Apple Music">
-      <div class="platform-logo" style="background:linear-gradient(135deg,#FC5C7D,#6A3093);box-shadow:0 0 40px rgba(252,92,125,0.35)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A5.494 5.494 0 00.06 4.97C.027 5.29 0 5.61 0 5.93v12.141c.01.172.017.345.026.518.06 1.13.322 2.187.932 3.117A4.964 4.964 0 003.2 23.48a7.026 7.026 0 002.023.42c.588.048 1.18.065 1.77.065h12.214c.57 0 1.14-.022 1.71-.065a6.86 6.86 0 001.948-.407 4.96 4.96 0 002.258-1.862c.63-.963.878-2.04.925-3.18.033-.316.042-.635.042-.952V6.18a.858.858 0 00-.096-.056zM12 18.062a5.563 5.563 0 11.001-11.126A5.563 5.563 0 0112 18.062zm5.792-10.07a1.297 1.297 0 110-2.595 1.297 1.297 0 010 2.595zM12 8.418a3.582 3.582 0 100 7.164 3.582 3.582 0 000-7.164z"/>
-        </svg>
-      </div>
-      <div class="platform-label">Apple Music</div>
-    </a>
+                scWidget.bind(SC.Widget.Events.PAUSE, () => {
+                    syncPlayUI(false);
+                });
 
-    <!-- Amazon Music -->
-    <a class="platform-btn" href="https://www.amazon.com/Prologue/dp/B0GZ15KLFS" target="_blank" rel="noopener" title="Amazon Music">
-      <div class="platform-logo" style="background:#00A8E0;box-shadow:0 0 40px rgba(0,168,224,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/>
-        </svg>
-      </div>
-      <div class="platform-label">Amazon Music</div>
-    </a>
+                scWidget.bind(SC.Widget.Events.ERROR, () => {
+                    if (scPlaylistMode) {
+                        scPlaylistMode = false;
+                        scDiagLog.textContent = '↻ Bascule automatique sur l’URL individuelle du titre...';
+                        loadTrackByIndex(currentTrackIndex, isAudioPlaying);
+                    } else {
+                        scDiagLog.textContent = `⚠ Piste inaccessible sur SoundCloud (${SOUNDTRACK_TRACKS[currentTrackIndex]?.title}). Cliquez sur « CSV » pour charger votre fichier.`;
+                    }
+                });
 
-    <!-- YouTube Music -->
-    <a class="platform-btn" href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener" title="YouTube Music">
-      <div class="platform-logo" style="background:#FF0000;box-shadow:0 0 40px rgba(255,0,0,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm-1.44 15.6L8.16 17.28V6.72l2.4 1.68 4.8 3.36-4.8 3.84z"/>
-          <path d="M23.495 6.205a3.028 3.028 0 0 0-2.13-2.13C19.62 3.5 12 3.5 12 3.5s-7.62 0-9.365.575a3.028 3.028 0 0 0-2.13 2.13C0 8.048 0 12 0 12s0 3.952.505 5.795a3.028 3.028 0 0 0 2.13 2.13C4.38 20.5 12 20.5 12 20.5s7.62 0 9.365-.575a3.028 3.028 0 0 0 2.13-2.13C24 15.952 24 12 24 12s0-3.952-.505-5.795zM9.546 15.569V8.431L15.818 12l-6.272 3.569z"/>
-        </svg>
-      </div>
-      <div class="platform-label">YouTube Music</div>
-    </a>
+                scWidget.bind(SC.Widget.Events.FINISH, () => {
+                    const nextIdx = isShuffle && SOUNDTRACK_TRACKS.length > 1
+                        ? Math.floor(Math.random() * SOUNDTRACK_TRACKS.length)
+                        : (currentTrackIndex + 1) % SOUNDTRACK_TRACKS.length;
+                    loadTrackByIndex(nextIdx, true);
+                });
+            } catch (err) {
+                scReady = false;
+                scWidgetStatus.textContent = '⚠ ERREUR WIDGET SOUNDCLOUD';
+                scWidgetStatus.className = 'text-[#ff4d5e]';
+                scDiagLog.textContent = `Erreur d'initialisation : ${err.message}`;
+            }
+        }
 
-    <!-- Deezer -->
-    <a class="platform-btn" href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener" title="Deezer">
-      <div class="platform-logo" style="background:#A238FF;box-shadow:0 0 40px rgba(162,56,255,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/>
-        </svg>
-      </div>
-      <div class="platform-label">Deezer</div>
-    </a>
+        if (typeof SC !== 'undefined') {
+            initSoundCloudWidget();
+        } else {
+            window.addEventListener('load', initSoundCloudWidget);
+        }
 
-    <!-- SoundCloud -->
-    <a class="platform-btn" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener" title="SoundCloud">
-      <div class="platform-logo" style="background:#FF5500;box-shadow:0 0 40px rgba(255,85,0,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/>
-        </svg>
-      </div>
-      <div class="platform-label">SoundCloud</div>
-    </a>
+        audioBtn.addEventListener('click', () => {
+            setDrawerOpen(true);
+            if (scWidget && scReady) {
+                scWidget.toggle();
+            } else {
+                scDiagLog.textContent = '⏳ Connexion au lecteur SoundCloud en cours, cliquez directement sur ▶ dans le lecteur ci-dessus.';
+            }
+        });
 
-    <!-- Anghami -->
-    <a class="platform-btn" href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener" title="Anghami">
-      <div class="platform-logo" style="background:#E21E5C;box-shadow:0 0 40px rgba(226,30,92,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 19.5a7.5 7.5 0 110-15 7.5 7.5 0 010 15zm0-13a5.5 5.5 0 100 11 5.5 5.5 0 000-11zm0 9a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm0-5.5a2 2 0 100 4 2 2 0 000-4z"/>
-        </svg>
-      </div>
-      <div class="platform-label">Anghami</div>
-    </a>
+        scPrevBtn.addEventListener('click', () => {
+            const prevIdx = isShuffle && SOUNDTRACK_TRACKS.length > 1
+                ? Math.floor(Math.random() * SOUNDTRACK_TRACKS.length)
+                : (currentTrackIndex - 1 + SOUNDTRACK_TRACKS.length) % SOUNDTRACK_TRACKS.length;
+            loadTrackByIndex(prevIdx, true);
+        });
 
-    <!-- 7digital -->
-    <a class="platform-btn" href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener" title="7digital">
-      <div class="platform-logo" style="background:#E2001A;box-shadow:0 0 40px rgba(226,0,26,0.4)">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1.5 17h-2V9.5H9V8h4.5V17zm2-9a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
-          <text x="6" y="16" font-family="Arial" font-weight="bold" font-size="9" fill="white">7</text>
-        </svg>
-      </div>
-      <div class="platform-label">7digital</div>
-    </a>
+        scNextBtn.addEventListener('click', () => {
+            const nextIdx = isShuffle && SOUNDTRACK_TRACKS.length > 1
+                ? Math.floor(Math.random() * SOUNDTRACK_TRACKS.length)
+                : (currentTrackIndex + 1) % SOUNDTRACK_TRACKS.length;
+            loadTrackByIndex(nextIdx, true);
+        });
 
-  </div>
+        scTrackSelect.addEventListener('change', (e) => {
+            const idx = parseInt(e.target.value, 10);
+            if (!isNaN(idx)) {
+                loadTrackByIndex(idx, true);
+            }
+        });
 
-  <button class="music-close" onclick="closeMusic()">[ Fermer ]</button>
-</div>
+        scShuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            if (isShuffle) {
+                scShuffleBtn.classList.remove('text-slate-400', 'border-white/10');
+                scShuffleBtn.classList.add('text-[#e3be68]', 'border-[#c9a24b]/60', 'bg-[#c9a24b]/15');
+                scShuffleLabel.setAttribute('data-fr', 'ALÉAT: ON');
+                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: ON');
+            } else {
+                scShuffleBtn.classList.add('text-slate-400', 'border-white/10');
+                scShuffleBtn.classList.remove('text-[#e3be68]', 'border-[#c9a24b]/60', 'bg-[#c9a24b]/15');
+                scShuffleLabel.setAttribute('data-fr', 'ALÉAT: OFF');
+                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: OFF');
+            }
+            setLanguage(currentLang);
+        });
 
-<script>
-function openMusic() {
-  document.getElementById('music-overlay').classList.add('active');
-}
-function closeMusic() {
-  document.getElementById('music-overlay').classList.remove('active');
-}
-</script>
-<!--i18n:js-->
-<script src="assets/js/lang-switch.js" defer></script>
-<!--/i18n:js-->
+        // CSV Loader for esclaves-du-temps-bande-originale.csv
+        scCsvInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const rawText = String(ev.target.result || '');
+                const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+                const parsed = [];
+
+                lines.forEach((line, idx) => {
+                    const urlMatch = line.match(/https?:\/\/[^\s;,"']+/i);
+                    if (!urlMatch) return;
+                    const url = urlMatch[0];
+                    if (idx === 0 && !url.includes('soundcloud.com')) return;
+
+                    const sep = line.includes(';') ? ';' : ',';
+                    const cols = line.split(sep).map(c => c.replace(/^["']|["']$/g, '').trim());
+                    const titleCol = cols.find(c => c && !c.startsWith('http') && isNaN(Number(c)));
+                    const slugTitle = url.split('/').filter(Boolean).pop().replace(/-/g, ' ');
+                    parsed.push({
+                        title: titleCol || slugTitle || `Piste ${parsed.length + 1}`,
+                        url
+                    });
+                });
+
+                if (parsed.length > 0) {
+                    SOUNDTRACK_TRACKS = parsed;
+                    scPlaylistMode = false;
+                    populateTrackDropdown();
+                    loadTrackByIndex(0, true);
+                    scDiagLog.textContent = `✓ CSV importé : ${parsed.length} URLs SoundCloud chargées et actives.`;
+                } else {
+                    scDiagLog.textContent = '⚠ Aucune URL valide trouvée dans ce fichier CSV.';
+                }
+            };
+            reader.readAsText(file, 'UTF-8');
+        });
+
+        // Built-in Automated Player Diagnostic Test
+        scRunTestBtn.addEventListener('click', () => {
+            setDrawerOpen(true);
+            const checks = [
+                typeof SC !== 'undefined' ? 'API SC: OK' : 'API SC: ABSENTE',
+                scReady ? 'Widget: PRÊT' : 'Widget: EN ATTENTE',
+                `Pistes: ${SOUNDTRACK_TRACKS.length}`,
+                `Aléatoire: ${isShuffle ? 'ON' : 'OFF'}`
+            ];
+            scDiagLog.textContent = `[TEST] ${checks.join(' | ')} — Vérification de lecture...`;
+
+            if (scWidget && scReady) {
+                loadTrackByIndex(currentTrackIndex, true);
+                setTimeout(() => {
+                    scWidget.isPaused((paused) => {
+                        scDiagLog.textContent = paused
+                            ? `[TEST] Widget prêt (cliquez sur ▶ dans le lecteur SoundCloud ci-dessus pour autoriser l'audio).`
+                            : `[TEST RÉUSSI] Lecture audio active : "${SOUNDTRACK_TRACKS[currentTrackIndex].title}".`;
+                    });
+                }, 1200);
+            }
+        });
+
+        /* ==========================================================================
+           3. SHARED SIMULATION STATE & BOOK COVER COLOR INTERPOLATION
+           ========================================================================== */
+        const state = {
+            scrollProgress: 0,
+            scrollY: 0,
+            corruption: 0,
+            coreRadius: 95,
+            ringExpansion: 1,
+            waveAmplitude: 0,
+            jitter: 0,
+            hubEquilibrium: 0
+        };
+
+        const mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000 };
+        window.addEventListener('mousemove', (e) => {
+            mouse.targetX = e.clientX;
+            mouse.targetY = e.clientY;
+        }, { passive: true });
+        window.addEventListener('mouseleave', () => {
+            mouse.targetX = -1000;
+            mouse.targetY = -1000;
+        });
+
+        function getInterpolatedColor(t, alpha = 1, mode = 'tech') {
+            if (mode === 'gold') {
+                const r = Math.round(201 + (217 - 201) * t);
+                const g = Math.round(162 + (43 - 162) * t);
+                const b = Math.round(75 + (58 - 75) * t);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+            const r = Math.round(59 + (217 - 59) * t);
+            const g = Math.round(164 + (43 - 164) * t);
+            const b = Math.round(199 + (58 - 199) * t);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        /* ==========================================================================
+           4. HYBRID EVOLVING BACKGROUND ENGINE (COVER PCB -> NEURAL SYNAPSES)
+           ========================================================================== */
+        const bgCanvas = document.getElementById('bg-neural-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        let bgWidth, bgHeight;
+        let bgNodes = [];
+        let bgEdges = [];
+        let dataPulses = [];
+        let amberSparks = [];
+
+        function buildHybridTopology() {
+            bgNodes = [];
+            bgEdges = [];
+            dataPulses = [];
+            amberSparks = [];
+
+            const spacing = bgWidth < 640 ? 95 : 125;
+            const cols = Math.ceil(bgWidth / spacing) + 2;
+            const rows = Math.ceil(bgHeight / spacing) + 3;
+
+            const labels = ['SYS_01', 'BUS_A9', 'CLK_XII', 'MEM_0X', 'SYN_07', 'CT_NET', 'IO_88', 'TMP_00'];
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const baseX = (c - 0.5) * spacing;
+                    const baseY = (r - 0.5) * spacing;
+                    const angle = Math.random() * Math.PI * 2;
+                    const driftDist = 25 + Math.random() * 48;
+
+                    bgNodes.push({
+                        col: c,
+                        row: r,
+                        baseX,
+                        baseY,
+                        neuralOffsetX: Math.cos(angle) * driftDist,
+                        neuralOffsetY: Math.sin(angle) * driftDist,
+                        phase: Math.random() * Math.PI * 2,
+                        freq: 0.6 + Math.random() * 1.2,
+                        isTerminal: (r + c) % 3 === 0,
+                        isGoldNode: (r * 3 + c) % 4 === 0,
+                        label: (r * 7 + c * 3) % 11 === 0 ? labels[(r + c) % labels.length] : null
+                    });
+                }
+            }
+
+            for (let i = 0; i < bgNodes.length; i++) {
+                const a = bgNodes[i];
+                for (let j = i + 1; j < bgNodes.length; j++) {
+                    const b = bgNodes[j];
+                    const dc = b.col - a.col;
+                    const dr = b.row - a.row;
+
+                    if ((dc === 1 && dr === 0) || (dc === 0 && dr === 1) || (Math.abs(dc) === 1 && dr === 1 && (a.col + a.row) % 2 === 0)) {
+                        if ((a.col * 3 + a.row * 5 + j) % 10 < 6) {
+                            bgEdges.push({
+                                a,
+                                b,
+                                isDiagonal: Math.abs(dc) === 1 && Math.abs(dr) === 1,
+                                isGoldTrace: (a.col + b.row) % 5 === 0,
+                                fractureSeed: Math.random()
+                            });
+                        }
+                    }
+                }
+            }
+
+            const pulseCount = Math.min(48, Math.floor(bgEdges.length * 0.35));
+            for (let p = 0; p < pulseCount; p++) {
+                if (bgEdges.length === 0) break;
+                dataPulses.push({
+                    edgeIndex: Math.floor(Math.random() * bgEdges.length),
+                    progress: Math.random(),
+                    speed: 0.004 + Math.random() * 0.008,
+                    size: 1.6 + Math.random() * 1.4,
+                    isGoldPulse: p % 3 === 0
+                });
+            }
+
+            const sparkCount = bgWidth < 640 ? 18 : 34;
+            for (let s = 0; s < sparkCount; s++) {
+                amberSparks.push({
+                    x: Math.random() * bgWidth,
+                    y: Math.random() * bgHeight,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: -0.15 - Math.random() * 0.35,
+                    size: 0.8 + Math.random() * 1.5,
+                    alpha: 0.15 + Math.random() * 0.35,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function resizeAllCanvases() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            bgWidth = window.innerWidth;
+            bgHeight = window.innerHeight;
+
+            bgCanvas.width = bgWidth * dpr;
+            bgCanvas.height = bgHeight * dpr;
+            bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            buildHybridTopology();
+            resizeCoreCanvas();
+        }
+
+        let bgTime = 0;
+
+        function renderHybridBackground() {
+            bgTime += 0.016;
+            bgCtx.clearRect(0, 0, bgWidth, bgHeight);
+
+            mouse.x += (mouse.targetX - mouse.x) * 0.08;
+            mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+            const c = state.corruption;
+            const parallaxY = -(state.scrollY * 0.14) % (bgWidth < 640 ? 95 : 125);
+
+            if (mouse.x > 0 && mouse.y > 0) {
+                const cursorGrad = bgCtx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 220);
+                cursorGrad.addColorStop(0, getInterpolatedColor(c, 0.085, c < 0.4 ? 'gold' : 'tech'));
+                cursorGrad.addColorStop(1, 'rgba(3, 8, 14, 0)');
+                bgCtx.fillStyle = cursorGrad;
+                bgCtx.beginPath();
+                bgCtx.arc(mouse.x, mouse.y, 220, 0, Math.PI * 2);
+                bgCtx.fill();
+            }
+
+            for (let s = 0; s < amberSparks.length; s++) {
+                const sp = amberSparks[s];
+                sp.x += sp.vx;
+                sp.y += sp.vy;
+                if (sp.y < -10) { sp.y = bgHeight + 10; sp.x = Math.random() * bgWidth; }
+                if (sp.x < -10) sp.x = bgWidth + 10;
+                if (sp.x > bgWidth + 10) sp.x = -10;
+
+                const flicker = 0.65 + 0.35 * Math.sin(bgTime * 3 + sp.phase);
+                bgCtx.fillStyle = c > 0.6
+                    ? `rgba(217, 43, 58, ${sp.alpha * flicker})`
+                    : `rgba(232, 140, 48, ${sp.alpha * flicker})`;
+                bgCtx.beginPath();
+                bgCtx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                bgCtx.fill();
+            }
+
+            const computedPos = new Map();
+            for (let i = 0; i < bgNodes.length; i++) {
+                const n = bgNodes[i];
+                const organicWaveX = Math.sin(bgTime * n.freq + n.phase) * 9 * c;
+                const organicWaveY = Math.cos(bgTime * n.freq + n.phase) * 9 * c;
+
+                let x = n.baseX + (n.neuralOffsetX + organicWaveX) * c;
+                let y = n.baseY + parallaxY + (n.neuralOffsetY + organicWaveY) * c;
+
+                const dx = x - mouse.x;
+                const dy = y - mouse.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 180 && dist > 1) {
+                    const force = (1 - dist / 180) * (10 + c * 14);
+                    x += (dx / dist) * force;
+                    y += (dy / dist) * force;
+                }
+
+                computedPos.set(n, { x, y, nearCursor: dist < 180 });
+            }
+
+            for (let i = 0; i < bgEdges.length; i++) {
+                const edge = bgEdges[i];
+                const pA = computedPos.get(edge.a);
+                const pB = computedPos.get(edge.b);
+                if (!pA || !pB) continue;
+
+                if (c > 0.4 && edge.fractureSeed < (c - 0.4) * 0.45) continue;
+
+                const highlight = pA.nearCursor || pB.nearCursor;
+                const baseAlpha = highlight ? 0.26 : (0.085 + c * 0.03);
+                const edgeMode = edge.isGoldTrace ? 'gold' : 'tech';
+
+                bgCtx.strokeStyle = getInterpolatedColor(c, baseAlpha, edgeMode);
+                bgCtx.lineWidth = highlight ? 1.2 : 0.85;
+                bgCtx.beginPath();
+
+                if (c < 0.25) {
+                    bgCtx.moveTo(pA.x, pA.y);
+                    if (!edge.isDiagonal) {
+                        const midX = (pA.x + pB.x) * 0.5;
+                        const midY = (pA.y + pB.y) * 0.5;
+                        bgCtx.lineTo(midX, midY);
+                    }
+                    bgCtx.lineTo(pB.x, pB.y);
+                } else {
+                    const ctrlX = (pA.x + pB.x) * 0.5 + Math.sin(bgTime * 1.5 + edge.fractureSeed * 10) * 18 * c;
+                    const ctrlY = (pA.y + pB.y) * 0.5 + Math.cos(bgTime * 1.5 + edge.fractureSeed * 10) * 18 * c;
+                    bgCtx.moveTo(pA.x, pA.y);
+                    bgCtx.quadraticCurveTo(ctrlX, ctrlY, pB.x, pB.y);
+                }
+                bgCtx.stroke();
+            }
+
+            if (c > 0.35) {
+                const neuralAlpha = (c - 0.35) * 0.14;
+                bgCtx.strokeStyle = getInterpolatedColor(1, neuralAlpha, 'tech');
+                bgCtx.lineWidth = 0.75;
+                for (let i = 0; i < bgNodes.length; i += 2) {
+                    const p1 = computedPos.get(bgNodes[i]);
+                    const p2 = computedPos.get(bgNodes[(i + 5) % bgNodes.length]);
+                    if (!p1 || !p2) continue;
+                    const d = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+                    if (d < 210) {
+                        bgCtx.beginPath();
+                        bgCtx.moveTo(p1.x, p1.y);
+                        bgCtx.lineTo(p2.x, p2.y);
+                        bgCtx.stroke();
+                    }
+                }
+            }
+
+            bgCtx.font = '400 8px "JetBrains Mono", monospace';
+            for (let i = 0; i < bgNodes.length; i++) {
+                const n = bgNodes[i];
+                const pos = computedPos.get(n);
+                if (!pos) continue;
+
+                const nodeAlpha = pos.nearCursor ? 0.58 : 0.2;
+                const nodeMode = n.isGoldNode ? 'gold' : 'tech';
+                bgCtx.fillStyle = getInterpolatedColor(c, nodeAlpha, nodeMode);
+
+                if (n.isTerminal && c < 0.5) {
+                    bgCtx.strokeStyle = getInterpolatedColor(c, nodeAlpha * 1.3, nodeMode);
+                    bgCtx.lineWidth = 1;
+                    bgCtx.beginPath();
+                    bgCtx.arc(pos.x, pos.y, 2.6, 0, Math.PI * 2);
+                    bgCtx.stroke();
+                } else {
+                    bgCtx.beginPath();
+                    bgCtx.arc(pos.x, pos.y, pos.nearCursor ? 2.4 : 1.5, 0, Math.PI * 2);
+                    bgCtx.fill();
+                }
+
+                if (n.label && c < 0.65) {
+                    bgCtx.fillStyle = getInterpolatedColor(c, (1 - c) * 0.18, 'gold');
+                    bgCtx.fillText(n.label, pos.x + 6, pos.y - 4);
+                }
+            }
+
+            for (let i = 0; i < dataPulses.length; i++) {
+                const pulse = dataPulses[i];
+                const edge = bgEdges[pulse.edgeIndex];
+                if (!edge) continue;
+
+                pulse.progress += pulse.speed * (1 + c * 0.65 + (isAudioPlaying ? 0.35 : 0));
+                if (pulse.progress >= 1) {
+                    pulse.progress = 0;
+                    pulse.edgeIndex = Math.floor(Math.random() * bgEdges.length);
+                }
+
+                const pA = computedPos.get(edge.a);
+                const pB = computedPos.get(edge.b);
+                if (!pA || !pB) continue;
+
+                const px = pA.x + (pB.x - pA.x) * pulse.progress;
+                const py = pA.y + (pB.y - pA.y) * pulse.progress;
+
+                bgCtx.fillStyle = getInterpolatedColor(c, 0.65, pulse.isGoldPulse ? 'gold' : 'tech');
+                bgCtx.beginPath();
+                bgCtx.arc(px, py, pulse.size, 0, Math.PI * 2);
+                bgCtx.fill();
+            }
+
+            requestAnimationFrame(renderHybridBackground);
+        }
+
+        /* ==========================================================================
+           5. NAOS-9 CENTRAL ASTROLABE / CYBERNETIC ENERGY CORE
+           ========================================================================== */
+        const canvas = document.getElementById('naos-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height, centerX, centerY;
+
+        function resizeCoreCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            centerX = width / 2;
+            centerY = height / 2;
+        }
+
+        window.addEventListener('resize', resizeAllCanvases);
+        resizeAllCanvases();
+
+        const PARTICLE_COUNT = 130;
+        const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
+            angle: (Math.PI * 2 * i) / PARTICLE_COUNT + Math.random() * 0.5,
+            radiusOffset: 40 + Math.random() * 190,
+            speed: (0.002 + Math.random() * 0.006) * (Math.random() > 0.5 ? 1 : -1),
+            size: 1 + Math.random() * 2.2,
+            isGoldParticle: i % 2 === 0
+        }));
+
+        let time = 0;
+
+        function renderNaosCore() {
+            time += 0.016;
+            ctx.clearRect(0, 0, width, height);
+
+            let audioBoost = 0;
+            if (isAudioPlaying) {
+                audioBoost = Math.abs(Math.sin(time * 4.2)) * 14 + Math.abs(Math.cos(time * 9.5)) * 7;
+            }
+
+            const baseScale = Math.min(width, height) < 640 ? 0.68 : 1;
+            const c = state.corruption;
+
+            const jx = state.jitter > 0 ? (Math.random() - 0.5) * state.jitter * 14 : 0;
+            const jy = state.jitter > 0 ? (Math.random() - 0.5) * state.jitter * 14 : 0;
+            const cx = centerX + jx;
+            const cy = centerY + jy;
+
+            const glowRadius = (245 + audioBoost * 1.5) * baseScale;
+            const radGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, glowRadius);
+            radGrad.addColorStop(0, getInterpolatedColor(c, 0.24, 'tech'));
+            radGrad.addColorStop(0.45, getInterpolatedColor(c, 0.11, 'gold'));
+            radGrad.addColorStop(1, 'rgba(3, 8, 14, 0)');
+            ctx.fillStyle = radGrad;
+            ctx.beginPath();
+            ctx.arc(cx, cy, glowRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            const ringCount = 5;
+            for (let r = 1; r <= ringCount; r++) {
+                const radius = (state.coreRadius * 0.55 + r * 36 * state.ringExpansion + audioBoost * 0.4) * baseScale;
+                ctx.save();
+                ctx.translate(cx, cy);
+                const dir = r % 2 === 0 ? 1 : -1;
+                ctx.rotate(time * 0.22 * dir * (1 + r * 0.15) + state.scrollProgress * 4 * dir);
+
+                const ringMode = r % 2 === 1 ? 'gold' : 'tech';
+                const ringTint = state.hubEquilibrium > 0.5 ? (r % 2 === 0 ? 1 : 0) : c;
+                ctx.strokeStyle = getInterpolatedColor(ringTint, 0.34 + (r === 2 ? 0.25 : 0), ringMode);
+                ctx.lineWidth = r === 2 ? 2.2 : 1.1;
+
+                const segments = r + 2;
+                const arcLen = (Math.PI * 2) / segments;
+                for (let s = 0; s < segments; s++) {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, radius, s * arcLen + 0.12, (s + 1) * arcLen - 0.12);
+                    ctx.stroke();
+                }
+
+                if (r === 4) {
+                    for (let t = 0; t < 12; t++) {
+                        const tickAngle = (t / 12) * Math.PI * 2;
+                        ctx.beginPath();
+                        ctx.moveTo(Math.cos(tickAngle) * (radius - 5), Math.sin(tickAngle) * (radius - 5));
+                        ctx.lineTo(Math.cos(tickAngle) * (radius + 5), Math.sin(tickAngle) * (radius + 5));
+                        ctx.stroke();
+                    }
+                }
+                ctx.restore();
+            }
+
+            const waveStrength = Math.max(state.waveAmplitude, audioBoost * 0.65);
+            if (waveStrength > 0.5) {
+                ctx.save();
+                ctx.beginPath();
+                const waveBaseR = (state.coreRadius + 25) * baseScale;
+                const points = 90;
+                for (let i = 0; i <= points; i++) {
+                    const theta = (i / points) * Math.PI * 2;
+                    const freqOffset = Math.sin(theta * 8 + time * 5) * waveStrength * Math.cos(theta * 3 - time * 3);
+                    const wr = waveBaseR + freqOffset;
+                    const wx = cx + Math.cos(theta) * wr;
+                    const wy = cy + Math.sin(theta) * wr;
+                    if (i === 0) ctx.moveTo(wx, wy);
+                    else ctx.lineTo(wx, wy);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = getInterpolatedColor(c, 0.68, 'gold');
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            particles.forEach((p) => {
+                p.angle += p.speed * (1 + state.jitter * 2.5);
+                const orbitR = (p.radiusOffset * state.ringExpansion + audioBoost * 0.5) * baseScale;
+                const px = cx + Math.cos(p.angle) * orbitR + (Math.random() - 0.5) * state.jitter * 8;
+                const py = cy + Math.sin(p.angle) * orbitR + (Math.random() - 0.5) * state.jitter * 8;
+
+                const pTint = state.hubEquilibrium > 0.5 ? (p.isGoldParticle ? 0 : 1) : c;
+                ctx.fillStyle = getInterpolatedColor(pTint, 0.72, p.isGoldParticle ? 'gold' : 'tech');
+                ctx.beginPath();
+                ctx.arc(px, py, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            const innerR = (38 + Math.sin(time * 2.5) * 3 + audioBoost * 0.35) * baseScale;
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            ctx.strokeStyle = getInterpolatedColor(c, 0.92, 'gold');
+            ctx.lineWidth = 2.6;
+            ctx.beginPath();
+            ctx.arc(0, 0, innerR, 0, Math.PI * 2);
+            ctx.stroke();
+
+            const coreGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, innerR * 0.85);
+            coreGrad.addColorStop(0, '#ffffff');
+            coreGrad.addColorStop(0.38, getInterpolatedColor(c, 0.92, 'tech'));
+            coreGrad.addColorStop(1, getInterpolatedColor(c, 0, 'tech'));
+            ctx.fillStyle = coreGrad;
+            ctx.beginPath();
+            ctx.arc(0, 0, innerR * 0.85, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(235, 208, 137, 0.9)';
+            ctx.font = '600 9px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('NAOS-9', 0, innerR + 18);
+
+            ctx.restore();
+
+            requestAnimationFrame(renderNaosCore);
+        }
+
+        requestAnimationFrame(renderHybridBackground);
+        requestAnimationFrame(renderNaosCore);
+
+        /* ==========================================================================
+           6. GSAP SCROLLTRIGGER CHOREOGRAPHY (CT-CORP -> ECHO ROUGE TRANSITION)
+           ========================================================================== */
+        gsap.registerPlugin(ScrollTrigger);
+
+        const hudProtocolLabel = document.getElementById('hud-protocol-label');
+        const hudSyncPercent = document.getElementById('hud-sync-percent');
+        const hudProgressBar = document.getElementById('hud-progress-bar');
+        const hudIntegrity = document.getElementById('hud-integrity');
+        const statusDot = document.getElementById('status-dot');
+
+        ScrollTrigger.create({
+            trigger: document.body,
+            start: 'top top',
+            end: 'bottom bottom',
+            onUpdate: (self) => {
+                const p = self.progress;
+                state.scrollProgress = p;
+                state.scrollY = window.scrollY || window.pageYOffset;
+
+                hudSyncPercent.textContent = `${(p * 100).toFixed(1).padStart(4, '0')}%`;
+                hudProgressBar.style.width = `${p * 100}%`;
+
+                let corruptionVal = 0;
+                if (p > 0.48) {
+                    corruptionVal = Math.min(1, (p - 0.48) / 0.25);
+                }
+                state.corruption = corruptionVal;
+                document.documentElement.style.setProperty('--corruption', corruptionVal.toFixed(2));
+
+                const activeHex = corruptionVal > 0.5 ? '#d92b3a' : '#3ba4c7';
+                document.documentElement.style.setProperty('--current-accent', activeHex);
+                document.documentElement.style.setProperty('--current-glow', corruptionVal > 0.5 ? 'rgba(217, 43, 58, 0.32)' : 'rgba(59, 164, 199, 0.28)');
+                document.documentElement.style.setProperty('--hud-border', corruptionVal > 0.5 ? 'rgba(217, 43, 58, 0.4)' : 'rgba(201, 162, 75, 0.28)');
+
+                hudProgressBar.style.backgroundColor = activeHex;
+                statusDot.style.backgroundColor = activeHex;
+                statusDot.style.boxShadow = `0 0 10px ${activeHex}`;
+
+                const integrityPct = Math.max(12, Math.round(100 - corruptionVal * 88));
+                hudIntegrity.textContent = `${integrityPct}%`;
+                hudIntegrity.style.color = corruptionVal > 0.5 ? '#ff4d5e' : '#7ad7f0';
+
+                if (p > 0.88) {
+                    hudProtocolLabel.setAttribute('data-fr', 'SYNC: DUAL_CORE [HUB ACTIVE]');
+                    hudProtocolLabel.setAttribute('data-en', 'SYNC: DUAL_CORE [HUB ACTIVE]');
+                    hudProtocolLabel.style.color = '#e3be68';
+                } else if (corruptionVal > 0.5) {
+                    hudProtocolLabel.setAttribute('data-fr', 'WARNING: ECHO_ROUGE [BREACH]');
+                    hudProtocolLabel.setAttribute('data-en', 'WARNING: ECHO_ROUGE [BREACH]');
+                    hudProtocolLabel.style.color = '#ff4d5e';
+                } else {
+                    hudProtocolLabel.setAttribute('data-fr', 'PROTOCOL: CT-CORP [STABLE]');
+                    hudProtocolLabel.setAttribute('data-en', 'PROTOCOL: CT-CORP [STABLE]');
+                    hudProtocolLabel.style.color = '#7ad7f0';
+                }
+                setLanguage(currentLang);
+            }
+        });
+
+        ScrollTrigger.create({
+            trigger: '#archive-1',
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => gsap.to(state, { coreRadius: 115, ringExpansion: 1.25, waveAmplitude: 0, jitter: 0, duration: 1 }),
+            onEnterBack: () => gsap.to(state, { coreRadius: 115, ringExpansion: 1.25, waveAmplitude: 0, jitter: 0, duration: 1 })
+        });
+
+        ScrollTrigger.create({
+            trigger: '#archive-2',
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => gsap.to(state, { coreRadius: 105, ringExpansion: 1.35, waveAmplitude: 14, jitter: 0, duration: 1 }),
+            onEnterBack: () => gsap.to(state, { coreRadius: 105, ringExpansion: 1.35, waveAmplitude: 14, jitter: 0, duration: 1 })
+        });
+
+        ScrollTrigger.create({
+            trigger: '#archive-3',
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => gsap.to(state, { coreRadius: 130, ringExpansion: 0.95, waveAmplitude: 2, jitter: 0, duration: 0.8 }),
+            onEnterBack: () => gsap.to(state, { coreRadius: 130, ringExpansion: 0.95, waveAmplitude: 2, jitter: 0, duration: 0.8 })
+        });
+
+        ScrollTrigger.create({
+            trigger: '#archive-4',
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => gsap.to(state, { coreRadius: 120, ringExpansion: 1.5, waveAmplitude: 8, jitter: 0.85, duration: 0.6 }),
+            onEnterBack: () => gsap.to(state, { coreRadius: 120, ringExpansion: 1.5, waveAmplitude: 8, jitter: 0.85, duration: 0.6 })
+        });
+
+        ScrollTrigger.create({
+            trigger: '#archive-5',
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => gsap.to(state, { coreRadius: 100, ringExpansion: 1.15, waveAmplitude: 5, jitter: 0.25, hubEquilibrium: 0, duration: 0.8 }),
+            onEnterBack: () => gsap.to(state, { coreRadius: 100, ringExpansion: 1.15, waveAmplitude: 5, jitter: 0.25, hubEquilibrium: 0, duration: 0.8 })
+        });
+
+        ScrollTrigger.create({
+            trigger: '#hub-section',
+            start: 'top 65%',
+            onEnter: () => gsap.to(state, { coreRadius: 88, ringExpansion: 1.08, waveAmplitude: 4, jitter: 0.04, hubEquilibrium: 1, duration: 1.2 }),
+            onLeaveBack: () => gsap.to(state, { hubEquilibrium: 0, duration: 0.8 })
+        });
+
+        gsap.utils.toArray('.hud-panel').forEach((card) => {
+            gsap.from(card, {
+                y: 35,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        /* ==========================================================================
+           7. INTERACTIVE HUB MODALS (Roman, Streaming, CT-Corp, Echo Rouge, Contact)
+           ========================================================================== */
+        const modal = document.getElementById('portal-modal');
+        const modalTag = document.getElementById('modal-tag');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        const modalContent = {
+            roman: {
+                tag: '[ ÉDITION OFFICIELLE // ESCLAVES DU TƎMPS ]',
+                titleFr: 'Acquérir le Roman',
+                titleEn: 'Acquire the Novel',
+                bodyFr: `
+                    <p>Choisissez votre canal d'acquisition pour le roman <strong>Esclaves du Temps</strong> de Laurent Prestigiacomo :</p>
+                    <div class="space-y-3 font-mono-tech text-xs">
+                        <a href="https://www.laurexa.be" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-lg bg-[#c9a24b]/20 hover:bg-[#c9a24b] text-[#e3be68] hover:text-black border border-[#c9a24b]/50 font-bold transition-all">
+                            <span>BOUTIQUE OFFICIELLE LAUREXA.BE</span>
+                            <span>COMMANDER ↗</span>
+                        </a>
+                        <div class="p-3.5 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                            <span class="text-[#7ad7f0] font-bold block mb-1">LIBRAIRIE LA COMMANDERIE</span>
+                            Disponible en rayon et sur commande directe en librairie partenaire (séances de dédicaces annoncées sur le réseau).
+                        </div>
+                    </div>
+                `,
+                bodyEn: `
+                    <p>Select your acquisition channel for Laurent Prestigiacomo's novel <strong>Slaves of Time</strong>:</p>
+                    <div class="space-y-3 font-mono-tech text-xs">
+                        <a href="https://www.laurexa.be" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-lg bg-[#c9a24b]/20 hover:bg-[#c9a24b] text-[#e3be68] hover:text-black border border-[#c9a24b]/50 font-bold transition-all">
+                            <span>OFFICIAL STORE LAUREXA.BE</span>
+                            <span>ORDER ↗</span>
+                        </a>
+                        <div class="p-3.5 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                            <span class="text-[#7ad7f0] font-bold block mb-1">LA COMMANDERIE BOOKSTORE</span>
+                            Available in-store and to order at our partner bookstore (signing events announced on the network).
+                        </div>
+                    </div>
+                `
+            },
+            streaming: {
+                tag: '[ BANDE ORIGINALE // 33 PISTES ]',
+                titleFr: 'Écouter la Bande Originale',
+                titleEn: 'Listen to the Original Soundtrack',
+                bodyFr: `
+                    <p>Sélectionnez votre plateforme de diffusion pour lancer l'album officiel <strong>Esclaves du Temps (Original Soundtrack)</strong> :</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono-tech text-xs">
+                        <a href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#1DB954]/20 border border-white/10 hover:border-[#1DB954] transition-all">
+                            <span>SPOTIFY</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500 transition-all">
+                            <span>APPLE MUSIC</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500 transition-all">
+                            <span>DEEZER</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500 transition-all">
+                            <span>SOUNDCLOUD</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500 transition-all">
+                            <span>YOUTUBE</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500 transition-all">
+                            <span>ANGHAMI</span><span>ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="sm:col-span-2 flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
+                            <span>7DIGITAL (TÉLÉCHARGEMENT HD)</span><span>ACCÉDER ↗</span>
+                        </a>
+                    </div>
+                `,
+                bodyEn: `
+                    <p>Select your streaming platform to launch the official <strong>Slaves of Time (Original Soundtrack)</strong> album:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono-tech text-xs">
+                        <a href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#1DB954]/20 border border-white/10 hover:border-[#1DB954] transition-all">
+                            <span>SPOTIFY</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500 transition-all">
+                            <span>APPLE MUSIC</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500 transition-all">
+                            <span>DEEZER</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500 transition-all">
+                            <span>SOUNDCLOUD</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500 transition-all">
+                            <span>YOUTUBE</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500 transition-all">
+                            <span>ANGHAMI</span><span>LISTEN ↗</span>
+                        </a>
+                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="sm:col-span-2 flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
+                            <span>7DIGITAL (HD DOWNLOAD)</span><span>ACCESS ↗</span>
+                        </a>
+                    </div>
+                `
+            },
+            ctcorp: {
+                tag: '[ PORTAIL DYSTOPIQUE // CT-CORP ]',
+                titleFr: 'Chrono-Tech Corporation',
+                titleEn: 'Chrono-Tech Corporation',
+                bodyFr: `
+                    <p>Bienvenue sur le nœud d'accès <strong>CT-Corp</strong>. Ici, votre temps est votre unique devise. Consultez votre solde vital et les directives du Conseil.</p>
+                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]">
+                        CITOYEN : NON IDENTIFIÉ<br>
+                        SOLDE TEMPOREL : ACCÈS RESTREINT AU TERMINAL EXTERNE
+                    </div>
+                    <a href="https://www.esclavesdutemps.be/ctcorp-prototype.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#3ba4c7] text-black font-mono-tech text-xs font-bold uppercase tracking-wider">Ouvrir le Portail CT-Corp ↗</a>
+                `,
+                bodyEn: `
+                    <p>Welcome to the <strong>CT-Corp</strong> access node. Here, your time is your sole currency. Review your vital balance and Council directives.</p>
+                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]">
+                        CITIZEN: UNIDENTIFIED<br>
+                        TEMPORAL BALANCE: RESTRICTED TO EXTERNAL TERMINAL
+                    </div>
+                    <a href="https://www.esclavesdutemps.be/ctcorp-prototype.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#3ba4c7] text-black font-mono-tech text-xs font-bold uppercase tracking-wider">Open CT-Corp Portal ↗</a>
+                `
+            },
+            echorouge: {
+                tag: '[ RÉSEAU CLANDESTIN // ECHO ROUGE ]',
+                titleFr: 'Cellule Echo Rouge',
+                titleEn: 'Echo Rouge Cell',
+                bodyFr: `
+                    <p class="text-[#ff4d5e] font-mono-tech text-xs">CONNEXION CHIFFRÉE ÉTABLIE.</p>
+                    <p>CT-Corp vous ment sur l'espérance de vie moyenne. Les archives censurées d'<strong>Echo Rouge</strong> contiennent les preuves des transferts de temps illégaux.</p>
+                    <a href="https://www.esclavesdutemps.be/echo-rouge-v2.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-mono-tech text-xs font-bold uppercase tracking-wider">Rejoindre la Fréquence Echo Rouge ↗</a>
+                `,
+                bodyEn: `
+                    <p class="text-[#ff4d5e] font-mono-tech text-xs">ENCRYPTED CONNECTION ESTABLISHED.</p>
+                    <p>CT-Corp is lying about average life expectancy. The censored archives of <strong>Echo Rouge</strong> hold proof of illegal time transfers.</p>
+                    <a href="https://www.esclavesdutemps.be/echo-rouge-v2.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-mono-tech text-xs font-bold uppercase tracking-wider">Join Echo Rouge Frequency ↗</a>
+                `
+            },
+            contact: {
+                tag: '[ CANAL DIRECT // AUTEUR ]',
+                titleFr: 'Contacter Laurent Prestigiacomo',
+                titleEn: 'Contact Laurent Prestigiacomo',
+                bodyFr: `
+                    <p>Une question sur l'univers d'<strong>Esclaves du Temps</strong>, une demande de presse, de salon ou de dédicace ?</p>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
+                        <input type="text" required placeholder="Votre nom / Indicatif" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" required placeholder="Votre adresse email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea rows="3" required placeholder="Votre transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Envoyer la Transmission</button>
+                    </form>
+                `,
+                bodyEn: `
+                    <p>Have a question about the <strong>Slaves of Time</strong> universe, press inquiry, or book signing request?</p>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
+                        <input type="text" required placeholder="Your Name / Callsign" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" required placeholder="Your Email Address" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea rows="3" required placeholder="Your transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Send Transmission</button>
+                    </form>
+                `
+            }
+        };
+
+        function openModal(key) {
+            const data = modalContent[key];
+            if (!data) return;
+            modalTag.textContent = data.tag;
+            modalTitle.textContent = currentLang === 'fr' ? data.titleFr : data.titleEn;
+            modalBody.innerHTML = currentLang === 'fr' ? data.bodyFr : data.bodyEn;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            modalBody.innerHTML = currentLang === 'fr'
+                ? `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION REÇUE PAR NAOS-9. L'auteur vous répondra sous peu.</div>`
+                : `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION RECEIVED BY NAOS-9. The author will reply shortly.</div>`;
+        }
+
+        /* ==========================================================================
+           8. TEMPORAL COMPRESSION MODULE (PING-PONG YOUNG <-> CURRENT <-> OLD)
+           ========================================================================== */
+        (function initTemporalCompression() {
+            const imgEl = document.getElementById('chrono-panoramic-img');
+            const panLayer = document.getElementById('chrono-pan-layer');
+            const lensOverlay = document.getElementById('chrono-lens-overlay');
+            const scannerBeam = document.getElementById('chrono-scanner-beam');
+            const scrubber = document.getElementById('chrono-scrubber');
+            const autoBtn = document.getElementById('chrono-autoplay-btn');
+            const autoLabel = document.getElementById('chrono-autoplay-label');
+            const playDot = document.getElementById('chrono-play-dot');
+            const dirBadge = document.getElementById('chrono-direction-badge');
+            const yearReadout = document.getElementById('chrono-year-readout');
+            const phaseCode = document.getElementById('chrono-phase-code');
+            const phaseDesc = document.getElementById('chrono-phase-desc');
+            const fileInput = document.getElementById('temporal-file-input');
+            const eraButtons = document.querySelectorAll('.chrono-era-btn');
+
+            if (!imgEl || !scrubber) return;
+
+            const fallbackTriptychSVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500">
+                    <defs>
+                        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0a1622"/>
+                            <stop offset="30%" stop-color="#141e26"/>
+                            <stop offset="50%" stop-color="#081826"/>
+                            <stop offset="75%" stop-color="#1d1118"/>
+                            <stop offset="100%" stop-color="#2a1014"/>
+                        </linearGradient>
+                        <radialGradient id="goldAura" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#e3be68" stop-opacity="0.45"/>
+                            <stop offset="100%" stop-color="#e3be68" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="cyanAura" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#3ba4c7" stop-opacity="0.45"/>
+                            <stop offset="100%" stop-color="#3ba4c7" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="redAura" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#d92b3a" stop-opacity="0.48"/>
+                            <stop offset="100%" stop-color="#d92b3a" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+                    <rect width="1600" height="500" fill="url(#bgGrad)"/>
+                    <g stroke="#2a3b4c" stroke-width="2" fill="none" opacity="0.55">
+                        <path d="M0,20 Q400,110 800,35 T1600,30"/>
+                        <path d="M0,35 Q450,130 820,45 T1600,50"/>
+                        <rect x="40" y="60" width="140" height="380" rx="4"/>
+                        <rect x="1420" y="60" width="140" height="380" rx="4"/>
+                    </g>
+                    <circle cx="290" cy="240" r="190" fill="url(#goldAura)"/>
+                    <g transform="translate(290, 250)" text-anchor="middle" font-family="monospace">
+                        <circle cx="0" cy="-35" r="46" fill="#1b242c" stroke="#e3be68" stroke-width="2"/>
+                        <path d="M-65,120 C-65,45 65,45 65,120 Z" fill="#151d24" stroke="#e3be68" stroke-width="1.5"/>
+                        <text y="155" fill="#e3be68" font-size="14" letter-spacing="3">T - 44 ANS // GENÈSE</text>
+                    </g>
+                    <circle cx="800" cy="240" r="210" fill="url(#cyanAura)"/>
+                    <g transform="translate(800, 245)" text-anchor="middle" font-family="monospace">
+                        <circle cx="0" cy="-40" r="54" fill="#16232e" stroke="#7ad7f0" stroke-width="2.5"/>
+                        <path d="M-85,130 C-85,40 85,40 85,130 Z" fill="#111b24" stroke="#7ad7f0" stroke-width="2"/>
+                        <text y="162" fill="#7ad7f0" font-size="15" font-weight="bold" letter-spacing="3">T ± 00 // POINT D'ANCRAGE</text>
+                    </g>
+                    <circle cx="1310" cy="240" r="190" fill="url(#redAura)"/>
+                    <g transform="translate(1310, 250)" text-anchor="middle" font-family="monospace">
+                        <circle cx="0" cy="-35" r="50" fill="#26191d" stroke="#ff4d5e" stroke-width="2"/>
+                        <path d="M-75,125 C-75,45 75,45 75,125 Z" fill="#1f1417" stroke="#ff4d5e" stroke-width="1.5"/>
+                        <text y="155" fill="#ff4d5e" font-size="14" letter-spacing="3">T + 32 ANS // ENTROPIE</text>
+                    </g>
+                    <path d="M350,240 L520,240 L560,210 L730,210" stroke="#e3be68" stroke-width="1.5" fill="none" opacity="0.7"/>
+                    <path d="M870,220 L1030,220 L1070,255 L1245,255" stroke="#d92b3a" stroke-width="1.5" fill="none" opacity="0.75"/>
+                    <text x="800" y="472" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="12">
+                        [ PLACEZ VOTRE PHOTO SOUS assets/temporal-cycle.jpg OU CLIQUEZ SUR « CHARGER L'IMAGE LOCALE » ]
+                    </text>
+                </svg>
+            `)}`;
+
+            let fallbackAttempt = 0;
+            imgEl.onerror = () => {
+                if (fallbackAttempt === 0) {
+                    fallbackAttempt = 1;
+                    imgEl.src = 'temporal-cycle.jpg';
+                } else {
+                    imgEl.onerror = null;
+                    imgEl.src = fallbackTriptychSVG;
+                }
+            };
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                const objectUrl = URL.createObjectURL(file);
+                imgEl.src = objectUrl;
+            });
+
+            let progress = 0.5;
+            let direction = 1;
+            let isAutoPlaying = true;
+            let targetProgress = null;
+            let lastFrameTime = performance.now();
+
+            function updateTemporalVisuals(pct) {
+                scrubber.value = Math.round(pct * 1000);
+
+                const lensPercent = (14 + pct * 72).toFixed(2) + '%';
+                lensOverlay.style.setProperty('--lens-x', lensPercent);
+                scannerBeam.style.setProperty('--lens-x', lensPercent);
+
+                const panOffset = (0.5 - pct) * 6.5;
+                const pulseZoom = 1.07 + Math.cos((pct - 0.5) * Math.PI * 2) * 0.025;
+                panLayer.style.transform = `translate3d(${panOffset}%, 0, 0) scale(${pulseZoom})`;
+
+                const yearOffset = pct <= 0.5
+                    ? Math.round(-44 + (pct / 0.5) * 44)
+                    : Math.round(((pct - 0.5) / 0.5) * 32);
+
+                const formattedYear = yearOffset === 0
+                    ? 'T ± 00 ANS'
+                    : (yearOffset > 0
+                        ? `T + ${String(yearOffset).padStart(2, '0')} ANS`
+                        : (currentLang === 'fr'
+                            ? `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} ANS (ENFANCE)`
+                            : `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} YRS (CHILDHOOD)`));
+                yearReadout.textContent = formattedYear;
+
+                let beamColor = '#3ba4c7';
+                let beamGlow = 'rgba(59, 164, 199, 0.5)';
+
+                if (pct < 0.34) {
+                    beamColor = '#e3be68';
+                    beamGlow = 'rgba(227, 190, 104, 0.55)';
+                    phaseCode.style.color = '#e3be68';
+                    const genesisYearTag = currentLang === 'fr'
+                        ? `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} ans (enfance)`
+                        : `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} yrs (childhood)`;
+                    phaseCode.textContent = currentLang === 'fr'
+                        ? `I. GENÈSE — ${genesisYearTag}`
+                        : `I. GENESIS — ${genesisYearTag}`;
+                    phaseDesc.textContent = currentLang === 'fr'
+                        ? "L'origine de la mémoire : avant que chaque seconde de vie ne devienne une valeur marchande."
+                        : "The origin of memory: before every second of life became a traded commodity.";
+                } else if (pct <= 0.66) {
+                    beamColor = '#3ba4c7';
+                    beamGlow = 'rgba(59, 164, 199, 0.55)';
+                    phaseCode.style.color = '#7ad7f0';
+                    phaseCode.textContent = currentLang === 'fr'
+                        ? `PHASE II // ${formattedYear} — POINT D'ANCRAGE`
+                        : `PHASE II // ${formattedYear} — ANCHOR POINT`;
+                    phaseDesc.textContent = currentLang === 'fr'
+                        ? "Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9."
+                        : "The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.";
+                } else {
+                    beamColor = '#d92b3a';
+                    beamGlow = 'rgba(217, 43, 58, 0.6)';
+                    phaseCode.style.color = '#ff4d5e';
+                    phaseCode.textContent = currentLang === 'fr'
+                        ? `PHASE III // ${formattedYear} — ENTROPIE`
+                        : `PHASE III // ${formattedYear} — ENTROPY`;
+                    phaseDesc.textContent = currentLang === 'fr'
+                        ? "Accélération terminale : l'empreinte du temps comprimé sur l'enveloppe biologique."
+                        : "Terminal acceleration: the imprint of compressed time upon the biological vessel.";
+                }
+
+                scannerBeam.style.setProperty('--beam-color', beamColor);
+                scannerBeam.style.setProperty('--beam-glow', beamGlow);
+                scrubber.style.setProperty('--beam-color', beamColor);
+
+                if (!isAutoPlaying) {
+                    dirBadge.textContent = currentLang === 'fr' ? 'CONTRÔLE MANUEL' : 'MANUAL OVERRIDE';
+                    dirBadge.style.color = '#7ad7f0';
+                } else if (direction === 1) {
+                    dirBadge.textContent = currentLang === 'fr' ? 'GENÈSE ➔ ENTROPIE' : 'GENESIS ➔ ENTROPY';
+                    dirBadge.style.color = '#e3be68';
+                } else {
+                    dirBadge.textContent = currentLang === 'fr' ? 'ENTROPIE ➔ GENÈSE' : 'ENTROPY ➔ GENESIS';
+                    dirBadge.style.color = '#ff4d5e';
+                }
+            }
+
+            function animateTemporalLoop(now) {
+                const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
+                lastFrameTime = now;
+
+                if (targetProgress !== null) {
+                    const diff = targetProgress - progress;
+                    if (Math.abs(diff) < 0.004) {
+                        progress = targetProgress;
+                        targetProgress = null;
+                    } else {
+                        progress += diff * 0.09;
+                    }
+                    updateTemporalVisuals(progress);
+                } else if (isAutoPlaying) {
+                    const speed = 0.09;
+                    progress += direction * speed * dt;
+
+                    if (progress >= 1) {
+                        progress = 1;
+                        direction = -1;
+                    } else if (progress <= 0) {
+                        progress = 0;
+                        direction = 1;
+                    }
+                    updateTemporalVisuals(progress);
+                }
+
+                requestAnimationFrame(animateTemporalLoop);
+            }
+
+            scrubber.addEventListener('input', (e) => {
+                isAutoPlaying = false;
+                targetProgress = null;
+                syncAutoPlayButton();
+                progress = parseFloat(e.target.value) / 1000;
+                updateTemporalVisuals(progress);
+            });
+
+            function syncAutoPlayButton() {
+                if (isAutoPlaying) {
+                    autoLabel.setAttribute('data-fr', 'CYCLE AUTO: ON');
+                    autoLabel.setAttribute('data-en', 'AUTO CYCLE: ON');
+                    playDot.classList.remove('bg-slate-500');
+                    playDot.classList.add('bg-[#7ad7f0]', 'animate-pulse');
+                } else {
+                    autoLabel.setAttribute('data-fr', 'CYCLE AUTO: OFF');
+                    autoLabel.setAttribute('data-en', 'AUTO CYCLE: OFF');
+                    playDot.classList.remove('bg-[#7ad7f0]', 'animate-pulse');
+                    playDot.classList.add('bg-slate-500');
+                }
+                setLanguage(currentLang);
+            }
+
+            autoBtn.addEventListener('click', () => {
+                isAutoPlaying = !isAutoPlaying;
+                targetProgress = null;
+                syncAutoPlayButton();
+                updateTemporalVisuals(progress);
+            });
+
+            eraButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const dest = parseFloat(btn.getAttribute('data-target-progress'));
+                    if (!isNaN(dest)) {
+                        direction = dest >= progress ? 1 : -1;
+                        targetProgress = dest;
+                    }
+                });
+            });
+
+            updateTemporalVisuals(progress);
+            requestAnimationFrame(animateTemporalLoop);
+        })();
+    </script>
 <!--i18n:analytics-->
 <script data-goatcounter="https://presti013.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <!--/i18n:analytics-->
