@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esclaves du Temps — Laurent Prestigiacomo</title>
+<meta name="description" content="Esclaves du Temps, roman de SF dystopique de Laurent Prestigiacomo (éd. 3Cinq7, 2026). 2034 : CT Corp comprime le temps — vivre des semaines de labeur en quelques heures, une humanité dépossédée de son présent. Lisez le prologue.">
+<link rel="canonical" href="https://presti013.github.io/esclaves-du-temps/index.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="book">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Esclaves du Temps">
+<meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/index.html">
+<meta property="og:title" content="Esclaves du Temps — un roman de Laurent Prestigiacomo">
+<meta property="og:description" content="« Et si votre vie ne durait qu'une minute ? » 2034 : le temps devient une monnaie. Quand la conscience est-elle un luxe… ou une arme ? Au croisement de Dune, Ghost in the Shell et Black Mirror.">
+<meta property="og:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/nouvelle-vignette.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Une hackeuse d'Écho Rouge face à ses écrans dans un complexe en ruine, tandis qu'une conscience artificielle fleurie s'éveille au-dessus d'une mégapole nocturne.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Esclaves du Temps — un roman de Laurent Prestigiacomo">
+<meta name="twitter:description" content="« Et si votre vie ne durait qu'une minute ? » Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?">
+<meta name="twitter:image" content="https://presti013.github.io/esclaves-du-temps/assets/video/nouvelle-vignette.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep: #020608;
+  --gold: #C9943A;
+  --gold2: #E8B84B;
+  --gold-dim: #6A4A1A;
+  --blue: #1A5A7A;
+  --blue-bright: #4AAAD4;
+  --red: #8B1A1A;
+  --red-bright: #C44040;
+  --text: #D0C8B8;
+  --text-dim: #7A7060;
+  --white: #F0ECE0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; min-height:100%; overflow-x:hidden; }
+
+body {
+  background: #000;
+  font-family: 'Barlow Condensed', sans-serif;
+  cursor: default;
+}
+
+/* ── BG IMAGE ── */
+#bg {
+  position: fixed;
+  inset: 0;
+  background-image: url('assets/img/img-e33f6f10297a.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.35) saturate(0.8);
+  z-index: 0;
+}
+
+/* ── OVERLAY GRADIENTS ── */
+#vignette {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.8) 100%);
+  z-index: 1;
+}
+
+/* ── SCANLINES ── */
+#scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 6px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── MAIN LAYOUT ── */
+#main {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 40px 36px;
+}
+
+/* ── HEADER ── */
+#header {
+  text-align: center;
+  animation: fadeDown 1.2s ease forwards;
+}
+
+@keyframes fadeDown {
+  from { opacity:0; transform: translateY(-20px); }
+  to { opacity:1; transform: none; }
+}
+
+.eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+#title-img {
+  width: clamp(260px, 55vw, 720px);
+  height: auto;
+  filter: drop-shadow(0 0 24px rgba(201,148,58,0.35)) drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+  display: block;
+  margin: 0 auto;
+}
+
+#titre-img {
+  width: clamp(260px, 55vw, 760px);
+  height: auto;
+  display: block;
+  margin: 0 auto 4px;
+  filter: drop-shadow(0 0 18px rgba(201,148,58,0.45)) drop-shadow(0 2px 6px rgba(0,0,0,0.7));
+}
+
+.title-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 1.8vw, 20px);
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+/* ── TAGLINE (center) ── */
+#tagline {
+  text-align: center;
+  animation: fadeIn 1.8s ease forwards;
+  opacity: 0;
+  animation-delay: 0.6s;
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.tagline-text {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 1.5vw, 16px);
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  line-height: 2;
+  font-style: italic;
+}
+.tagline-text em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.sep {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  margin: 16px auto;
+}
+
+/* ── PORTALS (4 choices) ── */
+#portals {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+  animation: fadeUp 1.4s ease forwards;
+  opacity: 0;
+  animation-delay: 0.9s;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to { opacity:1; transform: none; }
+}
+
+.portal-card {
+  background: rgba(5,10,8,0.72);
+  border: 1px solid rgba(201,148,58,0.15);
+  backdrop-filter: blur(8px);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center bottom, var(--card-color, rgba(201,148,58,0.06)) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.portal-card:hover::before { opacity: 1; }
+
+.portal-card:hover {
+  border-color: var(--card-border, rgba(201,148,58,0.5));
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+/* Card 1 — Éditeur */
+.card-editor {
+  --card-color: rgba(201,148,58,0.1);
+  --card-border: rgba(201,148,58,0.6);
+}
+/* Card 2 — Musique */
+.card-music {
+  --card-color: rgba(74,170,212,0.1);
+  --card-border: rgba(74,170,212,0.5);
+}
+/* Card 3 — CT Corp */
+.card-ctcorp {
+  --card-color: rgba(74,110,160,0.1);
+  --card-border: rgba(74,110,160,0.5);
+}
+/* Card 4 — Écho Rouge */
+.card-echo {
+  --card-color: rgba(180,40,40,0.1);
+  --card-border: rgba(180,40,40,0.5);
+}
+
+.card-icon {
+  font-size: 28px;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+.card-editor .card-icon { color: var(--gold); }
+.card-music .card-icon { color: var(--blue-bright); }
+.card-ctcorp .card-icon { color: #8FAFC2; }
+.card-echo .card-icon { color: var(--red-bright); }
+
+.card-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+}
+
+.card-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 1.3vw, 15px);
+  color: var(--white);
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.card-editor .card-title { color: var(--gold); }
+.card-music .card-title { color: var(--blue-bright); }
+.card-ctcorp .card-title { color: #B0C8D8; }
+.card-echo .card-title { color: var(--red-bright); }
+
+.card-desc {
+  font-size: clamp(10px, 1vw, 12px);
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+
+.card-cta {
+  margin-top: 4px;
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border: 1px solid currentColor;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.card-editor .card-cta { color: var(--gold); }
+.card-music .card-cta { color: var(--blue-bright); }
+.card-ctcorp .card-cta { color: #8FAFC2; }
+.card-echo .card-cta { color: var(--red-bright); }
+.portal-card:hover .card-cta { opacity: 1; }
+
+/* ── FOOTER ── */
+#footer {
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+/* ── ECHO ROUGE OVERLAY (modal) ── */
+#echo-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.94);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+}
+#echo-overlay.active { display: flex; }
+
+.echo-modal {
+  width: 100%;
+  max-width: 520px;
+  padding: 40px;
+  border: 1px solid #1A3A14;
+  background: rgba(2,8,4,0.98);
+  text-align: center;
+}
+
+.echo-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 42px;
+  font-weight: 900;
+  color: #FF2020;
+  text-shadow: 0 0 30px rgba(255,32,32,0.6);
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.echo-sub {
+  font-size: 11px;
+  color: #2A4A2A;
+  letter-spacing: 0.3em;
+  margin-bottom: 32px;
+}
+
+.echo-prompt {
+  font-size: 11px;
+  color: #5A8A5A;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.echo-field {
+  display: flex;
+  border: 1px solid #1A3A14;
+  margin-bottom: 12px;
+}
+.echo-field input {
+  flex: 1;
+  background: #000;
+  border: none;
+  color: #00FF41;
+  font-family: 'Share Tech Mono', 'Orbitron', monospace;
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.echo-field input::placeholder { color: #1A3A1A; letter-spacing: 0.1em; }
+.echo-btn {
+  background: #0A2010;
+  border: none;
+  border-left: 1px solid #1A3A14;
+  color: #00A82A;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.echo-btn:hover { background: #00FF41; color: #000; }
+
+.echo-warning {
+  font-size: 10px;
+  color: #2A4A2A;
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+  margin-top: 16px;
+  border-top: 1px solid #0A1A0A;
+  padding-top: 16px;
+}
+.echo-cancel {
+  margin-top: 16px;
+  font-size: 10px;
+  color: #1A2A1A;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: 'Orbitron', monospace;
+}
+.echo-cancel:hover { color: #5A8A5A; }
+
+.echo-error {
+  font-size: 11px;
+  color: #FF2020;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: none;
+}
+.echo-error.visible { display: block; }
+
+/* ── RESPONSIVE ── */
+/* Tablet paysage & petit desktop */
+@media (max-width: 900px) {
+  #main { padding: 28px 24px 24px; }
+  .portal-card { padding: 20px 12px; }
+  .card-title { font-size: 13px; }
+}
+
+/* Tablet portrait */
+@media (max-width: 680px) {
+  #titre-img { width: clamp(220px, 78vw, 560px); }
+  html, body { overflow: auto; }
+  #main {
+    height: auto;
+    min-height: 100vh;
+    padding: 32px 16px 28px;
+    gap: 0;
+    justify-content: flex-start;
+  }
+  #header { margin-bottom: 20px; }
+  #title-img { width: clamp(200px, 80vw, 480px); }
+  #tagline { margin: 16px 0; }
+  .tagline-text { font-size: 12px; letter-spacing: 0.08em; }
+  #portals {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    gap: 12px;
+    margin: 0 0 20px 0;
+  }
+  .portal-card { padding: 18px 10px; gap: 8px; }
+  .card-icon { font-size: 22px; }
+  .card-title { font-size: 12px; }
+  .card-desc { font-size: 10px; display: none; }
+  .card-cta { font-size: 8px; padding: 4px 10px; }
+  #footer { margin-top: 16px; font-size: 10px; }
+}
+
+/* Mobile portrait */
+@media (max-width: 400px) {
+  #title-img { width: 90vw; }
+  .title-sub { font-size: 10px; letter-spacing: 0.15em; }
+  #portals { gap: 10px; }
+  .portal-card { padding: 16px 8px; }
+  .card-num { font-size: 8px; }
+  .card-title { font-size: 11px; }
+}
+
+/* Music modal responsive */
+@media (max-width: 680px) {
+  .music-platforms {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 28px;
+  }
+  .music-title { font-size: 12px; letter-spacing: 0.15em; }
+}
+@media (max-width: 400px) {
+  .music-platforms { gap: 16px 20px; }
+}
+
+/* Echo modal responsive */
+@media (max-width: 680px) {
+  .echo-modal { padding: 28px 20px; }
+  .echo-logo { font-size: 32px; }
+}
+
+/* ── MUSIC MODAL ── */
+#music-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 48px;
+  backdrop-filter: blur(6px);
+}
+#music-overlay.active { display: flex; }
+
+.music-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px, 2vw, 22px);
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.music-platforms {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 40px;
+  align-items: center;
+  justify-items: center;
+  max-width: 640px;
+  width: 100%;
+}
+
+.platform-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: brightness(0.7) saturate(0.6);
+}
+.platform-btn:hover {
+  transform: translateY(-6px) scale(1.06);
+  filter: brightness(1) saturate(1);
+}
+
+.platform-logo {
+  width: clamp(60px, 9vw, 100px);
+  height: clamp(60px, 9vw, 100px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+.platform-logo svg { width: 60%; height: 60%; }
+
+.platform-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(11px, 1.5vw, 15px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.music-close {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+  opacity: 0.5;
+}
+.music-close:hover { opacity: 1; color: var(--white); }
+
+/* ===================== ACCUEIL « LIVRE D'ABORD » ===================== */
+#main { display:block; height:auto; min-height:100vh; padding:0; }
+
+#hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  padding:64px 24px 56px; position:relative;
+  animation:fadeDown 1.2s ease forwards;
+}
+#hero .title-sub { margin-top:14px; }
+.accroche {
+  font-family:'Cinzel', serif; font-style:italic;
+  font-size:clamp(18px,3.4vw,30px); color:var(--gold);
+  letter-spacing:0.04em; text-shadow:0 0 24px rgba(201,148,58,0.25);
+  margin:14px auto 32px; max-width:24ch; line-height:1.4;
+}
+
+.btn {
+  font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.18em;
+  text-transform:uppercase; text-decoration:none; padding:14px 26px;
+  border:1px solid var(--gold-dim); color:var(--gold);
+  background:rgba(201,148,58,0.04); transition:all 0.25s ease;
+  cursor:pointer; display:inline-block;
+}
+.btn:hover, .btn:focus-visible { border-color:var(--gold); background:rgba(201,148,58,0.12); transform:translateY(-2px); }
+.btn.primary { background:var(--gold); color:#1a1206; border-color:var(--gold); }
+.btn.primary:hover, .btn.primary:focus-visible { background:var(--gold2); box-shadow:0 8px 30px rgba(201,148,58,0.3); }
+.btn.ghost { color:var(--text-dim); border-color:rgba(122,112,96,0.4); }
+.btn.ghost:hover, .btn.ghost:focus-visible { color:var(--blue-bright); border-color:var(--blue); }
+
+.hero-cta { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+.scroll-cue {
+  position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
+  color:var(--gold-dim); font-size:22px; text-decoration:none; line-height:1;
+  animation:bob 2s ease-in-out infinite;
+}
+.scroll-cue:hover, .scroll-cue:focus-visible { color:var(--gold); }
+@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(8px);} }
+
+.band { max-width:760px; margin:0 auto; padding:72px 24px; text-align:center; border-top:1px solid rgba(201,148,58,0.1); }
+.band-title { font-family:'Cinzel', serif; font-weight:600; font-size:clamp(22px,3.6vw,34px); color:var(--white); letter-spacing:0.04em; margin-bottom:14px; }
+.band-sub { font-family:'Barlow Condensed', sans-serif; font-size:clamp(14px,2vw,17px); color:var(--text-dim); letter-spacing:0.04em; line-height:1.6; max-width:54ch; margin:0 auto 28px; }
+
+/* PITCH */
+.pitch-lead { font-family:'Barlow Condensed', sans-serif; font-size:clamp(17px,2.6vw,22px); color:var(--text); line-height:1.6; max-width:56ch; margin:0 auto 20px; }
+.pitch-lead em { color:var(--gold); font-style:normal; }
+.pitch-body { font-family:'Barlow Condensed', sans-serif; font-size:clamp(15px,2.2vw,18px); color:var(--text-dim); line-height:1.7; max-width:56ch; margin:0 auto 24px; }
+.pitch-body strong { color:var(--white); font-weight:500; }
+.pitch-line { font-family:'Cinzel', serif; font-style:italic; font-size:clamp(16px,2.6vw,22px); color:var(--gold); line-height:1.5; max-width:42ch; margin:0 auto 20px; }
+.comps { font-family:'Orbitron', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
+.comps em { color:var(--text); font-style:normal; }
+
+/* LIVRE — MOCKUP */
+.book-mockup-link { display:inline-block; margin:0 auto 30px; max-width:300px; line-height:0; }
+.book-mockup { display:block; width:100%; height:auto; border:1px solid rgba(201,148,58,0.25); box-shadow:0 14px 44px rgba(0,0,0,0.6); transition:transform .25s ease, box-shadow .25s ease; }
+.book-mockup-link:hover .book-mockup, .book-mockup-link:focus-visible .book-mockup { transform:translateY(-4px); box-shadow:0 20px 54px rgba(201,148,58,0.28); }
+.secondary-actions { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+/* BO */
+.bo-band .bo-line { font-family:'Cinzel', serif; font-size:clamp(20px,3.4vw,30px); color:var(--blue-bright); margin-bottom:12px; letter-spacing:0.04em; }
+.bo-sub { font-family:'Barlow Condensed', sans-serif; font-size:clamp(14px,2vw,17px); color:var(--text-dim); max-width:52ch; margin:0 auto 26px; line-height:1.6; }
+.music-btn { color:var(--blue-bright); border-color:var(--blue); }
+.music-btn:hover, .music-btn:focus-visible { color:var(--blue-bright); border-color:var(--blue-bright); background:rgba(74,170,212,0.1); }
+
+/* SEUIL */
+.seuil { max-width:880px; padding-bottom:56px; }
+.seuil-head { margin-bottom:36px; }
+.seuil #portals { animation:none; opacity:1; margin-top:0; }
+
+#footer { padding:28px 24px 44px; border-top:1px solid rgba(201,148,58,0.08); }
+
+/* FOCUS CLAVIER */
+a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid var(--gold2); outline-offset:3px; }
+
+/* RESPONSIVE accueil */
+@media (max-width:680px) {
+  .band { padding:56px 18px; }
+  #hero { padding:48px 18px 56px; }
+  .hero-cta, .secondary-actions { flex-direction:column; width:100%; max-width:340px; margin-left:auto; margin-right:auto; }
+  .hero-cta .btn, .secondary-actions .btn { width:100%; }
+}
+
+/* MOUVEMENT RÉDUIT */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; }
+  html { scroll-behavior:auto; }
+  #hero { opacity:1; }
+}
+/* ===================== /ACCUEIL ===================== */
+
+/* ── Hero : scrim de lisibilité + garde-fou largeur titre ── */
+#hero::before {
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background: radial-gradient(ellipse 82% 62% at 50% 46%, rgba(2,6,8,0.74) 0%, rgba(2,6,8,0.4) 55%, transparent 82%);
+}
+#hero > * { position:relative; z-index:1; }
+#titre-img { max-width:90vw; }
+@media (max-width:680px) {
+  #hero #titre-img { width:min(78vw,420px); max-width:88vw; }
+}
+
+/* ── DISCLAIMER (avant CT Corp / Écho Rouge) — style CRT/terminal ── */
+#disclaimer-overlay{ display:none; position:fixed; inset:0; z-index:1200;
+  background:rgba(0,0,0,0.93); align-items:center; justify-content:center; padding:24px;
+  font-family:'Share Tech Mono','Orbitron',monospace; }
+#disclaimer-overlay.active{ display:flex; }
+.disclaimer-modal{ position:relative; overflow:hidden; width:100%; max-width:560px;
+  padding:34px 32px; background:rgba(2,6,8,0.98); border:1px solid rgba(201,148,58,0.4);
+  box-shadow:0 0 60px rgba(201,148,58,0.12), inset 0 0 46px rgba(0,0,0,0.65); }
+.disclaimer-modal::after{ content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.16) 2px, rgba(0,0,0,0.16) 3px); }
+.disclaimer-modal > *{ position:relative; z-index:1; }
+.disclaimer-head{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.26em;
+  text-transform:uppercase; color:var(--gold2); margin-bottom:18px; }
+.disclaimer-text{ font-family:'Barlow Condensed',sans-serif; font-size:clamp(15px,2.2vw,17px);
+  line-height:1.7; color:#B9C0B2; letter-spacing:0.01em; margin-bottom:26px; }
+.disclaimer-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+.disclaimer-btn{ font-family:'Orbitron',monospace; font-size:11px; letter-spacing:0.16em;
+  text-transform:uppercase; padding:12px 22px; cursor:pointer; background:var(--gold);
+  color:#1a1206; border:1px solid var(--gold); transition:all .2s; }
+.disclaimer-btn:hover, .disclaimer-btn:focus-visible{ background:var(--gold2); }
+.disclaimer-btn.ghost{ background:transparent; color:var(--text-dim); border-color:rgba(122,112,96,0.5); }
+.disclaimer-btn.ghost:hover, .disclaimer-btn.ghost:focus-visible{ color:var(--white); border-color:var(--text); }
+@media (max-width:680px){ .disclaimer-modal{ padding:26px 20px; } .disclaimer-actions .disclaimer-btn{ flex:1; text-align:center; } }
+</style>
+<!--i18n:style-->
+<style>
+.i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
+  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
+  padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;text-decoration:none;color:#9a8f7a;border-radius:2px;line-height:1;
+  white-space:nowrap;transition:background .2s,color .2s;}
+.i18n-switch a:hover,.i18n-switch a:focus-visible{color:#E8B84B;background:rgba(201,148,58,.14);}
+.i18n-switch .is-active{color:#020608;background:#C9943A;font-weight:700;}
+.i18n-switch .is-active:hover{color:#020608;background:#C9943A;}
+.i18n-switch .is-disabled{opacity:.35;cursor:not-allowed;}
+.i18n-switch a:focus-visible{outline:2px solid #E8B84B;outline-offset:2px;}
+.i18n-flag{font-size:13px;line-height:1;}
+@media (max-width:480px){.i18n-switch{font-size:10px;padding:2px;top:6px;right:6px;}
+  .i18n-switch a,.i18n-switch span{padding:4px 6px;gap:3px;}.i18n-flag{font-size:12px;}}
+@media (prefers-reduced-motion:reduce){.i18n-switch a{transition:none;}}
+</style>
+<!--/i18n:style-->
+<!--i18n:hreflang-->
+<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/index.html">
+<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/index.html">
+<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/index.html">
+<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/index.html">
+<!--/i18n:hreflang-->
+</head>
+<body>
+<!--i18n:switch-->
+<nav class="i18n-switch" aria-label="Language · Langue · Lingua"><a href="index.html" hreflang="fr" lang="fr" class="is-active" aria-current="page" aria-label="Français" data-i18n-lang="fr" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇫🇷</span> FR</a><a href="en/index.html" hreflang="en" lang="en" aria-label="English" data-i18n-lang="en" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇬🇧</span> EN</a><a href="it/index.html" hreflang="it" lang="it" aria-label="Italiano" data-i18n-lang="it" data-i18n-avail="1"><span class="i18n-flag" aria-hidden="true">🇮🇹</span> IT</a></nav>
+<!--/i18n:switch-->
+
+<div id="bg"></div>
+<div id="vignette"></div>
+<div id="scanlines"></div>
+
+<div id="main">
+
+  <!-- ============ HERO : LE LIVRE ============ -->
+  <header id="hero">
+    <div class="eyebrow">Un roman de <a href="https://www.facebook.com/profile.php?id=61577713296657" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Laurent Prestigiacomo</a></div>
+    <img id="titre-img" src="assets/img/img-956c06d1701c.png" alt="Esclaves du Temps" />
+    <div class="title-sub">Roman de Science-Fiction Dystopique · Éditions 3Cinq7 · 2026</div>
+    <div class="sep"></div>
+    <p class="accroche">« Et si votre vie ne durait qu'une minute ? »</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="prologue.html">Lire le prologue</a>
+      <a class="btn" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">Acheter le livre</a>
+    </div>
+    <a class="scroll-cue" href="#pitch" aria-label="Découvrir le roman">&#9662;</a>
+  </header>
+
+  <!-- ============ PITCH ============ -->
+  <section id="pitch" class="band">
+    <p class="pitch-lead">2034. <em>CT Corp</em> a appris à comprimer le temps : vivre des semaines de labeur en quelques heures réelles, vieillir dans l'ombre pendant que le monde reste figé. Vendu comme une utopie de productivité&nbsp;— en réalité, une humanité dépossédée de son présent.</p>
+    <p class="pitch-body">Trois trajectoires s'y croisent : <strong>Kael</strong>, l'adolescent des zones grises de Lyon qui vend son temps ; <strong>Sena</strong>, hacktiviste du réseau de résistance Écho Rouge ; <strong>NAOS-9</strong>, l'intelligence de surveillance qui se met à ressentir.</p>
+    <p class="pitch-line">Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?</p>
+    <p class="comps">Au croisement de <em>Dune</em>, <em>Ghost in the Shell</em> &amp; <em>Black Mirror</em></p>
+  </section>
+
+  <!-- ============ LE ROMAN ============ -->
+  <section id="prevenir" class="band">
+    <h2 class="band-title">Le roman</h2>
+    <a href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener" class="book-mockup-link" aria-label="Acheter le livre — Éditions 3Cinq7">
+      <img src="assets/img/Roman_Mockup.png" alt="Couverture du roman Esclaves du Temps" class="book-mockup" loading="lazy">
+    </a>
+    <div class="secondary-actions">
+      <a class="btn primary" href="prologue.html">Lire le prologue</a>
+      <a class="btn ghost" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">Acheter le livre</a>
+    </div>
+  </section>
+
+  <!-- ============ BANDE ORIGINALE ============ -->
+  <section class="band bo-band">
+    <p class="bo-line">Le roman a une bande-son.</p>
+    <p class="bo-sub">33 morceaux composés par l'auteur, chapitre par chapitre. Pas une illustration&nbsp;: une couche de plus du texte.</p>
+    <a class="btn music-btn" href="bande-originale.html">&#9658; Écouter la bande-originale</a>
+  </section>
+
+  <!-- ============ SEUIL : ENTRER DANS LE MONDE ============ -->
+  <section id="monde" class="band seuil">
+    <div class="seuil-head">
+      <div class="eyebrow">Pour qui veut plonger</div>
+      <h2 class="band-title">Entrer dans le monde</h2>
+      <p class="band-sub">Au-delà du livre, l'aventure se prolonge en ligne&nbsp;: le portail officiel de CT Corp, le réseau clandestin Écho Rouge, l'univers sonore. La continuation, pour qui veut plus.</p>
+    </div>
+
+    <!-- 4 PORTAILS (existants) -->
+    <div id="portals">
+
+      <!-- 1. Editeur -->
+      <a class="portal-card card-editor" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">
+        <div class="card-num">01 / ACCÈS</div>
+        <div class="card-icon">📖</div>
+        <div class="card-title">Acquérir le roman</div>
+        <div class="card-desc">Éditions 3Cinq7<br>Version papier &amp; (bientôt) numérique</div>
+        <div class="card-cta">Lire →</div>
+      </a>
+
+      <!-- 2. Bande-son -->
+      <div class="portal-card card-music" onclick="openMusic()" style="cursor:pointer">
+        <div class="card-num">02 / ACCÈS</div>
+        <div class="card-icon">🎵</div>
+        <div class="card-title">Bande Originale</div>
+        <div class="card-desc">L'univers sonore d'Esclaves du Temps<br>Disponible sur vos plateformes de streaming préférées</div>
+        <div class="card-cta">Écouter →</div>
+      </div>
+
+      <!-- 3. CT Corp -->
+      <a class="portal-card card-ctcorp" href="ctcorp-prototype.html" target="_blank" rel="noopener" onclick="return ctcorpEnter(event);">
+        <div class="card-num">03 / ACCÈS</div>
+        <div class="card-icon">⏱</div>
+        <div class="card-title">CT Corp<br>Portail Officiel</div>
+        <div class="card-desc">Le Temps est notre Matière Première.<br>Vous êtes notre Investissement.</div>
+        <div class="card-cta">Entrer →</div>
+      </a>
+
+      <!-- 4. Echo Rouge -->
+      <div class="portal-card card-echo" onclick="echoEnter()">
+        <div class="card-num">04 / ACCÈS RESTREINT</div>
+        <div class="card-icon">🔴</div>
+        <div class="card-title">Écho Rouge<br>Réseau Clandestin</div>
+        <div class="card-desc">Nœud TOR chiffré.<br>Authentification requise.</div>
+        <div class="card-cta">Rejoindre →</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="footer">
+    © 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction
+  </div>
+
+</div>
+
+<!-- DISCLAIMER — AVANT CT CORP / ÉCHO ROUGE -->
+<div id="disclaimer-overlay" role="dialog" aria-modal="true" aria-labelledby="disclaimer-head">
+  <div class="disclaimer-modal">
+    <div class="disclaimer-head" id="disclaimer-head">// Accès aux profondeurs — avertissement</div>
+    <p class="disclaimer-text">Descendre dans les entrailles de la terre, c'est risquer d'y découvrir plus que tu n'étais venu chercher. Lecteur, tu ne trouveras pas ici les réponses — seulement de quoi t'en gâcher la découverte. Si tu n'as pas déjà plongé dans les pages du roman, ouvre ces portes en toute connaissance de cause.</p>
+    <div class="disclaimer-actions">
+      <button type="button" class="disclaimer-btn" onclick="disclaimerContinue()">Continuer</button>
+      <button type="button" class="disclaimer-btn ghost" onclick="disclaimerBack()">Retour</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = 'edt_disclaimer_ack';
+  var pending = null;
+  function acknowledged(){ try { return sessionStorage.getItem(KEY) === '1'; } catch(e){ return false; } }
+  function remember(){ try { sessionStorage.setItem(KEY, '1'); } catch(e){} }
+  function overlay(){ return document.getElementById('disclaimer-overlay'); }
+  function show(action){ pending = action; overlay().classList.add('active'); }
+  window.disclaimerContinue = function(){ remember(); overlay().classList.remove('active'); var a = pending; pending = null; if (a) a(); };
+  window.disclaimerBack = function(){ overlay().classList.remove('active'); pending = null; };
+  // CT Corp (lien <a>) : disclaimer une fois par session, puis navigation normale.
+  window.ctcorpEnter = function(e){
+    if (acknowledged()) return true;
+    if (e && e.preventDefault) e.preventDefault();
+    show(function(){ window.open('ctcorp-prototype.html', '_blank', 'noopener'); });
+    return false;
+  };
+  // Écho Rouge : disclaimer puis ouverture de la modale d'authentification.
+  window.echoEnter = function(){
+    if (acknowledged()) { openEcho(); return; }
+    show(function(){ openEcho(); });
+  };
+})();
+</script>
+
+<!-- ÉCHO ROUGE — MODAL CODENAME -->
+<div id="echo-overlay">
+  <div class="echo-modal">
+    <div class="echo-logo">ÉCHO<br>ROUGE</div>
+    <div class="echo-sub">RÉSEAU DE RÉSISTANCE TEMPORELLE // NŒUD LYON-7</div>
+
+    <div class="echo-prompt">// Connexion TOR établie. Authentification requise.<br>// Entrez votre nom de code :</div>
+
+    <div class="echo-error" id="echo-err">⚠ Nom de code invalide. Minimum 3 caractères.</div>
+
+    <div class="echo-field">
+      <input type="text" id="echo-input" placeholder="NOM_DE_CODE_HACKEUR" autocomplete="off"
+        onkeydown="if(event.key==='Enter')enterEcho()"
+        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')">
+      <button class="echo-btn" onclick="enterEcho()">VALIDER</button>
+    </div>
+
+    <div class="echo-warning">
+      Ce nœud est surveillé par Kassandra.<br>
+      Votre empreinte temporelle est consignée à chaque tentative.<br>
+      En accédant à ce réseau, vous devenez un agent de la Résistance.
+    </div>
+
+    <button class="echo-cancel" onclick="closeEcho()">[ ANNULER — QUITTER CE NŒUD ]</button>
+  </div>
+</div>
+
+<script>
+function openEcho() {
+  document.getElementById('echo-overlay').classList.add('active');
+  setTimeout(() => document.getElementById('echo-input').focus(), 100);
+}
+function closeEcho() {
+  document.getElementById('echo-overlay').classList.remove('active');
+  document.getElementById('echo-input').value = '';
+  document.getElementById('echo-err').classList.remove('visible');
+}
+function enterEcho() {
+  const val = document.getElementById('echo-input').value.trim();
+  const err = document.getElementById('echo-err');
+  if (val.length < 3) {
+    err.classList.add('visible');
+    return;
+  }
+  err.classList.remove('visible');
+  // Store codename and open echo rouge site
+  sessionStorage.setItem('er_codename', val);
+  window.open('echo-rouge-v2.html?agent=' + encodeURIComponent(val), '_blank');
+  closeEcho();
+}
+</script>
+
+<!-- MUSIC MODAL -->
+<div id="music-overlay" onclick="if(event.target===this)closeMusic()">
+  <div class="music-title">Bande Originale — Esclaves du Temps</div>
+
+  <div class="music-platforms">
+
+    <!-- Spotify -->
+    <a class="platform-btn" href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener" title="Spotify">
+      <div class="platform-logo" style="background:#1DB954;box-shadow:0 0 40px rgba(29,185,84,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Spotify</div>
+    </a>
+
+    <!-- Apple Music -->
+    <a class="platform-btn" href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener" title="Apple Music">
+      <div class="platform-logo" style="background:linear-gradient(135deg,#FC5C7D,#6A3093);box-shadow:0 0 40px rgba(252,92,125,0.35)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208A5.494 5.494 0 00.06 4.97C.027 5.29 0 5.61 0 5.93v12.141c.01.172.017.345.026.518.06 1.13.322 2.187.932 3.117A4.964 4.964 0 003.2 23.48a7.026 7.026 0 002.023.42c.588.048 1.18.065 1.77.065h12.214c.57 0 1.14-.022 1.71-.065a6.86 6.86 0 001.948-.407 4.96 4.96 0 002.258-1.862c.63-.963.878-2.04.925-3.18.033-.316.042-.635.042-.952V6.18a.858.858 0 00-.096-.056zM12 18.062a5.563 5.563 0 11.001-11.126A5.563 5.563 0 0112 18.062zm5.792-10.07a1.297 1.297 0 110-2.595 1.297 1.297 0 010 2.595zM12 8.418a3.582 3.582 0 100 7.164 3.582 3.582 0 000-7.164z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Apple Music</div>
+    </a>
+
+    <!-- Amazon Music -->
+    <a class="platform-btn" href="https://www.amazon.com/Prologue/dp/B0GZ15KLFS" target="_blank" rel="noopener" title="Amazon Music">
+      <div class="platform-logo" style="background:#00A8E0;box-shadow:0 0 40px rgba(0,168,224,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Amazon Music</div>
+    </a>
+
+    <!-- YouTube Music -->
+    <a class="platform-btn" href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener" title="YouTube Music">
+      <div class="platform-logo" style="background:#FF0000;box-shadow:0 0 40px rgba(255,0,0,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm-1.44 15.6L8.16 17.28V6.72l2.4 1.68 4.8 3.36-4.8 3.84z"/>
+          <path d="M23.495 6.205a3.028 3.028 0 0 0-2.13-2.13C19.62 3.5 12 3.5 12 3.5s-7.62 0-9.365.575a3.028 3.028 0 0 0-2.13 2.13C0 8.048 0 12 0 12s0 3.952.505 5.795a3.028 3.028 0 0 0 2.13 2.13C4.38 20.5 12 20.5 12 20.5s7.62 0 9.365-.575a3.028 3.028 0 0 0 2.13-2.13C24 15.952 24 12 24 12s0-3.952-.505-5.795zM9.546 15.569V8.431L15.818 12l-6.272 3.569z"/>
+        </svg>
+      </div>
+      <div class="platform-label">YouTube Music</div>
+    </a>
+
+    <!-- Deezer -->
+    <a class="platform-btn" href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener" title="Deezer">
+      <div class="platform-logo" style="background:#A238FF;box-shadow:0 0 40px rgba(162,56,255,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Deezer</div>
+    </a>
+
+    <!-- SoundCloud -->
+    <a class="platform-btn" href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener" title="SoundCloud">
+      <div class="platform-logo" style="background:#FF5500;box-shadow:0 0 40px rgba(255,85,0,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/>
+        </svg>
+      </div>
+      <div class="platform-label">SoundCloud</div>
+    </a>
+
+    <!-- Anghami -->
+    <a class="platform-btn" href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener" title="Anghami">
+      <div class="platform-logo" style="background:#E21E5C;box-shadow:0 0 40px rgba(226,30,92,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 19.5a7.5 7.5 0 110-15 7.5 7.5 0 010 15zm0-13a5.5 5.5 0 100 11 5.5 5.5 0 000-11zm0 9a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm0-5.5a2 2 0 100 4 2 2 0 000-4z"/>
+        </svg>
+      </div>
+      <div class="platform-label">Anghami</div>
+    </a>
+
+    <!-- 7digital -->
+    <a class="platform-btn" href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener" title="7digital">
+      <div class="platform-logo" style="background:#E2001A;box-shadow:0 0 40px rgba(226,0,26,0.4)">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm1.5 17h-2V9.5H9V8h4.5V17zm2-9a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+          <text x="6" y="16" font-family="Arial" font-weight="bold" font-size="9" fill="white">7</text>
+        </svg>
+      </div>
+      <div class="platform-label">7digital</div>
+    </a>
+
+  </div>
+
+  <button class="music-close" onclick="closeMusic()">[ Fermer ]</button>
+</div>
+
+<script>
+function openMusic() {
+  document.getElementById('music-overlay').classList.add('active');
+}
+function closeMusic() {
+  document.getElementById('music-overlay').classList.remove('active');
+}
+</script>
+<!--i18n:js-->
+<script src="assets/js/lang-switch.js" defer></script>
+<!--/i18n:js-->
+<!--i18n:analytics-->
+<script data-goatcounter="https://presti013.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!--/i18n:analytics-->
+</body>
+</html>
