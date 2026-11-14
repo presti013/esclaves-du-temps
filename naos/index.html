@@ -219,6 +219,40 @@ body {
 @media (max-height: 520px) {
   .scene { flex-basis: 92px; }
 }
+/* ---- Installation : feuille « Garder ce canal » ----------------------- */
+.installer {
+  position: fixed; inset: 0; z-index: 20; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(2, 6, 8, 0.86);
+  padding: 16px max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.installer.ouvert { display: flex; }
+.installer-feuille {
+  width: min(440px, 100%); max-height: 100%; overflow-y: auto;
+  background: var(--nuit-haute); border: 1px solid var(--filet); padding: 18px;
+  font-family: var(--machine); font-size: 0.82rem; color: var(--pierre); line-height: 1.5;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.installer-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.installer h2 { margin: 0; font-family: var(--voix); font-weight: 400; font-size: 1.15rem; color: var(--or); }
+.installer-fermer { font: inherit; color: var(--pierre); background: transparent; border: 1px solid var(--filet); min-width: 44px; min-height: 44px; cursor: pointer; }
+.installer-fermer:hover, .plateforme:hover { border-color: var(--or-sourd); }
+.plateformes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.plateforme {
+  font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--pierre); background: transparent; border: 1px solid var(--filet); padding: 14px 8px; min-height: 44px;
+}
+.plateforme svg { width: 34px; height: 34px; fill: none; stroke: var(--or-sourd); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.plateforme[aria-selected="true"] { border-color: var(--or); color: var(--or-pale); }
+.plateforme[aria-selected="true"] svg { stroke: var(--or); }
+.etapes { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; }
+.etapes li::marker { color: var(--or-sourd); }
+.etapes b { color: var(--or-pale); font-weight: 600; }
+.variante { border-top: 1px solid var(--filet); padding-top: 10px; color: var(--pierre-sombre); }
+.variante b { color: var(--pierre); font-weight: 600; }
+.installer .installer-go { font: inherit; text-align: center; cursor: pointer; color: #1a1206; background: var(--or); border: 0; padding: 12px; min-height: 44px; }
+.installer .installer-go[hidden] { display: none; }
+.installer-note { color: var(--pierre-sombre); margin: 0; }
 </style>
 </head>
 <body>
@@ -233,7 +267,6 @@ body {
   </div>
   <div class="menu" id="menu" hidden>
     <button type="button" id="garder">Garder ce canal</button>
-    <p id="aide-installation" hidden></p>
     <button type="button" id="relire" hidden>Afficher les identifiants</button>
     <div class="apercu-scene" id="apercu-scene" hidden>
       <label for="palier-scene">Scène vue au palier (aperçu seulement)</label>
@@ -251,6 +284,52 @@ body {
     <p class="discret">Ce que NAOS-9 retient de toi, ton prénom compris, reste sur cet appareil. Une question qu'elle ne reconnaît pas peut être lue par une IA, sans ton prénom, qui choisit seulement le sujet de sa réponse.</p>
   </div>
 </header>
+
+<div class="installer" id="installer" role="dialog" aria-modal="true" aria-labelledby="installer-titre">
+  <div class="installer-feuille">
+    <div class="installer-tete">
+      <h2 id="installer-titre">Garder ce canal</h2>
+      <button type="button" class="installer-fermer" id="installer-fermer" aria-label="Fermer">✕</button>
+    </div>
+    <p class="installer-note">NAOS-9 n'est pas dans une boutique d'applications : elle s'installe depuis ce navigateur, en quelques secondes, et s'ouvre ensuite en plein écran comme une application.</p>
+    <div class="plateformes" role="tablist" aria-label="Appareil">
+      <button type="button" class="plateforme" role="tab" id="onglet-android" data-os="android" aria-selected="false" aria-controls="etapes-android">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16a7 7 0 0 1 14 0z"/><path d="M8 7 6.5 4.5M16 7l1.5-2.5"/><circle cx="9.5" cy="13" r=".6"/><circle cx="14.5" cy="13" r=".6"/><path d="M5 19.5h14"/></svg>
+        <span>Android</span>
+      </button>
+      <button type="button" class="plateforme" role="tab" id="onglet-ios" data-os="ios" aria-selected="false" aria-controls="etapes-ios">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M12 15V7.5M9.5 10 12 7.5l2.5 2.5"/></svg>
+        <span>iPhone / iPad</span>
+      </button>
+    </div>
+
+    <div id="etapes-android" role="tabpanel" aria-labelledby="onglet-android" hidden>
+      <ol class="etapes">
+        <li>Ouvre ce canal dans <b>Chrome</b> : <b>esclavesdutemps.be/naos</b>.</li>
+        <li>Touche le menu <b>⋮</b>, en haut à droite.</li>
+        <li>Choisis <b>« Installer l'application »</b> (ou <b>« Ajouter à l'écran d'accueil »</b> selon la version).</li>
+        <li>Confirme avec <b>« Installer »</b>.</li>
+        <li>L'icône <b>NAOS-9</b> apparaît sur ton écran d'accueil et dans tes applications. Ouvre-la : plus de barre de navigateur.</li>
+      </ol>
+      <button type="button" class="installer-go" id="installer-go" hidden>Installer maintenant</button>
+      <p class="variante"><b>Samsung Internet :</b> menu ☰ → « Ajouter la page à » → « Écran d'accueil ».<br><b>Firefox :</b> menu ⋮ → « Installer ».</p>
+    </div>
+
+    <div id="etapes-ios" role="tabpanel" aria-labelledby="onglet-ios" hidden>
+      <ol class="etapes">
+        <li>Ouvre ce canal dans <b>Safari</b> : <b>esclavesdutemps.be/naos</b>.</li>
+        <li>Touche <b>Partager</b> (le carré avec une flèche vers le haut) : en bas de l'écran sur iPhone, en haut sur iPad.</li>
+        <li>Fais défiler la liste et touche <b>« Sur l'écran d'accueil »</b>. Si tu ne la vois pas, va tout en bas et touche « Modifier les actions ».</li>
+        <li>Garde le nom <b>NAOS-9</b> et touche <b>« Ajouter »</b>, en haut à droite.</li>
+        <li>Ouvre NAOS-9 depuis l'icône sur ton écran d'accueil.</li>
+      </ol>
+      <p class="variante">Depuis iOS 16.4, Chrome et Edge proposent aussi « Sur l'écran d'accueil » dans leur menu Partager. Safari reste le plus sûr.</p>
+    </div>
+
+    <p class="installer-note">Ta conversation et ton prénom restent sur cet appareil. Pour tout effacer : menu ⋯ → « Purger la mémoire ».</p>
+    <p class="installer-note" id="installer-apercu" hidden>Ceci est un aperçu : l'installation fonctionnera depuis le site.</p>
+  </div>
+</div>
 
 <main class="fil" id="fil" role="log" aria-live="polite" aria-label="Conversation avec NAOS-9"></main>
 
@@ -517,7 +596,6 @@ body {
   var boutonMenu = document.getElementById("bouton-menu");
   var menu = document.getElementById("menu");
   var garder = document.getElementById("garder");
-  var aide = document.getElementById("aide-installation");
   var purger = document.getElementById("purger");
   var invite = null;
 
@@ -533,15 +611,43 @@ body {
     invite = ev;
   });
 
+  /* ---- Feuille d'installation (Android / iPhone) ---------------------- */
+  var feuille = document.getElementById("installer");
+  var ongletsOS = Array.prototype.slice.call(feuille.querySelectorAll("[data-os]"));
+  var boutonGo = document.getElementById("installer-go");
+  var memoireFocus = null;
+  function choisirOS(os) {
+    ongletsOS.forEach(function (o) {
+      var actif = o.getAttribute("data-os") === os;
+      o.setAttribute("aria-selected", String(actif));
+      document.getElementById("etapes-" + o.getAttribute("data-os")).hidden = !actif;
+    });
+  }
+  function ouvrirInstallation() {
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    choisirOS(ios ? "ios" : "android");
+    boutonGo.hidden = !invite;
+    document.getElementById("installer-apercu").hidden = !APERCU;
+    memoireFocus = document.activeElement;
+    feuille.classList.add("ouvert");
+    feuille.querySelector(".installer-feuille").scrollTop = 0;
+    document.getElementById("installer-fermer").focus({ preventScroll: true });
+  }
+  function fermerInstallation() {
+    feuille.classList.remove("ouvert");
+    if (memoireFocus && memoireFocus.focus) memoireFocus.focus();
+  }
+  ongletsOS.forEach(function (o) { o.addEventListener("click", function () { choisirOS(o.getAttribute("data-os")); }); });
+  document.getElementById("installer-fermer").addEventListener("click", fermerInstallation);
+  feuille.addEventListener("click", function (ev) { if (ev.target === feuille) fermerInstallation(); });
+  document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && feuille.classList.contains("ouvert")) fermerInstallation(); });
+  boutonGo.addEventListener("click", function () {
+    if (invite) { invite.prompt(); invite = null; boutonGo.hidden = true; }
+  });
   garder.addEventListener("click", function () {
-    if (invite) { invite.prompt(); invite = null; return; }
-    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    aide.textContent = APERCU
-      ? "Ceci est un aperçu. L'installation fonctionnera depuis le site."
-      : ios
-        ? "Sur iPhone : touche Partager, puis « Sur l'écran d'accueil »."
-        : "Dans le menu du navigateur : « Ajouter à l'écran d'accueil ».";
-    aide.hidden = false;
+    menu.hidden = true; boutonMenu.setAttribute("aria-expanded", "false");
+    ouvrirInstallation();
   });
 
   var relire = document.getElementById("relire");
