@@ -767,20 +767,6 @@
                             CYCLE BIO-CHRONOLOGIQUE
                         </h2>
                     </div>
-
-                    <!-- Top-Right Controls: Local File Loader + Auto Ping-Pong Toggle -->
-                    <div class="flex flex-wrap items-center gap-2.5 font-mono-tech text-xs">
-                        <label for="temporal-file-input" class="px-3 py-1.5 rounded-lg border border-[#c9a24b]/40 bg-[#07131e]/90 hover:bg-[#c9a24b]/20 text-[#e3be68] transition-all cursor-pointer flex items-center gap-1.5" title="Charger votre visuel panoramique depuis votre ordinateur">
-                            <span>📂</span>
-                            <span data-fr="CHARGER L'IMAGE LOCALE" data-en="LOAD LOCAL IMAGE">CHARGER L'IMAGE LOCALE</span>
-                        </label>
-                        <input id="temporal-file-input" type="file" accept="image/*" class="hidden">
-
-                        <button id="chrono-autoplay-btn" type="button" class="px-3 py-1.5 rounded-lg border border-[#3ba4c7]/50 bg-[#3ba4c7]/15 text-[#7ad7f0] hover:bg-[#3ba4c7]/30 transition-all cursor-pointer flex items-center gap-1.5">
-                            <span id="chrono-play-dot" class="w-2 h-2 rounded-full bg-[#7ad7f0] animate-pulse"></span>
-                            <span id="chrono-autoplay-label" data-fr="CYCLE AUTO: ON" data-en="AUTO CYCLE: ON">CYCLE AUTO: ON</span>
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Main Panoramic Triptych Frame -->
@@ -1996,14 +1982,10 @@
             const lensOverlay = document.getElementById('chrono-lens-overlay');
             const scannerBeam = document.getElementById('chrono-scanner-beam');
             const scrubber = document.getElementById('chrono-scrubber');
-            const autoBtn = document.getElementById('chrono-autoplay-btn');
-            const autoLabel = document.getElementById('chrono-autoplay-label');
-            const playDot = document.getElementById('chrono-play-dot');
             const dirBadge = document.getElementById('chrono-direction-badge');
             const yearReadout = document.getElementById('chrono-year-readout');
             const phaseCode = document.getElementById('chrono-phase-code');
             const phaseDesc = document.getElementById('chrono-phase-desc');
-            const fileInput = document.getElementById('temporal-file-input');
             const eraButtons = document.querySelectorAll('.chrono-era-btn');
 
             if (!imgEl || !scrubber) return;
@@ -2059,7 +2041,7 @@
                     <path d="M350,240 L520,240 L560,210 L730,210" stroke="#e3be68" stroke-width="1.5" fill="none" opacity="0.7"/>
                     <path d="M870,220 L1030,220 L1070,255 L1245,255" stroke="#d92b3a" stroke-width="1.5" fill="none" opacity="0.75"/>
                     <text x="800" y="472" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="12">
-                        [ PLACEZ VOTRE PHOTO SOUS assets/temporal-cycle.jpg OU CLIQUEZ SUR « CHARGER L'IMAGE LOCALE » ]
+                        [ PLACEZ VOTRE PHOTO SOUS assets/temporal-cycle.jpg ]
                     </text>
                 </svg>
             `)}`;
@@ -2074,13 +2056,6 @@
                     imgEl.src = fallbackTriptychSVG;
                 }
             };
-
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files && e.target.files[0];
-                if (!file) return;
-                const objectUrl = URL.createObjectURL(file);
-                imgEl.src = objectUrl;
-            });
 
             let progress = 0.5;
             let direction = 1;
@@ -2196,34 +2171,18 @@
                 requestAnimationFrame(animateTemporalLoop);
             }
 
+            // Le curseur met le cycle en pause ; il reprend seul après 4 s d'inactivité.
+            let resumeTimer = null;
             scrubber.addEventListener('input', (e) => {
                 isAutoPlaying = false;
                 targetProgress = null;
-                syncAutoPlayButton();
                 progress = parseFloat(e.target.value) / 1000;
                 updateTemporalVisuals(progress);
-            });
-
-            function syncAutoPlayButton() {
-                if (isAutoPlaying) {
-                    autoLabel.setAttribute('data-fr', 'CYCLE AUTO: ON');
-                    autoLabel.setAttribute('data-en', 'AUTO CYCLE: ON');
-                    playDot.classList.remove('bg-slate-500');
-                    playDot.classList.add('bg-[#7ad7f0]', 'animate-pulse');
-                } else {
-                    autoLabel.setAttribute('data-fr', 'CYCLE AUTO: OFF');
-                    autoLabel.setAttribute('data-en', 'AUTO CYCLE: OFF');
-                    playDot.classList.remove('bg-[#7ad7f0]', 'animate-pulse');
-                    playDot.classList.add('bg-slate-500');
-                }
-                setLanguage(currentLang);
-            }
-
-            autoBtn.addEventListener('click', () => {
-                isAutoPlaying = !isAutoPlaying;
-                targetProgress = null;
-                syncAutoPlayButton();
-                updateTemporalVisuals(progress);
+                clearTimeout(resumeTimer);
+                resumeTimer = setTimeout(() => {
+                    isAutoPlaying = true;
+                    updateTemporalVisuals(progress);
+                }, 4000);
             });
 
             eraButtons.forEach((btn) => {
