@@ -378,6 +378,20 @@
             background: var(--gold-antique);
             border-radius: 3px;
         }
+            /* Avertissement spoilers (avant CT-Corp / Echo Rouge) — style CRT */
+        #spoil-overlay { display: none; position: fixed; inset: 0; z-index: 70; align-items: center; justify-content: center; padding: 24px; background: rgba(0, 0, 0, 0.93); }
+        #spoil-overlay.active { display: flex; }
+        .spoil-modal { position: relative; overflow: hidden; width: 100%; max-width: 560px; padding: 34px 32px; background: rgba(2, 6, 8, 0.98); border: 1px solid rgba(201, 162, 75, 0.4); box-shadow: 0 0 60px rgba(201, 162, 75, 0.12), inset 0 0 46px rgba(0, 0, 0, 0.65); }
+        .spoil-modal::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.16) 2px, rgba(0, 0, 0, 0.16) 3px); }
+        .spoil-modal > * { position: relative; z-index: 1; }
+        .spoil-head { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold-bright); margin-bottom: 18px; }
+        .spoil-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 1.7; color: #b9c0b2; margin-bottom: 26px; }
+        .spoil-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .spoil-btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; padding: 12px 22px; min-height: 44px; cursor: pointer; background: var(--gold-antique); color: #1a1206; border: 1px solid var(--gold-antique); transition: all .2s; }
+        .spoil-btn:hover, .spoil-btn:focus-visible { background: var(--gold-bright); }
+        .spoil-btn.ghost { background: transparent; color: #94a3b8; border-color: rgba(148, 163, 184, 0.45); }
+        .spoil-btn.ghost:hover, .spoil-btn.ghost:focus-visible { color: #fff; border-color: #cbd5e1; }
+        @media (max-width: 680px) { .spoil-modal { padding: 26px 20px; } .spoil-actions .spoil-btn { flex: 1; text-align: center; } }
     </style>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -879,6 +893,18 @@
             <div id="modal-tag" class="font-mono-tech text-xs text-[#7ad7f0] mb-2">[ TRANSMISSION ]</div>
             <h3 id="modal-title" class="font-display text-xl sm:text-2xl font-bold text-[#e3be68] mb-3">Titre</h3>
             <div id="modal-body" class="text-sm text-slate-300 space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- AVERTISSEMENT SPOILERS — AVANT CT-CORP / ECHO ROUGE -->
+    <div id="spoil-overlay" role="dialog" aria-modal="true" aria-labelledby="spoil-head">
+        <div class="spoil-modal">
+            <div class="spoil-head" id="spoil-head"></div>
+            <p class="spoil-text" id="spoil-text"></p>
+            <div class="spoil-actions">
+                <button type="button" class="spoil-btn" id="spoil-continue"></button>
+                <button type="button" class="spoil-btn ghost" id="spoil-back"></button>
+            </div>
         </div>
     </div>
 
@@ -1961,7 +1987,34 @@
             }
         };
 
+        /* Avertissement spoilers : une fois par session avant CT-Corp et Echo Rouge */
+        const SPOIL_KEY = 'edt_disclaimer_ack';
+        const SPOIL_GATED = ['ctcorp', 'echorouge'];
+        const spoilOverlay = document.getElementById('spoil-overlay');
+        let spoilPending = null;
+        function spoilAcknowledged() { try { return sessionStorage.getItem(SPOIL_KEY) === '1'; } catch (e) { return false; } }
+        function showSpoilWarning(key) {
+            const fr = currentLang === 'fr';
+            document.getElementById('spoil-head').textContent = fr ? '// Accès aux profondeurs — avertissement' : '// Access to the depths — warning';
+            document.getElementById('spoil-text').textContent = fr
+                ? "Descendre dans les entrailles de la terre, c'est risquer d'y découvrir plus que tu n'étais venu chercher. Lecteur, tu ne trouveras pas ici les réponses — seulement de quoi t'en gâcher la découverte. Si tu n'as pas déjà plongé dans les pages du roman, ouvre ces portes en toute connaissance de cause."
+                : "To descend into the bowels of the earth is to risk finding more than you came for. Reader, you will not find the answers here — only enough to spoil their discovery. If you have not already dived into the pages of the novel, open these doors with full knowledge.";
+            document.getElementById('spoil-continue').textContent = fr ? 'Continuer' : 'Continue';
+            document.getElementById('spoil-back').textContent = fr ? 'Retour' : 'Back';
+            spoilPending = key;
+            spoilOverlay.classList.add('active');
+            document.getElementById('spoil-continue').focus();
+        }
+        function closeSpoilWarning() { spoilOverlay.classList.remove('active'); spoilPending = null; }
+        document.getElementById('spoil-continue').addEventListener('click', () => {
+            try { sessionStorage.setItem(SPOIL_KEY, '1'); } catch (e) {}
+            const key = spoilPending; closeSpoilWarning(); if (key) openModal(key);
+        });
+        document.getElementById('spoil-back').addEventListener('click', closeSpoilWarning);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && spoilOverlay.classList.contains('active')) closeSpoilWarning(); });
+
         function openModal(key) {
+            if (SPOIL_GATED.includes(key) && !spoilAcknowledged()) { showSpoilWarning(key); return; }
             const data = modalContent[key];
             if (!data) return;
             modalTag.textContent = data.tag;
