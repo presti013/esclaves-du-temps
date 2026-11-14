@@ -79,6 +79,7 @@
         }
 
         /* Inline SVG Custom Glyphs (Alchemical A & Reversed E) */
+        html[lang="en"] .title-fr, html:not([lang="en"]) .title-en { display: none; }
         .cover-glyph-svg {
             display: inline-block;
             height: 0.78em;
@@ -527,7 +528,8 @@
                 </p>
 
                 <!-- Exact Book Cover Title: ESCLAVES DU TEMPS with Alchemical 'A' & Reversed 'E' -->
-                <h1 aria-label="ESCLAVES DU TEMPS" class="font-cover-title font-semibold tracking-[0.06em] uppercase select-none leading-[1.08]">
+                <h1 id="hero-title" aria-label="ESCLAVES DU TEMPS" class="font-cover-title font-semibold tracking-[0.06em] uppercase select-none leading-[1.08]">
+                    <span class="title-fr">
                     <!-- Line 1: ESCL[Alchemical A]VES -->
                     <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem]">
                         <span class="cover-gold-text">ESCL</span><svg class="cover-glyph-svg mx-[0.02em]" viewBox="0 0 92 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -559,6 +561,38 @@
                                 M11 4 H58 V8.5 H53.5 V69.5 H58 V74 H11 V61.5 H15 V69.5 H46.5 V40.5 H24 V46.5 H20 V30.5 H24 V36 H46.5 V8.5 H15 V16.5 H11 V4 Z
                             "/>
                         </svg><span class="cover-gold-text">MPS</span>
+                    </span>
+                    </span>
+                    <span class="title-en">
+                        <!-- SL[Alchemical A]VES -->
+                        <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem]">
+                            <span class="cover-gold-text">SL</span><svg class="cover-glyph-svg mx-[0.02em]" viewBox="0 0 92 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphA2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#goldGlyphA2)" fill-rule="evenodd" d="M46 4 L12 74 H80 L46 4 Z M46 17 L21 68 H71 L46 17 Z"/>
+                            <rect x="4" y="34.5" width="84" height="5.5" fill="url(#goldGlyphA2)"/>
+                        </svg><span class="cover-gold-text">VES</span>
+                        </span>
+                        <!-- OF TIM[Reversed E] -->
+                        <span class="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.65rem] mt-1 sm:mt-1.5">
+                            <span class="cover-gold-text text-[0.76em] tracking-[0.08em] mr-[0.28em]">OF</span><span class="cover-gold-text">TIM</span><svg class="cover-glyph-svg mx-[0.03em]" viewBox="0 0 64 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphE2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#goldGlyphE2)" d="
+                                M11 4 H58 V8.5 H53.5 V69.5 H58 V74 H11 V61.5 H15 V69.5 H46.5 V40.5 H24 V46.5 H20 V30.5 H24 V36 H46.5 V8.5 H15 V16.5 H11 V4 Z
+                            "/>
+                        </svg>
+                        </span>
                     </span>
                 </h1>
 
@@ -885,7 +919,7 @@
 
                 <!-- Minimal Copyright Footer -->
                 <footer class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono-tech text-[11px] text-slate-500">
-                    <p>© <span id="year"></span> ESCLAVES DU TƎMPS — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
+                    <p>© <span id="year"></span> <span data-fr="ESCLAVES DU TƎMPS" data-en="SLAVES OF TIME">ESCLAVES DU TƎMPS</span> — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
                     <p class="text-slate-600">PROTOCOLE NAOS-9 // SYSTÈME DE COMPRESSION TEMPORELLE ACTIF</p>
                 </footer>
             </div>
@@ -984,6 +1018,10 @@
                 langFrLabel.classList.add('text-white/50');
             }
 
+            // (le titre du morceau en cours se met à jour en fin de fonction)
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) heroTitle.setAttribute('aria-label', lang === 'en' ? 'SLAVES OF TIME' : 'ESCLAVES DU TEMPS');
+
             document.querySelectorAll('[data-fr][data-en]').forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
                 if (text) {
@@ -993,6 +1031,7 @@
                     }
                 }
             });
+            if (window.__lastTrackTitle && typeof updateTrackTitleDisplay === 'function') updateTrackTitleDisplay(window.__lastTrackTitle);
         }
 
         langToggleBtn.addEventListener('click', () => {
@@ -1042,7 +1081,8 @@
 
         function updateTrackTitleDisplay(title) {
             if (!title) return;
-            const formatted = `♫ ${title.toUpperCase()} — ESCLAVES DU TEMPS (OST)`;
+            window.__lastTrackTitle = title;
+            const formatted = `♫ ${title.toUpperCase()} — ${currentLang === 'en' ? 'SLAVES OF TIME' : 'ESCLAVES DU TEMPS'} (OST)`;
             scTrackTitleEl.removeAttribute('data-fr');
             scTrackTitleEl.removeAttribute('data-en');
             scTrackTitleEl.textContent = formatted;
