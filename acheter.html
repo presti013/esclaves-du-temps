@@ -699,6 +699,11 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 .btn.buy .buy-ed { font-size:9px; letter-spacing:0.2em; color:var(--text-dim); }
 .btn.buy:hover .buy-ed, .btn.buy:focus-visible .buy-ed { color:var(--gold); }
 @media (max-width:680px) { .hero-cta .btn.buy { justify-content:center; } }
+/* Hero compact : le résumé suit directement les boutons */
+#hero { min-height:0; padding:56px 24px 16px; }
+#hero + .band { border-top:none; padding-top:32px; }
+#hero .scroll-cue { display:none; }
+@media (max-width:680px) { #hero { padding:40px 18px 8px; } #hero + .band { padding-top:24px; } }
 </style>
 </head>
 <body>
