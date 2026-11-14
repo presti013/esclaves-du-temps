@@ -378,6 +378,27 @@
             background: var(--gold-antique);
             border-radius: 3px;
         }
+            /* Avertissement spoilers (avant CT-Corp / Echo Rouge) — style CRT */
+        #spoil-overlay { display: none; position: fixed; inset: 0; z-index: 70; align-items: center; justify-content: center; padding: 24px; background: rgba(0, 0, 0, 0.93); }
+        #spoil-overlay.active { display: flex; }
+        .spoil-modal { position: relative; overflow: hidden; width: 100%; max-width: 560px; padding: 34px 32px; background: rgba(2, 6, 8, 0.98); border: 1px solid rgba(201, 162, 75, 0.4); box-shadow: 0 0 60px rgba(201, 162, 75, 0.12), inset 0 0 46px rgba(0, 0, 0, 0.65); }
+        .spoil-modal::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.16) 2px, rgba(0, 0, 0, 0.16) 3px); }
+        .spoil-modal > * { position: relative; z-index: 1; }
+        .spoil-head { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold-bright); margin-bottom: 18px; }
+        .spoil-text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 1.7; color: #b9c0b2; margin-bottom: 26px; }
+        .spoil-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .spoil-btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; padding: 12px 22px; min-height: 44px; cursor: pointer; background: var(--gold-antique); color: #1a1206; border: 1px solid var(--gold-antique); transition: all .2s; }
+        .spoil-btn:hover, .spoil-btn:focus-visible { background: var(--gold-bright); }
+        .spoil-btn.ghost { background: transparent; color: #94a3b8; border-color: rgba(148, 163, 184, 0.45); }
+        .spoil-btn.ghost:hover, .spoil-btn.ghost:focus-visible { color: #fff; border-color: #cbd5e1; }
+        @media (max-width: 680px) { .spoil-modal { padding: 26px 20px; } .spoil-actions .spoil-btn { flex: 1; text-align: center; } }
+            .plat-ico { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 14px rgba(255, 255, 255, 0.08); transition: transform .2s ease, box-shadow .2s ease; }
+        .plat-ico img { width: 64%; height: 64%; object-fit: contain; }
+        .plat-ico.plat-full { overflow: hidden; }
+        .plat-ico.plat-full img { width: 100%; height: 100%; object-fit: cover; }
+        .plat-ico svg { width: 60%; height: 60%; }
+        a:hover > span > .plat-ico, a:focus-visible > span > .plat-ico { transform: scale(1.12); box-shadow: 0 0 18px rgba(255, 255, 255, 0.22); }
+        @media (prefers-reduced-motion: reduce) { .plat-ico { transition: none; } }
     </style>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -874,11 +895,23 @@
 
     <!-- UNIVERSAL INTERACTIVE MODAL -->
     <div id="portal-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-        <div class="hud-panel hud-corners rounded-2xl max-w-md w-full p-6 sm:p-8 relative border-[#c9a24b]/35">
+        <div class="hud-panel hud-corners rounded-2xl max-w-md w-full max-h-[calc(100dvh-2rem)] overflow-y-auto p-6 sm:p-8 relative border-[#c9a24b]/35">
             <button type="button" onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c9a24b]/20 flex items-center justify-center font-mono-tech text-sm text-[#e3be68] cursor-pointer">✕</button>
             <div id="modal-tag" class="font-mono-tech text-xs text-[#7ad7f0] mb-2">[ TRANSMISSION ]</div>
             <h3 id="modal-title" class="font-display text-xl sm:text-2xl font-bold text-[#e3be68] mb-3">Titre</h3>
             <div id="modal-body" class="text-sm text-slate-300 space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- AVERTISSEMENT SPOILERS — AVANT CT-CORP / ECHO ROUGE -->
+    <div id="spoil-overlay" role="dialog" aria-modal="true" aria-labelledby="spoil-head">
+        <div class="spoil-modal">
+            <div class="spoil-head" id="spoil-head"></div>
+            <p class="spoil-text" id="spoil-text"></p>
+            <div class="spoil-actions">
+                <button type="button" class="spoil-btn" id="spoil-continue"></button>
+                <button type="button" class="spoil-btn ghost" id="spoil-back"></button>
+            </div>
         </div>
     </div>
 
@@ -1837,53 +1870,59 @@
                 titleEn: 'Listen to the Original Soundtrack',
                 bodyFr: `
                     <p>Sélectionnez votre plateforme de diffusion pour lancer l'album officiel <strong>Esclaves du Temps (Original Soundtrack)</strong> :</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono-tech text-xs">
+                    <div class="grid grid-cols-1 gap-2.5 font-mono-tech text-xs">
                         <a href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#1DB954]/20 border border-white/10 hover:border-[#1DB954] transition-all">
-                            <span>SPOTIFY</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#1DB954" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span><span>SPOTIFY</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
                         <a href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500 transition-all">
-                            <span>APPLE MUSIC</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:linear-gradient(135deg,#FC5C7D,#6A3093)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9 17V6.5l9-2V15" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="2.6"/><circle cx="16" cy="15.5" r="2.6"/></svg></span><span>APPLE MUSIC</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
+                        </a>
+                        <a href="https://www.amazon.com/music/player/albums/B0GZ153D89" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#00A8E0]/20 border border-white/10 hover:border-[#00A8E0] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#00A8E0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/></svg></span><span>AMAZON MUSIC</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
                         <a href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500 transition-all">
-                            <span>DEEZER</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#A238FF" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/></svg></span><span>DEEZER</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
                         <a href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500 transition-all">
-                            <span>SOUNDCLOUD</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF5500" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/></svg></span><span>SOUNDCLOUD</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
                         <a href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500 transition-all">
-                            <span>YOUTUBE</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF0000" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6.5" width="18" height="11" rx="3.2"/><path d="M10.2 9.4v5.2l4.4-2.6z" fill="#FF0000"/></svg></span><span>YOUTUBE</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
                         <a href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500 transition-all">
-                            <span>ANGHAMI</span><span>ÉCOUTER ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#f4f4f4" aria-hidden="true"><img src="assets/img/platforms/anghami.png" alt="" width="30" height="30" loading="lazy"></span><span>ANGHAMI</span></span><span class="whitespace-nowrap pl-3">ÉCOUTER ↗</span>
                         </a>
-                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="sm:col-span-2 flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
-                            <span>7DIGITAL (TÉLÉCHARGEMENT HD)</span><span>ACCÉDER ↗</span>
+                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico plat-full" aria-hidden="true"><img src="assets/img/platforms/7digital.png" alt="" width="30" height="30" loading="lazy"></span><span>7DIGITAL (TÉLÉCHARGEMENT HD)</span></span><span class="whitespace-nowrap pl-3">ACCÉDER ↗</span>
                         </a>
                     </div>
                 `,
                 bodyEn: `
                     <p>Select your streaming platform to launch the official <strong>Slaves of Time (Original Soundtrack)</strong> album:</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono-tech text-xs">
+                    <div class="grid grid-cols-1 gap-2.5 font-mono-tech text-xs">
                         <a href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#1DB954]/20 border border-white/10 hover:border-[#1DB954] transition-all">
-                            <span>SPOTIFY</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#1DB954" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span><span>SPOTIFY</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
                         <a href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500 transition-all">
-                            <span>APPLE MUSIC</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:linear-gradient(135deg,#FC5C7D,#6A3093)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9 17V6.5l9-2V15" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="2.6"/><circle cx="16" cy="15.5" r="2.6"/></svg></span><span>APPLE MUSIC</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
+                        </a>
+                        <a href="https://www.amazon.com/music/player/albums/B0GZ153D89" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#00A8E0]/20 border border-white/10 hover:border-[#00A8E0] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#00A8E0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/></svg></span><span>AMAZON MUSIC</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
                         <a href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500 transition-all">
-                            <span>DEEZER</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#A238FF" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/></svg></span><span>DEEZER</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
                         <a href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500 transition-all">
-                            <span>SOUNDCLOUD</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF5500" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/></svg></span><span>SOUNDCLOUD</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
                         <a href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500 transition-all">
-                            <span>YOUTUBE</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF0000" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6.5" width="18" height="11" rx="3.2"/><path d="M10.2 9.4v5.2l4.4-2.6z" fill="#FF0000"/></svg></span><span>YOUTUBE</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
                         <a href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500 transition-all">
-                            <span>ANGHAMI</span><span>LISTEN ↗</span>
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#f4f4f4" aria-hidden="true"><img src="assets/img/platforms/anghami.png" alt="" width="30" height="30" loading="lazy"></span><span>ANGHAMI</span></span><span class="whitespace-nowrap pl-3">LISTEN ↗</span>
                         </a>
-                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="sm:col-span-2 flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
-                            <span>7DIGITAL (HD DOWNLOAD)</span><span>ACCESS ↗</span>
+                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico plat-full" aria-hidden="true"><img src="assets/img/platforms/7digital.png" alt="" width="30" height="30" loading="lazy"></span><span>7DIGITAL (HD DOWNLOAD)</span></span><span class="whitespace-nowrap pl-3">ACCESS ↗</span>
                         </a>
                     </div>
                 `
@@ -1916,12 +1955,24 @@
                 bodyFr: `
                     <p class="text-[#ff4d5e] font-mono-tech text-xs">CONNEXION CHIFFRÉE ÉTABLIE.</p>
                     <p>CT-Corp vous ment sur l'espérance de vie moyenne. Les archives censurées d'<strong>Echo Rouge</strong> contiennent les preuves des transferts de temps illégaux.</p>
-                    <a href="https://www.esclavesdutemps.be/echo-rouge-v2.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-mono-tech text-xs font-bold uppercase tracking-wider">Rejoindre la Fréquence Echo Rouge ↗</a>
+                    <form onsubmit="enterEchoRouge(event)" class="space-y-3 font-mono-tech text-xs" autocomplete="off">
+                        <label for="er-codename" class="block text-[#ff4d5e]">// Authentification requise. Entrez votre nom de code :</label>
+                        <input id="er-codename" type="text" maxlength="24" placeholder="NOM_DE_CODE_HACKEUR" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')" class="w-full px-3 py-2.5 rounded-lg bg-black border border-[#d92b3a]/50 text-[#00ff41] tracking-widest focus:outline-none focus:border-[#ff4d5e]">
+                        <p id="er-error" class="hidden text-[#ff4d5e]" role="alert">⚠ Nom de code invalide. Minimum 3 caractères.</p>
+                        <button type="submit" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-bold uppercase tracking-wider hover:bg-[#ff3b4e] transition-colors cursor-pointer">Rejoindre la Fréquence Echo Rouge ↗</button>
+                        <p class="text-slate-500">Ce nœud est surveillé par Kassandra. En accédant à ce réseau, vous devenez un agent de la Résistance.</p>
+                    </form>
                 `,
                 bodyEn: `
                     <p class="text-[#ff4d5e] font-mono-tech text-xs">ENCRYPTED CONNECTION ESTABLISHED.</p>
                     <p>CT-Corp is lying about average life expectancy. The censored archives of <strong>Echo Rouge</strong> hold proof of illegal time transfers.</p>
-                    <a href="https://www.esclavesdutemps.be/echo-rouge-v2.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-mono-tech text-xs font-bold uppercase tracking-wider">Join Echo Rouge Frequency ↗</a>
+                    <form onsubmit="enterEchoRouge(event)" class="space-y-3 font-mono-tech text-xs" autocomplete="off">
+                        <label for="er-codename" class="block text-[#ff4d5e]">// Authentication required. Enter your codename:</label>
+                        <input id="er-codename" type="text" maxlength="24" placeholder="HACKER_CODENAME" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')" class="w-full px-3 py-2.5 rounded-lg bg-black border border-[#d92b3a]/50 text-[#00ff41] tracking-widest focus:outline-none focus:border-[#ff4d5e]">
+                        <p id="er-error" class="hidden text-[#ff4d5e]" role="alert">⚠ Invalid codename. Minimum 3 characters.</p>
+                        <button type="submit" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-bold uppercase tracking-wider hover:bg-[#ff3b4e] transition-colors cursor-pointer">Join Echo Rouge Frequency ↗</button>
+                        <p class="text-slate-500">This node is monitored by Kassandra. By accessing this network, you become a Resistance agent.</p>
+                    </form>
                 `
             },
             contact: {
@@ -1949,7 +2000,34 @@
             }
         };
 
+        /* Avertissement spoilers : une fois par session avant CT-Corp et Echo Rouge */
+        const SPOIL_KEY = 'edt_disclaimer_ack';
+        const SPOIL_GATED = ['ctcorp', 'echorouge'];
+        const spoilOverlay = document.getElementById('spoil-overlay');
+        let spoilPending = null;
+        function spoilAcknowledged() { try { return sessionStorage.getItem(SPOIL_KEY) === '1'; } catch (e) { return false; } }
+        function showSpoilWarning(key) {
+            const fr = currentLang === 'fr';
+            document.getElementById('spoil-head').textContent = fr ? '// Accès aux profondeurs — avertissement' : '// Access to the depths — warning';
+            document.getElementById('spoil-text').textContent = fr
+                ? "Descendre dans les entrailles de la terre, c'est risquer d'y découvrir plus que tu n'étais venu chercher. Lecteur, tu ne trouveras pas ici les réponses — seulement de quoi t'en gâcher la découverte. Si tu n'as pas déjà plongé dans les pages du roman, ouvre ces portes en toute connaissance de cause."
+                : "To descend into the bowels of the earth is to risk finding more than you came for. Reader, you will not find the answers here — only enough to spoil their discovery. If you have not already dived into the pages of the novel, open these doors with full knowledge.";
+            document.getElementById('spoil-continue').textContent = fr ? 'Continuer' : 'Continue';
+            document.getElementById('spoil-back').textContent = fr ? 'Retour' : 'Back';
+            spoilPending = key;
+            spoilOverlay.classList.add('active');
+            document.getElementById('spoil-continue').focus();
+        }
+        function closeSpoilWarning() { spoilOverlay.classList.remove('active'); spoilPending = null; }
+        document.getElementById('spoil-continue').addEventListener('click', () => {
+            try { sessionStorage.setItem(SPOIL_KEY, '1'); } catch (e) {}
+            const key = spoilPending; closeSpoilWarning(); if (key) openModal(key);
+        });
+        document.getElementById('spoil-back').addEventListener('click', closeSpoilWarning);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && spoilOverlay.classList.contains('active')) closeSpoilWarning(); });
+
         function openModal(key) {
+            if (SPOIL_GATED.includes(key) && !spoilAcknowledged()) { showSpoilWarning(key); return; }
             const data = modalContent[key];
             if (!data) return;
             modalTag.textContent = data.tag;
@@ -1967,6 +2045,20 @@
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
+
+        function enterEchoRouge(e) {
+            e.preventDefault();
+            const input = document.getElementById('er-codename');
+            const err = document.getElementById('er-error');
+            const val = input.value.trim();
+            if (val.length < 3) { err.classList.remove('hidden'); input.focus(); return; }
+            err.classList.add('hidden');
+            try { sessionStorage.setItem('er_codename', val); } catch (x) {}
+            try { localStorage.setItem('er_codename', val); } catch (x) {}
+            const page = currentLang === 'en' ? 'en/echo-rouge-v2.html' : 'echo-rouge-v2.html';
+            window.open(page + '?agent=' + encodeURIComponent(val), '_blank');
+            closeModal();
+        }
 
         function handleContactSubmit(e) {
             e.preventDefault();

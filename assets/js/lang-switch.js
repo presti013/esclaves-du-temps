@@ -44,7 +44,7 @@
       var target = document.querySelector(
         'a[data-i18n-lang="' + pref + '"][data-i18n-avail="1"]'
       );
-      if (target && target.href) { location.replace(target.href); }
+      if (target && target.href) { location.replace(target.href.split('#')[0].split('?')[0] + location.search + location.hash); }
     }
   } catch (e) { /* localStorage/sessionStorage indisponible : sélecteur manuel seul */ }
 })();
