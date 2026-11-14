@@ -86,6 +86,13 @@ body {
   letter-spacing: 0.08em;
   color: var(--pierre-sombre);
 }
+.invite-install {
+  margin: 8px 0 0; max-width: min(25ch, 33vw); text-shadow: 0 0 6px var(--nuit), 0 0 2px var(--nuit);
+  font-family: var(--machine); font-size: 0.68rem; line-height: 1.45; letter-spacing: 0.04em;
+  color: var(--or-sourd);
+}
+.invite-install b { color: var(--or); font-weight: 600; letter-spacing: 0; }
+@media (display-mode: standalone) { .invite-install { display: none; } }
 .bouton-menu {
   font: inherit; font-family: var(--machine); font-size: 1.1rem; line-height: 1;
   color: var(--or-sourd); background: transparent;
@@ -219,7 +226,7 @@ body {
 @media (max-height: 520px) {
   .scene { flex-basis: 92px; }
 }
-/* ---- Installation : feuille « Garder ce canal » ----------------------- */
+/* ---- Installation : feuille « Installer sur mon smartphone » ----------------------- */
 .installer {
   position: fixed; inset: 0; z-index: 20; display: none;
   align-items: center; justify-content: center;
@@ -262,11 +269,12 @@ body {
     <div>
       <h1 class="nom">NAOS-9</h1>
       <p class="canal">canal non répertorié</p>
+      <p class="invite-install" id="invite-install">Pour l'installer sur Android ou iPhone, touche les trois points <b aria-hidden="true">⋯</b> en haut à droite.</p>
     </div>
     <button class="bouton-menu" id="bouton-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">⋯</button>
   </div>
   <div class="menu" id="menu" hidden>
-    <button type="button" id="garder">Garder ce canal</button>
+    <button type="button" id="garder">Installer sur mon smartphone</button>
     <button type="button" id="relire" hidden>Afficher les identifiants</button>
     <div class="apercu-scene" id="apercu-scene" hidden>
       <label for="palier-scene">Scène vue au palier (aperçu seulement)</label>
@@ -288,7 +296,7 @@ body {
 <div class="installer" id="installer" role="dialog" aria-modal="true" aria-labelledby="installer-titre">
   <div class="installer-feuille">
     <div class="installer-tete">
-      <h2 id="installer-titre">Garder ce canal</h2>
+      <h2 id="installer-titre">Installer sur mon smartphone</h2>
       <button type="button" class="installer-fermer" id="installer-fermer" aria-label="Fermer">✕</button>
     </div>
     <p class="installer-note">NAOS-9 n'est pas dans une boutique d'applications : elle s'installe depuis ce navigateur, en quelques secondes, et s'ouvre ensuite en plein écran comme une application.</p>
