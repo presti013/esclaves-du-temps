@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Esclaves du Temps">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ebd089"/>
+      <stop offset="0.52" stop-color="#c9a24b"/>
+      <stop offset="1" stop-color="#a67f32"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="20" fill="#020608"/>
+  <!-- A alchimique (triangle de l'air) : triangle + barre horizontale prolongée -->
+  <g transform="translate(48 49) scale(0.92) translate(-46 -39)" fill="url(#g)">
+    <path fill-rule="evenodd" d="M46 4 L12 74 H80 L46 4 Z M46 17 L21 68 H71 L46 17 Z"/>
+    <rect x="4" y="34.5" width="84" height="5.5"/>
+  </g>
+</svg>
