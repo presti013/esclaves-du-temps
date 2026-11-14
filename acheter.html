@@ -691,6 +691,14 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 .disclaimer-btn.ghost{ background:transparent; color:var(--text-dim); border-color:rgba(122,112,96,0.5); }
 .disclaimer-btn.ghost:hover, .disclaimer-btn.ghost:focus-visible{ color:var(--white); border-color:var(--text); }
 @media (max-width:680px){ .disclaimer-modal{ padding:26px 20px; } .disclaimer-actions .disclaimer-btn{ flex:1; text-align:center; } }
+/* Boutons d'achat : icône de livre dorée + libellé sur deux lignes */
+.btn.buy { display:inline-flex; align-items:center; gap:12px; text-align:left; padding:10px 22px 10px 16px; }
+.btn.buy .ico-book { color:var(--gold2); flex:none; filter:drop-shadow(0 0 6px rgba(232,184,75,0.35)); }
+.btn.buy .buy-txt { display:flex; flex-direction:column; gap:3px; line-height:1.2; }
+.btn.buy .buy-main { font-size:11px; letter-spacing:0.18em; }
+.btn.buy .buy-ed { font-size:9px; letter-spacing:0.2em; color:var(--text-dim); }
+.btn.buy:hover .buy-ed, .btn.buy:focus-visible .buy-ed { color:var(--gold); }
+@media (max-width:680px) { .hero-cta .btn.buy { justify-content:center; } }
 </style>
 </head>
 <body>
@@ -710,8 +718,8 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
     <p class="accroche">« Et si votre vie ne durait qu'une minute ? »</p>
     <div class="hero-cta">
       <a class="btn primary" href="prologue.html">Lire le prologue</a>
-      <a class="btn" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener">Édition 3Cinq7</a>
-      <a class="btn" href="https://www.laurexa.be" target="_blank" rel="noopener">Édition Laurexa</a>
+      <a class="btn buy" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Acheter le roman</span><span class="buy-ed">Édition 3Cinq7</span></span></a>
+      <a class="btn buy" href="https://www.laurexa.be" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Acheter le roman</span><span class="buy-ed">Édition Laurexa</span></span></a>
     </div>
     <a class="scroll-cue" href="#pitch" aria-label="Découvrir le roman">&#9662;</a>
   </header>
