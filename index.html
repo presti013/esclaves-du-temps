@@ -390,13 +390,13 @@
     <div class="scanlines"></div>
 
     <!-- Top Fixed Telemetry HUD Bar -->
-    <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3 flex items-center justify-between border-b border-[#c9a24b]/20 bg-[#03080e]/85 backdrop-blur-md">
+    <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-8 py-3 gap-2 flex items-center justify-between border-b border-[#c9a24b]/20 bg-[#03080e]/85 backdrop-blur-md">
         <!-- Left: System Status -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
             <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-[#3ba4c7] shadow-[0_0_10px_#3ba4c7] animate-pulse"></span>
             <div class="flex flex-col">
-                <span class="font-display text-xs sm:text-sm font-bold tracking-widest text-[#e3be68]">NAOS-9 <span class="text-white/40 font-normal font-mono-tech">// ARCHIVE_SYS</span></span>
-                <span id="hud-protocol-label" class="font-mono-tech text-[10px] tracking-wider uppercase text-[#7ad7f0]" data-fr="PROTOCOL: CT-CORP [STABLE]" data-en="PROTOCOL: CT-CORP [STABLE]">PROTOCOL: CT-CORP [STABLE]</span>
+                <span class="font-display text-xs sm:text-sm font-bold tracking-widest text-[#e3be68]">NAOS-9 <span class="hidden sm:inline text-white/40 font-normal font-mono-tech">// ARCHIVE_SYS</span></span>
+                <span id="hud-protocol-label" class="hidden sm:block font-mono-tech text-[10px] tracking-wider uppercase text-[#7ad7f0]" data-fr="PROTOCOL: CT-CORP [STABLE]" data-en="PROTOCOL: CT-CORP [STABLE]">PROTOCOL: CT-CORP [STABLE]</span>
             </div>
         </div>
 
@@ -416,11 +416,11 @@
         </div>
 
         <!-- Right: SoundCloud Audio Mini-Player & Language Switch -->
-        <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-1.5 sm:gap-3 min-w-0">
             <!-- SoundCloud HUD Mini-Player -->
             <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:border-[#c9a24b]/60 transition-all text-xs font-mono-tech text-slate-200">
                 <!-- Equalizer Indicator -->
-                <div id="eq-container" class="flex items-end gap-0.5 h-3.5 mr-0.5">
+                <div id="eq-container" class="hidden min-[360px]:flex items-end gap-0.5 h-3.5 mr-0.5">
                     <span class="eq-bar h-1.5"></span>
                     <span class="eq-bar h-2.5"></span>
                     <span class="eq-bar h-1"></span>
@@ -444,26 +444,26 @@
                 </button>
 
                 <!-- Scrolling Track Title Marquee -->
-                <div class="marquee-wrapper w-24 sm:w-44 md:w-52 border-x border-[#c9a24b]/20 px-1.5">
+                <div class="marquee-wrapper hidden sm:block w-44 md:w-52 border-x border-[#c9a24b]/20 px-1.5">
                     <div class="marquee-track">
                         <span id="sc-track-title" class="text-[11px] tracking-wide text-[#f3e5c0]" data-fr="SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)" data-en="SOUNDCLOUD // SOUNDTRACK — SLAVES OF TIME (READY)">SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)</span>
                     </div>
                 </div>
 
                 <!-- Shuffle Toggle (OFF by default) -->
-                <button id="sc-shuffle-btn" type="button" class="flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer" title="Lecture aléatoire">
+                <button id="sc-shuffle-btn" type="button" class="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer" title="Lecture aléatoire">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
                     <span id="sc-shuffle-label" class="hidden sm:inline" data-fr="ALÉAT: OFF" data-en="SHUFFLE: OFF">ALÉAT: OFF</span>
                 </button>
 
                 <!-- Expand SoundCloud Drawer / Diagnostic Toggle -->
-                <button id="sc-drawer-toggle-btn" type="button" title="Afficher / Masquer le lecteur SoundCloud & Diagnostic" class="px-1.5 py-0.5 rounded border border-[#c9a24b]/30 bg-[#c9a24b]/10 text-[10px] text-[#e3be68] hover:bg-[#c9a24b]/25 transition-all cursor-pointer">
-                    SC ▲
+                <button id="sc-drawer-toggle-btn" type="button" style="white-space:nowrap" title="Afficher / Masquer le lecteur SoundCloud & Diagnostic" class="px-1.5 py-0.5 rounded border border-[#c9a24b]/30 bg-[#c9a24b]/10 text-[10px] text-[#e3be68] hover:bg-[#c9a24b]/25 transition-all cursor-pointer">
+                    SC ▼
                 </button>
             </div>
 
             <!-- FR / EN Toggle -->
-            <button id="lang-toggle-btn" type="button" class="px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:bg-[#c9a24b]/15 font-mono-tech text-xs font-bold tracking-wider text-white transition-all cursor-pointer">
+            <button id="lang-toggle-btn" type="button" class="whitespace-nowrap shrink-0 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:bg-[#c9a24b]/15 font-mono-tech text-xs font-bold tracking-wider text-white transition-all cursor-pointer">
                 <span id="lang-fr" class="text-[#e3be68]">FR</span>
                 <span class="text-white/30 mx-0.5">/</span>
                 <span id="lang-en" class="text-white/50">EN</span>
@@ -471,7 +471,7 @@
         </div>
 
         <!-- Collapsible SoundCloud Real Viewport Drawer (Ensures browser audio policy & SC.Widget reliability) -->
-        <div id="sc-player-drawer" class="fixed top-[60px] right-4 sm:right-8 z-50 w-[calc(100vw-2rem)] sm:w-[390px] hud-panel hud-corners rounded-xl p-3 border-[#c9a24b]/45 shadow-[0_18px_45px_rgba(0,0,0,0.92)] transition-all duration-300">
+        <div id="sc-player-drawer" class="hidden fixed top-[60px] right-2 sm:right-8 z-50 w-[calc(100vw-1rem)] sm:w-[390px] max-h-[calc(100vh-76px)] overflow-y-auto hud-panel hud-corners rounded-xl p-3 border-[#c9a24b]/45 shadow-[0_18px_45px_rgba(0,0,0,0.92)] transition-all duration-300">
             <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-2">
                 <span id="sc-widget-status">● INITIALISATION DU FLUX SOUNDCLOUD...</span>
                 <div class="flex items-center gap-1.5">
@@ -1116,26 +1116,10 @@
                     scWidgetStatus.textContent = '● LECTEUR SOUNDCLOUD CONNECTÉ';
                     scWidgetStatus.className = 'text-[#7ad7f0]';
 
-                    scWidget.getSounds((sounds) => {
-                        if (Array.isArray(sounds) && sounds.length > 0) {
-                            scPlaylistMode = true;
-                            scPlaylistCount = sounds.length;
-                            const validSounds = sounds.filter(s => s && s.title);
-                            if (validSounds.length > 0) {
-                                SOUNDTRACK_TRACKS = validSounds.map((s, idx) => ({
-                                    title: s.title,
-                                    url: s.permalink_url || SOUNDTRACK_TRACKS[idx]?.url || SOUNDCLOUD_PLAYLIST_URL
-                                }));
-                                populateTrackDropdown();
-                            }
-                            updateTrackTitleDisplay(SOUNDTRACK_TRACKS[0].title);
-                            scDiagLog.textContent = `✓ Playlist synchronisée (${SOUNDTRACK_TRACKS.length} pistes prêtes).`;
-                        } else {
-                            scPlaylistMode = false;
-                            scDiagLog.textContent = `✓ Mode piste-à-piste actif (${SOUNDTRACK_TRACKS.length} titres). Chargement du Prologue...`;
-                            loadTrackByIndex(0, false);
-                        }
-                    });
+                    // Piste-à-piste : la liste officielle (33 titres, = CSV) fait foi ; le set SoundCloud n'en expose que quelques-uns.
+                    scPlaylistMode = false;
+                    scDiagLog.textContent = `✓ ${SOUNDTRACK_TRACKS.length} pistes prêtes. Cliquez sur ▶ ou « TEST AUDIO ».`;
+                    loadTrackByIndex(0, false);
                 });
 
                 scWidget.bind(SC.Widget.Events.PLAY, () => {
@@ -1143,7 +1127,8 @@
                     scWidget.getCurrentSound((sound) => {
                         if (sound && sound.title) {
                             updateTrackTitleDisplay(sound.title);
-                            const matchedIdx = SOUNDTRACK_TRACKS.findIndex(t => t.title.toLowerCase() === sound.title.toLowerCase());
+                            let matchedIdx = SOUNDTRACK_TRACKS.findIndex(t => sound.permalink_url && t.url === sound.permalink_url);
+                            if (matchedIdx < 0) matchedIdx = SOUNDTRACK_TRACKS.findIndex(t => t.title.toLowerCase().endsWith(sound.title.toLowerCase()));
                             if (matchedIdx >= 0) {
                                 currentTrackIndex = matchedIdx;
                                 scTrackSelect.value = matchedIdx;
