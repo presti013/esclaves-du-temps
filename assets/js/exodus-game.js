@@ -14,9 +14,9 @@ var STR = {
 fr: {
   title: 'PROTOCOLE EXODUS', sub: 'ÉCHO ROUGE // INFILTRATION',
   agent: 'AGENT', cont: 'CONTINUER', neu: 'NOUVELLE PARTIE', levels: 'NIVEAUX', scores: 'SCORES', quit: 'RETOUR À ÉCHO ROUGE',
-  sound: 'SON', on: 'OUI', off: 'NON', acts: ['ACTE I', 'ACTE II'],
+  music: 'MUSIQUE', fx: 'EFFETS', on: 'OUI', off: 'NON', tapMusic: 'Touchez ▶ ci-dessous pour lancer la musique', acts: ['ACTE I', 'ACTE II'],
   level: 'NIVEAU', locked: 'VERROUILLÉ', best: 'RECORD', back: 'B : RETOUR', none: '—',
-  keysHint: 'FLÈCHES / ZQSD : BOUGER   ESPACE : ACTION   P : PAUSE   M : SON   F : PLEIN ÉCRAN',
+  keysHint: 'FLÈCHES / ZQSD : BOUGER   ESPACE : ACTION   P : PAUSE   M : MUSIQUE   N : EFFETS   F : PLEIN ÉCRAN',
   touchHint: 'CROIX : BOUGER   A : ACTION   B : PAUSE',
   pause: 'PAUSE', resume: 'REPRENDRE', restart: 'RECOMMENCER LE NIVEAU', menu: 'MENU PRINCIPAL',
   caught: 'REPÉRÉ', lives: 'VIES', over: 'CAPTURÉ', overSub: 'Les verrous temporels vous renvoient en cellule.',
@@ -60,9 +60,9 @@ fr: {
 en: {
   title: 'PROTOCOL EXODUS', sub: 'RED ECHO // INFILTRATION',
   agent: 'AGENT', cont: 'CONTINUE', neu: 'NEW GAME', levels: 'LEVELS', scores: 'SCORES', quit: 'BACK TO RED ECHO',
-  sound: 'SOUND', on: 'ON', off: 'OFF', acts: ['ACT I', 'ACT II'],
+  music: 'MUSIC', fx: 'SOUND FX', on: 'ON', off: 'OFF', tapMusic: 'Tap ▶ below to start the music', acts: ['ACT I', 'ACT II'],
   level: 'LEVEL', locked: 'LOCKED', best: 'BEST', back: 'B: BACK', none: '—',
-  keysHint: 'ARROWS / WASD: MOVE   SPACE: ACTION   P: PAUSE   M: SOUND   F: FULLSCREEN',
+  keysHint: 'ARROWS / WASD: MOVE   SPACE: ACTION   P: PAUSE   M: MUSIC   N: SOUND FX   F: FULLSCREEN',
   touchHint: 'D-PAD: MOVE   A: ACTION   B: PAUSE',
   pause: 'PAUSED', resume: 'RESUME', restart: 'RESTART LEVEL', menu: 'MAIN MENU',
   caught: 'SPOTTED', lives: 'LIVES', over: 'CAPTURED', overSub: 'The temporal locks send you back to your cell.',
@@ -106,9 +106,9 @@ en: {
 it: {
   title: 'PROTOCOLLO EXODUS', sub: 'ECO ROSSO // INFILTRAZIONE',
   agent: 'AGENTE', cont: 'CONTINUA', neu: 'NUOVA PARTITA', levels: 'LIVELLI', scores: 'PUNTEGGI', quit: 'TORNA A ECO ROSSO',
-  sound: 'AUDIO', on: 'SÌ', off: 'NO', acts: ['ATTO I', 'ATTO II'],
+  music: 'MUSICA', fx: 'EFFETTI', on: 'SÌ', off: 'NO', tapMusic: 'Tocca ▶ qui sotto per avviare la musica', acts: ['ATTO I', 'ATTO II'],
   level: 'LIVELLO', locked: 'BLOCCATO', best: 'RECORD', back: 'B: INDIETRO', none: '—',
-  keysHint: 'FRECCE / WASD: MUOVI   SPAZIO: AZIONE   P: PAUSA   M: AUDIO   F: SCHERMO INTERO',
+  keysHint: 'FRECCE / WASD: MUOVI   SPAZIO: AZIONE   P: PAUSA   M: MUSICA   N: EFFETTI   F: SCHERMO INTERO',
   touchHint: 'CROCE: MUOVI   A: AZIONE   B: PAUSA',
   pause: 'PAUSA', resume: 'RIPRENDI', restart: 'RICOMINCIA IL LIVELLO', menu: 'MENU PRINCIPALE',
   caught: 'SCOPERTO', lives: 'VITE', over: 'CATTURATO', overSub: 'I blocchi temporali ti rimandano in cella.',
@@ -548,7 +548,7 @@ function resolveAgent() {
 var agent = String(resolveAgent()).toUpperCase().replace(/[^A-Z0-9_\-]/g, '').slice(0, 16) || 'AGENT';
 
 /* ---- Sauvegarde ---- */
-var SAVE_KEY = 'exodus_save_v2', SCORE_KEY = 'exodus_scores_v3', MUTE_KEY = 'exodus_mute';
+var SAVE_KEY = 'exodus_save_v2', SCORE_KEY = 'exodus_scores_v3', MUTE_KEY = 'exodus_mute', FX_KEY = 'exodus_fx', MUSIC_KEY = 'exodus_music';
 var save = { unlocked: 1, best: {} };
 try { var raw = JSON.parse(localStorage.getItem(SAVE_KEY)); if (raw && raw.unlocked) { save.unlocked = Math.max(1, Math.min(NL, raw.unlocked | 0)); save.best = raw.best || {}; } } catch (e) {}
 if (save.best[5] && save.unlocked < 6) save.unlocked = 6;        // partie finie avant l'ajout de l'acte II
@@ -565,15 +565,18 @@ function totalBest() { var t = 0; for (var i = 1; i <= NL; i++) { if (!save.best
 /* ======================================================================
    4. SON : synthèse 8 bits (ondes carrées / pulsées / triangle + bruit)
    ====================================================================== */
-var AC = null, master = null, noiseBuf = null, pulseWave = null, loops = {}, lastSfx = {}, muted = false, sfxStats = { tones: 0, noises: 0 };
-try { muted = localStorage.getItem(MUTE_KEY) === '1'; } catch (e) {}
+var AC = null, master = null, noiseBuf = null, pulseWave = null, loops = {}, lastSfx = {}, fxOn = true, musicOn = true, sfxStats = { tones: 0, noises: 0 };
+try {   // ancien réglage unique « Son » : s'il était coupé, on coupe les deux
+  var oldMute = localStorage.getItem(MUTE_KEY) === '1', pf = localStorage.getItem(FX_KEY), pm = localStorage.getItem(MUSIC_KEY);
+  fxOn = pf === null ? !oldMute : pf === '1'; musicOn = pm === null ? !oldMute : pm === '1';
+} catch (e) {}
 function mkLoop(type, f) { var o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = f; g.gain.value = 0; o.connect(g); g.connect(master); o.start(); return { o: o, g: g }; }
 function mkNoiseLoop(rate) { var s = AC.createBufferSource(), g = AC.createGain(); s.buffer = noiseBuf; s.loop = true; s.playbackRate.value = rate; g.gain.value = 0; s.connect(g); g.connect(master); s.start(); return { o: s, g: g }; }
 function audioInit() {
   if (AC) { if (AC.state === 'suspended') { try { AC.resume(); } catch (e) {} } return; }
   var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
   try {
-    AC = new C(); master = AC.createGain(); master.gain.value = muted ? 0 : 0.6; master.connect(AC.destination);
+    AC = new C(); master = AC.createGain(); master.gain.value = fxOn ? 0.6 : 0; master.connect(AC.destination);
     var n = AC.sampleRate, i, v = 0, d;
     noiseBuf = AC.createBuffer(1, n, n); d = noiseBuf.getChannelData(0);
     for (i = 0; i < n; i++) { if (i % 6 === 0) v = Math.random() * 2 - 1; d[i] = v; }       // bruit « échantillonné-bloqué », grain de console
@@ -585,7 +588,7 @@ function audioInit() {
 }
 function setLoop(name, vol, freq) { var l = loops[name]; if (!l) return; l.g.gain.setTargetAtTime(vol, AC.currentTime, 0.05); if (freq && l.o.frequency) l.o.frequency.setValueAtTime(freq, AC.currentTime); }
 function tone(type, f0, f1, dur, vol, delay) {
-  if (!AC || muted) return;
+  if (!AC || !fxOn) return;
   var t = AC.currentTime + (delay || 0), o = AC.createOscillator(), g = AC.createGain();
   if (type === 'pulse') o.setPeriodicWave(pulseWave); else o.type = type;
   o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t + dur);
@@ -593,7 +596,7 @@ function tone(type, f0, f1, dur, vol, delay) {
   o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.03); sfxStats.tones++;
 }
 function noise(dur, vol, rate, delay) {
-  if (!AC || muted) return;
+  if (!AC || !fxOn) return;
   var t = AC.currentTime + (delay || 0), s = AC.createBufferSource(), g = AC.createGain();
   s.buffer = noiseBuf; s.playbackRate.value = rate || 1;
   g.gain.setValueAtTime(vol, t); g.gain.linearRampToValueAtTime(0.0001, t + dur);
@@ -629,18 +632,116 @@ var SFX = {
   hound: function () { tone('square', 300, 200, 0.05, 0.04); },
   pause: function () { tone('pulse', 660, 660, 0.06, 0.08); tone('pulse', 440, 440, 0.08, 0.08, 0.07); }
 };
-function setMute(m) {
-  muted = m; try { localStorage.setItem(MUTE_KEY, m ? '1' : '0'); } catch (e) {}
-  if (master) master.gain.value = m ? 0 : 0.6;
-  if (!m) SFX.ok();
+function setFx(v) {
+  fxOn = v; try { localStorage.setItem(FX_KEY, v ? '1' : '0'); } catch (e) {}
+  if (master) master.gain.value = v ? 0.6 : 0;
+  if (v) SFX.ok();
 }
+
+/* ======================================================================
+   4 bis. MUSIQUE : bande originale du roman, diffusée par le lecteur SoundCloud.
+   Une piste par niveau, rejouée en boucle. Le lecteur reste hors écran ; il n'apparaît
+   que si le navigateur refuse de lancer la lecture sans un geste sur le lecteur lui-même.
+   ====================================================================== */
+var SC_BASE = 'https://soundcloud.com/laurent-prestigiacomo/';
+var MUSIC = {
+  menu: { t: 'Prologue', u: 'prologue-1' },
+  end: { t: 'Épilogue', u: 'epilogue-33' },
+  levels: [
+    { t: 'Le Protocole Mironen', u: 'chapitre-04-le-protocole-mironen-5' },              //  1. Bloc de compression
+    { t: 'Variables Non Contrôlées', u: '08-chapitre-07-variables-non-controlees-8' },    //  2. Cantine et cuisines
+    { t: 'La Fugue de la Machine', u: 'chapitre-02-la-fugue-de-la-machine-3' },           //  3. Salle des serveurs
+    { t: 'Trois Fronts, Une Seule Nuit', u: 'chapitre-19-trois-fronts-une-seule-nuit-20' }, // 4. Les toits
+    { t: 'Le Souffle Suspendu', u: 'chapitre-17-le-souffle-suspendu_mastered-18' },       //  5. Station orbitale
+    { t: 'Écho Rouge', u: 'chapitre-05-echo-rouge-6' },                                   //  6. Zones Grises
+    { t: 'Le Fantôme d\'Orpheus', u: 'chapitre-13-le-fantome-dorpheus-14' },              //  7. Métro fantôme
+    { t: 'L\'Œil du Spectre', u: 'chapitre-15-loeil-du-spectre-16' },                     //  8. La Centrale
+    { t: 'L\'Observateur Silencieux', u: 'hapitre-08-lobservateur-silencieux-9' },        //  9. Cité-Vitrine
+    { t: 'Les Deux Fois', u: 'chapitre-12-les-deux-fois-13' }                             // 10. Noyau temporel
+  ]
+};
+var MUSIC_VOL = 45, MUSIC_WAIT = 5;
+var mus = { w: null, ready: false, loading: false, want: MUSIC.menu, cur: null, playing: false, box: null, frame: null, shown: false, nagged: false, timer: 0, err: null, plays: 0, started: false, progAt: 0, lastPos: -1, stalls: 0, loops: 0 };
+var SC_OPTS = '&color=%23c9a24b&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false';
+function showMusicBox(v) {
+  mus.shown = v; if (!mus.box) return;
+  mus.box.style.left = v ? '50%' : '-3000px'; mus.box.style.opacity = v ? '1' : '0'; mus.box.style.pointerEvents = v ? 'auto' : 'none';
+}
+function musicBox() {
+  if (mus.box) return;
+  var box = document.createElement('div'), lab = document.createElement('div'), x = document.createElement('button'), fr = document.createElement('iframe');
+  box.id = 'music-box';
+  box.style.cssText = 'position:fixed;z-index:60;top:8px;width:min(92vw,420px);transform:translateX(-50%);background:#0b1420;border:2px solid #e3be68;padding:6px 8px 8px;box-sizing:border-box;font:20px "VT323","Share Tech Mono",monospace;color:#e3be68;';
+  lab.textContent = S.tapMusic; lab.style.cssText = 'padding:0 34px 4px 2px;';
+  x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', S.off);
+  x.style.cssText = 'position:absolute;top:2px;right:4px;width:34px;height:28px;background:none;border:0;color:#e3be68;font:inherit;cursor:pointer;';
+  x.addEventListener('click', function () { mus.nagged = true; showMusicBox(false); });
+  fr.allow = 'autoplay; encrypted-media'; fr.setAttribute('scrolling', 'no'); fr.setAttribute('frameborder', '0'); fr.title = 'SoundCloud';
+  fr.style.cssText = 'display:block;width:100%;height:120px;border:0;';
+  fr.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(SC_BASE + mus.want.u) + '&auto_play=true' + SC_OPTS;
+  box.appendChild(lab); box.appendChild(x); box.appendChild(fr); document.body.appendChild(box);
+  mus.box = box; mus.frame = fr; showMusicBox(false);
+}
+function musicApply() {
+  if (!mus.ready) return;
+  var w = mus.w;
+  if (!musicOn) { w.pause(); return; }
+  if (mus.cur !== mus.want) {
+    mus.cur = mus.want; mus.playing = false; mus.started = false; mus.progAt = performance.now();
+    w.load(SC_BASE + mus.cur.u, { auto_play: true, hide_related: true, show_comments: false, show_user: false, show_reposts: false, show_teaser: false, visual: false, callback: function () { w.setVolume(MUSIC_VOL); if (musicOn) w.play(); } });
+  } else if (!mus.playing) w.play();
+  mus.timer = MUSIC_WAIT;       // si rien ne démarre d'ici là, on montre le lecteur pour que le joueur touche ▶
+}
+function musicInit() {
+  if (!musicOn || mus.loading || mus.w) return;
+  mus.loading = true; mus.cur = mus.want; musicBox();
+  var sc = document.createElement('script'); sc.src = 'https://w.soundcloud.com/player/api.js';
+  sc.onload = function () {
+    try {
+      var w = window.SC.Widget(mus.frame), EV = window.SC.Widget.Events;
+      w.bind(EV.READY, function () { mus.w = w; mus.ready = true; w.setVolume(MUSIC_VOL); musicApply(); });
+      w.bind(EV.PLAY, function () {
+        mus.playing = true; mus.plays++; w.setVolume(MUSIC_VOL);
+        mus.started = true; mus.progAt = performance.now();
+        if (mus.shown) { showMusicBox(false); try { window.focus(); } catch (e) {} }
+        if (!musicOn || document.hidden) w.pause();
+      });
+      w.bind(EV.PAUSE, function () { mus.playing = false; });
+      /* Boucle : à la fin de la piste, on la recharge. (Revenir au début avec seekTo casse le lecteur
+         une fois la piste entièrement chargée ; le rechargement est la seule relance fiable.) */
+      w.bind(EV.PLAY_PROGRESS, function (o) { if (o && o.currentPosition !== mus.lastPos) { mus.lastPos = o.currentPosition; mus.progAt = performance.now(); mus.stalls = 0; } });
+      w.bind(EV.FINISH, function () { mus.playing = false; mus.loops++; if (musicOn) setTimeout(musicReload, 300); });
+      w.bind(EV.ERROR, function () { mus.err = 'lecteur'; });
+    } catch (e) { mus.err = 'api'; }
+  };
+  sc.onerror = function () { mus.err = 'reseau'; mus.loading = false; };
+  document.head.appendChild(sc);
+}
+function musicReload() { if (!mus.ready || !musicOn) return; mus.cur = null; musicApply(); }
+function setTrack(tr) { mus.want = tr; if (musicOn && mus.ready) musicApply(); }
+function setMusicOn(v) {
+  musicOn = v; try { localStorage.setItem(MUSIC_KEY, v ? '1' : '0'); } catch (e) {}
+  if (v) { mus.nagged = false; if (!mus.w && !mus.loading) musicInit(); else musicApply(); }
+  else { if (mus.ready) mus.w.pause(); showMusicBox(false); }
+  SFX.ok();
+}
+function musicFrame(dt) {
+  if (!musicOn || !mus.ready || document.hidden) return;
+  if (!mus.playing) {            // rien ne démarre : on finit par montrer le lecteur pour que le joueur touche ▶
+    if (mus.timer > 0) { mus.timer -= dt; if (mus.timer <= 0 && !mus.nagged && !mus.shown) showMusicBox(true); }
+    return;
+  }
+  /* Le lecteur se dit en lecture mais la position n'avance plus : on recharge la piste (3 essais au plus). */
+  if (mus.started && mus.stalls < 3 && performance.now() - mus.progAt > 7000) { mus.stalls++; musicReload(); }
+}
+document.addEventListener('visibilitychange', function () { if (!mus.ready) return; if (document.hidden) mus.w.pause(); else if (musicOn) musicApply(); });
 
 /* ---- Entrées ---- */
 var keys = {}, touchVec = { x: 0, y: 0 }, aHeld = false, pressed = {};
 function press(n) { pressed[n] = true; }
 window.addEventListener('keydown', function (e) {
   var k = e.key.toLowerCase();
-  audioInit();
+  audioInit(); musicInit();
   if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].indexOf(k) >= 0) e.preventDefault();
   if (keys[k]) return; keys[k] = true;
   if (k === 'arrowup' || k === 'z' || k === 'w') press('up');
@@ -648,7 +749,8 @@ window.addEventListener('keydown', function (e) {
   if (k === ' ' || k === 'enter' || k === 'e') press('a');
   if (k === 'p' || k === 'escape' || k === 'backspace') press('b');
   if (k === 'f') toggleFullscreen();
-  if (k === 'm') setMute(!muted);
+  if (k === 'm') setMusicOn(!musicOn);
+  if (k === 'n') setFx(!fxOn);
 });
 window.addEventListener('keyup', function (e) { keys[e.key.toLowerCase()] = false; });
 window.addEventListener('blur', function () { keys = {}; if (state === 'play') { state = 'pause'; menuIdx = 0; } });
@@ -665,7 +767,7 @@ function toggleFullscreen() {
   } catch (e) {}
 }
 var askedFs = false;
-function firstGesture() { audioInit(); if (isTouch && !askedFs) { askedFs = true; if (!(document.fullscreenElement || document.webkitFullscreenElement)) toggleFullscreen(); } }
+function firstGesture() { audioInit(); musicInit(); if (isTouch && !askedFs) { askedFs = true; if (!(document.fullscreenElement || document.webkitFullscreenElement)) toggleFullscreen(); } }
 
 (function touchControls() {
   var pad = document.getElementById('pad'), knob = document.getElementById('pad-knob'), bA = document.getElementById('btn-a'), bB = document.getElementById('btn-b');
@@ -733,7 +835,7 @@ window.addEventListener('resize', measurePads);
 function setCam() { camX = Math.max(-padL, Math.min(L.W * T - VW + padR, Math.round(P.x - VW / 2))); }
 
 function startLevel(i) {
-  L = buildLevel(i); pal = PAL[i];
+  L = buildLevel(i); pal = PAL[i]; setTrack(MUSIC.levels[i]);
   L.guards.forEach(function (g) { g.x = g.pts[0][0]; g.y = g.pts[0][1]; g.i = 1; g.dir = 1; g.wait = 0; g.ang = Math.atan2(g.pts[1][1] - g.y, g.pts[1][0] - g.x); g.see = 0; g.step = Math.random() * 6; });
   L.drones.forEach(function (g) { g.x = g.pts[0][0]; g.y = g.pts[0][1]; g.i = 1; g.dir = 1; g.see = 0; g.tAng = 0; });
   L.cams.forEach(function (c) { c.t = Math.random() * 6; c.ang = 0; c.see = 0; });
@@ -769,7 +871,7 @@ function finishLevel() {
   persist();
   var tot = totalBest(); if (n === NL && tot) pushScore(Math.round(tot * 10) / 10);
   state = n === NL ? 'end' : 'clear'; stateT = 0;
-  if (n === NL) SFX.end(); else SFX.clear();
+  if (n === NL) { SFX.end(); setTrack(MUSIC.end); } else SFX.clear();
 }
 
 /* ======================================================================
@@ -821,11 +923,11 @@ function update(dt) {
   if (state === 'clear') { if (stateT > 0.6 && pressed.a) startLevel(L.idx + 1); else if (pressed.b) goTitle(); return; }
   if (state === 'end') { if (stateT > 1 && (pressed.a || pressed.b)) goTitle(); return; }
   if (state === 'pause') {
-    n = 4;
+    n = 5;
     if (pressed.up) { menuIdx = (menuIdx + n - 1) % n; SFX.move(); }
     if (pressed.down) { menuIdx = (menuIdx + 1) % n; SFX.move(); }
     if (pressed.b) { state = 'play'; SFX.back(); }
-    else if (pressed.a) { if (menuIdx === 0) { state = 'play'; SFX.ok(); } else if (menuIdx === 1) startLevel(L.idx); else if (menuIdx === 2) setMute(!muted); else goTitle(); }
+    else if (pressed.a) { if (menuIdx === 0) { state = 'play'; SFX.ok(); } else if (menuIdx === 1) startLevel(L.idx); else if (menuIdx === 2) setMusicOn(!musicOn); else if (menuIdx === 3) setFx(!fxOn); else goTitle(); }
     return;
   }
   if (state !== 'play') { updateMenus(); return; }
@@ -943,7 +1045,7 @@ function update(dt) {
 function clamp01(v) { return Math.max(0, Math.min(1, v)); }
 function audioFrame() {
   if (!AC) return;
-  var play = state === 'play' && !muted && !!L;
+  var play = state === 'play' && fxOn && !!L;
   setLoop('siren', play && alarmT >= 0 ? 0.07 : 0, (Math.floor(time * 2.6) % 2) ? 830 : 620);
   setLoop('buzz', play ? clamp01(1 - nearDrone / 230) * 0.05 : 0, 58 + Math.sin(time * 11) * 5);
   setLoop('rumble', play ? Math.max(clamp01(1 - nearCart / 210) * 0.2, onBelt ? 0.03 : 0) : 0);
@@ -952,12 +1054,13 @@ function audioFrame() {
 
 /* ---- Menus ---- */
 var titleItems = [];
-function goTitle() { state = 'title'; menuIdx = 0; document.body.classList.remove('playing'); L = null; ghost = null; SFX.back(); }
-function soundLabel() { return S.sound + ' : ' + (muted ? S.off : S.on); }
+function goTitle() { state = 'title'; menuIdx = 0; document.body.classList.remove('playing'); L = null; ghost = null; setTrack(MUSIC.menu); SFX.back(); }
+function musicLabel() { return S.music + ' : ' + (musicOn ? S.on : S.off); }
+function fxLabel() { return S.fx + ' : ' + (fxOn ? S.on : S.off); }
 function buildTitle() {
   titleItems = [];
   if (save.unlocked > 1 || save.best[1]) titleItems.push({ k: 'cont', label: S.cont + '  (' + S.level + ' ' + save.unlocked + ')' });
-  titleItems.push({ k: 'neu', label: S.neu }, { k: 'levels', label: S.levels }, { k: 'scores', label: S.scores }, { k: 'sound', label: soundLabel() }, { k: 'quit', label: S.quit });
+  titleItems.push({ k: 'neu', label: S.neu }, { k: 'levels', label: S.levels }, { k: 'scores', label: S.scores }, { k: 'music', label: musicLabel() }, { k: 'fx', label: fxLabel() }, { k: 'quit', label: S.quit });
 }
 function updateMenus() {
   var n;
@@ -971,7 +1074,8 @@ function updateMenus() {
       else if (k === 'neu') startLevel(0);
       else if (k === 'levels') { state = 'levels'; menuIdx = save.unlocked - 1; SFX.ok(); }
       else if (k === 'scores') { state = 'scores'; SFX.ok(); }
-      else if (k === 'sound') setMute(!muted);
+      else if (k === 'music') setMusicOn(!musicOn);
+      else if (k === 'fx') setFx(!fxOn);
       else if (k === 'quit') { location.href = 'echo-rouge-v2.html'; }
     }
   } else if (state === 'levels') {
@@ -1286,7 +1390,6 @@ function drawGame() {
   x = 590; ['r', 'b', 'y'].forEach(function (k) { if (keysOwned[k]) { px(ctx, x, 5, 12, 8, KEYCOL[k]); x += 16; } });
   text(fmt(levelTime), VW - 8, 0, 18, '#7ad7f0', 'right');
   if (hid) text(S.hidden, 650, 0, 18, '#3ddc6a');
-  if (muted) text('×', 728, 0, 18, '#ff6a6a');
   y = 24;
   if (suit < 1) { panel(VW - 170, y, 160, 20, '#0b0e14', '#c9a24b'); px(ctx, VW - 166, y + 4, 100 * suit, 12, suit < 0.3 ? '#ff4040' : '#e3be68'); text(S.suit, VW - 58, y, 18, '#e3be68'); y += 24; }
   if (alarmT >= 0) { panel(VW - 170, y, 160, 22, '#2a0508', '#ff4040'); text(S.alarm + ' ' + alarmT.toFixed(1), VW - 90, y + 1, 20, '#ff6a6a', 'center'); }
@@ -1315,7 +1418,8 @@ function drawTitle() {
     text(S.title, VW / 2 + 3, 33, 76, '#5c0f18', 'center'); text(S.title, VW / 2, 30, 76, '#ff3040', 'center');
     text(S.sub, VW / 2, 102, 24, '#e3be68', 'center');
     text(S.agent + ' : ' + agent, VW / 2, 130, 22, '#3ddc6a', 'center');
-    buildTitle(); menuList(titleItems, 172, menuIdx, 30, 38);
+    buildTitle(); menuList(titleItems, 162, menuIdx, 28, 36);
+    if (musicOn) text('♪ ' + MUSIC.menu.t + ' — Laurent Prestigiacomo', VW / 2, VH - 50, 18, '#9c8a5a', 'center');
     text(isTouch ? S.touchHint : S.keysHint, VW / 2, VH - 28, 18, '#7a8898', 'center');
   } else if (state === 'levels') {
     var items = []; for (var n = 1; n <= NL; n++) items.push({ label: n + '. ' + S.names[n - 1] + '   ' + (n <= save.unlocked ? (save.best[n] ? fmt(save.best[n]) : S.none) : S.locked), dim: n > save.unlocked });
@@ -1337,9 +1441,10 @@ function draw() {
   if (state === 'intro') {
     dim(0.72); text(S.acts[L.idx < 5 ? 0 : 1] + '  —  ' + S.level + ' ' + (L.idx + 1), VW / 2, 130, 30, '#7ad7f0', 'center'); text(S.names[L.idx], VW / 2, 170, 60, '#e3be68', 'center');
     wrap(S.goals[L.idx], 600, 26).forEach(function (l, i) { text(l, VW / 2, 250 + i * 28, 26, '#cfe4f7', 'center'); });
+    if (musicOn) text('♪ ' + MUSIC.levels[L.idx].t, VW / 2, 392, 20, '#9c8a5a', 'center');
     if (Math.floor(time * 2) % 2) text('A', VW / 2, 340, 34, '#3ddc6a', 'center');
   } else if (state === 'pause') {
-    dim(0.7); text(S.pause, VW / 2, 90, 60, '#e3be68', 'center'); menuList([{ label: S.resume }, { label: S.restart }, { label: soundLabel() }, { label: S.menu }], 190, menuIdx, 30, 44);
+    dim(0.7); text(S.pause, VW / 2, 90, 60, '#e3be68', 'center'); menuList([{ label: S.resume }, { label: S.restart }, { label: musicLabel() }, { label: fxLabel() }, { label: S.menu }], 176, menuIdx, 30, 42);
   } else if (state === 'caught') {
     text(S.caught, VW / 2, 190, 72, '#ff4040', 'center'); text(S.lives + ' : ' + lives, VW / 2, 270, 30, '#ffffff', 'center');
   } else if (state === 'over') {
@@ -1359,12 +1464,12 @@ var lastT = 0;
 function frame(now) {
   var dt = Math.min(0.05, (now - lastT) / 1000 || 0); lastT = now;
   if (L && state !== 'title' && state !== 'levels' && state !== 'scores') update(dt); else { time += dt; updateMenus(); }
-  audioFrame();
+  audioFrame(); musicFrame(dt);
   draw(); pressed = {};
   requestAnimationFrame(frame);
 }
 /* Accès de test et de mise au point */
 window.__exodus = { start: startLevel, get L() { return L; }, get P() { return P; }, get state() { return state; }, set state(v) { state = v; }, get lives() { return lives; }, get ghost() { return ghost; }, get clock() { return clock; },
-  get audio() { return AC ? AC.state : null; }, get muted() { return muted; }, sfx: sfxStats, carts: function (m) { return cartRects(m, clock); }, save: save, finish: finishLevel };
+  get audio() { return AC ? AC.state : null; }, get fx() { return fxOn; }, get music() { return { on: musicOn, ready: mus.ready, playing: mus.playing, plays: mus.plays, cur: mus.cur && mus.cur.t, want: mus.want.t, shown: mus.shown, err: mus.err, loops: mus.loops, stalls: mus.stalls }; }, widget: function () { return mus.w; }, MUSIC: MUSIC, sfx: sfxStats, carts: function (m) { return cartRects(m, clock); }, save: save, finish: finishLevel };
 requestAnimationFrame(frame);
 })();
