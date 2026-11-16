@@ -265,7 +265,7 @@ function agentName() {
 }
 var SAVE_KEY = 'msc_save_v2', FX_KEY = 'exodus_fx', MUSIC_KEY = 'exodus_music';      // réglages son partagés avec Protocole Exodus
 var save = { unlocked: 1, best: {} }, fxOn = true, musicOn = true;
-try { var raw = JSON.parse(localStorage.getItem(SAVE_KEY)); if (raw && raw.unlocked) { save.unlocked = Math.max(1, Math.min(NL, raw.unlocked | 0)); save.best = raw.best || {}; } } catch (e) {}
+try { var raw = JSON.parse(localStorage.getItem(SAVE_KEY)); if (raw && raw.unlocked) { save.unlocked = Math.max(1, Math.min(NL, raw.unlocked | 0)); save.best = raw.best || {}; save.state = raw.state || null; } } catch (e) {}
 try { var pf = localStorage.getItem(FX_KEY), pm = localStorage.getItem(MUSIC_KEY), om = localStorage.getItem('exodus_mute') === '1'; fxOn = pf === null ? !om : pf === '1'; musicOn = pm === null ? !om : pm === '1'; } catch (e) {}
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
 
@@ -405,11 +405,16 @@ function scramble() {
   } while ((ev.win || off < 3) && tries < 60);
   startRot = rot.slice();
 }
-function loadLevel(i) {
+/* Partie en cours : séquence, position des tuiles et nombre de coups, enregistrés à chaque geste. */
+function keep() { save.state = solved ? null : { lvl: cur, rot: rot.slice(), start: startRot.slice(), moves: moves, open: unlocked }; persist(); }
+function validState(st, i) { return st && st.lvl === i && Array.isArray(st.rot) && Array.isArray(st.start) && st.rot.length === L.tiles.length && st.start.length === L.tiles.length && st.rot.every(function (v) { return v === 0 || v === 1 || v === 2 || v === 3; }); }
+function loadLevel(i, st) {
   cur = i; L = buildLevel(i); unlocked = false; solved = false; moves = 0; hover = -1; kbd = -1; solveT = 0; shake = {};
-  scramble(); ang = rot.map(function () { return 0; }); layout(); updateHud();
+  if (validState(st, i)) { rot = st.rot.slice(); startRot = st.start.slice(); moves = st.moves | 0; unlocked = !!st.open; ev = evaluate(L, rot); if (ev.win) { st = null; } }
+  if (!validState(st, i)) { unlocked = false; moves = 0; scramble(); }
+  ang = rot.map(function () { return 0; }); layout(); updateHud();
 }
-function resetLevel() { if (!L || solved) return; rot = startRot.slice(); ang = rot.map(function () { return 0; }); unlocked = false; moves = 0; ev = evaluate(L, rot); updateHud(); SFX.ui(); }
+function resetLevel() { if (!L || solved) return; rot = startRot.slice(); ang = rot.map(function () { return 0; }); unlocked = false; moves = 0; ev = evaluate(L, rot); updateHud(); keep(); SFX.ui(); }
 function after(prev) {
   ev = evaluate(L, rot);
   if (L.verrous.length && !unlocked && ev.nanOn === L.nanites.length) {       // les trois nanites réveillées : le verrou cède
@@ -418,7 +423,7 @@ function after(prev) {
   if (ev.nodesOn > prev.nodesOn) SFX.node(ev.nodesOn - 1); else if (ev.nodesOn < prev.nodesOn) SFX.nodeOff();
   if ((ev.mix || ev.touch) && !(prev.mix || prev.touch)) SFX.breach();
   updateHud();
-  if (ev.win) win();
+  if (ev.win) win(); else keep();
 }
 function act(i, dir) {
   if (!playing || solved || i < 0 || !L.tiles[i]) return;
@@ -434,7 +439,7 @@ function win() {
   var n = cur + 1, isBest = !save.best[n] || moves < save.best[n];
   if (isBest) save.best[n] = moves;
   if (n < NL) save.unlocked = Math.max(save.unlocked, n + 1);
-  persist(); updateHud();
+  save.state = null; persist(); updateHud();
   if (n === NL) SFX.final(); else SFX.solve();
   setTimeout(function () { if (n === NL) showEnd(); else showSolved(isBest); }, n === NL ? 3200 : 1500);
 }
@@ -481,7 +486,8 @@ function showTitle() {
   el('div', 'kicker', 'MSC // ÉCHO ROUGE' + (agentName() ? ' // ' + S.agent + ' ' + agentName() : ''), c);
   el('h1', 'ttl', S.name, c); el('div', 'sub', S.sub, c);
   el('p', 'quote', S.epi, c); el('p', 'by', '— ' + S.epiBy, c);
-  if (save.unlocked > 1 || save.best[1]) btn(S.cont + ' — ' + S.seq + ' ' + pad2(save.unlocked), function () { showIntro(save.unlocked - 1); }, c);
+  var st = save.state && save.state.lvl >= 0 && save.state.lvl < NL ? save.state : null, ci = st ? st.lvl : save.unlocked - 1;
+  if (st || save.unlocked > 1 || save.best[1]) btn(S.cont + ' — ' + S.seq + ' ' + pad2(ci + 1) + (st && st.moves ? ' · ' + st.moves + ' ' + S.moves : ''), function () { showIntro(ci, st); }, c);
   btn(S.neu, function () { showIntro(0); }, c);
   btn(S.levels, showLevels, c);
   soundButtons(c);
@@ -497,12 +503,12 @@ function showLevels() {
   S.lv.forEach(function (v, i) {
     var open = i < save.unlocked, b = el('button', 'lvl' + (open ? '' : ' off'), null, list); b.type = 'button'; b.disabled = !open;
     el('span', 'n', pad2(i + 1), b); el('span', 't', v.title, b); el('span', 'b', open ? (save.best[i + 1] ? save.best[i + 1] + ' ' + S.moves : '—') : S.locked, b);
-    if (open) b.addEventListener('click', function () { gesture(); SFX.ui(); showIntro(i); });
+    if (open) b.addEventListener('click', function () { gesture(); SFX.ui(); showIntro(i, save.state && save.state.lvl === i ? save.state : null); });
   });
   btn(S.back, showTitle, c, 'ghost'); show('ov-levels');
 }
-function showIntro(i) {
-  loadLevel(i); track = randomTrack(); setTrack(track);
+function showIntro(i, st) {
+  loadLevel(i, st); track = randomTrack(); setTrack(track);
   var v = S.lv[i], c = $['ov-intro']; c.innerHTML = '';
   el('div', 'kicker', S.seq + ' ' + pad2(i + 1) + ' / ' + NL + (v.time ? '  ·  ' + v.time : '') + (v.cd ? '  ·  ' + v.cd : ''), c);
   el('div', 'place', v.place, c); el('h2', 'ttl small', v.title, c);
