@@ -14,6 +14,7 @@ fr: {
   epi: '« La fermentation est la putréfaction contrôlée. C\'est accepter que quelque chose doit mourir pour que quelque chose de nouveau puisse naître. »', epiBy: 'Vaedran Ilarion, carnet personnel',
   cont: 'Continuer', neu: 'Nouvelle partie', levels: 'Séquences', music: 'Musique', fx: 'Effets', on: 'oui', off: 'non', quit: 'Retour à Écho Rouge',
   start: 'Commencer', next: 'Séquence suivante', resume: 'Reprendre', restart: 'Réinitialiser', menu: 'Menu', back: 'Retour', replay: 'Rejouer',
+  stages: ['Palier 1 — La nuit', 'Palier 2 — Résonance', 'Palier 3 — Expert'], stageHint: ['', 'Palier 2 : la grille s\'agrandit et davantage de tuiles sont liées.', 'Palier 3 : grande grille, liens en chaîne et en sens inverse mêlés.'], stageDone: 'Palier terminé', nextStage: 'Palier suivant',
   seq: 'SÉQUENCE', moves: 'coups', best: 'record', locked: 'verrouillée', pause: 'Pause',
   corr: 'CORRESPONDANCES', sig: 'SIGNAL', desync: 'DÉSYNCHRONISATION', diff: 'DIFFUSION',
   stNodes: 'nœuds', stOk: 'flux établi', stBreach: 'ALERTE — contact', stMix: 'ALERTE — les flux se touchent', stLock: 'verrou fermé', stOpen: 'verrou ouvert',
@@ -40,6 +41,7 @@ en: {
   epi: '"Fermentation is controlled putrefaction. It is accepting that something must die so that something new can be born."', epiBy: 'Vaedran Ilarion, personal notebook',
   cont: 'Continue', neu: 'New game', levels: 'Sequences', music: 'Music', fx: 'Sound FX', on: 'on', off: 'off', quit: 'Back to Red Echo',
   start: 'Begin', next: 'Next sequence', resume: 'Resume', restart: 'Reset', menu: 'Menu', back: 'Back', replay: 'Play again',
+  stages: ['Tier 1 — The night', 'Tier 2 — Resonance', 'Tier 3 — Expert'], stageHint: ['', 'Tier 2: the grid grows and more tiles are linked.', 'Tier 3: large grid, chained and reversed links combined.'], stageDone: 'Tier complete', nextStage: 'Next tier',
   seq: 'SEQUENCE', moves: 'moves', best: 'best', locked: 'locked', pause: 'Paused',
   corr: 'CORRESPONDENCES', sig: 'SIGNAL', desync: 'DESYNCHRONIZATION', diff: 'BROADCAST',
   stNodes: 'nodes', stOk: 'flow established', stBreach: 'ALERT — contact', stMix: 'ALERT — the flows are touching', stLock: 'lock closed', stOpen: 'lock open',
@@ -66,6 +68,7 @@ it: {
   epi: '« La fermentazione è la putrefazione controllata. È accettare che qualcosa debba morire perché qualcosa di nuovo possa nascere. »', epiBy: 'Vaedran Ilarion, taccuino personale',
   cont: 'Continua', neu: 'Nuova partita', levels: 'Sequenze', music: 'Musica', fx: 'Effetti', on: 'sì', off: 'no', quit: 'Torna a Eco Rosso',
   start: 'Inizia', next: 'Sequenza successiva', resume: 'Riprendi', restart: 'Reimposta', menu: 'Menu', back: 'Indietro', replay: 'Rigioca',
+  stages: ['Livello 1 — La notte', 'Livello 2 — Risonanza', 'Livello 3 — Esperto'], stageHint: ['', 'Livello 2: la griglia cresce e più tessere sono collegate.', 'Livello 3: griglia grande, legami a catena e in senso inverso insieme.'], stageDone: 'Livello completato', nextStage: 'Livello successivo',
   seq: 'SEQUENZA', moves: 'mosse', best: 'record', locked: 'bloccata', pause: 'Pausa',
   corr: 'CORRISPONDENZE', sig: 'SEGNALE', desync: 'DESINCRONIZZAZIONE', diff: 'DIFFUSIONE',
   stNodes: 'nodi', stOk: 'flusso stabilito', stBreach: 'ALLARME — contatto', stMix: 'ALLARME — i flussi si toccano', stLock: 'blocco chiuso', stOpen: 'blocco aperto',
@@ -138,8 +141,8 @@ var LEVELS = [
     links: [{ m: [6, 2], f: [4, 2] }, { m: [4, 2], f: [4, 4] }, { m: [2, 4], f: [2, 5], anti: 1 }] }
 ];
 
-function buildLevel(idx) {
-  var d = LEVELS[idx], R = d.rows, C = d.cols, n = R * C, i, k;
+function buildLevel(idx, def) {
+  var d = def || LEVELS[idx], R = d.rows, C = d.cols, n = R * C, i, k;
   var tiles = [], used = new Uint8Array(n), reserved = new Uint8Array(n), pa = [], tags = {};
   for (i = 0; i < n; i++) { tiles.push(null); pa.push([0, 0, 0, 0]); }
   function id(rc) { return rc[0] * C + rc[1]; }
@@ -248,6 +251,87 @@ function linked(L, i, dir) {
 }
 function solvedRot(L, open) { return L.tiles.map(function (t) { return t ? (t.role === 'verrou' && !open ? (t.sol + t.off) % 4 : t.sol) : 0; }); }
 
+/* ---- Paliers 2 et 3 : mêmes dix moments, même règle propre à chacun, sur des grilles plus grandes.
+   Les tracés sont tirés d'une graine fixe (donc identiques pour tous les joueurs) et chaque
+   séquence est vérifiée à la construction : on change de graine tant que la solution n'est pas valide. */
+var DIM2 = [[5, 6], [6, 6], [7, 6], [6, 7], [7, 7], [7, 7], [8, 6], [7, 7], [8, 7], [8, 7]], DIM3 = [[6, 7], [7, 7], [8, 6], [7, 8], [8, 8], [8, 8], [8, 7], [8, 8], [8, 8], [8, 8]];
+var NODES2 = [2, 7, 3, 4, 5, 6, 5, 0, 11, 6], FACT = ['0.0312', '0.0473', '0.0198', '0.0551', '0.0287', '0.0412', '0.0365'];
+function walk(R, C, rnd, target) {             // marche aléatoire sans recoupement, qui évite de s'enfermer
+  var n = R * C, used = new Uint8Array(n), s, path, d, opts, x, j, best, k;
+  do { s = (rnd() * n) | 0; } while (!(((s / C) | 0) === 0 || ((s / C) | 0) === R - 1 || s % C === 0 || s % C === C - 1));
+  function free(i) { var o = [], r = (i / C) | 0, c = i % C, dd, nr, nc; for (dd = 0; dd < 4; dd++) { nr = r + DR[dd]; nc = c + DC[dd]; if (nr >= 0 && nr < R && nc >= 0 && nc < C && !used[nr * C + nc]) o.push(nr * C + nc); } return o; }
+  path = [s]; used[s] = 1;
+  while (path.length < target) {
+    opts = free(path[path.length - 1]); if (!opts.length) break;
+    if (rnd() < 0.3) x = opts[(rnd() * opts.length) | 0];
+    else { best = 9; x = opts[0]; for (d = 0; d < opts.length; d++) { j = opts[d]; used[j] = 1; k = free(j).length + rnd() * 0.9; used[j] = 0; if (k < best && k >= 0.999) { best = k; x = j; } } }
+    used[x] = 1; path.push(x);
+  }
+  return path;
+}
+function genDef(k, st, seed) {
+  var base = LEVELS[k], dim = (st === 2 ? DIM2 : DIM3)[k], R = dim[0], C = dim[1], n = R * C, rnd = rng(seed), path, t = 0, i, j;
+  do { path = walk(R, C, rnd, Math.round(n * (st === 2 ? 0.5 : 0.62))); } while (path.length < n * (st === 2 ? 0.42 : 0.52) && ++t < 200);
+  function rc(x) { return [(x / C) | 0, x % C]; }
+  var d = { rows: R, cols: C, seed: seed * 7 + 3, voidP: st === 2 ? 0.24 : 0.14, corr: base.corr, sig: base.sig, desync: base.desync, diff: base.diff, stage: st, flows: [], links: [], walls: [], lost: [] };
+  var m = (path.length / 2) | 0, parts = k === 3 ? [path.slice(0, m + 1), path.slice(m).reverse()] : k === 6 ? [path.slice(0, m), path.slice(m + 1).reverse()] : [path];
+  var onPath = {}, fixed = {}, tags = {}, order = [];
+  path.forEach(function (x) { onPath[x] = 1; });
+  parts.forEach(function (p) { fixed[p[0]] = 1; fixed[p[p.length - 1]] = 1; });
+  function spread(p, count, a, b) {            // indices répartis entre les fractions a et b du flux, avec un peu d'aléa
+    var out = [], lo = Math.max(1, Math.round((p.length - 1) * a)), hi = Math.min(p.length - 2, Math.round((p.length - 1) * b)), q, x;
+    for (q = 0; q < count; q++) { x = Math.round(lo + (hi - lo) * (q + 0.5) / count + (rnd() - 0.5)); x = Math.max(1, Math.min(p.length - 2, x)); while (tags[p[x]] && x < p.length - 2) x++; if (!tags[p[x]]) out.push(p[x]); }
+    return out;
+  }
+  var want = NODES2[k] + (st === 3 && k !== 1 && k !== 8 && k !== 7 ? 2 : 0);
+  if (k === 7) {
+    spread(parts[0], 3, 0.08, 0.6).forEach(function (x, q) { tags[x] = ['k', '@' + q]; });
+    spread(parts[0], 3, 0.72, 0.95).forEach(function (x, q) { tags[x] = ['v', ['44', '89', '131'][q]]; fixed[x] = 1; });
+  } else if (k === 3) { spread(parts[0], want / 2, 0.1, 0.85).concat(spread(parts[1], want / 2, 0.1, 0.85)).forEach(function (x) { tags[x] = ['n', '']; }); }
+  else spread(parts[0], want, 0.05, 0.95).forEach(function (x, q) { tags[x] = ['n', k === 1 ? FACT[q] : '']; });
+  parts.forEach(function (p, f) {
+    var b = base.flows[Math.min(f, base.flows.length - 1)];
+    d.flows.push({ id: b.id, col: b.col, slabel: b.slabel, dlabel: b.dlabel, hub: b.hub, from: rc(p[0]), to: rc(p[p.length - 1]),
+      via: p.slice(1, -1).map(function (x) { var q = rc(x); if (tags[x]) { q.push(tags[x][0]); q.push(tags[x][1]); } return q; }) });
+    p.forEach(function (x) { if (!fixed[x]) order.push(x); });
+  });
+  /* liens : la maîtresse précède toujours la suiveuse dans l'ordre du tracé, donc aucune boucle */
+  var nl = st === 2 ? (k > 4 ? 4 : 3) : 6, isF = {}, a, b2, tr = 0;
+  if (k === 4) { a = []; for (i = 0; i < (st === 2 ? 4 : 5); i++) a.push(order[Math.min(order.length - 1, Math.round((i + 0.5) * order.length / (st === 2 ? 4 : 5)))]); for (i = 0; i < a.length - 1; i++) if (a[i] !== a[i + 1]) { d.links.push({ m: rc(a[i]), f: rc(a[i + 1]) }); isF[a[i + 1]] = 1; } nl = st === 2 ? 1 : 3; }
+  while (d.links.length < nl + (k === 4 ? (st === 2 ? 3 : 4) : 0) && tr++ < 400) {
+    i = (rnd() * order.length) | 0; j = (rnd() * order.length) | 0; if (j < i) { a = i; i = j; j = a; }
+    if (j - i < 3 || isF[order[j]]) continue;
+    isF[order[j]] = 1; b2 = { m: rc(order[i]), f: rc(order[j]) };
+    if (k === 5 || (st === 3 && rnd() < 0.4)) b2.anti = 1;
+    d.links.push(b2);
+    if (k === 0 && d.links.length === 1) d.links.push({ m: rc(order[j]), f: rc(order[i]) });
+  }
+  if (k === 2 || k === 9) {                     // fils ou agents : cases hors tracé qui touchent le tracé
+    var cand = [], kind = k === 2 ? 'fil' : 'agent', need = k === 2 ? (st === 2 ? 8 : 12) : (st === 2 ? 5 : 7);
+    for (i = 0; i < n; i++) { if (onPath[i]) continue; var r = (i / C) | 0, c = i % C, touch = 0; for (j = 0; j < 4; j++) { var nr = r + DR[j], nc = c + DC[j]; if (nr >= 0 && nr < R && nc >= 0 && nc < C && onPath[nr * C + nc]) touch++; } if (touch) cand.push([rnd() - touch * 0.2, i]); }
+    cand.sort(function (x, y) { return x[0] - y[0]; }).slice(0, need).forEach(function (q) { var w = rc(q[1]); w.push(kind); d.walls.push(w); });
+    d.minWalls = Math.min(need, 4);
+  }
+  if (k === 8) {                                // le Tissage hors de portée : au bord, tourné vers l'extérieur
+    for (i = 0; i < n && !d.lost.length; i++) { if (onPath[i]) continue; r = (i / C) | 0; c = i % C; if (r === 0) d.lost.push([r, c, 0]); else if (c === C - 1) d.lost.push([r, c, 1]); else if (r === R - 1) d.lost.push([r, c, 2]); else if (c === 0) d.lost.push([r, c, 3]); }
+  }
+  d.wantNodes = k === 7 ? 3 : want;
+  return d;
+}
+(function addStages() {
+  var st, k, seed, d, L, e, ok;
+  for (st = 2; st <= 3; st++) for (k = 0; k < 10; k++) {
+    for (seed = st * 1000 + k * 37 + 1, ok = false; !ok && seed < st * 1000 + k * 37 + 400; seed++) {
+      try {
+        d = genDef(k, st, seed); L = buildLevel(LEVELS.length, d); e = evaluate(L, solvedRot(L, true));
+        ok = e.win && e.leaks === 0 && L.nodes.length === d.wantNodes && L.links.length >= (st === 2 ? 3 : 5) && (!d.minWalls || d.walls.length >= d.minWalls) && (k !== 8 || L.lost.length === 1) && (k !== 7 || (L.verrous.length === 3 && evaluate(L, solvedRot(L, false)).nanOn === 3 && !evaluate(L, solvedRot(L, false)).win));
+      } catch (x) { ok = false; }
+    }
+    if (!ok) throw new Error('palier ' + st + ', séquence ' + (k + 1) + ' : aucune grille valide');
+    LEVELS.push(d);
+  }
+})();
+
 if (typeof module !== 'undefined' && module.exports) { module.exports = { STR: STR, LEVELS: LEVELS, buildLevel: buildLevel, evaluate: evaluate, linked: linked, solvedRot: solvedRot, ports: ports }; }
 if (typeof document === 'undefined') return;
 
@@ -267,6 +351,7 @@ var SAVE_KEY = 'msc_save_v2', FX_KEY = 'exodus_fx', MUSIC_KEY = 'exodus_music'; 
 var save = { unlocked: 1, best: {} }, fxOn = true, musicOn = true;
 try { var raw = JSON.parse(localStorage.getItem(SAVE_KEY)); if (raw && raw.unlocked) { save.unlocked = Math.max(1, Math.min(NL, raw.unlocked | 0)); save.best = raw.best || {}; save.state = raw.state || null; } } catch (e) {}
 try { var pf = localStorage.getItem(FX_KEY), pm = localStorage.getItem(MUSIC_KEY), om = localStorage.getItem('exodus_mute') === '1'; fxOn = pf === null ? !om : pf === '1'; musicOn = pm === null ? !om : pm === '1'; } catch (e) {}
+if (save.best[10] && save.unlocked < 11) save.unlocked = Math.min(NL, 11);      // premier palier déjà terminé
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
 
 /* ======================================================================
@@ -440,8 +525,9 @@ function win() {
   if (isBest) save.best[n] = moves;
   if (n < NL) save.unlocked = Math.max(save.unlocked, n + 1);
   save.state = null; persist(); updateHud();
-  if (n === NL) SFX.final(); else SFX.solve();
-  setTimeout(function () { if (n === NL) showEnd(); else showSolved(isBest); }, n === NL ? 3200 : 1500);
+  var last = n % 10 === 0;
+  if (last) SFX.final(); else SFX.solve();
+  setTimeout(function () { if (last) showEnd(); else showSolved(isBest); }, last ? 3200 : 1500);
 }
 
 /* ======================================================================
@@ -497,11 +583,15 @@ function showTitle() {
   setTrack(T_MENU); show('ov-title');
 }
 function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function lv(i) { return S.lv[i % 10]; }
+function stageOf(i) { return (i / 10) | 0; }
+function goalOf(i) { var h = S.stageHint[stageOf(i)]; return lv(i).goal + (h ? ' ' + h : ''); }
 function showLevels() {
   var c = $['ov-levels']; c.innerHTML = ''; el('h2', 'ttl small', S.levels, c);
   var list = el('div', 'list', null, c);
-  S.lv.forEach(function (v, i) {
-    var open = i < save.unlocked, b = el('button', 'lvl' + (open ? '' : ' off'), null, list); b.type = 'button'; b.disabled = !open;
+  LEVELS.forEach(function (unused, i) {
+    if (i % 10 === 0) el('div', 'stage', S.stages[stageOf(i)], list);
+    var v = lv(i), open = i < save.unlocked, b = el('button', 'lvl' + (open ? '' : ' off'), null, list); b.type = 'button'; b.disabled = !open;
     el('span', 'n', pad2(i + 1), b); el('span', 't', v.title, b); el('span', 'b', open ? (save.best[i + 1] ? save.best[i + 1] + ' ' + S.moves : '—') : S.locked, b);
     if (open) b.addEventListener('click', function () { gesture(); SFX.ui(); showIntro(i, save.state && save.state.lvl === i ? save.state : null); });
   });
@@ -509,17 +599,18 @@ function showLevels() {
 }
 function showIntro(i, st) {
   loadLevel(i, st); track = randomTrack(); setTrack(track);
-  var v = S.lv[i], c = $['ov-intro']; c.innerHTML = '';
+  var v = lv(i), c = $['ov-intro']; c.innerHTML = '';
+  el('div', 'kicker', S.stages[stageOf(i)], c);
   el('div', 'kicker', S.seq + ' ' + pad2(i + 1) + ' / ' + NL + (v.time ? '  ·  ' + v.time : '') + (v.cd ? '  ·  ' + v.cd : ''), c);
   el('div', 'place', v.place, c); el('h2', 'ttl small', v.title, c);
-  el('p', 'quote', v.quote, c); el('p', 'goaltxt', v.goal, c);
+  el('p', 'quote', v.quote, c); el('p', 'goaltxt', goalOf(i), c);
   if (musicOn) el('p', 'trk', '♪ ' + track.t, c);
   btn(S.start, function () { show(null); }, c);
   show('ov-intro');
 }
 function openPause() {
   var c = $['ov-pause']; c.innerHTML = ''; el('h2', 'ttl small', S.pause, c);
-  el('p', 'goaltxt', S.lv[cur].goal, c);
+  el('p', 'goaltxt', goalOf(cur), c);
   btn(S.resume, function () { show(null); }, c);
   btn(S.restart, function () { resetLevel(); show(null); }, c);
   btn(S.levels, showLevels, c);
@@ -528,7 +619,7 @@ function openPause() {
   show('ov-pause');
 }
 function showSolved(isBest) {
-  var v = S.lv[cur], c = $['ov-solved']; c.innerHTML = '';
+  var v = lv(cur), c = $['ov-solved']; c.innerHTML = '';
   el('div', 'kicker', S.seq + ' ' + pad2(cur + 1) + ' / ' + NL, c); el('h2', 'ttl small', S.solved, c);
   el('p', 'quote', v.out, c);
   el('p', 'by', moves + ' ' + S.moves + '  ·  ' + S.best + ' : ' + save.best[cur + 1] + (isBest ? ' ★' : ''), c);
@@ -537,10 +628,12 @@ function showSolved(isBest) {
 }
 function showEnd() {
   var c = $['ov-end']; c.innerHTML = ''; setTrack(T_END);
-  el('div', 'kicker', S.diff + ' 100 %', c); el('h2', 'ttl', S.endTitle, c);
+  el('div', 'kicker', S.stages[stageOf(cur)] + ' · ' + S.stageDone, c); el('h2', 'ttl', S.endTitle, c);
   el('p', 'quote', S.end1, c); el('p', 'quote strong', S.end2, c);
   if (musicOn) el('p', 'trk', '♪ ' + T_END.t, c);
-  btn(S.replay, function () { showIntro(0); }, c); btn(S.menu, showTitle, c, 'ghost');
+  el('p', 'by', moves + ' ' + S.moves + '  ·  ' + S.best + ' : ' + save.best[cur + 1], c);
+  if (cur + 1 < NL) btn(S.nextStage + ' — ' + S.stages[stageOf(cur + 1)], function () { showIntro(cur + 1); }, c);
+  btn(S.replay, function () { showIntro(cur - 9); }, c); btn(S.menu, showTitle, c, 'ghost');
   show('ov-end');
 }
 function gaugeVals() {                        // jauges du récit : valeurs du chapitre, avant puis après la séquence
@@ -553,8 +646,8 @@ function gaugeVals() {                        // jauges du récit : valeurs du c
 }
 function updateHud() {
   if (!L) return;
-  var v = S.lv[cur], g = gaugeVals();
-  $.tag.textContent = S.seq + ' ' + pad2(cur + 1) + ' / ' + NL; $.name.textContent = v.title; $.moves.textContent = moves + ' ' + S.moves; $.goal.textContent = v.goal;
+  var v = lv(cur), g = gaugeVals();
+  $.tag.textContent = S.seq + ' ' + pad2(cur + 1) + ' / ' + NL; $.name.textContent = v.title; $.moves.textContent = moves + ' ' + S.moves; $.goal.textContent = goalOf(cur);
   $.g1.textContent = g[0]; $.g2.textContent = g[1] || ''; $.g2.style.display = g[1] ? '' : 'none';
   var st = ev.touch ? S.stBreach : ev.mix ? S.stMix : (L.verrous.length ? (unlocked ? S.stOpen : S.stLock) + ' · ' : '') + (ev.nodesTot ? S.stNodes + ' ' + ev.nodesOn + '/' + ev.nodesTot : (ev.reach ? S.stOk : ''));
   $.st.textContent = st; $.st.classList.toggle('bad', !!(ev.touch || ev.mix)); $.live.textContent = st;
