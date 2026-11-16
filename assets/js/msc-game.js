@@ -20,6 +20,7 @@ fr: {
   solved: 'Séquence synchronisée', endTitle: 'Le signal court',
   end1: 'Le signal de désynchronisation. Cent quarante-sept voix simultanées. Quatorze minutes et trente-sept secondes.', end2: 'Le relais diffusait. Le signal courait.',
   hintKeys: 'Clic ou toucher : tourner · clic droit ou Maj : sens inverse · flèches + Espace · R : réinitialiser · M / N : musique / effets',
+  warnHead: '// Chapitre 26 — avertissement', warn: 'Cette matrice rejoue la nuit du chapitre 26, jusqu\'à son dénouement. Lecteur, si tu n\'as pas encore atteint ce chapitre, tu y trouveras de quoi t\'en gâcher la découverte. Entre en toute connaissance de cause.', warnGo: 'Continuer',
   tapMusic: 'Touchez ▶ ci-dessous pour lancer la musique', us: 'NOUS', decoy: 'LEURRE', old: 'pré-3.0', nan: ['plexus', 'nuque', 'paume'],
   lv: [
     { place: 'Cœur Central — zone de travail', time: '01:07', cd: 'T-14 h 53', title: 'Nœud 90', goal: 'Relie l\'émetteur au récepteur en passant par le nœud. Deux tuiles sont décalées ensemble : tourner l\'une fait tourner l\'autre.', quote: '« Sa fréquence porteuse ne correspond pas au schéma de Jarek. Il y a un décalage de 0,7 mégahertz. »', out: '91. 92. 93. La partition prenait forme.' },
@@ -45,6 +46,7 @@ en: {
   solved: 'Sequence synchronized', endTitle: 'The signal is running',
   end1: 'The desynchronization signal. One hundred and forty-seven simultaneous voices. Fourteen minutes and thirty-seven seconds.', end2: 'The relay was broadcasting. The signal was running.',
   hintKeys: 'Click or tap: rotate · right-click or Shift: reverse · arrows + Space · R: reset · M / N: music / sound FX',
+  warnHead: '// Chapter 26 — warning', warn: 'This matrix replays the night of chapter 26, all the way to its outcome. Reader, if you have not reached that chapter yet, you will find enough here to spoil it. Enter with full knowledge.', warnGo: 'Continue',
   tapMusic: 'Tap ▶ below to start the music', us: 'US', decoy: 'DECOY', old: 'pre-3.0', nan: ['plexus', 'nape', 'palm'],
   lv: [
     { place: 'Central Core — work area', time: '01:07', cd: 'T-14 h 53', title: 'Node 90', goal: 'Link the emitter to the receiver through the node. Two tiles are shifted together: rotating one rotates the other.', quote: '"Its carrier frequency does not match Jarek\'s schematic. There is a 0.7 megahertz shift."', out: '91. 92. 93. The score was taking shape.' },
@@ -70,6 +72,7 @@ it: {
   solved: 'Sequenza sincronizzata', endTitle: 'Il segnale corre',
   end1: 'Il segnale di desincronizzazione. Centoquarantasette voci simultanee. Quattordici minuti e trentasette secondi.', end2: 'Il relè trasmetteva. Il segnale correva.',
   hintKeys: 'Clic o tocco: ruota · clic destro o Maiusc: senso inverso · frecce + Spazio · R: reimposta · M / N: musica / effetti',
+  warnHead: '// Capitolo 26 — avvertenza', warn: 'Questa matrice rivive la notte del capitolo 26, fino al suo epilogo. Lettore, se non sei ancora arrivato a quel capitolo, qui troverai quanto basta per rovinartene la scoperta. Entra con piena consapevolezza.', warnGo: 'Continua',
   tapMusic: 'Tocca ▶ qui sotto per avviare la musica', us: 'NOI', decoy: 'ESCA', old: 'pre-3.0', nan: ['plesso', 'nuca', 'palmo'],
   lv: [
     { place: 'Cuore Centrale — zona di lavoro', time: '01:07', cd: 'T-14 h 53', title: 'Nodo 90', goal: 'Collega l\'emettitore al ricevitore passando per il nodo. Due tessere sono sfasate insieme: ruotarne una fa ruotare l\'altra.', quote: '« La sua frequenza portante non corrisponde allo schema di Jarek. C\'è uno scarto di 0,7 megahertz. »', out: '91. 92. 93. La partitura prendeva forma.' },
@@ -455,13 +458,23 @@ function onoff(v) { return v ? S.on : S.off; }
   var bot = el('footer', null, null, ui); bot.id = 'hud-bottom';
   $.goal = el('p', 'goal', '', bot); var g = el('div', 'gauges', null, bot); $.g1 = el('span', 'g', '', g); $.g2 = el('span', 'g', '', g); $.st = el('span', 'g st', '', g);
   $.live = el('div', 'sr', '', ui); $.live.setAttribute('aria-live', 'polite');
-  ['ov-title', 'ov-levels', 'ov-intro', 'ov-pause', 'ov-solved', 'ov-end'].forEach(overlay);
+  ['ov-warn', 'ov-title', 'ov-levels', 'ov-intro', 'ov-pause', 'ov-solved', 'ov-end'].forEach(overlay);
 })();
 function refreshMenus() { if ($['ov-title'] && $['ov-title'].parentNode.classList.contains('show')) showTitle(); if ($['ov-pause'] && $['ov-pause'].parentNode.classList.contains('show')) openPause(); }
 function soundButtons(c) {
   var row = el('div', 'row', null, c);
   btn(S.music + ' : ' + onoff(musicOn), function () { setMusicOn(!musicOn); }, row, 'small');
   btn(S.fx + ' : ' + onoff(fxOn), function () { setFx(!fxOn); }, row, 'small');
+}
+var WARN_KEY = 'msc_spoiler_ack';
+function showWarn() {                         // avertissement une fois par session, avant le menu
+  var ok = false; try { ok = sessionStorage.getItem(WARN_KEY) === '1'; } catch (e) {}
+  if (ok) { showTitle(); return; }
+  var c = $['ov-warn']; c.innerHTML = '';
+  el('div', 'kicker', S.warnHead, c); el('p', 'goaltxt', S.warn, c);
+  btn(S.warnGo, function () { try { sessionStorage.setItem(WARN_KEY, '1'); } catch (e) {} showTitle(); }, c);
+  var q = el('a', 'btn ghost', S.quit, c); q.href = 'echo-rouge-v2.html';
+  show('ov-warn');
 }
 function showTitle() {
   var c = $['ov-title']; c.innerHTML = ''; L = L || null;
@@ -732,5 +745,5 @@ window.addEventListener('keydown', function (e) {
 window.__msc = { get L() { return L; }, get ev() { return ev; }, get rot() { return rot; }, get moves() { return moves; }, get solved() { return solved; }, get playing() { return playing; }, get cur() { return cur; }, get unlocked() { return unlocked; },
   get music() { return { on: musicOn, ready: mus.ready, playing: mus.playing, cur: mus.cur && mus.cur.t, want: mus.want.t, shown: mus.shown, err: mus.err }; }, get fx() { return fxOn; }, get sfx() { return sfxCount; }, get audio() { return AC ? AC.state : null; },
   save: save, act: act, start: function (i) { showIntro(i); show(null); }, geo: geo, cell: function (i) { var r = (i / L.cols) | 0, c = i % L.cols; return local(r, c, 0, 0, 0); }, solution: function () { return solvedRot(L, true); } };
-layout(); showTitle(); requestAnimationFrame(frame);
+layout(); showWarn(); requestAnimationFrame(frame);
 })();
