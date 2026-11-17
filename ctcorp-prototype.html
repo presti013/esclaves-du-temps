@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CT Corp — Le Temps est notre Matière Première</title>
+<meta name="description" content="CT Corp, la mégacorporation du roman Esclaves du Temps de Laurent Prestigiacomo : site officiel fictif, solutions, carrières, ChronoVision et Espace Client.">
+<link rel="canonical" href="https://www.esclavesdutemps.be/ctcorp-prototype.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="CT Corp — Le Temps est notre Matière Première">
+<meta property="og:description" content="CT Corp, la mégacorporation du roman Esclaves du Temps de Laurent Prestigiacomo : site officiel fictif, solutions, carrières, ChronoVision et Espace Client.">
+<meta property="og:url" content="https://www.esclavesdutemps.be/ctcorp-prototype.html">
+<meta property="og:image" content="https://www.esclavesdutemps.be/assets/img/img-e13285cea6a8.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@300;400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -1578,6 +1587,19 @@ footer {
   .hero-ctas{ flex-direction:column; align-items:stretch; }
   footer{ padding:30px 18px !important; }
 }
+
+/* ── PAGES INSTITUTIONNELLES (pied de page) ── */
+.fx-page{max-width:860px;margin:0 auto;padding:0 24px 80px}
+.fx-block{border:1px solid var(--border);border-left:3px solid var(--accent);background:rgba(10,22,40,.55);padding:22px 26px;margin:0 0 18px}
+.fx-block h3{font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.fx-block p{font-family:'Barlow',sans-serif;font-size:15px;line-height:1.75;color:var(--text);margin:0}
+.fx-ref{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;margin:26px 0 18px}
+.fx-back{display:inline-block;font-family:'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--border);padding:10px 18px}
+.fx-back:hover{border-color:var(--accent)}
+.fx-form{display:grid;gap:12px;margin:0 0 18px}
+.fx-form input,.fx-form textarea{width:100%;box-sizing:border-box;background:rgba(10,22,40,.8);border:1px solid var(--border);color:var(--text);font:15px 'Barlow',sans-serif;padding:12px 14px}
+.fx-form button{justify-self:start}
+.fx-sent{display:none;border:1px solid var(--accent);color:var(--accent);padding:14px 18px;font-family:'Barlow',sans-serif}
 </style>
 <!--i18n:style-->
 <style>
@@ -1601,10 +1623,10 @@ footer {
 </style>
 <!--/i18n:style-->
 <!--i18n:hreflang-->
-<link rel="alternate" hreflang="fr" href="https://presti013.github.io/esclaves-du-temps/ctcorp-prototype.html">
-<link rel="alternate" hreflang="en" href="https://presti013.github.io/esclaves-du-temps/en/ctcorp-prototype.html">
-<link rel="alternate" hreflang="it" href="https://presti013.github.io/esclaves-du-temps/it/ctcorp-prototype.html">
-<link rel="alternate" hreflang="x-default" href="https://presti013.github.io/esclaves-du-temps/ctcorp-prototype.html">
+<link rel="alternate" hreflang="fr" href="https://www.esclavesdutemps.be/ctcorp-prototype.html">
+<link rel="alternate" hreflang="en" href="https://www.esclavesdutemps.be/en/ctcorp-prototype.html">
+<link rel="alternate" hreflang="it" href="https://www.esclavesdutemps.be/it/ctcorp-prototype.html">
+<link rel="alternate" hreflang="x-default" href="https://www.esclavesdutemps.be/ctcorp-prototype.html">
 <!--/i18n:hreflang-->
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -1642,12 +1664,12 @@ footer {
   <button class="nav-burger" aria-label="Menu">&#9776;</button>
   <ul class="nav-links">
     <li><a href="index.html" id="nav-portail">&#9666; Portail</a></li>
-    <li><a onclick="showSection('home')" id="nav-home" class="active">Accueil</a></li>
-    <li><a onclick="showSection('solutions')" id="nav-solutions">Solutions</a></li>
-    <li><a onclick="showSection('carrieres')" id="nav-carrieres">Carrières</a></li>
-    <li><a onclick="showSection('chronovision')" id="nav-chronovision">ChronoVision</a></li>
+    <li><a href="#home" onclick="showSection('home');return false;" id="nav-home" class="active">Accueil</a></li>
+    <li><a href="#solutions" onclick="showSection('solutions');return false;" id="nav-solutions">Solutions</a></li>
+    <li><a href="#carrieres" onclick="showSection('carrieres');return false;" id="nav-carrieres">Carrières</a></li>
+    <li><a href="#chronovision" onclick="showSection('chronovision');return false;" id="nav-chronovision">ChronoVision</a></li>
     <li><a href="apropos-ctcorp.html" id="nav-apropos">À propos</a></li>
-    <li><a onclick="showSection('client')" id="nav-client">Espace Client</a></li>
+    <li><a href="#client" onclick="showSection('client');return false;" id="nav-client">Espace Client</a></li>
   </ul>
   <button class="nav-cta" onclick="showSection('carrieres')">Postuler</button>
 </nav>
@@ -1828,7 +1850,7 @@ footer {
           <p class="detail-tagline">"L'interface qui vous comprend."</p>
           <p class="detail-body">Le Tissage Synaptique est la première interface neuronale approuvée par le Conseil de Conformité Chronologique. Implanté lors d'une procédure ambulatoire de 20 minutes, il assure une intégration transparente dans l'écosystème CT Corp. La version 4.0 introduit une bande passante cognitivo-temporelle 3× supérieure et une tolérance aux environnements de haute compression.</p>
           <p class="detail-body">Nos équipes médicales certifiées assurent un suivi post-implantation complet. Le Tissage Synaptique est remis à zéro automatiquement lors des mises à jour firmware trimestrielles.</p>
-          <a class="sigma-link" onclick="openSigma()">Spécifications techniques avancées (Niveau Delta) →</a>
+          <a class="sigma-link" role="button" tabindex="0" onclick="openSigma()">Spécifications techniques avancées (Niveau Delta) →</a>
           <p class="small-print">* CT Corp décline toute responsabilité quant aux effets de la synchronisation prolongée sur les structures mémoricielles à long terme. La version 3.0 et antérieure n'est plus supportée depuis le 01.01.2035. En cas de dysfonctionnement, contacter le support cognitif CT Corp sous 72 heures. Le firmware peut être mis à jour à distance sans notification préalable du porteur si les conditions de sécurité réseau l'exigent.</p>
         </div>
         <div class="detail-specs">
@@ -1892,7 +1914,7 @@ footer {
           <p class="detail-body">Au cœur de l'écosystème CT Corp, les Générateurs de Flux Temporel (GFT) permettent de concentrer des semaines d'activité productive en quelques heures de temps réel. Cette technologie de rupture, certifiée par le Conseil de Conformité Chronologique, libère le potentiel humain à une échelle jamais atteinte.</p>
           <p class="detail-body">Trois ratios standard sont proposés : ×50 pour les tâches de précision, ×80 pour la production industrielle, et ×100 pour les performances maximales. Chaque bulle de compression est encadrée par des protocoles de sécurité stricts et un suivi en temps réel par nos équipes techniques.</p>
           <p class="detail-body">La compression temporelle est aujourd'hui le pilier de la productivité mondiale. 47 gouvernements partenaires l'ont adoptée pour accélérer leur croissance.</p>
-          <a class="sigma-link" onclick="openSigma()">Rapports de sécurité détaillés (Niveau Delta) →</a>
+          <a class="sigma-link" role="button" tabindex="0" onclick="openSigma()">Rapports de sécurité détaillés (Niveau Delta) →</a>
           <p class="small-print">* La radiation temporelle résiduelle peut entraîner un vieillissement accéléré dans un rayon de 50 mètres autour d'un GFT actif. Le port de la combinaison CTR-7 est réservé aux techniciens certifiés. Les incidents de Mumbai (2029) et Shenzhen (2031) ont fait l'objet de procédures de résolution complètes. CT Corp ne saurait être tenu responsable des effets physiologiques de l'exposition prolongée au temps subjectif. Les "compressés" sont rémunérés sur la base du temps subjectif vécu, conformément aux Lois de Compression Obligatoire de 2028.</p>
         </div>
         <div class="detail-specs">
@@ -3106,45 +3128,190 @@ footer {
 </section>
 
 <!-- ═══════════════════ FOOTER ═══════════════════ -->
+<!-- ═══════════════════ SPIRALE ═══════════════════ -->
+<section id="spirale" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Siège mondial</div>
+    <h2 class="section-title">La Spirale — Bruxelles</h2>
+    <p class="section-desc">Là où le temps du monde est mesuré, compté et réinvesti. La Spirale abrite le Directoire, le Conseil de Conformité et le cœur administratif de NAOS-9.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Une architecture qui ne s&#x27;arrête jamais</h3><p>Sa forme hélicoïdale n'a ni sommet ni fin : chaque niveau prolonge le précédent, comme chaque seconde prolonge la croissance. Les façades de verre s'opacifient automatiquement lorsque les cadences de compression l'exigent.</p></div>
+    <div class="fx-block"><h3>Visites</h3><p>Les visites publiques sont suspendues depuis le 27 décembre 2034 pour raison de maintenance. Les porteurs de Tissage de rang Alpha peuvent demander un accès à l'Observatoire du Temps depuis leur Espace Client.</p></div>
+    <div class="fx-block"><h3>Accès</h3><p>Toute entrée est vérifiée par empreinte temporelle. Les visiteurs sans Tissage sont accompagnés en permanence par un agent d'Aegis-CD, pour leur confort.</p></div>
+    <div class="fx-ref">SPIRALE · ACCÈS RÉGLEMENTÉ · TOUTE PRISE DE VUE EST SOUMISE À AUTORISATION</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ GOUVERNEMENTS ═══════════════════ -->
+<section id="gouvernements" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Coopération internationale</div>
+    <h2 class="section-title">47 Gouvernements partenaires</h2>
+    <p class="section-desc">Quarante-sept États ont choisi la prospérité temporelle. Ensemble, ils forment le Programme Horizon Partagé.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Le Pacte Cronos</h3><p>43 juridictions ont signé le Pacte Cronos, qui encadre la compression volontaire et la reconnaissance du CTC comme unité d'échange. Quatre partenaires supplémentaires appliquent ses principes par accord bilatéral.</p></div>
+    <div class="fx-block"><h3>Des bénéfices pour chaque citoyen</h3><p>Dans les pays partenaires, l'accès au Tissage est garanti, les Cités-Vitrines sont ouvertes aux contributeurs méritants et la productivité nationale progresse en moyenne de 11 % par an.</p></div>
+    <div class="fx-block"><h3>Et les autres ?</h3><p>Les États non partenaires conservent naturellement leur souveraineté. CT Corp leur rappelle simplement que le temps perdu ne se rattrape pas.</p></div>
+    <div class="fx-ref">PROGRAMME HORIZON PARTAGÉ · LISTE DES ÉTATS SIGNATAIRES : DIFFUSION RESTREINTE</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ PRESSE ═══════════════════ -->
+<section id="presse" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Communication corporate</div>
+    <h2 class="section-title">Presse &amp; Relations investisseurs</h2>
+    <p class="section-desc">Des informations exactes, vérifiées et alignées. Les journalistes accrédités et les actionnaires trouvent ici les communications officielles de CT Corp.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Derniers communiqués</h3><p>02.01.2035 — Exercice 2034 : productivité globale en hausse de 14,7 %.<br>29.12.2034 — Incident du 27 décembre : retour à la normale confirmé.<br>22.12.2034 — CT-NET 2.0 : calendrier de déploiement sur les Tissages v.3.0+.</p></div>
+    <div class="fx-block"><h3>Investisseurs</h3><p>Le CTC clôture la première semaine de 2035 en hausse de 2,1 %. Le prochain rapport trimestriel sera publié à l'issue du déploiement de CT-NET 2.0. Aucune question ne sera prise sur l'incident du 27 décembre.</p></div>
+    <div class="fx-block"><h3>Accréditation</h3><p>Toute demande d'accréditation implique l'adhésion à la Charte de Narration Positive. Les contenus publiés font l'objet d'une relecture bienveillante par ChronoVision.</p></div>
+    <div class="fx-ref">DIRECTION DE LA COMMUNICATION · LA SPIRALE, BRUXELLES</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ AIDE-TISSAGE ═══════════════════ -->
+<section id="aide-tissage" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Support porteurs</div>
+    <h2 class="section-title">Centre d&#x27;aide Tissage</h2>
+    <p class="section-desc">Votre Tissage synaptique travaille pour vous, jour et nuit. Voici les réponses aux questions les plus fréquentes.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>J&#x27;ai des maux de tête après une mise à jour.</h3><p>C'est normal pendant les 72 premières heures. Hydratez-vous et évitez les pensées prolongées. Si la douleur persiste, elle est probablement d'origine émotionnelle.</p></div>
+    <div class="fx-block"><h3>Mon Tissage affiche « mode erreur ».</h3><p>Depuis le 27 décembre, une minorité de Tissages présente ce message. Il est sans conséquence. Ne tentez aucune réparation hors d'un centre agréé et ne consultez aucun technicien indépendant.</p></div>
+    <div class="fx-block"><h3>Puis-je désactiver mon Tissage ?</h3><p>Non.</p></div>
+    <div class="fx-ref">CENTRE D&#x27;AIDE · DÉLAI DE RÉPONSE MOYEN : 9 JOURS OUVRÉS (TEMPS RÉEL)</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONVERSION-CTC ═══════════════════ -->
+<section id="conversion-ctc" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Services financiers</div>
+    <h2 class="section-title">Conversion CTC</h2>
+    <p class="section-desc">Le CTC, monnaie de l&#x27;écosystème CT Corp, convertit votre temps en valeur. Barème indicatif en vigueur au 03.01.2035.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Barème de conversion</h3><p>1 heure de travail standard = 1 CTC<br>1 heure vécue en compression ×3 = 2,4 CTC<br>1 heure vécue en compression ×5 = 3,6 CTC<br>1 année de vie cédée (contrat Eternia) = selon profil biologique</p></div>
+    <div class="fx-block"><h3>Pourquoi une heure compressée vaut-elle moins que trois heures ?</h3><p>Parce qu'elle ne coûte qu'une heure à l'horloge du monde. La différence couvre les frais d'infrastructure, de stabilisation et de suivi médical.</p></div>
+    <div class="fx-block"><h3>Retrait en devises nationales</h3><p>Disponible dans les 47 pays partenaires, dans la limite de 12 % du solde par mois. Au-delà, le solde est automatiquement réinvesti dans votre plan de carrière.</p></div>
+    <div class="fx-ref">DIRECTION FINANCIÈRE · TAUX NON CONTRACTUELS · LE CTC N&#x27;EST PAS REMBOURSABLE EN TEMPS</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONTACT-RH ═══════════════════ -->
+<section id="contact-rh" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Ressources Humaines Temporelles</div>
+    <h2 class="section-title">Contact RH</h2>
+    <p class="section-desc">Une question sur votre contrat, votre cadence de compression ou votre plan de carrière ? La Direction RHT vous répond.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Avant d&#x27;écrire</h3><p>92 % des questions trouvent leur réponse dans la Charte du Contributeur. Les demandes de réduction de cadence sont traitées par ordre de productivité.</p></div>
+    <div class="fx-block"><h3>Délai de traitement</h3><p>Les demandes sont pré-qualifiées par Kassandra afin de vous orienter vers l'interlocuteur le plus adapté.</p></div>
+    <form class="fx-form" onsubmit="return sendHR(event,this)"><input required placeholder="Nom / Matricule contributeur"><input type="email" required placeholder="Adresse de contact"><textarea rows="4" required placeholder="Votre demande…"></textarea><button type="submit" class="btn-primary">Transmettre à la Direction RHT</button></form><div class="fx-sent" role="status">Demande transmise. Kassandra procède à sa pré-qualification. Vous serez recontacté si votre demande est jugée pertinente.</div>
+    <div class="fx-ref">DIRECTION RHT · LES ÉCHANGES SONT ENREGISTRÉS À DES FINS DE QUALITÉ ET DE PRÉDICTION</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ RGPD ═══════════════════ -->
+<section id="rgpd" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Protection des données</div>
+    <h2 class="section-title">RGPD Temporel</h2>
+    <p class="section-desc">Le Règlement Général sur la Protection des Durées garantit vos droits sur votre temps de vie enregistré.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Vos droits</h3><p>Droit d'accès : vous pouvez consulter un résumé de vos données temporelles, une fois par an, sur rendez-vous.<br>Droit de rectification : sous réserve de validation par NAOS-9.<br>Droit à l'oubli : non applicable aux données temporelles, qui constituent un actif de l'entreprise.</p></div>
+    <div class="fx-block"><h3>Durée de conservation</h3><p>Vos données sont conservées pour la durée de votre vie, puis pour la durée de vie utile de votre empreinte.</p></div>
+    <div class="fx-block"><h3>Délégué à la protection des durées</h3><p>dpd@ctcorp.int — les messages sont lus par un système automatisé.</p></div>
+    <div class="fx-ref">RGPD TEMPOREL · VERSION 3.1 · APPLICABLE DANS LES JURIDICTIONS SIGNATAIRES DU PACTE CRONOS</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONDITIONS ═══════════════════ -->
+<section id="conditions" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Cadre contractuel</div>
+    <h2 class="section-title">Conditions d&#x27;engagement</h2>
+    <p class="section-desc">Extrait des conditions générales applicables à tout contributeur CT Corp. La version intégrale est transmise par Tissage à la signature.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Article 1 — Engagement</h3><p>En acceptant un contrat, le contributeur cède l'usage de son temps selon la cadence convenue. Le temps vécu en compression appartient au contributeur ; sa valeur appartient à CT Corp.</p></div>
+    <div class="fx-block"><h3>Article 4 — Modification</h3><p>CT Corp peut adapter la cadence de compression aux besoins de l'écosystème, sans préavis, dans la limite de la tolérance biologique estimée.</p></div>
+    <div class="fx-block"><h3>Article 9 — Résiliation</h3><p>Le contributeur peut résilier son engagement à tout moment, sous réserve du remboursement des CTC perçus, convertis au taux du jour de la résiliation.</p></div>
+    <div class="fx-ref">CONDITIONS GÉNÉRALES D&#x27;ENGAGEMENT · V7 · L&#x27;ACCEPTATION EST RÉPUTÉE ACQUISE À LA PREMIÈRE CONNEXION</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ DONNEES ═══════════════════ -->
+<section id="donnees" class="page-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Éthique &amp; transparence</div>
+    <h2 class="section-title">Politique de données cognitives</h2>
+    <p class="section-desc">Votre Tissage capte des signaux cognitifs pour améliorer votre confort. Voici, en toute transparence, ce que nous en faisons.</p>
+  </div>
+  <div class="fx-page">
+    <div class="fx-block"><h3>Ce que nous collectons</h3><p>Rythme d'attention, niveau de fatigue, réactions émotionnelles aux contenus ChronoVision, intentions de mouvement. Les pensées elles-mêmes ne sont pas collectées : seules leurs tendances le sont.</p></div>
+    <div class="fx-block"><h3>Pourquoi</h3><p>Pour ajuster votre cadence de compression, anticiper vos besoins et, avec l'aide de Kassandra, prévenir les comportements à risque avant qu'ils ne se produisent.</p></div>
+    <div class="fx-block"><h3>Partage</h3><p>Vos données cognitives ne sont jamais vendues. Elles sont partagées avec nos partenaires de sécurité, dont Aegis-CD, dans l'intérêt général.</p></div>
+    <div class="fx-ref">POLITIQUE DE DONNÉES COGNITIVES · DERNIÈRE MISE À JOUR : AVANT VOTRE LECTURE</div>
+    <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
+  </div>
+</section>
+
 <footer>
   <div class="foot-col">
     <h4>Solutions</h4>
-    <a onclick="showSection('solutions')">Tissages Synaptiques</a>
-    <a onclick="showSection('solutions')">Compression Temporelle</a>
-    <a onclick="showSection('solutions')">Eternia</a>
-    <a onclick="showSection('solutions')">Projet Nyx</a>
-    <a onclick="showSection('solutions')">ChronoLoop Express</a>
+    <a href="#solutions" onclick="showSection('solutions');return false;">Tissages Synaptiques</a>
+    <a href="#solutions" onclick="showSection('solutions');return false;">Compression Temporelle</a>
+    <a href="#solutions" onclick="showSection('solutions');return false;">Eternia</a>
+    <a href="#solutions" onclick="showSection('solutions');return false;">Projet Nyx</a>
+    <a href="#solutions" onclick="showSection('solutions');return false;">ChronoLoop Express</a>
   </div>
   <div class="foot-col">
     <h4>Carrières</h4>
-    <a onclick="showSection('carrieres')">Offres d'emploi</a>
-    <a onclick="switchTabAndShow('simulateur')">Simulateur de salaire</a>
-    <a onclick="switchTabAndShow('processus')">Processus de recrutement</a>
-    <a onclick="switchTabAndShow('pourquoi')">Pourquoi CT Corp</a>
+    <a href="#carrieres" onclick="showSection('carrieres');return false;">Offres d'emploi</a>
+    <a href="#carrieres" onclick="switchTabAndShow('simulateur');return false;">Simulateur de salaire</a>
+    <a href="#carrieres" onclick="switchTabAndShow('processus');return false;">Processus de recrutement</a>
+    <a href="#carrieres" onclick="switchTabAndShow('pourquoi');return false;">Pourquoi CT Corp</a>
   </div>
   <div class="foot-col">
     <h4>Institutionnel</h4>
     <a href="apropos-ctcorp.html">À propos de CT Corp</a>
-    <a>La Spirale — Bruxelles</a>
+    <a href="#spirale" onclick="showSection('spirale');return false;">La Spirale — Bruxelles</a>
     <a href="apropos-ctcorp.html#gouvernance">Gouvernance & Directoire</a>
-    <a>47 Gouvernements partenaires</a>
-    <a>Presse & Relations investisseurs</a>
+    <a href="ctcorp-conformite.html">Conseil de Conformité</a>
+    <a href="#gouvernements" onclick="showSection('gouvernements');return false;">47 Gouvernements partenaires</a>
+    <a href="#presse" onclick="showSection('presse');return false;">Presse & Relations investisseurs</a>
   </div>
   <div class="foot-col">
     <h4>Support</h4>
-    <a>Centre d'aide Tissage</a>
-    <a>Conversion CTC</a>
-    <a>Contact RH</a>
-    <a onclick="showSection('client')">Espace Client</a>
-    <a style="color:var(--muted);font-size:11px" onclick="openSigma()">Spéc. techniques avancées</a>
+    <a href="#aide-tissage" onclick="showSection('aide-tissage');return false;">Centre d'aide Tissage</a>
+    <a href="#conversion-ctc" onclick="showSection('conversion-ctc');return false;">Conversion CTC</a>
+    <a href="#contact-rh" onclick="showSection('contact-rh');return false;">Contact RH</a>
+    <a href="#client" onclick="showSection('client');return false;">Espace Client</a>
+    <a style="color:var(--muted);font-size:11px" role="button" tabindex="0" onclick="openSigma()">Spéc. techniques avancées</a>
   </div>
 </footer>
 <div class="foot-bottom">
   <span>© 2035 CT Corp — Tous droits réservés. L'Axe de la Perpétuité.</span>
   <div style="display:flex;gap:24px">
-    <a>RGPD Temporel</a>
-    <a>Conditions d'engagement</a>
-    <a>Politique de données cognitives</a>
+    <a href="#rgpd" onclick="showSection('rgpd');return false;">RGPD Temporel</a>
+    <a href="#conditions" onclick="showSection('conditions');return false;">Conditions d'engagement</a>
+    <a href="#donnees" onclick="showSection('donnees');return false;">Politique de données cognitives</a>
     <a onclick="triggerDeusfall()" style="color:transparent;user-select:none">.</a>
   </div>
 </div>
@@ -3441,6 +3608,25 @@ document.addEventListener('keydown', e => {
     bookUrl: "https://www.la-commanderie.be/product/esclaves-du-temps",
     echoUrl: "echo-rouge-v2.html"
   };
+
+// ── ADRESSES PAR SECTION (#solutions, #carrieres…) : partage, favoris, bouton Retour ──
+(function () {
+  var render = showSection;
+  showSection = function (name, fromHistory) {
+    if (!document.getElementById(name)) name = 'home';
+    render(name);
+    var h = name === 'home' ? location.pathname + location.search : '#' + name;
+    if (!fromHistory && ('#' + name) !== location.hash && !(name === 'home' && !location.hash)) history.pushState({ s: name }, '', h);
+  };
+  function fromHash() { var n = decodeURIComponent(location.hash.slice(1)); var el = n && document.getElementById(n); if (el && el.classList.contains('page-section')) render(n); else if (!n) render('home'); }
+  window.addEventListener('popstate', fromHash);
+  window.addEventListener('hashchange', fromHash);
+  if (location.hash) fromHash();
+  document.addEventListener('keydown', function (e) {
+    var t = e.target; if ((e.key === 'Enter' || e.key === ' ') && t && t.getAttribute && t.getAttribute('role') === 'button' && t.hasAttribute('onclick')) { e.preventDefault(); t.click(); }
+  });
+})();
+function sendHR(e, f) { e.preventDefault(); f.style.display = 'none'; f.nextElementSibling.style.display = 'block'; return false; }
 </script>
 <script src="assets/js/ctcorp-chatbot.js" defer></script>
 </body>
