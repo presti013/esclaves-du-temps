@@ -623,6 +623,9 @@
                         <span>[ ARCHIVE 01 // GENÈSE ]</span>
                         <span class="text-[#7ad7f0]">REF: LIVRE-001</span>
                     </div>
+                    <a href="https://www.esclavesdutemps.be/acheter.html" class="block w-40 sm:w-48 mx-auto mb-5 rounded-lg overflow-hidden border border-[#c9a24b]/40 shadow-[0_0_30px_rgba(201,162,75,0.25)] transition-transform duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(227,190,104,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e3be68]" data-fr-label="Acheter le roman Esclaves du Temps" data-en-label="Buy the novel Slaves of Time" aria-label="Acheter le roman Esclaves du Temps">
+                        <img id="book-cover" src="assets/img/couverture-fr.webp" width="600" height="836" loading="lazy" decoding="async" class="block w-full h-auto" alt="Couverture du roman Esclaves du Temps, de Laurent Prestigiacomo">
+                    </a>
                     <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LE ROMAN : ESCLAVES DU TEMPS" data-en="THE NOVEL: SLAVES OF TIME">
                         LE ROMAN : ESCLAVES DU TEMPS
                     </h2>
@@ -1031,6 +1034,16 @@
                     }
                 }
             });
+            const cover = document.getElementById('book-cover');
+            if (cover) {
+                // Couverture : FR, EN, ou IT pour un navigateur réglé en italien (la page n'existe qu'en FR/EN).
+                const it = lang !== 'fr' && /^it/i.test(navigator.language || '');
+                const v = lang === 'fr' ? 'fr' : (it ? 'it' : 'en');
+                cover.src = 'assets/img/couverture-' + v + '.webp';
+                cover.alt = { fr: 'Couverture du roman Esclaves du Temps, de Laurent Prestigiacomo', en: 'Cover of the novel Slaves of Time, by Laurent Prestigiacomo', it: 'Copertina del romanzo Schiavi del Tempo, di Laurent Prestigiacomo' }[v];
+                const link = cover.parentElement;
+                link.setAttribute('aria-label', { fr: 'Acheter le roman Esclaves du Temps', en: 'Buy the novel Slaves of Time', it: 'Acquista il romanzo Schiavi del Tempo' }[v]);
+            }
             if (window.__lastTrackTitle && typeof updateTrackTitleDisplay === 'function') updateTrackTitleDisplay(window.__lastTrackTitle);
         }
 
