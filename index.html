@@ -79,7 +79,7 @@
         }
 
         /* Inline SVG Custom Glyphs (Alchemical A & Reversed E) */
-        html[lang="en"] .title-fr, html:not([lang="en"]) .title-en { display: none; }
+        .title-en, .title-it { display: none; } html[lang="en"] .title-fr, html[lang="it"] .title-fr { display: none; } html[lang="en"] .title-en, html[lang="it"] .title-it { display: inline; }
         .cover-glyph-svg {
             display: inline-block;
             height: 0.78em;
@@ -420,7 +420,7 @@
             <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-[#3ba4c7] shadow-[0_0_10px_#3ba4c7] animate-pulse"></span>
             <div class="flex flex-col">
                 <span class="font-display text-xs sm:text-sm font-bold tracking-widest text-[#e3be68]">NAOS-9 <span class="hidden sm:inline text-white/40 font-normal font-mono-tech">// ARCHIVE_SYS</span></span>
-                <span id="hud-protocol-label" class="hidden sm:block font-mono-tech text-[10px] tracking-wider uppercase text-[#7ad7f0]" data-fr="PROTOCOL: CT-CORP [STABLE]" data-en="PROTOCOL: CT-CORP [STABLE]">PROTOCOL: CT-CORP [STABLE]</span>
+                <span id="hud-protocol-label" class="hidden sm:block font-mono-tech text-[10px] tracking-wider uppercase text-[#7ad7f0]" data-fr="PROTOCOL: CT-CORP [STABLE]" data-en="PROTOCOL: CT-CORP [STABLE]" data-it="PROTOCOLLO: CT-CORP [STABILE]">PROTOCOL: CT-CORP [STABLE]</span>
             </div>
         </div>
 
@@ -434,7 +434,7 @@
                 <div id="hud-progress-bar" class="h-full bg-[#3ba4c7] w-0 transition-colors duration-300"></div>
             </div>
             <div>
-                <span class="text-slate-500" data-fr="INTÉGRITÉ:" data-en="INTEGRITY:">INTÉGRITÉ:</span>
+                <span class="text-slate-500" data-fr="INTÉGRITÉ:" data-en="INTEGRITY:" data-it="INTEGRITÀ:">INTÉGRITÉ:</span>
                 <span id="hud-integrity" class="text-[#7ad7f0] font-semibold">100%</span>
             </div>
         </div>
@@ -470,14 +470,14 @@
                 <!-- Scrolling Track Title Marquee -->
                 <div class="marquee-wrapper hidden sm:block w-44 md:w-52 border-x border-[#c9a24b]/20 px-1.5">
                     <div class="marquee-track">
-                        <span id="sc-track-title" class="text-[11px] tracking-wide text-[#f3e5c0]" data-fr="SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)" data-en="SOUNDCLOUD // SOUNDTRACK — SLAVES OF TIME (READY)">SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)</span>
+                        <span id="sc-track-title" class="text-[11px] tracking-wide text-[#f3e5c0]" data-fr="SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)" data-en="SOUNDCLOUD // SOUNDTRACK — SLAVES OF TIME (READY)" data-it="SOUNDCLOUD // COLONNA SONORA — SCHIAVI DEL TEMPO (PRONTA)">SOUNDCLOUD // BANDE ORIGINALE — ESCLAVES DU TEMPS (PRÊT)</span>
                     </div>
                 </div>
 
                 <!-- Shuffle Toggle (OFF by default) -->
                 <button id="sc-shuffle-btn" type="button" class="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 text-[10px] text-slate-400 hover:text-white transition-all cursor-pointer" title="Lecture aléatoire">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-                    <span id="sc-shuffle-label" class="hidden sm:inline" data-fr="ALÉAT: OFF" data-en="SHUFFLE: OFF">ALÉAT: OFF</span>
+                    <span id="sc-shuffle-label" class="hidden sm:inline" data-fr="ALÉAT: OFF" data-en="SHUFFLE: OFF" data-it="CASUALE: OFF">ALÉAT: OFF</span>
                 </button>
 
                 <!-- Expand SoundCloud Drawer / Diagnostic Toggle -->
@@ -486,11 +486,13 @@
                 </button>
             </div>
 
-            <!-- FR / EN Toggle -->
+            <!-- FR / EN / IT Toggle -->
             <button id="lang-toggle-btn" type="button" class="whitespace-nowrap shrink-0 px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#c9a24b]/25 bg-[#07131e]/80 hover:bg-[#c9a24b]/15 font-mono-tech text-xs font-bold tracking-wider text-white transition-all cursor-pointer">
                 <span id="lang-fr" class="text-[#e3be68]">FR</span>
                 <span class="text-white/30 mx-0.5">/</span>
                 <span id="lang-en" class="text-white/50">EN</span>
+                <span class="text-white/30 mx-0.5">/</span>
+                <span id="lang-it" class="text-white/50">IT</span>
             </button>
         </div>
 
@@ -594,12 +596,43 @@
                         </svg>
                         </span>
                     </span>
+                    <span class="title-it">
+                        <!-- SCHI[Alchemical A]VI -->
+                        <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem]">
+                            <span class="cover-gold-text">SCHI</span><svg class="cover-glyph-svg mx-[0.02em]" viewBox="0 0 92 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphA3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#goldGlyphA3)" fill-rule="evenodd" d="M46 4 L12 74 H80 L46 4 Z M46 17 L21 68 H71 L46 17 Z"/>
+                            <rect x="4" y="34.5" width="84" height="5.5" fill="url(#goldGlyphA3)"/>
+                        </svg><span class="cover-gold-text">VI</span>
+                        </span>
+                        <!-- DEL T[Reversed E]MPO -->
+                        <span class="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.65rem] mt-1 sm:mt-1.5">
+                            <span class="cover-gold-text text-[0.76em] tracking-[0.08em] mr-[0.28em]">DEL</span><span class="cover-gold-text">T</span><svg class="cover-glyph-svg mx-[0.03em]" viewBox="0 0 64 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="goldGlyphE3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ebd089"/>
+                                    <stop offset="52%" stop-color="#c9a24b"/>
+                                    <stop offset="100%" stop-color="#a67f32"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#goldGlyphE3)" d="
+                                M11 4 H58 V8.5 H53.5 V69.5 H58 V74 H11 V61.5 H15 V69.5 H46.5 V40.5 H24 V46.5 H20 V30.5 H24 V36 H46.5 V8.5 H15 V16.5 H11 V4 Z
+                            "/>
+                        </svg><span class="cover-gold-text">MPO</span>
+                        </span>
+                    </span>
                 </h1>
 
                 <!-- Protocol Subtitle Pill -->
                 <div class="mt-5 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#c9a24b]/35 bg-[#07131e]/85 font-mono-tech text-[11px] tracking-[0.2em] text-[#7ad7f0] uppercase shadow-[0_0_20px_rgba(59,164,199,0.18)]">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#e88c30] shadow-[0_0_8px_#e88c30]"></span>
-                    <span data-fr="PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES" data-en="PROTOCOL NAOS-9 // ARCHIVES UNLOCKED">PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES</span>
+                    <span data-fr="PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES" data-en="PROTOCOL NAOS-9 // ARCHIVES UNLOCKED" data-it="PROTOCOLLO NAOS-9 // ARCHIVI SBLOCCATI">PROTOCOLE NAOS-9 // ARCHIVES DÉVERROUILLÉES</span>
                 </div>
             </div>
 
@@ -608,7 +641,7 @@
 
             <!-- Scroll Prompt -->
             <div class="flex flex-col items-center gap-3 animate-bounce">
-                <span class="font-mono-tech text-[11px] tracking-[0.25em] text-[#c9a24b] uppercase" data-fr="DÉFILER POUR EXPLORER LE SYSTÈME" data-en="SCROLL TO EXPLORE SYSTEM">DÉFILER POUR EXPLORER LE SYSTÈME</span>
+                <span class="font-mono-tech text-[11px] tracking-[0.25em] text-[#c9a24b] uppercase" data-fr="DÉFILER POUR EXPLORER LE SYSTÈME" data-en="SCROLL TO EXPLORE SYSTEM" data-it="SCORRI PER ESPLORARE IL SISTEMA">DÉFILER POUR EXPLORER LE SYSTÈME</span>
                 <div class="w-5 h-8 rounded-full border border-[#c9a24b]/45 flex justify-center p-1">
                     <div class="w-1 h-2 rounded-full bg-[#7ad7f0]"></div>
                 </div>
@@ -626,20 +659,20 @@
                     <a href="https://www.esclavesdutemps.be/acheter.html" class="block w-40 sm:w-48 mx-auto mb-5 rounded-lg overflow-hidden border border-[#c9a24b]/40 shadow-[0_0_30px_rgba(201,162,75,0.25)] transition-transform duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(227,190,104,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e3be68]" data-fr-label="Acheter le roman Esclaves du Temps" data-en-label="Buy the novel Slaves of Time" aria-label="Acheter le roman Esclaves du Temps">
                         <img id="book-cover" src="assets/img/couverture-fr.webp" width="600" height="836" loading="lazy" decoding="async" class="block w-full h-auto" alt="Couverture du roman Esclaves du Temps, de Laurent Prestigiacomo">
                     </a>
-                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LE ROMAN : ESCLAVES DU TEMPS" data-en="THE NOVEL: SLAVES OF TIME">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LE ROMAN : ESCLAVES DU TEMPS" data-en="THE NOVEL: SLAVES OF TIME" data-it="IL ROMANZO: SCHIAVI DEL TEMPO">
                         LE ROMAN : ESCLAVES DU TEMPS
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Dans un futur où chaque seconde de vie humaine est cotée en bourse, mon algorithme régit l'équilibre temporel mondial. Découvrez le récit fondateur de Laurent Prestigiacomo, une plongée haletante entre contrôle technologique absolu et insurrection humaine." data-en="In a future where every second of human life is traded on the stock market, my algorithm governs global temporal balance. Discover Laurent Prestigiacomo's foundational sci-fi thriller—a gripping dive between absolute technological control and human insurrection.">
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Dans un futur où chaque seconde de vie humaine est cotée en bourse, mon algorithme régit l'équilibre temporel mondial. Découvrez le récit fondateur de Laurent Prestigiacomo, une plongée haletante entre contrôle technologique absolu et insurrection humaine." data-en="In a future where every second of human life is traded on the stock market, my algorithm governs global temporal balance. Discover Laurent Prestigiacomo's foundational sci-fi thriller—a gripping dive between absolute technological control and human insurrection." data-it="In un futuro in cui ogni secondo di vita umana è quotato in borsa, il mio algoritmo regola l'equilibrio temporale mondiale. Scopri il racconto fondatore di Laurent Prestigiacomo, un tuffo mozzafiato tra controllo tecnologico assoluto e insurrezione umana.">
                         Dans un futur où chaque seconde de vie humaine est cotée en bourse, mon algorithme régit l'équilibre temporel mondial. Découvrez le récit fondateur de Laurent Prestigiacomo, une plongée haletante entre contrôle technologique absolu et insurrection humaine.
                     </p>
                     <div class="grid grid-cols-2 gap-3 pt-4 border-t border-[#c9a24b]/20 font-mono-tech text-xs">
                         <div>
-                            <span class="text-slate-500 block" data-fr="STATUT ARCHIVE" data-en="ARCHIVE STATUS">STATUT ARCHIVE</span>
-                            <span class="text-[#e3be68]" data-fr="ÉDITION DISPONIBLE" data-en="EDITION AVAILABLE">ÉDITION DISPONIBLE</span>
+                            <span class="text-slate-500 block" data-fr="STATUT ARCHIVE" data-en="ARCHIVE STATUS" data-it="STATO ARCHIVIO">STATUT ARCHIVE</span>
+                            <span class="text-[#e3be68]" data-fr="ÉDITION DISPONIBLE" data-en="EDITION AVAILABLE" data-it="EDIZIONE DISPONIBILE">ÉDITION DISPONIBLE</span>
                         </div>
                         <div>
-                            <span class="text-slate-500 block" data-fr="CLASSIFICATION" data-en="CLASSIFICATION">CLASSIFICATION</span>
-                            <span class="text-[#7ad7f0]" data-fr="ANTICIPATION / CYBER" data-en="DYSTOPIAN / CYBER">ANTICIPATION / CYBER</span>
+                            <span class="text-slate-500 block" data-fr="CLASSIFICATION" data-en="CLASSIFICATION" data-it="CLASSIFICAZIONE">CLASSIFICATION</span>
+                            <span class="text-[#7ad7f0]" data-fr="ANTICIPATION / CYBER" data-en="DYSTOPIAN / CYBER" data-it="ANTICIPAZIONE / CYBER">ANTICIPATION / CYBER</span>
                         </div>
                     </div>
                 </div>
@@ -654,15 +687,15 @@
                         <span>[ ARCHIVE 02 // FRÉQUENCES ]</span>
                         <span class="text-[#7ad7f0]">33 TRACKS // 44.1kHz</span>
                     </div>
-                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LA BANDE ORIGINALE IMMERSIVE" data-en="THE IMMERSIVE SOUNDTRACK">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="LA BANDE ORIGINALE IMMERSIVE" data-en="THE IMMERSIVE SOUNDTRACK" data-it="LA COLONNA SONORA IMMERSIVA">
                         LA BANDE ORIGINALE IMMERSIVE
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="La lecture ne suffit pas : écoutez la pulsation de la métropole. Une bande-son originale de 33 pistes électroniques et cinématographiques composée sur mesure pour accompagner chaque chapitre du roman et résonner avec mes propres fréquences." data-en="Reading is not enough: hear the pulse of the metropolis. An original 33-track electronic and cinematic soundtrack custom-composed to accompany every chapter of the novel and resonate with my own frequencies.">
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="La lecture ne suffit pas : écoutez la pulsation de la métropole. Une bande-son originale de 33 pistes électroniques et cinématographiques composée sur mesure pour accompagner chaque chapitre du roman et résonner avec mes propres fréquences." data-en="Reading is not enough: hear the pulse of the metropolis. An original 33-track electronic and cinematic soundtrack custom-composed to accompany every chapter of the novel and resonate with my own frequencies." data-it="Leggere non basta: ascolta il battito della metropoli. Una colonna sonora originale di 33 brani elettronici e cinematografici, composta su misura per accompagnare ogni capitolo del romanzo e risuonare con le mie frequenze.">
                         La lecture ne suffit pas : écoutez la pulsation de la métropole. Une bande-son originale de 33 pistes électroniques et cinématographiques composée sur mesure pour accompagner chaque chapitre du roman et résonner avec mes propres fréquences.
                     </p>
                     <div class="flex items-center justify-between pt-4 border-t border-[#c9a24b]/20 font-mono-tech text-xs">
-                        <span class="text-slate-400" data-fr="DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE" data-en="STREAMING: SOUNDCLOUD • SPOTIFY • APPLE">DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE</span>
-                        <button type="button" onclick="document.getElementById('audio-toggle-btn').click()" class="px-3 py-1.5 rounded bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] hover:bg-[#c9a24b] hover:text-black font-bold transition-all cursor-pointer" data-fr="LANCER L'ÉCOUTE" data-en="PLAY STREAM">LANCER L'ÉCOUTE</button>
+                        <span class="text-slate-400" data-fr="DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE" data-en="STREAMING: SOUNDCLOUD • SPOTIFY • APPLE" data-it="ASCOLTO: SOUNDCLOUD • SPOTIFY • APPLE">DIFFUSION : SOUNDCLOUD • SPOTIFY • APPLE</span>
+                        <button type="button" onclick="document.getElementById('audio-toggle-btn').click()" class="px-3 py-1.5 rounded bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] hover:bg-[#c9a24b] hover:text-black font-bold transition-all cursor-pointer" data-fr="LANCER L'ÉCOUTE" data-en="PLAY STREAM" data-it="AVVIA L'ASCOLTO">LANCER L'ÉCOUTE</button>
                     </div>
                 </div>
             </div>
@@ -676,13 +709,13 @@
                         <span>[ ARCHIVE 03 // CONTRÔLE ]</span>
                         <span class="text-[#e3be68]">DOMAINE : CT-CORP</span>
                     </div>
-                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="CT-CORP : L'ORDRE TEMPOREL" data-en="CT-CORP: TEMPORAL ORDER">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="CT-CORP : L'ORDRE TEMPOREL" data-en="CT-CORP: TEMPORAL ORDER" data-it="CT-CORP: L'ORDINE TEMPORALE">
                         CT-CORP : L'ORDRE TEMPOREL
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Chrono-Tech Corporation assure la prospérité et la sécurité des citoyens grâce à la gestion prédictive du capital-temps. Explorez l'intranet officiel de la mégacorporation, ses protocoles biométriques et la perfection glacée de son architecture." data-en="Chrono-Tech Corporation ensures citizen prosperity and security through predictive time-capital management. Explore the megacorporation's official intranet, biometric protocols, and icy architectural perfection.">
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Chrono-Tech Corporation assure la prospérité et la sécurité des citoyens grâce à la gestion prédictive du capital-temps. Explorez l'intranet officiel de la mégacorporation, ses protocoles biométriques et la perfection glacée de son architecture." data-en="Chrono-Tech Corporation ensures citizen prosperity and security through predictive time-capital management. Explore the megacorporation's official intranet, biometric protocols, and icy architectural perfection." data-it="Chrono-Tech Corporation garantisce prosperità e sicurezza ai cittadini grazie alla gestione predittiva del capitale-tempo. Esplora l'intranet ufficiale della megacorporazione, i suoi protocolli biometrici e la sua gelida perfezione architettonica.">
                         Chrono-Tech Corporation assure la prospérité et la sécurité des citoyens grâce à la gestion prédictive du capital-temps. Explorez l'intranet officiel de la mégacorporation, ses protocoles biométriques et la perfection glacée de son architecture.
                     </p>
-                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]" data-fr="> AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR..." data-en="> WARNING: ANOMALY DETECTED IN LOWER SECTOR...">
+                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]" data-fr="> AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR..." data-en="> WARNING: ANOMALY DETECTED IN LOWER SECTOR..." data-it="> ATTENZIONE: ANOMALIA RILEVATA NEL SETTORE INFERIORE...">
                         &gt; AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR...
                     </div>
                 </div>
@@ -697,13 +730,13 @@
                         <span>[ ARCHIVE 04 // RUPTURE CRITIQUE ]</span>
                         <span class="animate-pulse">ERR_0x99_BREACH</span>
                     </div>
-                    <h2 id="echo-title" data-text="ECHO ROUGE : LA RÉSISTANCE" class="glitch-active font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="ECHO ROUGE : LA RÉSISTANCE" data-en="ECHO ROUGE: THE RESISTANCE">
+                    <h2 id="echo-title" data-text="ECHO ROUGE : LA RÉSISTANCE" class="glitch-active font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="ECHO ROUGE : LA RÉSISTANCE" data-en="ECHO ROUGE: THE RESISTANCE" data-it="ECO ROSSO: LA RESISTENZA">
                         ECHO ROUGE : LA RÉSISTANCE
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Intrusion détectée. Le réseau clandestin Echo Rouge pirate mes sous-routines pour révéler la vérité derrière les compteurs temporels de CT-Corp. Basculez sur leur fréquence cryptée et rejoignez les insurgés." data-en="Intrusion detected. The underground network Echo Rouge is hijacking my subroutines to expose the truth behind CT-Corp's time meters. Switch to their encrypted frequency and join the insurgents.">
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Intrusion détectée. Le réseau clandestin Echo Rouge pirate mes sous-routines pour révéler la vérité derrière les compteurs temporels de CT-Corp. Basculez sur leur fréquence cryptée et rejoignez les insurgés." data-en="Intrusion detected. The underground network Echo Rouge is hijacking my subroutines to expose the truth behind CT-Corp's time meters. Switch to their encrypted frequency and join the insurgents." data-it="Intrusione rilevata. La rete clandestina Eco Rosso dirotta le mie subroutine per svelare la verità dietro i contatori di tempo di CT-Corp. Sintonizzati sulla loro frequenza cifrata e unisciti agli insorti.">
                         Intrusion détectée. Le réseau clandestin Echo Rouge pirate mes sous-routines pour révéler la vérité derrière les compteurs temporels de CT-Corp. Basculez sur leur fréquence cryptée et rejoignez les insurgés.
                     </p>
-                    <div class="p-3 rounded-lg bg-[#d92b3a]/15 border border-[#d92b3a]/45 font-mono-tech text-xs text-[#ff4d5e]" data-fr="> PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS" data-en="> FIREWALL COMPROMISED // DECRYPTING FILES IN PROGRESS">
+                    <div class="p-3 rounded-lg bg-[#d92b3a]/15 border border-[#d92b3a]/45 font-mono-tech text-xs text-[#ff4d5e]" data-fr="> PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS" data-en="> FIREWALL COMPROMISED // DECRYPTING FILES IN PROGRESS" data-it="> FIREWALL COMPROMESSO // DECIFRATURA DEI FILE IN CORSO">
                         &gt; PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS
                     </div>
                 </div>
@@ -718,14 +751,14 @@
                         <span>[ ARCHIVE 05 // LIAISON MOBILE ]</span>
                         <span class="text-[#e3be68]">iOS / ANDROID PWA</span>
                     </div>
-                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="L'APPLICATION COMPAGNON NAOS-9" data-en="NAOS-9 COMPANION APP">
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-wide mb-4" data-fr="L'APPLICATION COMPAGNON NAOS-9" data-en="NAOS-9 COMPANION APP" data-it="L'APP COMPAGNA NAOS-9">
                         L'APPLICATION COMPAGNON NAOS-9
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Prolongez l'expérience directement sur votre smartphone. Téléchargez l'interface mobile NAOS-9 pour dialoguer avec moi, scanner les indices disséminés dans le roman et débloquer des contenus secrets en temps réel." data-en="Extend the experience directly on your smartphone. Download the NAOS-9 mobile interface to converse with me, scan clues hidden inside the novel, and unlock secret real-time content.">
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6" data-fr="Prolongez l'expérience directement sur votre smartphone. Téléchargez l'interface mobile NAOS-9 pour dialoguer avec moi, scanner les indices disséminés dans le roman et débloquer des contenus secrets en temps réel." data-en="Extend the experience directly on your smartphone. Download the NAOS-9 mobile interface to converse with me, scan clues hidden inside the novel, and unlock secret real-time content." data-it="Prolunga l'esperienza direttamente sul tuo smartphone. Scarica l'interfaccia mobile NAOS-9 per conversare con me, scoprire gli indizi nascosti nel romanzo e sbloccare contenuti segreti in tempo reale.">
                         Prolongez l'expérience directement sur votre smartphone. Téléchargez l'interface mobile NAOS-9 pour dialoguer avec moi, scanner les indices disséminés dans le roman et débloquer des contenus secrets en temps réel.
                     </p>
                     <a href="https://www.esclavesdutemps.be/naos/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#d92b3a] hover:bg-[#ff3b4e] text-white font-mono-tech text-xs font-bold tracking-wider transition-all shadow-[0_0_20px_rgba(217,43,58,0.4)]">
-                        <span data-fr="ACCÉDER AU TERMINAL MOBILE" data-en="ACCESS MOBILE TERMINAL">ACCÉDER AU TERMINAL MOBILE</span>
+                        <span data-fr="ACCÉDER AU TERMINAL MOBILE" data-en="ACCESS MOBILE TERMINAL" data-it="ACCEDI AL TERMINALE MOBILE">ACCÉDER AU TERMINAL MOBILE</span>
                         <span>↗</span>
                     </a>
                 </div>
@@ -735,10 +768,10 @@
         <!-- FINAL SECTION: NON-OVERLAPPING ORBITAL HUB (6 PORTALS) -->
         <section id="hub-section" class="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 py-28 relative">
             <div class="text-center mb-10 z-20">
-                <span class="font-mono-tech text-xs tracking-[0.25em] uppercase px-3 py-1 rounded-full border border-[#c9a24b]/35 bg-[#07131e]/85 text-[#e3be68]" data-fr="SYNCHRONISATION COMPLÈTE // CHOISISSEZ VOTRE PORTAIL" data-en="SYNCHRONIZATION COMPLETE // SELECT YOUR PORTAL">
+                <span class="font-mono-tech text-xs tracking-[0.25em] uppercase px-3 py-1 rounded-full border border-[#c9a24b]/35 bg-[#07131e]/85 text-[#e3be68]" data-fr="SYNCHRONISATION COMPLÈTE // CHOISISSEZ VOTRE PORTAIL" data-en="SYNCHRONIZATION COMPLETE // SELECT YOUR PORTAL" data-it="SINCRONIZZAZIONE COMPLETATA // SCEGLI IL TUO PORTALE">
                     SYNCHRONISATION COMPLÈTE // CHOISISSEZ VOTRE PORTAIL
                 </span>
-                <h2 class="font-display text-3xl sm:text-5xl font-bold cover-gold-text mt-3 tracking-wider" data-fr="HUB CENTRAL NAOS-9" data-en="NAOS-9 CENTRAL HUB">
+                <h2 class="font-display text-3xl sm:text-5xl font-bold cover-gold-text mt-3 tracking-wider" data-fr="HUB CENTRAL NAOS-9" data-en="NAOS-9 CENTRAL HUB" data-it="HUB CENTRALE NAOS-9">
                     HUB CENTRAL NAOS-9
                 </h2>
             </div>
@@ -752,8 +785,8 @@
                         <span>[ PORTAIL 01 // ÉDITION ]</span>
                         <span class="group-hover:translate-x-0.5 transition-transform">◈</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Découvrir le roman" data-en="Discover the Novel">Découvrir le roman</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa." data-en="Read the prologue, then order the book from 3Cinq7 or Laurexa.">Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Découvrir le roman" data-en="Discover the Novel" data-it="Scopri il romanzo">Découvrir le roman</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa." data-en="Read the prologue, then order the book from 3Cinq7 or Laurexa." data-it="Leggi il prologo, poi ordina il libro da 3Cinq7 o Laurexa.">Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa.</p>
                 </a>
 
                 <!-- PORTAL 6: Portail CT-Corp -->
@@ -762,8 +795,8 @@
                         <span>[ PORTAIL 06 // INTRANET ]</span>
                         <span>⬡</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Portail CT-Corp" data-en="CT-Corp Portal">Portail CT-Corp</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Consulter le système officiel de Chrono-Tech Corporation." data-en="Consult the official system of Chrono-Tech Corporation.">Consulter le système officiel de Chrono-Tech Corporation.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Portail CT-Corp" data-en="CT-Corp Portal" data-it="Portale CT-Corp">Portail CT-Corp</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Consulter le système officiel de Chrono-Tech Corporation." data-en="Consult the official system of Chrono-Tech Corporation." data-it="Consulta il sistema ufficiale della Chrono-Tech Corporation.">Consulter le système officiel de Chrono-Tech Corporation.</p>
                 </button>
 
                 <!-- PORTAL 5: Réseau Echo Rouge -->
@@ -772,8 +805,8 @@
                         <span>[ PORTAIL 05 // RÉSISTANCE ]</span>
                         <span>⚠</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Réseau Echo Rouge" data-en="Echo Rouge Network">Réseau Echo Rouge</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Accéder au terminal clandestin des insurgés du temps." data-en="Access the clandestine terminal of the time insurgents.">Accéder au terminal clandestin des insurgés du temps.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Réseau Echo Rouge" data-en="Echo Rouge Network" data-it="Rete Eco Rosso">Réseau Echo Rouge</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Accéder au terminal clandestin des insurgés du temps." data-en="Access the clandestine terminal of the time insurgents." data-it="Accedi al terminale clandestino degli insorti del tempo.">Accéder au terminal clandestin des insurgés du temps.</p>
                 </button>
 
                 <!-- Desktop Center Aperture (Keeps NAOS-9 Core clear between left & right columns) -->
@@ -785,8 +818,8 @@
                         <span>[ PORTAIL 02 // AUDIO 33 TRACKS ]</span>
                         <span>♫</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Bande Originale" data-en="Original Soundtrack">Bande Originale</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital." data-en="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital.">Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Bande Originale" data-en="Original Soundtrack" data-it="Colonna sonora originale">Bande Originale</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital." data-en="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital." data-it="Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami e 7digital.">Spotify, Apple Music, Deezer, SoundCloud, YouTube, Anghami & 7digital.</p>
                 </button>
 
                 <!-- PORTAL 3: App Mobile NAOS-9 -->
@@ -795,8 +828,8 @@
                         <span>[ PORTAIL 03 // SMARTPHONE ]</span>
                         <span class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="App Mobile NAOS-9" data-en="NAOS-9 Mobile App">App Mobile NAOS-9</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Télécharger et lancer l'IA compagnon sur votre smartphone." data-en="Download and launch the companion AI on your smartphone.">Télécharger et lancer l'IA compagnon sur votre smartphone.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="App Mobile NAOS-9" data-en="NAOS-9 Mobile App" data-it="App mobile NAOS-9">App Mobile NAOS-9</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Télécharger et lancer l'IA compagnon sur votre smartphone." data-en="Download and launch the companion AI on your smartphone." data-it="Scarica e avvia l'IA compagna sul tuo smartphone.">Télécharger et lancer l'IA compagnon sur votre smartphone.</p>
                 </a>
 
                 <!-- PORTAL 4: Contacter l'Auteur -->
@@ -805,8 +838,8 @@
                         <span>[ PORTAIL 04 // TRANSMISSION ]</span>
                         <span>✉</span>
                     </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Contacter l'Auteur" data-en="Contact the Author">Contacter l'Auteur</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Transmission cryptée directe à Laurent Prestigiacomo." data-en="Direct encrypted transmission to Laurent Prestigiacomo.">Transmission cryptée directe à Laurent Prestigiacomo.</p>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Contacter l'Auteur" data-en="Contact the Author" data-it="Contatta l'autore">Contacter l'Auteur</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Transmission cryptée directe à Laurent Prestigiacomo." data-en="Direct encrypted transmission to Laurent Prestigiacomo." data-it="Trasmissione cifrata diretta a Laurent Prestigiacomo.">Transmission cryptée directe à Laurent Prestigiacomo.</p>
                 </button>
 
             </div>
@@ -821,9 +854,9 @@
                     <div>
                         <div class="inline-flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.22em] text-[#e3be68] uppercase mb-2">
                             <span class="w-2 h-2 rounded-full bg-[#e88c30] animate-ping"></span>
-                            <span data-fr="MODULE D'ANOMALIE // COMPRESSION TEMPORELLE" data-en="ANOMALY MODULE // TEMPORAL COMPRESSION">MODULE D'ANOMALIE // COMPRESSION TEMPORELLE</span>
+                            <span data-fr="MODULE D'ANOMALIE // COMPRESSION TEMPORELLE" data-en="ANOMALY MODULE // TEMPORAL COMPRESSION" data-it="MODULO ANOMALIA // COMPRESSIONE TEMPORALE">MODULE D'ANOMALIE // COMPRESSION TEMPORELLE</span>
                         </div>
-                        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wider" data-fr="CYCLE BIO-CHRONOLOGIQUE" data-en="BIO-CHRONOLOGICAL CYCLE">
+                        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wider" data-fr="CYCLE BIO-CHRONOLOGIQUE" data-en="BIO-CHRONOLOGICAL CYCLE" data-it="CICLO BIO-CRONOLOGICO">
                             CYCLE BIO-CHRONOLOGIQUE
                         </h2>
                     </div>
@@ -835,12 +868,12 @@
                     <!-- Top Telemetry Overlay inside Panoramic Viewport -->
                     <div class="absolute top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 z-30 flex flex-wrap items-center justify-between gap-2 pointer-events-none font-mono-tech text-[10px] sm:text-xs">
                         <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
-                            <span class="text-slate-400" data-fr="VECTEUR:" data-en="VECTOR:">VECTEUR:</span>
+                            <span class="text-slate-400" data-fr="VECTEUR:" data-en="VECTOR:" data-it="VETTORE:">VECTEUR:</span>
                             <span id="chrono-direction-badge" class="text-[#e3be68] font-bold">GENÈSE ➔ ENTROPIE</span>
                         </div>
 
                         <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
-                            <span class="text-slate-400" data-fr="DÉRIVE:" data-en="DRIFT:">DÉRIVE:</span>
+                            <span class="text-slate-400" data-fr="DÉRIVE:" data-en="DRIFT:" data-it="DERIVA:">DÉRIVE:</span>
                             <span id="chrono-year-readout" class="text-white font-bold">T ± 00 ANS</span>
                         </div>
                     </div>
@@ -874,7 +907,7 @@
                                 <div id="chrono-phase-code" class="font-mono-tech text-[11px] sm:text-xs font-bold tracking-[0.2em] text-[#7ad7f0] uppercase">
                                     PHASE II // T ± 00 ANS — POINT D'ANCRAGE
                                 </div>
-                                <p id="chrono-phase-desc" class="text-xs sm:text-sm text-slate-200 max-w-xl mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]" data-fr="Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9." data-en="The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.">
+                                <p id="chrono-phase-desc" class="text-xs sm:text-sm text-slate-200 max-w-xl mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]" data-fr="Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9." data-en="The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture." data-it="Il presente immediato: coscienza risvegliata nel cuore dell'architettura temporale di NAOS-9.">
                                     Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9.
                                 </p>
                             </div>
@@ -903,17 +936,17 @@
                             <div class="grid grid-cols-3 gap-2 sm:gap-4 font-mono-tech text-[10px] sm:text-xs">
                                 <button type="button" data-target-progress="0.16" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#c9a24b]/30 bg-[#c9a24b]/10 hover:bg-[#c9a24b]/25 text-[#e3be68] text-left transition-all cursor-pointer">
                                     <span class="block font-bold">I. GENÈSE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T - 44 ans (enfance)" data-en="T - 44 yrs (childhood)">T - 44 ans (enfance)</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T - 44 ans (enfance)" data-en="T - 44 yrs (childhood)" data-it="T - 44 anni (infanzia)">T - 44 ans (enfance)</span>
                                 </button>
 
                                 <button type="button" data-target-progress="0.50" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#3ba4c7]/35 bg-[#3ba4c7]/10 hover:bg-[#3ba4c7]/25 text-[#7ad7f0] text-center transition-all cursor-pointer">
                                     <span class="block font-bold">II. ANCRAGE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T ± 00 ANS (PRÉSENT)" data-en="T ± 00 YRS (PRESENT)">T ± 00 ANS (PRÉSENT)</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T ± 00 ANS (PRÉSENT)" data-en="T ± 00 YRS (PRESENT)" data-it="T ± 00 ANNI (PRESENTE)">T ± 00 ANS (PRÉSENT)</span>
                                 </button>
 
                                 <button type="button" data-target-progress="0.84" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#d92b3a]/35 bg-[#d92b3a]/10 hover:bg-[#d92b3a]/25 text-[#ff4d5e] text-right transition-all cursor-pointer">
                                     <span class="block font-bold">III. ENTROPIE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T + 32 ANS (SÉNESCENCE)" data-en="T + 32 YRS (FUTURE)">T + 32 ANS (SÉNESCENCE)</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T + 32 ANS (SÉNESCENCE)" data-en="T + 32 YRS (FUTURE)" data-it="T + 32 ANNI (FUTURO)">T + 32 ANS (SÉNESCENCE)</span>
                                 </button>
                             </div>
                         </div>
@@ -922,7 +955,7 @@
 
                 <!-- Minimal Copyright Footer -->
                 <footer class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono-tech text-[11px] text-slate-500">
-                    <p>© <span id="year"></span> <span data-fr="ESCLAVES DU TƎMPS" data-en="SLAVES OF TIME">ESCLAVES DU TƎMPS</span> — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
+                    <p>© <span id="year"></span> <span data-fr="ESCLAVES DU TƎMPS" data-en="SLAVES OF TIME" data-it="SCHIAVI DEL TEMPO">ESCLAVES DU TƎMPS</span> — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
                     <p class="text-slate-600">PROTOCOLE NAOS-9 // SYSTÈME DE COMPRESSION TEMPORELLE ACTIF</p>
                 </footer>
             </div>
@@ -1001,6 +1034,14 @@
            1. BILINGUAL SYSTEM (FR / EN)
            ========================================================================== */
         let currentLang = 'fr';
+        /* Langue de départ : ?lang=, sinon le dernier choix, sinon italien si le navigateur est en italien. */
+        try {
+            const q = new URLSearchParams(location.search).get('lang'), saved = localStorage.getItem('edt_lang');
+            if (['fr', 'en', 'it'].includes(q)) currentLang = q;
+            else if (['fr', 'en', 'it'].includes(saved)) currentLang = saved;
+            else if (/^it/i.test(navigator.language || '')) currentLang = 'it';
+        } catch (e) {}
+        const tr = (fr, en, it) => currentLang === 'fr' ? fr : currentLang === 'it' ? it : en;
         const langToggleBtn = document.getElementById('lang-toggle-btn');
         const langFrLabel = document.getElementById('lang-fr');
         const langEnLabel = document.getElementById('lang-en');
@@ -1009,24 +1050,19 @@
             currentLang = lang;
             document.documentElement.lang = lang;
 
-            if (lang === 'fr') {
-                langFrLabel.classList.add('text-[#00f0ff]');
-                langFrLabel.classList.remove('text-white/50');
-                langEnLabel.classList.remove('text-[#00f0ff]');
-                langEnLabel.classList.add('text-white/50');
-            } else {
-                langEnLabel.classList.add('text-[#00f0ff]');
-                langEnLabel.classList.remove('text-white/50');
-                langFrLabel.classList.remove('text-[#00f0ff]');
-                langFrLabel.classList.add('text-white/50');
-            }
+            [['fr', langFrLabel], ['en', langEnLabel], ['it', document.getElementById('lang-it')]].forEach(([k, lab]) => {
+                if (!lab) return;
+                lab.classList.toggle('text-[#00f0ff]', k === lang);
+                lab.classList.toggle('text-white/50', k !== lang);
+            });
+            try { localStorage.setItem('edt_lang', lang); } catch (e) {}
 
             // (le titre du morceau en cours se met à jour en fin de fonction)
             const heroTitle = document.getElementById('hero-title');
-            if (heroTitle) heroTitle.setAttribute('aria-label', lang === 'en' ? 'SLAVES OF TIME' : 'ESCLAVES DU TEMPS');
+            if (heroTitle) heroTitle.setAttribute('aria-label', tr('ESCLAVES DU TEMPS', 'SLAVES OF TIME', 'SCHIAVI DEL TEMPO'));
 
             document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-                const text = el.getAttribute(`data-${lang}`);
+                const text = el.getAttribute(`data-${lang}`) || el.getAttribute('data-en');
                 if (text) {
                     el.textContent = text;
                     if (el.hasAttribute('data-text')) {
@@ -1036,9 +1072,8 @@
             });
             const cover = document.getElementById('book-cover');
             if (cover) {
-                // Couverture : FR, EN, ou IT pour un navigateur réglé en italien (la page n'existe qu'en FR/EN).
-                const it = lang !== 'fr' && /^it/i.test(navigator.language || '');
-                const v = lang === 'fr' ? 'fr' : (it ? 'it' : 'en');
+                // Couverture du roman dans la langue de la page.
+                const v = lang;
                 cover.src = 'assets/img/couverture-' + v + '.webp';
                 cover.alt = { fr: 'Couverture du roman Esclaves du Temps, de Laurent Prestigiacomo', en: 'Cover of the novel Slaves of Time, by Laurent Prestigiacomo', it: 'Copertina del romanzo Schiavi del Tempo, di Laurent Prestigiacomo' }[v];
                 const link = cover.parentElement;
@@ -1048,8 +1083,9 @@
         }
 
         langToggleBtn.addEventListener('click', () => {
-            setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+            setLanguage({ fr: 'en', en: 'it', it: 'fr' }[currentLang] || 'fr');
         });
+        if (currentLang !== 'fr') setLanguage(currentLang);
 
         /* ==========================================================================
            2. SOUNDCLOUD WIDGET API PLAYER (VISIBLE DRAWER + 33 TRACKS + SELF-TEST)
@@ -1095,7 +1131,7 @@
         function updateTrackTitleDisplay(title) {
             if (!title) return;
             window.__lastTrackTitle = title;
-            const formatted = `♫ ${title.toUpperCase()} — ${currentLang === 'en' ? 'SLAVES OF TIME' : 'ESCLAVES DU TEMPS'} (OST)`;
+            const formatted = `♫ ${title.toUpperCase()} — ${tr('ESCLAVES DU TEMPS', 'SLAVES OF TIME', 'SCHIAVI DEL TEMPO')} (OST)`;
             scTrackTitleEl.removeAttribute('data-fr');
             scTrackTitleEl.removeAttribute('data-en');
             scTrackTitleEl.textContent = formatted;
@@ -1276,12 +1312,12 @@
                 scShuffleBtn.classList.remove('text-slate-400', 'border-white/10');
                 scShuffleBtn.classList.add('text-[#e3be68]', 'border-[#c9a24b]/60', 'bg-[#c9a24b]/15');
                 scShuffleLabel.setAttribute('data-fr', 'ALÉAT: ON');
-                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: ON');
+                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: ON'); scShuffleLabel.setAttribute('data-it', 'CASUALE: ON');
             } else {
                 scShuffleBtn.classList.add('text-slate-400', 'border-white/10');
                 scShuffleBtn.classList.remove('text-[#e3be68]', 'border-[#c9a24b]/60', 'bg-[#c9a24b]/15');
                 scShuffleLabel.setAttribute('data-fr', 'ALÉAT: OFF');
-                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: OFF');
+                scShuffleLabel.setAttribute('data-en', 'SHUFFLE: OFF'); scShuffleLabel.setAttribute('data-it', 'CASUALE: OFF');
             }
             setLanguage(currentLang);
         });
@@ -1801,15 +1837,15 @@
 
                 if (p > 0.88) {
                     hudProtocolLabel.setAttribute('data-fr', 'SYNC: DUAL_CORE [HUB ACTIVE]');
-                    hudProtocolLabel.setAttribute('data-en', 'SYNC: DUAL_CORE [HUB ACTIVE]');
+                    hudProtocolLabel.setAttribute('data-en', 'SYNC: DUAL_CORE [HUB ACTIVE]'); hudProtocolLabel.setAttribute('data-it', 'SYNC: DUAL_CORE [HUB ATTIVO]');
                     hudProtocolLabel.style.color = '#e3be68';
                 } else if (corruptionVal > 0.5) {
                     hudProtocolLabel.setAttribute('data-fr', 'WARNING: ECHO_ROUGE [BREACH]');
-                    hudProtocolLabel.setAttribute('data-en', 'WARNING: ECHO_ROUGE [BREACH]');
+                    hudProtocolLabel.setAttribute('data-en', 'WARNING: ECHO_ROUGE [BREACH]'); hudProtocolLabel.setAttribute('data-it', 'ALLARME: ECO_ROSSO [BRECCIA]');
                     hudProtocolLabel.style.color = '#ff4d5e';
                 } else {
                     hudProtocolLabel.setAttribute('data-fr', 'PROTOCOL: CT-CORP [STABLE]');
-                    hudProtocolLabel.setAttribute('data-en', 'PROTOCOL: CT-CORP [STABLE]');
+                    hudProtocolLabel.setAttribute('data-en', 'PROTOCOL: CT-CORP [STABLE]'); hudProtocolLabel.setAttribute('data-it', 'PROTOCOLLO: CT-CORP [STABILE]');
                     hudProtocolLabel.style.color = '#7ad7f0';
                 }
                 setLanguage(currentLang);
@@ -1915,6 +1951,20 @@
                             Available in-store and to order at our partner bookstore (signing events announced on the network).
                         </div>
                     </div>
+                `,
+                titleIt: 'Acquista il romanzo',
+                bodyIt: `
+                    <p>Scegli il canale di acquisto per il romanzo <strong>Schiavi del Tempo</strong> di Laurent Prestigiacomo:</p>
+                    <div class="space-y-3 font-mono-tech text-xs">
+                        <a href="https://www.laurexa.be" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-lg bg-[#c9a24b]/20 hover:bg-[#c9a24b] text-[#e3be68] hover:text-black border border-[#c9a24b]/50 font-bold transition-all">
+                            <span>NEGOZIO UFFICIALE LAUREXA.BE</span>
+                            <span>ORDINA ↗</span>
+                        </a>
+                        <div class="p-3.5 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                            <span class="text-[#7ad7f0] font-bold block mb-1">LIBRERIA LA COMMANDERIE</span>
+                            Disponibile in negozio e su ordinazione presso la libreria partner (sessioni di firma annunciate sulla rete).
+                        </div>
+                    </div>
                 `
             },
             streaming: {
@@ -1978,6 +2028,36 @@
                             <span class="flex items-center gap-3"><span class="plat-ico plat-full" aria-hidden="true"><img src="assets/img/platforms/7digital.png" alt="" width="30" height="30" loading="lazy"></span><span>7DIGITAL (HD DOWNLOAD)</span></span><span class="whitespace-nowrap pl-3">ACCESS ↗</span>
                         </a>
                     </div>
+                `,
+                titleIt: 'Ascolta la colonna sonora originale',
+                bodyIt: `
+                    <p>Scegli la tua piattaforma per avviare l'album ufficiale <strong>Esclaves du Temps (Original Soundtrack)</strong>:</p>
+                    <div class="grid grid-cols-1 gap-2.5 font-mono-tech text-xs">
+                        <a href="https://open.spotify.com/intl-fr/album/6KZG4h5GVoOlrFyKe8GhlB?si=llg7k6M2Sg2hUErsaDUASg" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#1DB954]/20 border border-white/10 hover:border-[#1DB954] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#1DB954" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span><span>SPOTIFY</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://music.apple.com/fr/album/esclaves-du-temps/1895883568" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-pink-500/20 border border-white/10 hover:border-pink-500 transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:linear-gradient(135deg,#FC5C7D,#6A3093)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9 17V6.5l9-2V15" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="2.6"/><circle cx="16" cy="15.5" r="2.6"/></svg></span><span>APPLE MUSIC</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://www.amazon.com/music/player/albums/B0GZ153D89" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#00A8E0]/20 border border-white/10 hover:border-[#00A8E0] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#00A8E0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.073-1.045-.869-1.232-1.271-1.806-2.099-1.725 1.76-2.948 2.286-5.187 2.286-2.648 0-4.711-1.633-4.711-4.904 0-2.553 1.383-4.291 3.351-5.139 1.7-.751 4.073-.885 5.888-1.091v-.405c0-.745.057-1.625-.38-2.269-.381-.578-1.108-.816-1.748-.816-1.188 0-2.245.609-2.504 1.87-.053.28-.261.555-.549.568l-3.064-.33c-.259-.059-.546-.27-.472-.67C5.974.752 8.995 0 11.688 0c1.43 0 3.299.38 4.428 1.462C17.545 2.797 17.5 4.6 17.5 6.555v4.75c0 1.428.592 2.056 1.148 2.826.196.277.239.608-.01.815l-1.494 1.849zm3.577 1.565C18.601 21.4 15.925 22 13.618 22c-3.771 0-7.184-1.394-9.759-3.717-.202-.183-.022-.433.221-.29 2.78 1.616 6.218 2.588 9.773 2.588 2.395 0 5.029-.496 7.451-1.527.365-.155.672.241.317.496zm.902-2.992c-.276-.354-1.824-.167-2.521-.084-.211.025-.243-.158-.053-.29 1.235-.869 3.261-.618 3.498-.327.237.294-.062 2.326-1.22 3.298-.178.149-.348.07-.269-.127.261-.651.845-2.109.565-2.47z"/></svg></span><span>AMAZON MUSIC</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://link.deezer.com/s/33jlG3zn368hImKbcWYj4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500 transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#A238FF" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.944 18.243h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.196h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zm12.888-3.195h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zm-6.47 0h4.944v1.932H6.056zM18.944 8.657h4.944v1.932h-4.944zm-6.418 0h4.944v1.932h-4.944zM18.944 5.46h4.944v1.932h-4.944z"/></svg></span><span>DEEZER</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://soundcloud.com/laurent-prestigiacomo/sets/esclaves-du-temps-bande" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500 transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF5500" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M1.175 12.225c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23.515 0 .955-.32 1.147-.78l.238-.604V12.03c0-.68-.544-1.23-1.216-1.23-.396 0-.748.188-.977.48a1.223 1.223 0 0 0-.383.745zm2.99.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23v-2.07a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v.864l.024-.003-.001.005zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9.9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v2.364l.024-.003-.001.014zm2.985.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23s1.215-.55 1.215-1.23V9a1.222 1.222 0 0 0-1.215-1.23c-.67 0-1.215.55-1.215 1.23v3.264l.024-.003-.001.014zm3.03.42c-.015.067-.024.135-.024.204 0 .68.544 1.23 1.215 1.23h6.465c1.34 0 2.43-1.096 2.43-2.445 0-1.27-.958-2.312-2.19-2.432A3.855 3.855 0 0 0 16.2 7.2c-2.115 0-3.834 1.73-3.84 3.863l.005.054v2.388z"/></svg></span><span>SOUNDCLOUD</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCnlRkkjiAYjIEaBUClUaB5w" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500 transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#FF0000" aria-hidden="true"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6.5" width="18" height="11" rx="3.2"/><path d="M10.2 9.4v5.2l4.4-2.6z" fill="#FF0000"/></svg></span><span>YOUTUBE</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://play.anghami.com/album/1089541388" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500 transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico" style="background:#f4f4f4" aria-hidden="true"><img src="assets/img/platforms/anghami.png" alt="" width="30" height="30" loading="lazy"></span><span>ANGHAMI</span></span><span class="whitespace-nowrap pl-3">ASCOLTA ↗</span>
+                        </a>
+                        <a href="https://uk.7digital.com/artist/laurent-prestigiacomo/release/esclaves-du-temps-70244235?f=20%2C19%2C12%2C16%2C17%2C9%2C2" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-[#3ba4c7]/20 border border-white/10 hover:border-[#3ba4c7] transition-all">
+                            <span class="flex items-center gap-3"><span class="plat-ico plat-full" aria-hidden="true"><img src="assets/img/platforms/7digital.png" alt="" width="30" height="30" loading="lazy"></span><span>7DIGITAL (DOWNLOAD HD)</span></span><span class="whitespace-nowrap pl-3">ACCEDI ↗</span>
+                        </a>
+                    </div>
                 `
             },
             ctcorp: {
@@ -1999,6 +2079,15 @@
                         TEMPORAL BALANCE: RESTRICTED TO EXTERNAL TERMINAL
                     </div>
                     <a href="https://www.esclavesdutemps.be/ctcorp-prototype.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#3ba4c7] text-black font-mono-tech text-xs font-bold uppercase tracking-wider">Open CT-Corp Portal ↗</a>
+                `,
+                titleIt: 'Chrono-Tech Corporation',
+                bodyIt: `
+                    <p>Benvenuto nel nodo d'accesso <strong>CT-Corp</strong>. Qui il tuo tempo è la tua unica moneta. Consulta il tuo saldo vitale e le direttive del Consiglio.</p>
+                    <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]">
+                        CITTADINO: NON IDENTIFICATO<br>
+                        SALDO TEMPORALE: ACCESSO LIMITATO AL TERMINALE ESTERNO
+                    </div>
+                    <a href="https://www.esclavesdutemps.be/ctcorp-prototype.html" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#3ba4c7] text-black font-mono-tech text-xs font-bold uppercase tracking-wider">Apri il portale CT-Corp ↗</a>
                 `
             },
             echorouge: {
@@ -2026,6 +2115,18 @@
                         <button type="submit" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-bold uppercase tracking-wider hover:bg-[#ff3b4e] transition-colors cursor-pointer">Join Echo Rouge Frequency ↗</button>
                         <p class="text-slate-500">This node is monitored by Kassandra. By accessing this network, you become a Resistance agent.</p>
                     </form>
+                `,
+                titleIt: 'Cellula Eco Rosso',
+                bodyIt: `
+                    <p class="text-[#ff4d5e] font-mono-tech text-xs">CONNESSIONE CIFRATA STABILITA.</p>
+                    <p>CT-Corp mente sull'aspettativa di vita media. Gli archivi censurati di <strong>Eco Rosso</strong> contengono le prove dei trasferimenti di tempo illegali.</p>
+                    <form onsubmit="enterEchoRouge(event)" class="space-y-3 font-mono-tech text-xs" autocomplete="off">
+                        <label for="er-codename" class="block text-[#ff4d5e]">// Autenticazione richiesta. Inserisci il tuo nome in codice:</label>
+                        <input id="er-codename" type="text" maxlength="24" placeholder="NOME_IN_CODICE" autocomplete="off" autocapitalize="characters" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_\-]/g,'')" class="w-full px-3 py-2.5 rounded-lg bg-black border border-[#d92b3a]/50 text-[#00ff41] tracking-widest focus:outline-none focus:border-[#ff4d5e]">
+                        <p id="er-error" class="hidden text-[#ff4d5e]" role="alert">⚠ Nome in codice non valido. Minimo 3 caratteri.</p>
+                        <button type="submit" class="inline-block w-full text-center py-2.5 rounded-lg bg-[#d92b3a] text-white font-bold uppercase tracking-wider hover:bg-[#ff3b4e] transition-colors cursor-pointer">Unisciti alla frequenza Eco Rosso ↗</button>
+                        <p class="text-slate-500">Questo nodo è sorvegliato da Kassandra. Accedendo a questa rete diventi un agente della Resistenza.</p>
+                    </form>
                 `
             },
             contact: {
@@ -2049,6 +2150,16 @@
                         <textarea rows="3" required placeholder="Your transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
                         <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Send Transmission</button>
                     </form>
+                `,
+                titleIt: 'Contatta Laurent Prestigiacomo',
+                bodyIt: `
+                    <p>Una domanda sull'universo di <strong>Schiavi del Tempo</strong>, una richiesta stampa, per una fiera o una sessione di firme?</p>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
+                        <input type="text" required placeholder="Il tuo nome / Nominativo" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" required placeholder="Il tuo indirizzo email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea rows="3" required placeholder="La tua trasmissione..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Invia la trasmissione</button>
+                    </form>
                 `
             }
         };
@@ -2060,13 +2171,15 @@
         let spoilPending = null;
         function spoilAcknowledged() { try { return sessionStorage.getItem(SPOIL_KEY) === '1'; } catch (e) { return false; } }
         function showSpoilWarning(key) {
-            const fr = currentLang === 'fr';
-            document.getElementById('spoil-head').textContent = fr ? '// Accès aux profondeurs — avertissement' : '// Access to the depths — warning';
-            document.getElementById('spoil-text').textContent = fr
+            const fr = currentLang === 'fr', it = currentLang === 'it';
+            document.getElementById('spoil-head').textContent = tr('// Accès aux profondeurs — avertissement', '// Access to the depths — warning', '// Accesso alle profondità — avvertenza');
+            document.getElementById('spoil-text').textContent = it
+                ? "Scendere nelle viscere della terra significa rischiare di trovarci più di quanto si cercava. Lettore, qui non troverai le risposte — solo quanto basta a rovinarti la scoperta. Se non ti sei ancora immerso nelle pagine del romanzo, apri queste porte con piena consapevolezza."
+                : fr
                 ? "Descendre dans les entrailles de la terre, c'est risquer d'y découvrir plus que tu n'étais venu chercher. Lecteur, tu ne trouveras pas ici les réponses — seulement de quoi t'en gâcher la découverte. Si tu n'as pas déjà plongé dans les pages du roman, ouvre ces portes en toute connaissance de cause."
                 : "To descend into the bowels of the earth is to risk finding more than you came for. Reader, you will not find the answers here — only enough to spoil their discovery. If you have not already dived into the pages of the novel, open these doors with full knowledge.";
-            document.getElementById('spoil-continue').textContent = fr ? 'Continuer' : 'Continue';
-            document.getElementById('spoil-back').textContent = fr ? 'Retour' : 'Back';
+            document.getElementById('spoil-continue').textContent = tr('Continuer', 'Continue', 'Continua');
+            document.getElementById('spoil-back').textContent = tr('Retour', 'Back', 'Indietro');
             spoilPending = key;
             spoilOverlay.classList.add('active');
             document.getElementById('spoil-continue').focus();
@@ -2084,8 +2197,8 @@
             const data = modalContent[key];
             if (!data) return;
             modalTag.textContent = data.tag;
-            modalTitle.textContent = currentLang === 'fr' ? data.titleFr : data.titleEn;
-            modalBody.innerHTML = currentLang === 'fr' ? data.bodyFr : data.bodyEn;
+            modalTitle.textContent = tr(data.titleFr, data.titleEn, data.titleIt || data.titleEn);
+            modalBody.innerHTML = tr(data.bodyFr, data.bodyEn, data.bodyIt || data.bodyEn);
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
@@ -2108,14 +2221,16 @@
             err.classList.add('hidden');
             try { sessionStorage.setItem('er_codename', val); } catch (x) {}
             try { localStorage.setItem('er_codename', val); } catch (x) {}
-            const page = currentLang === 'en' ? 'en/echo-rouge-v2.html' : 'echo-rouge-v2.html';
+            const page = tr('echo-rouge-v2.html', 'en/echo-rouge-v2.html', 'it/echo-rouge-v2.html');
             window.open(page + '?agent=' + encodeURIComponent(val), '_blank');
             closeModal();
         }
 
         function handleContactSubmit(e) {
             e.preventDefault();
-            modalBody.innerHTML = currentLang === 'fr'
+            modalBody.innerHTML = currentLang === 'it'
+                ? `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRASMISSIONE RICEVUTA DA NAOS-9. L'autore ti risponderà a breve.</div>`
+                : currentLang === 'fr'
                 ? `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION REÇUE PAR NAOS-9. L'auteur vous répondra sous peu.</div>`
                 : `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION RECEIVED BY NAOS-9. The author will reply shortly.</div>`;
         }
@@ -2225,13 +2340,12 @@
                     ? Math.round(-44 + (pct / 0.5) * 44)
                     : Math.round(((pct - 0.5) / 0.5) * 32);
 
+                const yy = String(Math.abs(yearOffset)).padStart(2, '0'), ANS = tr('ANS', 'YRS', 'ANNI');
                 const formattedYear = yearOffset === 0
-                    ? 'T ± 00 ANS'
+                    ? `T ± 00 ${ANS}`
                     : (yearOffset > 0
-                        ? `T + ${String(yearOffset).padStart(2, '0')} ANS`
-                        : (currentLang === 'fr'
-                            ? `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} ANS (ENFANCE)`
-                            : `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} YRS (CHILDHOOD)`));
+                        ? `T + ${yy} ${ANS}`
+                        : `T - ${yy} ${ANS} (${tr('ENFANCE', 'CHILDHOOD', 'INFANZIA')})`);
                 yearReadout.textContent = formattedYear;
 
                 let beamColor = '#3ba4c7';
@@ -2241,35 +2355,21 @@
                     beamColor = '#e3be68';
                     beamGlow = 'rgba(227, 190, 104, 0.55)';
                     phaseCode.style.color = '#e3be68';
-                    const genesisYearTag = currentLang === 'fr'
-                        ? `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} ans (enfance)`
-                        : `T - ${String(Math.abs(yearOffset)).padStart(2, '0')} yrs (childhood)`;
-                    phaseCode.textContent = currentLang === 'fr'
-                        ? `I. GENÈSE — ${genesisYearTag}`
-                        : `I. GENESIS — ${genesisYearTag}`;
-                    phaseDesc.textContent = currentLang === 'fr'
-                        ? "L'origine de la mémoire : avant que chaque seconde de vie ne devienne une valeur marchande."
-                        : "The origin of memory: before every second of life became a traded commodity.";
+                    const genesisYearTag = `T - ${yy} ${tr('ans (enfance)', 'yrs (childhood)', 'anni (infanzia)')}`;
+                    phaseCode.textContent = `${tr('I. GENÈSE', 'I. GENESIS', 'I. GENESI')} — ${genesisYearTag}`;
+                    phaseDesc.textContent = tr("L'origine de la mémoire : avant que chaque seconde de vie ne devienne une valeur marchande.", "The origin of memory: before every second of life became a traded commodity.", "L'origine della memoria: prima che ogni secondo di vita diventasse una merce.");
                 } else if (pct <= 0.66) {
                     beamColor = '#3ba4c7';
                     beamGlow = 'rgba(59, 164, 199, 0.55)';
                     phaseCode.style.color = '#7ad7f0';
-                    phaseCode.textContent = currentLang === 'fr'
-                        ? `PHASE II // ${formattedYear} — POINT D'ANCRAGE`
-                        : `PHASE II // ${formattedYear} — ANCHOR POINT`;
-                    phaseDesc.textContent = currentLang === 'fr'
-                        ? "Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9."
-                        : "The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.";
+                    phaseCode.textContent = `${tr('PHASE II', 'PHASE II', 'FASE II')} // ${formattedYear} — ${tr("POINT D'ANCRAGE", 'ANCHOR POINT', "PUNTO D'ANCORAGGIO")}`;
+                    phaseDesc.textContent = tr("Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9.", "The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.", "Il presente immediato: coscienza risvegliata nel cuore dell'architettura temporale di NAOS-9.");
                 } else {
                     beamColor = '#d92b3a';
                     beamGlow = 'rgba(217, 43, 58, 0.6)';
                     phaseCode.style.color = '#ff4d5e';
-                    phaseCode.textContent = currentLang === 'fr'
-                        ? `PHASE III // ${formattedYear} — ENTROPIE`
-                        : `PHASE III // ${formattedYear} — ENTROPY`;
-                    phaseDesc.textContent = currentLang === 'fr'
-                        ? "Accélération terminale : l'empreinte du temps comprimé sur l'enveloppe biologique."
-                        : "Terminal acceleration: the imprint of compressed time upon the biological vessel.";
+                    phaseCode.textContent = `${tr('PHASE III', 'PHASE III', 'FASE III')} // ${formattedYear} — ${tr('ENTROPIE', 'ENTROPY', 'ENTROPIA')}`;
+                    phaseDesc.textContent = tr("Accélération terminale : l'empreinte du temps comprimé sur l'enveloppe biologique.", "Terminal acceleration: the imprint of compressed time upon the biological vessel.", "Accelerazione terminale: l'impronta del tempo compresso sull'involucro biologico.");
                 }
 
                 scannerBeam.style.setProperty('--beam-color', beamColor);
@@ -2277,13 +2377,13 @@
                 scrubber.style.setProperty('--beam-color', beamColor);
 
                 if (!isAutoPlaying) {
-                    dirBadge.textContent = currentLang === 'fr' ? 'CONTRÔLE MANUEL' : 'MANUAL OVERRIDE';
+                    dirBadge.textContent = tr('CONTRÔLE MANUEL', 'MANUAL OVERRIDE', 'CONTROLLO MANUALE');
                     dirBadge.style.color = '#7ad7f0';
                 } else if (direction === 1) {
-                    dirBadge.textContent = currentLang === 'fr' ? 'GENÈSE ➔ ENTROPIE' : 'GENESIS ➔ ENTROPY';
+                    dirBadge.textContent = tr('GENÈSE ➔ ENTROPIE', 'GENESIS ➔ ENTROPY', 'GENESI ➔ ENTROPIA');
                     dirBadge.style.color = '#e3be68';
                 } else {
-                    dirBadge.textContent = currentLang === 'fr' ? 'ENTROPIE ➔ GENÈSE' : 'ENTROPY ➔ GENESIS';
+                    dirBadge.textContent = tr('ENTROPIE ➔ GENÈSE', 'ENTROPY ➔ GENESIS', 'ENTROPIA ➔ GENESI');
                     dirBadge.style.color = '#ff4d5e';
                 }
             }
