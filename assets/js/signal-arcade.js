@@ -107,7 +107,7 @@ function update(dt) {
   if (G.mode !== 'play') return;
   if (G.msgT > 0) G.msgT -= dt;
   /* joueur */
-  if (G.dead > 0) { G.dead -= dt; if (G.dead <= 0) { if (G.lives <= 0) { G.mode = 'over'; if (G.score > best) best = G.score; return; } G.px = W / 2 - 7; G.ebul = []; } }
+  if (G.dead > 0) { G.dead -= dt; if (G.dead <= 0) { G.dead = 0; if (G.lives <= 0) { G.mode = 'over'; if (G.score > best) best = G.score; return; } G.px = W / 2 - 7; G.ebul = []; } }
   else { if (keys.left) G.px -= 110 * dt; if (keys.right) G.px += 110 * dt; G.px = Math.max(4, Math.min(W - 19, G.px)); if (keys.fire && !G.pb) press(); }
   /* tir du joueur */
   if (G.pb) {
