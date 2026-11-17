@@ -13,7 +13,7 @@ un corps traduit.
 """
 import io, os, re
 
-BASE = "https://presti013.github.io/esclaves-du-temps/"
+BASE = "https://www.esclavesdutemps.be/"
 
 # Pages disposant (ou destinées à disposer) d'une traduction. Mettre à jour au
 # fur et à mesure puis relancer le script pour rafraîchir les sélecteurs.
