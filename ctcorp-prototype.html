@@ -14,7 +14,8 @@
 <meta property="og:image" content="https://www.esclavesdutemps.be/assets/img/img-e13285cea6a8.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@300;400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -1591,20 +1592,20 @@ footer {
 /* ── PAGES INSTITUTIONNELLES (pied de page) ── */
 .fx-page{max-width:860px;margin:0 auto;padding:0 24px 80px}
 .fx-block{border:1px solid var(--border);border-left:3px solid var(--accent);background:rgba(10,22,40,.55);padding:22px 26px;margin:0 0 18px}
-.fx-block h3{font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
-.fx-block p{font-family:'Barlow',sans-serif;font-size:15px;line-height:1.75;color:var(--text);margin:0}
-.fx-ref{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;margin:26px 0 18px}
-.fx-back{display:inline-block;font-family:'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--border);padding:10px 18px}
+.fx-block h3{font-family:var(--font-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.fx-block p{font-family:var(--font-body);font-size:15px;line-height:1.75;color:var(--text);margin:0}
+.fx-ref{font-family:var(--font-cond);font-size:12px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;margin:26px 0 18px}
+.fx-back{display:inline-block;font-family:var(--font-cond);letter-spacing:.12em;text-transform:uppercase;font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--border);padding:10px 18px}
 .fx-back:hover{border-color:var(--accent)}
 .fx-form{display:grid;gap:12px;margin:0 0 18px}
-.fx-form input,.fx-form textarea{width:100%;box-sizing:border-box;background:rgba(10,22,40,.8);border:1px solid var(--border);color:var(--text);font:15px 'Barlow',sans-serif;padding:12px 14px}
+.fx-form input,.fx-form textarea{width:100%;box-sizing:border-box;background:rgba(10,22,40,.8);border:1px solid var(--border);color:var(--text);font:15px var(--font-body);padding:12px 14px}
 .fx-form button{justify-self:start}
-.fx-sent{display:none;border:1px solid var(--accent);color:var(--accent);padding:14px 18px;font-family:'Barlow',sans-serif}
+.fx-sent{display:none;border:1px solid var(--accent);color:var(--accent);padding:14px 18px;font-family:var(--font-body)}
 </style>
 <!--i18n:style-->
 <style>
 .i18n-switch{position:fixed;top:10px;right:10px;z-index:99999;display:flex;gap:2px;
-  font-family:'Orbitron',monospace,sans-serif;font-size:11px;letter-spacing:.06em;
+  font-family:var(--font-display);font-size:11px;letter-spacing:.06em;
   background:rgba(2,6,8,.72);border:1px solid rgba(201,148,58,.3);border-radius:3px;
   padding:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
 .i18n-switch a,.i18n-switch span{display:inline-flex;align-items:center;gap:5px;
@@ -1631,6 +1632,7 @@ footer {
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/ctcorp-v2.css">
 </head>
 <body>
 <!--i18n:switch-->
@@ -3200,8 +3202,8 @@ footer {
     <p class="section-desc">Le CTC, monnaie de l&#x27;écosystème CT Corp, convertit votre temps en valeur. Barème indicatif en vigueur au 03.01.2035.</p>
   </div>
   <div class="fx-page">
-    <div class="fx-block"><h3>Barème de conversion</h3><p>1 heure de travail standard = 1 CTC<br>1 heure vécue en compression ×3 = 2,4 CTC<br>1 heure vécue en compression ×5 = 3,6 CTC<br>1 année de vie cédée (contrat Eternia) = selon profil biologique</p></div>
-    <div class="fx-block"><h3>Pourquoi une heure compressée vaut-elle moins que trois heures ?</h3><p>Parce qu'elle ne coûte qu'une heure à l'horloge du monde. La différence couvre les frais d'infrastructure, de stabilisation et de suivi médical.</p></div>
+    <div class="fx-block"><h3>Barème de conversion</h3><p>1 heure de travail standard = 1 CTC<br>1 heure réelle en compression ×80 (80 heures vécues) = 46 CTC<br>1 heure réelle en compression ×100 (100 heures vécues) = 52 CTC<br>1 année de vie cédée (contrat Eternia) = selon profil biologique</p></div>
+    <div class="fx-block"><h3>Pourquoi 100 heures vécues valent-elles 52 CTC ?</h3><p>Parce qu'elles ne coûtent qu'une heure à l'horloge du monde. La différence couvre les frais d'infrastructure, de stabilisation et de suivi médical.</p></div>
     <div class="fx-block"><h3>Retrait en devises nationales</h3><p>Disponible dans les 47 pays partenaires, dans la limite de 12 % du solde par mois. Au-delà, le solde est automatiquement réinvesti dans votre plan de carrière.</p></div>
     <div class="fx-ref">DIRECTION FINANCIÈRE · TAUX NON CONTRACTUELS · LE CTC N&#x27;EST PAS REMBOURSABLE EN TEMPS</div>
     <a class="fx-back" href="#home" onclick="showSection('home');return false;">← Retour à l'accueil</a>
@@ -3566,7 +3568,7 @@ document.addEventListener('keydown', e => {
     flash.style.cssText = `
       position:fixed;bottom:32px;right:32px;z-index:9999;
       background:rgba(7,12,24,0.96);border:1px solid #2A8A5A;
-      padding:16px 24px;font-family:'Orbitron',monospace;font-size:12px;
+      padding:16px 24px;font-family:var(--font-display);font-size:12px;
       color:#2A8A5A;letter-spacing:0.1em;
       animation:fadeIn 0.3s ease;
     `;
@@ -3621,7 +3623,7 @@ document.addEventListener('keydown', e => {
   function fromHash() { var n = decodeURIComponent(location.hash.slice(1)); var el = n && document.getElementById(n); if (el && el.classList.contains('page-section')) render(n); else if (!n) render('home'); }
   window.addEventListener('popstate', fromHash);
   window.addEventListener('hashchange', fromHash);
-  if (location.hash) fromHash();
+  if (location.hash) { fromHash(); var top0 = function () { window.scrollTo({ top: 0, behavior: 'instant' }); }; setTimeout(top0, 0); window.addEventListener('load', function () { top0(); setTimeout(top0, 60); }); }
   document.addEventListener('keydown', function (e) {
     var t = e.target; if ((e.key === 'Enter' || e.key === ' ') && t && t.getAttribute && t.getAttribute('role') === 'button' && t.hasAttribute('onclick')) { e.preventDefault(); t.click(); }
   });
@@ -3629,5 +3631,6 @@ document.addEventListener('keydown', e => {
 function sendHR(e, f) { e.preventDefault(); f.style.display = 'none'; f.nextElementSibling.style.display = 'block'; return false; }
 </script>
 <script src="assets/js/ctcorp-chatbot.js" defer></script>
+<script src="assets/ctcorp-v2.js" defer></script>
 </body>
 </html>

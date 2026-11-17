@@ -1458,7 +1458,13 @@
     "@keyframes glB{0%,100%{clip-path:inset(58% 0 0 0)}50%{clip-path:inset(10% 0 68% 0)}}",
     ".fadeout{transition:opacity .8s;opacity:0}",
 
-    "@media (prefers-reduced-motion:reduce){.panel.shake,.panel.strobe,.gl::before,.gl::after,.ping{animation:none}.gl::before,.gl::after{display:none}}"
+    "@media (prefers-reduced-motion:reduce){.panel.shake,.panel.strobe,.gl::before,.gl::after,.ping{animation:none}.gl::before,.gl::after{display:none}}",
+    /* thème V2 (design.md) : angles nets, palette industrielle ; l'état « hacked » garde sa priorité */
+    ".root{--bg:#07090B;--surface:#0F1215;--ink:#E2E8F0;--muted:#718096;--corp:#C2D92D;--edge:#20262B;--accent:#C2D92D;--chip:#13171B;--user:#161A1F;--userink:#E2E8F0;--mono:#C2D92D;font-family:'IBM Plex Sans',system-ui,sans-serif}",
+    ".root.hacked{--bg:#0a0608;--surface:#120a0d;--ink:#e8e2e4;--muted:#8d7f84;--corp:#e6392e;--edge:#3a1218;--accent:#e6392e;--chip:#1c0e12;--user:#2a0f14;--userink:#f4dfe0;--mono:#ff6a5e}",
+    ".root *,.root *::before,.root *::after{border-radius:0!important;box-shadow:none!important}",
+    ".bubble{border:1px solid var(--corp);background:var(--bg)!important;color:var(--corp)}",
+    ".nudge{font-family:'Share Tech Mono',monospace;letter-spacing:.04em}"
   ].join("\n");
 
   /* ------------------------------------------------------------------ */
