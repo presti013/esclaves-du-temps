@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Maquette CT-Corp V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ── Jetons du guide design.md ── */
+:root{
+  --bg-base:#07090B;--bg-surface:#0F1215;--bg-surface-hover:#161A1F;
+  --border:#20262B;--border-muted:#13171B;
+  --fg-primary:#E2E8F0;--fg-muted:#718096;
+  --accent-acid:#C2D92D;--accent-acid-glow:rgba(194,217,45,.15);
+  --accent-amber:#E09F3E;--accent-red:#E63946;--accent-blue:#3A506B;
+  --mono:'Share Tech Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg-base);color:var(--fg-primary);font-family:var(--sans);font-size:14px;line-height:1.375rem}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono)}
+/* bande « maquette » */
+.mock{position:fixed;left:0;bottom:0;z-index:50;background:var(--accent-amber);color:var(--bg-base);font:12px var(--mono);letter-spacing:.12em;padding:4px 10px}
+/* téléscripteur */
+.ticker{border-bottom:1px solid var(--border);background:var(--bg-base);overflow:hidden;white-space:nowrap;font:11px var(--mono);color:var(--fg-muted);height:24px;line-height:24px}
+.ticker .run{display:inline-block;animation:tk 60s linear infinite}
+.ticker b{color:var(--accent-acid);font-weight:400}.ticker i{font-style:normal;color:var(--border);margin:0 14px}
+@keyframes tk{to{transform:translateX(-50%)}}
+/* en-tête système */
+header{border-bottom:2px solid var(--border);background:var(--bg-base);display:flex;align-items:stretch;font:12px var(--mono);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:10px;padding:10px 16px;border-right:1px solid var(--border);color:var(--accent-acid);letter-spacing:.2em;white-space:nowrap}
+.brand small{color:var(--fg-muted);letter-spacing:.08em;font-size:10px}
+nav.main{display:flex;flex:1;overflow-x:auto;scrollbar-width:none}
+nav.main a{display:flex;align-items:center;padding:0 14px;border-right:1px solid var(--border);color:var(--fg-muted);letter-spacing:.1em;white-space:nowrap;transition:color 75ms,background 75ms;cursor:crosshair}
+nav.main a:hover{color:var(--accent-acid);background:var(--bg-surface-hover)}
+nav.main a.on{color:var(--bg-base);background:var(--accent-acid)}
+.status{display:flex;align-items:stretch}
+.status>div{display:flex;align-items:center;gap:6px;padding:0 12px;border-left:1px solid var(--border);color:var(--fg-muted);font-size:10px;white-space:nowrap}
+.dot{width:7px;height:7px;background:var(--accent-acid);display:inline-block;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.lang a{padding:2px 4px}.lang a.on{color:var(--accent-acid)}
+/* grille */
+main{padding:8px;display:grid;gap:8px}
+.row{display:grid;gap:8px}
+.r-hero{grid-template-columns:1.6fr 1fr}
+.r-3{grid-template-columns:repeat(3,1fr)}
+.r-jobs{grid-template-columns:1.5fr 1fr}
+.r-news{grid-template-columns:1.3fr 1fr 1fr}
+.panel{background:var(--bg-surface);border:1px solid var(--border);border-top:2px solid var(--accent-acid);position:relative;overflow:hidden;min-width:0}
+.panel.amber{border-top-color:var(--accent-amber)}.panel.red{border-top-color:var(--accent-red)}.panel.blue{border-top-color:var(--accent-blue)}
+.panel::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--border);padding:8px 12px;font-family:var(--mono)}
+.ph b{font-weight:400;white-space:nowrap;font-size:12px;color:var(--accent-acid);letter-spacing:.18em}
+.panel.amber .ph b{color:var(--accent-amber)}.panel.red .ph b{color:var(--accent-red)}.panel.blue .ph b{color:#8fa9c8}
+.ph span{font-size:9px;color:var(--fg-muted);opacity:.7;letter-spacing:.08em;white-space:nowrap}
+.pb{padding:14px 16px}
+h1{font:600 24px/2rem var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--accent-acid)}
+h2{font:18px/1.5rem var(--mono);text-transform:uppercase;letter-spacing:.02em;color:var(--fg-primary);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:10px}
+h3{font:500 12px/1.1rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted)}
+p{font-weight:300;color:var(--fg-muted)}
+.hero h1{font-size:30px;line-height:2.4rem;margin:6px 0 10px}
+.hero p{max-width:560px;font-size:15px}
+.kick{font:11px var(--mono);color:var(--fg-muted);letter-spacing:.2em}
+.btns{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font:12px var(--mono);text-transform:uppercase;letter-spacing:.12em;border:1px solid var(--border);background:transparent;color:var(--fg-muted);padding:8px 14px;cursor:crosshair;transition:all 100ms ease-out}
+.btn:hover{border-color:var(--accent-acid);color:var(--accent-acid);background:var(--bg-surface-hover);box-shadow:0 0 8px rgba(194,217,45,.2)}
+.btn.pri{border-color:var(--accent-acid);color:var(--accent-acid)}
+.btn:active{background:var(--accent-acid);color:var(--bg-base)}
+.hero-img{margin-top:16px;border:1px solid var(--border);height:150px;position:relative;overflow:hidden}
+.hero-img i{position:absolute;inset:0;background:#000 center/cover;filter:grayscale(.85) contrast(1.15) brightness(.7)}
+.hero-img::after{content:'CAM_07 // LA SPIRALE — HALL B // REC ●';position:absolute;left:8px;top:6px;font:10px var(--mono);color:var(--accent-red);filter:none}
+/* indicateurs */
+.kpis{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border)}
+.kpi{padding:10px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.kpi:nth-child(2n){border-right:0}
+.kpi .v{font:26px/1.1 var(--mono);letter-spacing:-.02em;color:var(--fg-primary)}
+.kpi .v em{font-style:normal;color:var(--accent-acid)}
+.seg{display:flex;gap:2px;margin-top:6px}.seg i{width:6px;height:10px;background:var(--accent-acid)}.seg i.off{opacity:.2}
+.seg.amber i{background:var(--accent-amber)}
+.counter{padding:12px;font:30px/1 var(--mono);letter-spacing:-.02em;color:var(--accent-acid);text-shadow:0 0 8px rgba(194,217,45,.25)}
+.counter small{display:block;font-size:10px;letter-spacing:.14em;color:var(--fg-muted);text-shadow:none;margin-bottom:6px}
+/* solutions */
+.sol{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+.card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px;cursor:crosshair;transition:background 75ms}
+.card:hover{background:var(--bg-surface-hover);box-shadow:inset 0 0 0 1px var(--accent-acid)}
+.card .img{height:84px;background:#000 center/cover;filter:grayscale(1) contrast(1.2) brightness(.75);border:1px solid var(--border-muted);margin-bottom:8px}
+.card:hover .img{filter:grayscale(.4) contrast(1.2) brightness(.9)}
+.card .id{font:9px var(--mono);color:var(--fg-muted);opacity:.7}
+.card .t{font:13px var(--mono);text-transform:uppercase;letter-spacing:.06em;margin:2px 0 4px}
+.card p{font-size:12px;line-height:1.15rem}
+.tag{display:inline-block;font:9px var(--mono);letter-spacing:.1em;border:1px solid var(--border);padding:1px 5px;margin-top:6px;color:var(--accent-acid)}
+.tag.amber{color:var(--accent-amber)}.tag.red{color:var(--accent-red)}
+/* tableaux */
+table{width:100%;border-collapse:collapse;font:12px var(--mono)}
+th{text-align:left;font-weight:400;font-size:10px;letter-spacing:.1em;color:var(--fg-muted);border-bottom:1px solid var(--border);padding:6px 10px;text-transform:uppercase}
+td{border-bottom:1px solid var(--border-muted);padding:7px 10px;white-space:nowrap}
+tr:hover td{background:var(--bg-surface-hover)}
+td.n{color:var(--fg-primary)}td.c{color:var(--accent-amber)}td.a a{color:var(--accent-acid)}td.a a:hover{text-decoration:underline}
+.scroll{overflow-x:auto}
+/* journal NAOS */
+.log{font:11px/1.5 var(--mono);padding:10px 12px;color:var(--fg-muted);height:260px;overflow:hidden;position:relative}
+.log .ok{color:var(--accent-acid)}.log .w{color:var(--accent-amber)}.log .e{color:var(--accent-red)}
+.cascade{position:absolute;right:8px;top:0;bottom:0;width:80px;font:10px/1 var(--mono);color:var(--accent-amber);opacity:.35;overflow:hidden;white-space:pre}
+/* flux */
+.news li{list-style:none;border-bottom:1px solid var(--border-muted);padding:8px 12px}
+.news li:hover{background:var(--bg-surface-hover)}
+.news .lab{font:9px var(--mono);letter-spacing:.14em;color:var(--accent-amber)}
+.news .tt{font:13px var(--mono);color:var(--fg-primary);margin:2px 0}
+.news .d{font:10px var(--mono);color:var(--fg-muted)}
+.fac{font:12px var(--mono)}
+.fac div{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-bottom:1px solid var(--border-muted)}
+.fac div:hover{background:var(--bg-surface-hover)}
+.conv td{font-size:11px}
+/* pied */
+footer{border-top:2px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);font:11px var(--mono)}
+footer div{padding:12px 14px;border-right:1px solid var(--border)}
+footer h4{font-weight:400;color:var(--accent-acid);letter-spacing:.16em;font-size:10px;margin-bottom:8px}
+footer a{display:block;color:var(--fg-muted);padding:2px 0;cursor:crosshair}footer a:hover{color:var(--accent-acid)}
+.legal{border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:8px 14px 34px;font:10px var(--mono);color:var(--fg-muted)}
+.legal a{margin-left:16px}.legal a:hover{color:var(--accent-acid)}
+/* téléphone */
+@media (max-width:980px){
+  .r-hero,.r-jobs,.r-news{grid-template-columns:1fr}.r-3{grid-template-columns:1fr}
+  .sol{grid-template-columns:1fr 1fr}
+  .status .hide-m{display:none}
+  footer{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .brand small{display:none}
+  .hero h1{font-size:22px;line-height:1.8rem}
+  .status>div:not(.lang){display:none}
+  .ph span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="mock">MAQUETTE V2 — DESIGN.MD — NON PUBLIÉE</div>
+
+<div class="ticker"><div class="run" id="tk"></div></div>
+
+<header>
+  <a class="brand" href="#"><span>▲ CT-CORP</span><small>SYSTEM v1.07</small></a>
+  <nav class="main">
+    <a class="on" href="#">ACCUEIL</a><a href="#">SOLUTIONS</a><a href="#">CARRIÈRES</a><a href="#">CHRONOVISION</a><a href="#">À PROPOS</a><a href="#">ESPACE_CLIENT</a>
+  </nav>
+  <div class="status">
+    <div class="hide-m"><span class="dot"></span>NAOS_9:<span id="naos">97</span>%</div>
+    <div class="hide-m" id="clock">29.01.2035 // 04:17:00_SECURE</div>
+    <div class="hide-m" style="color:var(--accent-amber)">ACCÈS: PUBLIC</div>
+    <div class="lang"><a class="on" href="#">FR</a><a href="#">EN</a><a href="#">IT</a></div>
+  </div>
+</header>
+
+<main>
+  <!-- ACCUEIL -->
+  <section class="row r-hero">
+    <div class="panel hero">
+      <div class="ph"><b>[ DIRECTIVE_2035 ]</b><span>SEC-01 / LEVEL 0 // DIFFUSION PUBLIQUE</span></div>
+      <div class="pb">
+        <div class="kick">CT CORP — EXERCICE 2035</div>
+        <h1>Le temps est notre matière première.<br>Vous êtes notre investissement.</h1>
+        <p>Chrono-Tech Corporation garantit la prospérité et la sécurité des citoyens par la gestion prédictive du capital-temps. Chaque seconde comptabilisée est une seconde valorisée.</p>
+        <div class="btns"><button class="btn pri">[ NOS SOLUTIONS ]</button><button class="btn">[ REJOINDRE CT CORP ]</button><button class="btn">[ ESPACE CLIENT ]</button></div>
+        <div class="hero-img"><i style="background-image:url('https://www.esclavesdutemps.be/assets/img/img-e13285cea6a8.jpg')"></i></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><b>[ INDICATEURS_GLOBAUX ]</b><span>T4 2034 // CERTIFIÉ</span></div>
+      <div class="counter"><small>UNITÉS DE PRODUCTION COMPTABILISÉES AUJOURD'HUI</small><span id="units">8,420,194,003</span></div>
+      <div class="kpis">
+        <div class="kpi"><h3>Tissages déployés</h3><div class="v">2.0<em>B+</em></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div></div>
+        <div class="kpi"><h3>Compression std.</h3><div class="v"><em>×</em>100</div><div class="seg amber"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="kpi"><h3>Gouv. partenaires</h3><div class="v">47</div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div></div>
+        <div class="kpi"><h3>CTC / EUR</h3><div class="v">0.0043 <em style="font-size:14px">▲2.1%</em></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></div></div>
+        <div class="kpi"><h3>Productivité</h3><div class="v"><em>+</em>14.7%</div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></div></div>
+        <div class="kpi"><h3>Centres Nyx</h3><div class="v">500</div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section class="panel">
+    <div class="ph"><b>[ CATALOGUE_SOLUTIONS ]</b><span>SEC-02 / 8 PRODUITS // HOMOLOGUÉS PACTE CRONOS</span></div>
+    <div class="sol">
+      <div class="card"><div class="img" style="background-image:url('https://www.esclavesdutemps.be/assets/img/img-e13285cea6a8.jpg')"></div><div class="id">PRD-001 // NEURO</div><div class="t">Tissages synaptiques</div><p>Interface neuronale de synchronisation. Version 4.0 requise pour CT-NET 2.0.</p><span class="tag">ACTIF — 2.01B</span></div>
+      <div class="card"><div class="img" style="background-image:url('https://www.esclavesdutemps.be/assets/img/img-0e245dc7a86d.jpg')"></div><div class="id">PRD-002 // TEMPOREL</div><div class="t">Compression temporelle</div><p>Bulles GFT. Une heure du monde, cent heures de production.</p><span class="tag amber">CADENCE ×100</span></div>
+      <div class="card"><div class="img" style="background-image:url('https://www.esclavesdutemps.be/assets/img/img-6ed7469015bc.jpg')"></div><div class="id">PRD-003 // LONGÉVITÉ</div><div class="t">Eternia</div><p>Programme de transfert d'années de vie. Accès sur profil biologique.</p><span class="tag">RANG ALPHA</span></div>
+      <div class="card"><div class="img" style="background-image:url('https://www.esclavesdutemps.be/assets/img/img-a03fde65a5ea.jpg')"></div><div class="id">PRD-004 // LOISIR</div><div class="t">Projet Nyx</div><p>500 centres d'immersion. 10 millions d'utilisateurs quotidiens.</p><span class="tag red">ACCÈS SURVEILLÉ</span></div>
+    </div>
+  </section>
+
+  <!-- CARRIÈRES + NAOS-9 -->
+  <section class="row r-jobs">
+    <div class="panel amber">
+      <div class="ph"><b>[ OFFRES_D'ENGAGEMENT ]</b><span>SEC-03 / RHT // 12 POSTES OUVERTS</span></div>
+      <div class="scroll"><table>
+        <tr><th>Réf.</th><th>Poste</th><th>Site</th><th>Cadence</th><th>Statut</th><th></th></tr>
+        <tr><td>J-0412</td><td class="n">Opérateur de production — CT-Moda</td><td>Prato</td><td class="c">×80</td><td><div class="seg"><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div></td><td class="a"><a href="#">POSTULER ›</a></td></tr>
+        <tr><td>J-0388</td><td class="n">Agent logistique — Complexe n°6</td><td>Gdańsk</td><td class="c">×100</td><td><div class="seg"><i></i><i></i><i></i><i></i><i class="off"></i></div></td><td class="a"><a href="#">POSTULER ›</a></td></tr>
+        <tr><td>J-0371</td><td class="n">Technicien maintenance GFT</td><td>Multisite</td><td class="c">×80</td><td><div class="seg"><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div></td><td class="a"><a href="#">POSTULER ›</a></td></tr>
+        <tr><td>J-0355</td><td class="n">Coordinateur de bulle — Niv. 2</td><td>Toutes zones</td><td class="c">×100</td><td><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></td><td class="a"><a href="#">POSTULER ›</a></td></tr>
+        <tr><td>J-0349</td><td class="n">Opérateur CT-Nutri — Distribution</td><td>Zones grises</td><td class="c">×80</td><td><div class="seg"><i></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></div></td><td class="a"><a href="#">POSTULER ›</a></td></tr>
+      </table></div>
+      <div class="pb" style="display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)"><button class="btn">[ SIMULATEUR DE SALAIRE ]</button><button class="btn">[ PROCESSUS ]</button><button class="btn">[ POURQUOI CT CORP ]</button></div>
+    </div>
+    <div class="panel blue">
+      <div class="ph"><b>[ NAOS-9 // JOURNAL ]</b><span>CORE_LOG // LECTURE SEULE</span></div>
+      <div class="log" id="log"><div class="cascade" id="cascade"></div></div>
+    </div>
+  </section>
+
+  <!-- CHRONOVISION + INSTALLATIONS + CTC -->
+  <section class="row r-news">
+    <div class="panel">
+      <div class="ph"><b>[ CHRONOVISION ]</b><span>MÉDIA OFFICIEL // INFORMATION VÉRIFIÉE</span></div>
+      <ul class="news">
+        <li><div class="lab">À LA UNE</div><div class="tt">Bilan 2034 : productivité record pour l'écosystème CT Corp</div><div class="d">02.01.2035 — SOURCE : DIRECTOIRE</div></li>
+        <li><div class="lab">ÉCONOMIE</div><div class="tt">Le CTC résiste : +2,1 % en première semaine</div><div class="d">03.01.2035</div></li>
+        <li><div class="lab">SÉCURITÉ</div><div class="tt">Incident du 27 décembre : retour à la normale confirmé par Aegis-CD</div><div class="d">29.12.2034</div></li>
+        <li><div class="lab">INNOVATION</div><div class="tt">CT-NET 2.0 : « une mise à jour comme les autres »</div><div class="d">02.01.2035</div></li>
+      </ul>
+    </div>
+    <div class="panel amber">
+      <div class="ph"><b>[ ÉTAT_DES_INSTALLATIONS ]</b><span>GFT // CHARGE</span></div>
+      <div class="fac" id="fac"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><b>[ CONVERSION_CTC ]</b><span>BARÈME 03.01.2035</span></div>
+      <table class="conv">
+        <tr><th>Unité</th><th>CTC</th></tr>
+        <tr><td>1 h travail standard</td><td class="n">1.00</td></tr>
+        <tr><td>1 h en compression ×80</td><td class="n">—</td></tr>
+        <tr><td>1 h en compression ×100</td><td class="n">—</td></tr>
+        <tr><td>1 an de vie (Eternia)</td><td class="c">SUR PROFIL</td></tr>
+      </table>
+      <div class="pb"><p style="font-size:12px">Retrait en devises nationales plafonné à 12 % du solde mensuel.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div><h4>SOLUTIONS</h4><a>Tissages synaptiques</a><a>Compression temporelle</a><a>Eternia</a><a>Projet Nyx</a><a>ChronoLoop Express</a></div>
+  <div><h4>CARRIÈRES</h4><a>Offres d'emploi</a><a>Simulateur de salaire</a><a>Processus de recrutement</a><a>Pourquoi CT Corp</a></div>
+  <div><h4>INSTITUTIONNEL</h4><a>À propos de CT Corp</a><a>La Spirale — Bruxelles</a><a>Gouvernance & Directoire</a><a>Conseil de Conformité</a><a>47 gouvernements partenaires</a><a>Presse & investisseurs</a></div>
+  <div><h4>SUPPORT</h4><a>Centre d'aide Tissage</a><a>Conversion CTC</a><a>Contact RH</a><a>Espace client</a><a style="color:var(--accent-red)">Spéc. techniques [DELTA]</a></div>
+</footer>
+<div class="legal"><span>© 2035 CT CORP — L'AXE DE LA PERPÉTUITÉ</span><span><a>RGPD TEMPOREL</a><a>CONDITIONS D'ENGAGEMENT</a><a>DONNÉES COGNITIVES</a></span></div>
+
+<script>
+var T=['<b>CTC</b> 1 CTC = 0.0043 EUR ▲ +2.1%','<b>PRODUCTIVITÉ</b> +14.7% T4 2034','<b>TISSAGES ACTIFS</b> 2,014,880,443','<b>CT-MODA</b> 4,200,000 PIÈCES/SEM.','<b>CENTRES NYX</b> 500 SITES','<b>CT-NET 2.0</b> DÉPLOIEMENT EN COURS — TISSAGES v4.0+ REQUIS'];
+document.getElementById('tk').innerHTML=(T.join('<i>//</i>')+'<i>//</i>').repeat(2);
+var u=8420194003,ue=document.getElementById('units');setInterval(function(){u+=Math.floor(Math.random()*4000+800);ue.textContent=u.toLocaleString('en-US')},250);
+var s=17*3600+17*0;setInterval(function(){s++;var h=('0'+Math.floor(s/3600)%24).slice(-2),m=('0'+Math.floor(s/60)%60).slice(-2),x=('0'+s%60).slice(-2);document.getElementById('clock').textContent='29.01.2035 // '+h+':'+m+':'+x+'_SECURE';document.getElementById('naos').textContent=96+Math.round(Math.random()*3)},1000);
+var L=[['ok','> SYNC NODE LYON-07 ............ OK'],['','> TISSAGES EN LIGNE : 2,014,880,443'],['ok','> CT-NET 2.0 :: VAGUE 3/9 DÉPLOYÉE'],['w','! LATENCE SECTEUR GDAŃSK-W : +14 ms'],['','> KASSANDRA :: 1,204 PRÉDICTIONS / MIN'],['ok','> COMPRESSION BULLE 6-W .... STABLE'],['w','! SIGNAL_PARASITE :: SOURCE NON IDENTIFIÉE'],['e','!! TISSAGES EN MODE ERREUR : 41'],['','> AEGIS-CD :: PATROUILLES +12 %'],['ok','> AUDIT CONFORMITÉ ........... OK']],li=0,lg=document.getElementById('log');
+setInterval(function(){var d=document.createElement('div');d.className=L[li%L.length][0];d.textContent=L[li%L.length][1];lg.appendChild(d);li++;var rows=lg.querySelectorAll('div:not(.cascade)');if(rows.length>15)rows[0].remove()},700);
+var cc=document.getElementById('cascade');setInterval(function(){var o='';for(var r=0;r<26;r++){for(var c=0;c<8;c++)o+=Math.random()<.5?'0123456789ABCDEF'[Math.random()*16|0]:' ';o+='\n'}cc.textContent=o},120);
+var F=[['LYON-01',60],['GDAŃSK-06',94],['PRATO-02',78],['BRUXELLES-SP',41],['ZURICH-Σ',55],['OSTRAVA-03',88]],fe=document.getElementById('fac');
+function fac(){fe.innerHTML=F.map(function(f){var v=Math.max(10,Math.min(99,f[1]+Math.round(Math.random()*6-3))),n=Math.round(v/10),seg='';for(var i=0;i<10;i++)seg+='<i'+(i<n?'':' class="off"')+(v>90?' style="background:var(--accent-red)"':'')+'></i>';return '<div><span>'+f[0]+'</span><span style="display:flex;align-items:center;gap:8px"><span class="seg" style="margin:0">'+seg+'</span><span style="color:'+(v>90?'var(--accent-red)':'var(--accent-acid)')+';width:32px;text-align:right">'+v+'%</span></span></div>'}).join('')}
+fac();setInterval(fac,1500);
+</script>
+</body>
+</html>
