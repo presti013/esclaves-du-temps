@@ -168,4 +168,40 @@ body:not(.titlescr) .i18n-switch{display:none}
   .kl{display:none}.kbar{width:60px}
   .acts{grid-template-columns:1fr}
 }
+/* ---- bonus : le local de Malek (écran 8 bits de 1987) ---- */
+.bonusbox{margin-top:14px;padding:10px 12px;border:1px dashed var(--gold);border-radius:8px;text-align:left;background:rgba(227,190,104,.05)}
+.bonusbox .acth{color:var(--gold)}
+body.c64on .i18n-switch,body.arcadeon .i18n-switch{display:none}
+.c64{position:fixed;inset:0;z-index:55;display:none;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;background:#0a0a26;padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0)}
+.c64.on{display:grid}
+.c64 .top,.c64 .chips{background:#06061c;border-color:#22225a}
+.c64 .mtitle{font-family:'Press Start 2P',monospace;font-size:13px;line-height:1.3;color:#aaffee;text-shadow:none}
+.c64 .mnum{color:#7a7ac8}
+.c64 .ic{background:#0d0d3a;border-color:#2a2a7a;color:#aaffee}
+.stopbtn{flex:none;height:40px;padding:0 10px;border:1px solid #ff7777;border-radius:6px;background:#2a0b0b;color:#ff7777;font:9px 'Press Start 2P',monospace;cursor:pointer}
+.c64wrap{display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;padding:4px;border-right:1px solid #22225a;overflow:hidden}
+.c64b{padding:2.5em 3em;font-family:'Press Start 2P',monospace;line-height:1;border-radius:.6em;box-shadow:0 0 30px rgba(0,136,255,.25)}
+.c64s{width:40em;height:25em;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;cursor:text}
+.c64r{white-space:pre;line-height:1em;overflow:hidden;font-size:1em}
+.c64i{display:flex;align-items:center;height:1em}
+.c64i input{flex:1;min-width:0;height:1em;padding:0;border:0;outline:none;background:transparent;font:inherit;font-size:1em;line-height:1em;text-transform:uppercase}
+.c64i input::placeholder{color:inherit;opacity:.45}
+.c64side{background:#10103a}
+.c64side .who{font-family:'Press Start 2P',monospace;font-size:13px;color:#aaffee;line-height:1.3}
+.c64side .msg{border-left-color:#0088ff;background:rgba(0,136,255,.08)}
+.c64side .objbox{background:#08082a;border-color:#2a2a7a}
+.c64 .chip{background:#0d0d3a;border-color:#2a2a7a;color:#aaffee}
+.c64 .chip.run{background:#aaffee;color:#06061c;border-color:#aaffee}
+.c64 .chip.o{color:#eeee77}
+.stripes{display:flex;flex-direction:column;justify-content:center;gap:2px;width:40px;height:40px;flex:none}
+.stripes i{display:block;height:5px;border-radius:1px}
+.arcade{position:fixed;inset:0;z-index:58;display:none;align-items:center;justify-content:center;background:#000}
+.arcade.on{display:flex}
+.arcade canvas{image-rendering:pixelated;border:8px solid #0088ff;box-sizing:content-box}
+.aquit{position:absolute;top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right))}
+.apad{position:absolute;left:max(10px,env(safe-area-inset-left));bottom:max(10px,env(safe-area-inset-bottom));display:flex;gap:8px}
+.abtn{width:58px;height:58px;border-radius:50%;border:2px solid #0088ff;background:rgba(0,0,170,.35);color:#aaffee;font:15px 'Press Start 2P',monospace;touch-action:none;-webkit-user-select:none;user-select:none}
+.abtn.fire{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));width:78px;height:78px;font-size:10px;border-color:#ff7777;color:#ff7777;background:rgba(136,0,0,.35)}
+@media (max-height:520px) and (orientation:landscape){.c64 .main{grid-template-columns:minmax(0,1fr) 37%}.stopbtn{height:34px;font-size:8px}.c64 .mtitle{font-size:11px}.stripes{width:30px;height:30px}.stripes i{height:4px}}
+@media (max-width:760px) and (orientation:portrait){.c64wrap{border-right:0}.arcade{align-items:flex-start;padding-top:60px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

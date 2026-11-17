@@ -34,7 +34,7 @@ var STR = {
     done: 'Mission accomplie', learned: 'Ce que tu as appris', next: 'Mission suivante', replay: 'Rejouer', finale: 'Épilogue',
     failT: 'Kassandra t\'a repéré', failX: 'Aegis-CD a reçu ta position. Kazimir t\'a extrait juste à temps. Tu peux reprendre là où tu étais, avec une trace plus discrète.',
     resume: 'Reprendre à l\'étape', restart: 'Recommencer la mission', rescue: 'Kassandra allait te repérer : je brouille ta trace. Ralentis, lis bien ce que je t\'explique.',
-    newCodex: 'Codex : nouvelle fiche — {t}', codexCmd: 'Commandes', codexIdea: 'Notions', locked: 'verrouillée', lockedEntry: 'Pas encore découverte',
+    newCodex: 'Codex : nouvelle fiche — {t}', codexCmd: 'Commandes', codexIdea: 'Notions', codexBasic: 'BASIC (bonus)', locked: 'verrouillée', lockedEntry: 'Pas encore découverte',
     means: 'Veut dire', example: 'Exemple', real: 'Dans un vrai terminal',
     stars: 'Discrétion', maxK: 'détection maximale : {n} %',
     unknownCmd: '{c} : commande inconnue. Écris help pour la liste.', didYouMean: 'Tu voulais dire « {s} » ?',
@@ -60,7 +60,7 @@ var STR = {
     done: 'Mission complete', learned: 'What you learned', next: 'Next mission', replay: 'Replay', finale: 'Epilogue',
     failT: 'Kassandra spotted you', failX: 'Aegis-CD received your position. Kazimir pulled you out just in time. You can pick up where you were, with a quieter trace.',
     resume: 'Resume from this step', restart: 'Restart the mission', rescue: 'Kassandra was about to spot you: I am scrambling your trace. Slow down and read my explanations carefully.',
-    newCodex: 'Codex: new entry — {t}', codexCmd: 'Commands', codexIdea: 'Concepts', locked: 'locked', lockedEntry: 'Not discovered yet',
+    newCodex: 'Codex: new entry — {t}', codexCmd: 'Commands', codexIdea: 'Concepts', codexBasic: 'BASIC (bonus)', locked: 'locked', lockedEntry: 'Not discovered yet',
     means: 'Means', example: 'Example', real: 'In a real terminal',
     stars: 'Stealth', maxK: 'peak detection: {n}%',
     unknownCmd: '{c}: unknown command. Type help for the list.', didYouMean: 'Did you mean "{s}"?',
@@ -86,7 +86,7 @@ var STR = {
     done: 'Missione compiuta', learned: 'Cosa hai imparato', next: 'Missione successiva', replay: 'Rigioca', finale: 'Epilogo',
     failT: 'Kassandra ti ha individuato', failX: 'Aegis-CD ha ricevuto la tua posizione. Kazimir ti ha tirato fuori appena in tempo. Puoi riprendere da dove eri, con una traccia più discreta.',
     resume: 'Riprendi da questa tappa', restart: 'Ricomincia la missione', rescue: 'Kassandra stava per individuarti: confondo la tua traccia. Rallenta e leggi bene le mie spiegazioni.',
-    newCodex: 'Codex: nuova scheda — {t}', codexCmd: 'Comandi', codexIdea: 'Concetti', locked: 'bloccata', lockedEntry: 'Non ancora scoperta',
+    newCodex: 'Codex: nuova scheda — {t}', codexCmd: 'Comandi', codexIdea: 'Concetti', codexBasic: 'BASIC (bonus)', locked: 'bloccata', lockedEntry: 'Non ancora scoperta',
     means: 'Significa', example: 'Esempio', real: 'In un vero terminale',
     stars: 'Discrezione', maxK: 'rilevamento massimo: {n}%',
     unknownCmd: '{c}: comando sconosciuto. Scrivi help per l\'elenco.', didYouMean: 'Volevi dire «{s}»?',
@@ -999,6 +999,7 @@ function showMap() {
         if (open) b.addEventListener('click', function () { gesture(); SFX.ui(); var go = function () { startMission(n, !!(save.cur && save.cur.m === n)); }; if (!save.name) askName(go); else go(); });
       });
     });
+    if (window.SIGNAL_BONUS) window.SIGNAL_BONUS.mapBlock(c);
     var bar = el('div', 'row2', null, c); btn(S.codex, openCodex, bar); btn(S.back, showTitle, bar, 'ghost');
   });
 }
@@ -1006,13 +1007,13 @@ function codexText(k, e) {
   var a = [T(e.t) + ' — ' + T(e.m)]; if (e.x) a.push(S.example + ' : ' + e.x); if (e.d) a.push(T(e.d)); if (e.r) a.push(S.real + ' : ' + T(e.r)); return a.join('\n');
 }
 function openCodex() {
-  var inGame = !!(G && !G.over), back = inGame ? closeOverlay : null, keys = Object.keys(D.codex);
-  if (inGame) G.paused = true;
+  var inBonus = document.body.classList.contains('c64on'), inGame = !!(G && !G.over) || inBonus, back = inGame ? closeOverlay : null, keys = Object.keys(D.codex);
+  if (G && !G.over) G.paused = true;
   overlay(function (c) {
     c.classList.add('wide');
     el('div', 'kick', 'ÉCHO ROUGE // NAOS-9', c); el('h2', 'ttl', S.codex, c);
     var cnt = keys.filter(function (k) { return save.codex[k]; }).length; el('div', 'small', cnt + ' / ' + keys.length, c);
-    [['cmd', S.codexCmd], ['idea', S.codexIdea]].forEach(function (grp) {
+    [['cmd', S.codexCmd], ['idea', S.codexIdea], ['basic', S.codexBasic]].forEach(function (grp) {
       el('h3', 'lh', grp[1], c); var list = el('div', 'cx', null, c);
       keys.forEach(function (k) {
         var e = D.codex[k]; if (e.kind !== grp[0]) return; var on = !!save.codex[k], it = el('details', 'cxe' + (on ? '' : ' off'), null, list), sm = el('summary', null, null, it);
@@ -1022,7 +1023,7 @@ function openCodex() {
       });
     });
     var bar = el('div', 'row2', null, c);
-    if (back) btn(S.close, function () { G.paused = false; closeOverlay(); }, bar, 'main'); else btn(S.back, showTitle, bar, 'main');
+    if (back) btn(S.close, function () { if (G) G.paused = false; closeOverlay(); }, bar, 'main'); else btn(S.back, showTitle, bar, 'main');
   }, !!back);
   if (inGame) $.ov.dataset.dismiss = '1';
 }
@@ -1071,6 +1072,9 @@ function frame(t) {
 /* --------------------------------------------------------------------------
    14. DÉMARRAGE et accès pour les tests automatisés
    -------------------------------------------------------------------------- */
+window.SIGNAL_API = { S: S, T: T, lang: lang, TOUCH: TOUCH, H: H, D: D, save: save, persist: persist, SFX: SFX, tone: tone, noise: noise, gesture: gesture, setTrack: setTrack, randomTrack: randomTrack, T_MENU: T_MENU,
+  overlay: overlay, closeOverlay: closeOverlay, el: el, btn: btn, rich: rich, esc: esc, toast: toast, showMap: showMap, showTitle: showTitle, openCodex: openCodex, leaveGame: leaveGame, fmt: fmt,
+  learn: function (k) { var e = D.codex[k]; if (!e || save.codex[k]) return; save.codex[k] = 1; persist(); SFX.codex(); toast(fmt(S.newCodex, { t: T(e.t) })); } };
 buildUI();
 var skipBoot = false; try { skipBoot = sessionStorage.getItem('signal_boot') === '1'; } catch (e) {}
 if (skipBoot) showTitle(); else boot();
