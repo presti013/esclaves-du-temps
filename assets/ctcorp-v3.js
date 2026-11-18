@@ -3,9 +3,12 @@
 (function () {
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var c = document.createElement('canvas'); c.className = 'ct3-bg'; c.setAttribute('aria-hidden', 'true');
+  /* styles posés directement : le fond reste derrière la page même si la feuille de style en cache est ancienne */
+  c.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;display:block';
+  document.documentElement.style.background = '#EEEAE5'; document.body.style.background = 'transparent';
   document.body.insertBefore(c, document.body.firstChild);
   var x = c.getContext('2d'), W, H, dpr, mx = .3, my = .25, tx = .3, ty = .25, sy = 0, st = 0, t0 = performance.now();
-  function size() { dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  function size() { dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px'; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
   size(); addEventListener('resize', size);
   addEventListener('pointermove', function (e) { tx = e.clientX / W; ty = e.clientY / H; }, { passive: true });
   addEventListener('scroll', function () { st = scrollY; }, { passive: true });
