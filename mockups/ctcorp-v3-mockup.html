@@ -17,9 +17,9 @@ html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;overflow-x:hidden;transition:background .4s,color .4s}
 a{color:inherit;text-decoration:none}
 .glow{position:fixed;pointer-events:none;border-radius:50%;filter:blur(90px);z-index:0;opacity:.75}
-.g1{width:720px;height:620px;left:-240px;top:-160px;background:#B9A8FF}
-.g2{width:520px;height:520px;right:-180px;top:42%;background:#CFC4FF}
-.g3{width:460px;height:420px;left:20%;bottom:-220px;background:#D9CFFF}
+.g1{width:720px;height:620px;left:-240px;top:-160px;background:var(--glow1,#B9A8FF)}
+.g2{width:520px;height:520px;right:-180px;top:42%;background:var(--glow2,#CFC4FF)}
+.g3{width:460px;height:420px;left:20%;bottom:-220px;background:var(--glow2,#D9CFFF)}
 html.dark .glow{opacity:.28}
 .mock{position:fixed;left:16px;top:16px;z-index:60;font:11px var(--mono);background:var(--ink);color:var(--paper);padding:4px 8px}
 /* navigation flottante */
@@ -28,8 +28,8 @@ html.dark .nav{background:rgba(20,20,52,.7)}
 .logo{font:500 17px var(--sans);letter-spacing:.32em;color:var(--brand);margin-right:22px;white-space:nowrap}
 .nav a.l{padding:6px 12px;color:var(--ink);opacity:.85;white-space:nowrap}.nav a.l:hover{opacity:1;color:var(--brand)}
 .btn{display:inline-flex;align-items:center;gap:8px;font:500 13px var(--sans);padding:9px 14px;border-radius:3px;background:var(--brand);color:#fff;white-space:nowrap;transition:background .2s,transform .2s}
-.btn:hover{background:#3A21C2}
-.btn.soft{background:var(--lav);color:var(--brand)}.btn.soft:hover{background:#B8AAF7}
+.btn:hover{filter:brightness(.88)}
+.btn.soft{background:var(--lav);color:var(--brand)}.btn.soft:hover{filter:brightness(.95)}
 .btn i{font-style:normal;font-size:12px}
 .moon{position:fixed;right:28px;top:30px;z-index:50;background:none;border:0;cursor:pointer;color:var(--ink);font-size:20px}
 /* héros */
@@ -48,11 +48,11 @@ html.dark .nav{background:rgba(20,20,52,.7)}
 .dark h4{font:400 18px var(--sans);margin-bottom:10px}
 .violet{background:var(--brand);color:#fff;padding:16px;width:210px}
 .violet h4{font:400 18px var(--sans);display:flex;justify-content:space-between}
-.violet .big{font:300 64px/1 var(--sans);letter-spacing:-.03em;margin-top:26px;color:#D9D0FF}
+.violet .big{font:300 64px/1 var(--sans);letter-spacing:-.03em;margin-top:26px;color:var(--lav-2)}
 .small{font-size:12px;opacity:.85}
 .kpi2{display:flex;gap:30px;margin-top:10px}.kpi2 div{font:300 28px var(--sans)}.kpi2 small{display:block;font-size:10px;opacity:.7}
 /* bande violette */
-.band{position:relative;z-index:1;margin:40px 36px;background:linear-gradient(135deg,#6B4BEE,#7C63F0 60%,#8E7AF5);border-radius:4px;padding:28px 36px 36px;color:#fff;max-width:1430px;margin-left:auto;margin-right:auto}
+.band{position:relative;z-index:1;margin:40px 36px;background:linear-gradient(135deg,var(--band1,#6B4BEE),var(--band2,#8E7AF5));border-radius:4px;padding:28px 36px 36px;color:#fff;max-width:1430px;margin-left:auto;margin-right:auto}
 .eyebrow{font:12px var(--mono);letter-spacing:.02em;display:flex;align-items:center;gap:10px;opacity:.95}
 .eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
 .band p.state{font:400 clamp(20px,2.1vw,28px)/1.3 var(--sans);max-width:1000px;margin:38px 0 60px}
@@ -62,7 +62,7 @@ html.dark .nav{background:rgba(20,20,52,.7)}
 .tbl{width:100%;border-collapse:collapse;font-size:12px}
 .tbl th{text-align:left;font-weight:400;opacity:.75;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.12)}
 .tbl td{padding:9px 6px}
-.tbl .lv{color:#B9A8FF;letter-spacing:2px}
+.tbl .lv{color:var(--lav);letter-spacing:2px}
 .tag{font-size:10px;background:var(--lav);color:var(--brand);padding:2px 6px;border-radius:2px}
 /* sections à cartes flottantes */
 .feat{position:relative;z-index:1;min-height:110vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px}
@@ -121,7 +121,7 @@ footer .big{font:300 46px/1 var(--sans);letter-spacing:-.03em;color:var(--brand)
     <div class="float pill" data-depth=".25" style="left:-2%;top:5%"><span class="d"></span>Tissages actifs <b id="tiss">2,014,880,443</b><i>↗</i></div>
     <div class="float dark" data-depth=".5" style="left:-6%;top:52%;width:230px">
       <h4>Productivité</h4>
-      <svg viewBox="0 0 200 110" width="198" height="110"><g stroke="rgba(255,255,255,.12)"><line x1="0" y1="20" x2="200" y2="20"/><line x1="0" y1="50" x2="200" y2="50"/><line x1="0" y1="80" x2="200" y2="80"/></g><polyline fill="none" stroke="#fff" stroke-width="1.4" points="5,100 45,70 70,66 110,40 150,30 195,8"/><polyline fill="none" stroke="#B9A8FF" stroke-width="1.4" points="5,95 40,80 80,75 120,55 160,52 195,30"/></svg>
+      <svg viewBox="0 0 200 110" width="198" height="110"><g stroke="rgba(255,255,255,.12)"><line x1="0" y1="20" x2="200" y2="20"/><line x1="0" y1="50" x2="200" y2="50"/><line x1="0" y1="80" x2="200" y2="80"/></g><polyline fill="none" stroke="#fff" stroke-width="1.4" points="5,100 45,70 70,66 110,40 150,30 195,8"/><polyline fill="none" stroke="var(--lav)" stroke-width="1.4" points="5,95 40,80 80,75 120,55 160,52 195,30"/></svg>
       <div class="kpi2"><div>+14,7 %<small>Exercice 2034</small></div><div>×100<small>Cadence std.</small></div></div>
     </div>
     <div class="float violet" data-depth=".8" style="right:4%;top:58%"><h4>Heures compressées <span>↗</span></h4><div class="big">643M</div><div class="small">7 derniers jours</div></div>
@@ -141,7 +141,7 @@ footer .big{font:300 46px/1 var(--sans);letter-spacing:-.03em;color:var(--brand)
         <tr><td class="lv">●●●●●</td><td>PRG-022</td><td>Coordination de bulle</td><td>×100</td><td>16.01</td></tr>
         <tr><td class="lv">●●○○○</td><td>PRG-017</td><td><span class="tag">Statut révisé</span></td><td>—</td><td>14.01</td></tr></table></div>
     <div class="card"><h3>Production</h3>
-      <svg viewBox="0 0 220 200" width="100%" height="200"><g fill="#C9BEFA"><rect x="12" y="90" width="26" height="100"/><rect x="56" y="40" width="26" height="150"/><rect x="100" y="70" width="26" height="120"/></g><g fill="none" stroke="#C9BEFA" stroke-dasharray="4 3"><rect x="144" y="20" width="26" height="170"/><rect x="186" y="34" width="26" height="156"/></g></svg>
+      <svg viewBox="0 0 220 200" width="100%" height="200"><g fill="var(--lav)"><rect x="12" y="90" width="26" height="100"/><rect x="56" y="40" width="26" height="150"/><rect x="100" y="70" width="26" height="120"/></g><g fill="none" stroke="var(--lav)" stroke-dasharray="4 3"><rect x="144" y="20" width="26" height="170"/><rect x="186" y="34" width="26" height="156"/></g></svg>
       <div class="small">Projection 2035 : +18 %</div></div>
     <div class="card"><h3>Stocks CT-Moda</h3>
       <table class="tbl"><tr><th>Réf.</th><th>Article</th><th>Stock</th></tr>
@@ -181,12 +181,18 @@ footer .big{font:300 46px/1 var(--sans);letter-spacing:-.03em;color:var(--brand)
 <div class="sticky"><span>Contribuez dès aujourd'hui. Aucune période d'essai, aucune résiliation anticipée.</span><a class="btn soft" href="#">Postuler <i>↗</i></a></div>
 
 <script>
+/* trois options de couleur de marque : ?theme=violet | bleu | or */
+(function(){var T={violet:{},
+ bleu:{'--brand':'#1D4ED8','--lav':'#C9D6F6','--lav-2':'#E3EAFB','--navy':'#071226','--glow1':'#A9C0F2','--glow2':'#C8D6F7','--band1':'#1E3A8A','--band2':'#3A62C9'},
+ or:{'--brand':'#8A6A1F','--lav':'#E7D9B0','--lav-2':'#F2EAD2','--navy':'#14110A','--glow1':'#E3CF98','--glow2':'#EDE0BC','--band1':'#7A5C17','--band2':'#B08A33','--paper':'#F1EDE6'}};
+ var k=new URLSearchParams(location.search).get('theme')||'violet',v=T[k]||{};for(var n in v)document.documentElement.style.setProperty(n,v[n]);
+ var m=document.querySelector('.mock');if(m)m.textContent='MAQUETTE V3 — OPTION '+({violet:'A · VIOLET',bleu:'B · BLEU',or:'C · OR'}[k]||k).toUpperCase();})();
 document.getElementById('moon').onclick=function(){document.documentElement.classList.toggle('dark')};
 var t=2014880443;setInterval(function(){t+=Math.floor(Math.random()*9);document.getElementById('tiss').textContent=t.toLocaleString('en-US')},700);
 /* cartes flottantes : parallaxe + flou selon la distance au centre de l'écran (effet de profondeur) */
 var F=[].slice.call(document.querySelectorAll('.float'));
 function upd(){var h=innerHeight;F.forEach(function(e){var r=e.getBoundingClientRect(),c=(r.top+r.height/2-h/2)/h,d=+e.dataset.depth||.5;
-  e.style.transform='translateY('+(-c*d*120)+'px)';e.style.filter='blur('+Math.max(0,(Math.abs(c)-.28)*d*16).toFixed(1)+'px)';});}
+  e.style.transform='translateY('+(-c*d*120)+'px)';e.style.filter=matchMedia('(prefers-reduced-motion: reduce)').matches?'none':'blur('+Math.max(0,(Math.abs(c)-.28)*d*16).toFixed(1)+'px)';});}
 addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
 </script>
 </body>
