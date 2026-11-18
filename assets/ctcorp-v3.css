@@ -163,3 +163,9 @@ footer { background: transparent !important; border-top: 1px solid var(--line) !
 .i18n-switch { background: rgba(255,255,255,.85) !important; border: 0 !important; backdrop-filter: blur(10px); }
 .i18n-switch a, .i18n-switch span { color: var(--gray) !important; }
 .i18n-switch .is-active { background: var(--brand) !important; color: #fff !important; }
+
+/* fond dynamique (ctcorp-v3.js) : remplace les halos fixes quand les animations sont permises */
+.ct3-bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) { body::before { display: none; } }
+html { background: var(--paper) !important; }
+body { background: transparent !important; }
