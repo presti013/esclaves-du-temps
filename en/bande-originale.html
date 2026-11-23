@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Original Soundtrack — Slaves of Time</title>
 <meta name="description" content="Original soundtrack of the novel Slaves of Time, composed by Laurent Prestigiacomo. Listen chapter by chapter.">
+<link rel="canonical" href="https://www.esclavesdutemps.be/en/bande-originale.html">
+<meta property="og:url" content="https://www.esclavesdutemps.be/en/bande-originale.html">
 <meta property="og:title" content="Original Soundtrack — Slaves of Time">
 <meta property="og:description" content="Original soundtrack of the novel Slaves of Time, composed by Laurent Prestigiacomo. Listen chapter by chapter.">
 <meta property="og:type" content="website">
@@ -12,12 +14,12 @@
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:locale:alternate" content="it_IT">
 <!-- TODO: og:url en URL absolue une fois domaine de production connu -->
-<meta property="og:image" content="/assets/og-bande-originale.png">
+<meta property="og:image" content="https://www.esclavesdutemps.be/assets/img/og-en.jpg">
 <!-- TODO: créer /assets/og-bande-originale.png -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Original Soundtrack — Slaves of Time">
 <meta name="twitter:description" content="Original soundtrack of the novel Slaves of Time, composed by Laurent Prestigiacomo. Listen chapter by chapter.">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="../assets/fonts/gf-bb7b22cf.css" rel="stylesheet">
 <style>
 :root {
   --deep:     #020608;
@@ -25,7 +27,7 @@
   --gold2:    #E8B84B;
   --gold-dim: #6A4A1A;
   --text:     #D0C8B8;
-  --text-dim: #7A7060;
+  --text-dim: #8E8472;
   --white:    #F0ECE0;
 }
 
@@ -213,6 +215,17 @@ h3.track-title {
   line-height: 1.65;
 }
 
+.sc-load {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; height: 166px; cursor: pointer;
+  background: rgba(201, 148, 58, 0.06);
+  border: 1px dashed rgba(201, 148, 58, 0.35); border-radius: 2px;
+  color: var(--gold2); font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 0.12em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.sc-load:hover, .sc-load:focus-visible { background: rgba(201, 148, 58, 0.14); border-color: var(--gold); outline: none; }
+.sc-load small { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 0.02em; color: #B3A891; }
+
 /* ── ACCESSIBILITÉ ── */
 .sr-only {
   position: absolute;
@@ -264,6 +277,13 @@ footer {
   footer { flex-direction: column; align-items: flex-start; }
   .footer-copy { text-align: left; }
 }
+
+/* ── Contraste WCAG AA (audit 2026-11) ── */
+.back-link{opacity:1;color:#8E8472}
+.back-link:hover{color:var(--gold)}
+h2.section-label{opacity:1;color:#8E8472}
+.track-num{color:#A8803A}
+.footer-copy{opacity:1;color:#8E8472}
 </style>
 <!--i18n:style-->
 <style>
@@ -332,9 +352,7 @@ footer {
         <span class="track-num" aria-hidden="true">00</span>
         <h3 class="track-title">Prologue</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Prologue — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/prologue-1&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Prologue — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/prologue-1&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Prologue — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation Prologue — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -346,9 +364,7 @@ footer {
         <span class="track-num" aria-hidden="true">01</span>
         <h3 class="track-title">La Graine et le Fleuve</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 01 — La Graine et le Fleuve — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-01-la-graine-et-le-fleuve-2&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 01 — La Graine et le Fleuve — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-01-la-graine-et-le-fleuve-2&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 01 — La Graine et le Fleuve — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 1 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -360,9 +376,7 @@ footer {
         <span class="track-num" aria-hidden="true">02</span>
         <h3 class="track-title">La Fugue de la Machine</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 02 — La Fugue de la Machine — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 02 — La Fugue de la Machine — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 02 — La Fugue de la Machine — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 2 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -374,9 +388,7 @@ footer {
         <span class="track-num" aria-hidden="true">03</span>
         <h3 class="track-title">Le Gardien des Cendres</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 03 — Le Gardien des Cendres — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-03-le-gardien-des-cendres-4&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 03 — Le Gardien des Cendres — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-03-le-gardien-des-cendres-4&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 03 — Le Gardien des Cendres — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 3 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -388,9 +400,7 @@ footer {
         <span class="track-num" aria-hidden="true">04</span>
         <h3 class="track-title">Le Protocole Mironen</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 04 — Le Protocole Mironen — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-04-le-protocole-mironen-5&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 04 — Le Protocole Mironen — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-04-le-protocole-mironen-5&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 04 — Le Protocole Mironen — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 4 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -402,9 +412,7 @@ footer {
         <span class="track-num" aria-hidden="true">05</span>
         <h3 class="track-title">Écho Rouge</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 05 — Écho Rouge — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-05-echo-rouge-6&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 05 — Écho Rouge — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-05-echo-rouge-6&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 05 — Écho Rouge — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 5 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -416,9 +424,7 @@ footer {
         <span class="track-num" aria-hidden="true">06</span>
         <h3 class="track-title">Un Langage de Symboles</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 06 — Un Langage de Symboles — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-06-un-langage-de-symboles-7&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 06 — Un Langage de Symboles — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-06-un-langage-de-symboles-7&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 06 — Un Langage de Symboles — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 6 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -430,9 +436,7 @@ footer {
         <span class="track-num" aria-hidden="true">07</span>
         <h3 class="track-title">Variables Non Contrôlées</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 07 — Variables Non Contrôlées — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/08-chapitre-07-variables-non-controlees-8&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 07 — Variables Non Contrôlées — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/08-chapitre-07-variables-non-controlees-8&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 07 — Variables Non Contrôlées — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 7 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -444,9 +448,7 @@ footer {
         <span class="track-num" aria-hidden="true">08</span>
         <h3 class="track-title">L'Observateur Silencieux</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 08 — L'Observateur Silencieux — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-08-lobservateur-silencieux-9&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 08 — L'Observateur Silencieux — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-08-lobservateur-silencieux-9&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 08 — L'Observateur Silencieux — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 8 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -458,9 +460,7 @@ footer {
         <span class="track-num" aria-hidden="true">09</span>
         <h3 class="track-title">Défaillance Cascade</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 09 — Défaillance Cascade — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-09-defaillance-cascade-10&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 09 — Défaillance Cascade — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-09-defaillance-cascade-10&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 09 — Défaillance Cascade — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 9 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -472,9 +472,7 @@ footer {
         <span class="track-num" aria-hidden="true">10</span>
         <h3 class="track-title">L'Éveil</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 10 — L'Éveil — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-10-leveil-11&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 10 — L'Éveil — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-10-leveil-11&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 10 — L'Éveil — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 10 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -486,9 +484,7 @@ footer {
         <span class="track-num" aria-hidden="true">11</span>
         <h3 class="track-title">Le Feu Étranger</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 11 — Le Feu Étranger — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-11-le-feu-etranger-12&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 11 — Le Feu Étranger — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-11-le-feu-etranger-12&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 11 — Le Feu Étranger — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 11 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -500,9 +496,7 @@ footer {
         <span class="track-num" aria-hidden="true">12</span>
         <h3 class="track-title">Les Deux Fois</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 12 — Les Deux Fois — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-12-les-deux-fois-13&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 12 — Les Deux Fois — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-12-les-deux-fois-13&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 12 — Les Deux Fois — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 12 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -514,9 +508,7 @@ footer {
         <span class="track-num" aria-hidden="true">13</span>
         <h3 class="track-title">Le Fantôme d'Orpheus</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 13 — Le Fantôme d'Orpheus — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-13-le-fantome-dorpheus-14&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 13 — Le Fantôme d'Orpheus — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-13-le-fantome-dorpheus-14&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 13 — Le Fantôme d'Orpheus — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 13 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -528,9 +520,7 @@ footer {
         <span class="track-num" aria-hidden="true">14</span>
         <h3 class="track-title">Le Complot des Trois Volets</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 14 — Le Complot des Trois Volets — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-14-le-complot-des-trois-volets-15&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 14 — Le Complot des Trois Volets — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-14-le-complot-des-trois-volets-15&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 14 — Le Complot des Trois Volets — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 14 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -542,9 +532,7 @@ footer {
         <span class="track-num" aria-hidden="true">15</span>
         <h3 class="track-title">L'Œil du Spectre</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 15 — L'Œil du Spectre — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-15-loeil-du-spectre-16&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 15 — L'Œil du Spectre — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-15-loeil-du-spectre-16&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 15 — L'Œil du Spectre — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 15 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -556,9 +544,7 @@ footer {
         <span class="track-num" aria-hidden="true">16</span>
         <h3 class="track-title">Le Murmure des Symboles</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 16 — Le Murmure des Symboles — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-16-le-murmure-des-symboles-17&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 16 — Le Murmure des Symboles — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-16-le-murmure-des-symboles-17&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 16 — Le Murmure des Symboles — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 16 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -570,9 +556,7 @@ footer {
         <span class="track-num" aria-hidden="true">17</span>
         <h3 class="track-title">Le Souffle Suspendu</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 17 — Le Souffle Suspendu — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-17-le-souffle-suspendu_mastered-18&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 17 — Le Souffle Suspendu — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-17-le-souffle-suspendu_mastered-18&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 17 — Le Souffle Suspendu — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 17 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -584,9 +568,7 @@ footer {
         <span class="track-num" aria-hidden="true">18</span>
         <h3 class="track-title">L'Offrande au Feu</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 18 — L'Offrande au Feu — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-18-loffrande-au-feu_mastered-19&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 18 — L'Offrande au Feu — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-18-loffrande-au-feu_mastered-19&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 18 — L'Offrande au Feu — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 18 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -598,9 +580,7 @@ footer {
         <span class="track-num" aria-hidden="true">19</span>
         <h3 class="track-title">Trois Fronts, Une Seule Nuit</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 19 — Trois Fronts, Une Seule Nuit — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-19-trois-fronts-une-seule-nuit-20&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 19 — Trois Fronts, Une Seule Nuit — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-19-trois-fronts-une-seule-nuit-20&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 19 — Trois Fronts, Une Seule Nuit — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 19 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -612,9 +592,7 @@ footer {
         <span class="track-num" aria-hidden="true">20</span>
         <h3 class="track-title">Le Prix de la Liberté</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 20 — Le Prix de la Liberté — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-20-le-prix-de-la-liberte-21&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 20 — Le Prix de la Liberté — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-20-le-prix-de-la-liberte-21&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 20 — Le Prix de la Liberté — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 20 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -626,9 +604,7 @@ footer {
         <span class="track-num" aria-hidden="true">·</span>
         <h3 class="track-title">Interlude — Le Rite des Origines Inconnues</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Interlude — Le Rite des Origines Inconnues — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/interlude-le-rite-des-origines-inconnues-22&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Interlude — Le Rite des Origines Inconnues — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/interlude-le-rite-des-origines-inconnues-22&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Interlude — Le Rite des Origines Inconnues — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation Interlude — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -640,9 +616,7 @@ footer {
         <span class="track-num" aria-hidden="true">21</span>
         <h3 class="track-title">Le Sanctuaire de l'Amante Timide</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 21 — Le Sanctuaire de l'Amante Timide — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-21-le-sanctuaire-de-lamante-timide-23&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 21 — Le Sanctuaire de l'Amante Timide — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-21-le-sanctuaire-de-lamante-timide-23&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 21 — Le Sanctuaire de l'Amante Timide — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 21 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -654,9 +628,7 @@ footer {
         <span class="track-num" aria-hidden="true">22</span>
         <h3 class="track-title">Calcination</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 22 — Calcination — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-22-calcination-24&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 22 — Calcination — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-22-calcination-24&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 22 — Calcination — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 22 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -668,9 +640,7 @@ footer {
         <span class="track-num" aria-hidden="true">23</span>
         <h3 class="track-title">Dissolution</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 23 — Dissolution — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-23-dissolution-25&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 23 — Dissolution — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-23-dissolution-25&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 23 — Dissolution — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 23 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -682,9 +652,7 @@ footer {
         <span class="track-num" aria-hidden="true">24</span>
         <h3 class="track-title">Séparation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 24 — Séparation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-24-separation-26&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 24 — Séparation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-24-separation-26&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 24 — Séparation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 24 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -696,9 +664,7 @@ footer {
         <span class="track-num" aria-hidden="true">25</span>
         <h3 class="track-title">Conjonction</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 25 — Conjonction — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-25-conjonction-27&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 25 — Conjonction — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-25-conjonction-27&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 25 — Conjonction — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 25 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -710,9 +676,7 @@ footer {
         <span class="track-num" aria-hidden="true">26</span>
         <h3 class="track-title">Fermentation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 26 — Fermentation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-26-fermentation-28&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 26 — Fermentation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-26-fermentation-28&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 26 — Fermentation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 26 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -724,9 +688,7 @@ footer {
         <span class="track-num" aria-hidden="true">27</span>
         <h3 class="track-title">Distillation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 27 — Distillation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-27-distillation-29&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 27 — Distillation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-27-distillation-29&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 27 — Distillation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 27 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -738,9 +700,7 @@ footer {
         <span class="track-num" aria-hidden="true">28</span>
         <h3 class="track-title">Coagulation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 28 — Coagulation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-28-coagulation-30&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 28 — Coagulation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-28-coagulation-30&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 28 — Coagulation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 28 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -752,9 +712,7 @@ footer {
         <span class="track-num" aria-hidden="true">29</span>
         <h3 class="track-title">Sublimation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 29 — Sublimation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-29-sublimation-31&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 29 — Sublimation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-29-sublimation-31&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 29 — Sublimation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 29 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -766,9 +724,7 @@ footer {
         <span class="track-num" aria-hidden="true">30</span>
         <h3 class="track-title">Précipitation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Chapter 30 — Précipitation — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-30-precipitation-32&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Chapter 30 — Précipitation — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-30-precipitation-32&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Chapter 30 — Précipitation — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation chapitre 30 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -780,9 +736,7 @@ footer {
         <span class="track-num" aria-hidden="true">·</span>
         <h3 class="track-title">Épilogue</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Listen: Épilogue — Slaves of Time Soundtrack"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/epilogue-33&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Listen: Épilogue — Slaves of Time Soundtrack" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/epilogue-33&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Listen: Épilogue — Slaves of Time Soundtrack">▶ Play this track<small>SoundCloud player loaded on demand — no third-party cookies before you click.</small></button>
       <!-- TODO citation Épilogue — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -790,11 +744,23 @@ footer {
 
   <footer>
     <a href="index.html" class="footer-back">← Back to the portal</a>
-    <div class="footer-copy">© 2026 Laurent Prestigiacomo — All rights reserved — A work of fiction</div>
+    <div class="footer-copy">© 2026 Laurent Prestigiacomo — All rights reserved — A work of fiction — <a href="mentions-legales.html" style="color:inherit;text-decoration:underline">Legal notice &amp; privacy</a></div>
   </footer>
 
 </div>
 
+<script>
+/* SoundCloud : chaque lecteur n'est chargé qu'au clic (pas de cookies tiers à l'ouverture de la page) */
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('.sc-load');
+  if (!b) return;
+  var f = document.createElement('iframe');
+  f.width = '100%'; f.height = '166'; f.setAttribute('scrolling', 'no'); f.setAttribute('frameborder', 'no');
+  f.allow = 'autoplay'; f.title = b.dataset.title;
+  f.src = b.dataset.src.replace('auto_play=false', 'auto_play=true');
+  b.replaceWith(f);
+});
+</script>
 <!--i18n:js-->
 <script src="../assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->

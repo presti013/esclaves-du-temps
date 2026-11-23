@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /mockups/
+Disallow: /admin-stats.html
+Disallow: /claude-plugin/
+
+Sitemap: https://www.esclavesdutemps.be/sitemap.xml

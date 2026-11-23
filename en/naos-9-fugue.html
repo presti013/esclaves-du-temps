@@ -9,14 +9,14 @@
   <meta property="og:description" content="Spontaneous activity detected on NAOS-9 at 03:47:22. No trigger identified.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
-  <meta property="og:url" content="https://presti013.github.io/esclaves-du-temps/en/naos-9-fugue.html">
+  <meta property="og:url" content="https://www.esclavesdutemps.be/en/naos-9-fugue.html">
   <meta property="og:image" content="/assets/og-fugue.png">
   <!-- TODO: créer /assets/og-fugue.png — capture écran noir avec logs verts -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NAOS-9 — Spontaneous Activity Detected">
   <meta name="twitter:description" content="Spontaneous activity detected on NAOS-9 at 03:47:22. No trigger identified.">
   <meta name="robots" content="noindex, nofollow">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="../assets/fonts/gf-b07fe318.css" rel="stylesheet">
   <style>
     :root {
       --bg:  #010102;
@@ -254,8 +254,8 @@
   </div>
 
   <div id="sc-wrap">
-    <iframe id="sc-player"
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%235e8a72&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
+    <iframe id="sc-player" title="SoundCloud"
+      data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%235e8a72&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
       loading="lazy"
       allow="autoplay"
       scrolling="no">
@@ -265,7 +265,7 @@
   <div id="foot-note">// NAOS-9 — server node Gdańsk-7 — 03:47:22 — 2034</div>
 </div>
 
-<script src="https://w.soundcloud.com/player/api.js"></script>
+<!-- SoundCloud : lecteur et API chargés seulement au clic de lancement (pas de cookies tiers à l'ouverture) -->
 <script>
 /* ── Config ──────────────────────────────────────────────── */
 const CHAR_MS = 28;
@@ -360,6 +360,15 @@ async function onTrackEnd() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+function bootSC() {
+  const f = document.getElementById('sc-player');
+  if (!f.src) f.src = f.dataset.src;
+  const api = document.createElement('script');
+  api.src = 'https://w.soundcloud.com/player/api.js';
+  api.onload = initSC; api.onerror = initSC;
+  document.head.appendChild(api);
+}
+
 function initSC() {
   if (typeof SC === 'undefined') {
     const a = document.createElement('a');
@@ -399,7 +408,7 @@ function startCycle() {
     await sleep(560);
     document.getElementById('visualizer').classList.add('on');
     drawFrame();
-    initSC();
+    bootSC();
   });
 }
 </script>

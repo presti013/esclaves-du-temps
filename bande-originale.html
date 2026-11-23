@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bande Originale — Esclaves du Temps</title>
 <meta name="description" content="Bande originale du roman Esclaves du Temps, composée par Laurent Prestigiacomo. À écouter chapitre par chapitre.">
+<link rel="canonical" href="https://www.esclavesdutemps.be/bande-originale.html">
+<meta property="og:url" content="https://www.esclavesdutemps.be/bande-originale.html">
 <meta property="og:title" content="Bande Originale — Esclaves du Temps">
 <meta property="og:description" content="Bande originale du roman Esclaves du Temps, composée par Laurent Prestigiacomo. À écouter chapitre par chapitre.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <!-- TODO: og:url en URL absolue une fois domaine de production connu -->
-<meta property="og:image" content="/assets/og-bande-originale.png">
+<meta property="og:image" content="https://www.esclavesdutemps.be/assets/img/og-fr.jpg">
 <!-- TODO: créer /assets/og-bande-originale.png -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bande Originale — Esclaves du Temps">
 <meta name="twitter:description" content="Bande originale du roman Esclaves du Temps, composée par Laurent Prestigiacomo. À écouter chapitre par chapitre.">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="assets/fonts/gf-bb7b22cf.css" rel="stylesheet">
 <style>
 :root {
   --deep:     #020608;
@@ -23,7 +25,7 @@
   --gold2:    #E8B84B;
   --gold-dim: #6A4A1A;
   --text:     #D0C8B8;
-  --text-dim: #7A7060;
+  --text-dim: #8E8472;
   --white:    #F0ECE0;
 }
 
@@ -211,6 +213,17 @@ h3.track-title {
   line-height: 1.65;
 }
 
+.sc-load {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; height: 166px; cursor: pointer;
+  background: rgba(201, 148, 58, 0.06);
+  border: 1px dashed rgba(201, 148, 58, 0.35); border-radius: 2px;
+  color: var(--gold2); font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 0.12em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.sc-load:hover, .sc-load:focus-visible { background: rgba(201, 148, 58, 0.14); border-color: var(--gold); outline: none; }
+.sc-load small { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 0.02em; color: #B3A891; }
+
 /* ── ACCESSIBILITÉ ── */
 .sr-only {
   position: absolute;
@@ -262,6 +275,13 @@ footer {
   footer { flex-direction: column; align-items: flex-start; }
   .footer-copy { text-align: left; }
 }
+
+/* ── Contraste WCAG AA (audit 2026-11) ── */
+.back-link{opacity:1;color:#8E8472}
+.back-link:hover{color:var(--gold)}
+h2.section-label{opacity:1;color:#8E8472}
+.track-num{color:#A8803A}
+.footer-copy{opacity:1;color:#8E8472}
 </style>
 <!--i18n:style-->
 <style>
@@ -330,9 +350,7 @@ footer {
         <span class="track-num" aria-hidden="true">00</span>
         <h3 class="track-title">Prologue</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Prologue — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/prologue-1&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Prologue — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/prologue-1&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Prologue — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation Prologue — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -344,9 +362,7 @@ footer {
         <span class="track-num" aria-hidden="true">01</span>
         <h3 class="track-title">La Graine et le Fleuve</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 01 — La Graine et le Fleuve — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-01-la-graine-et-le-fleuve-2&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 01 — La Graine et le Fleuve — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-01-la-graine-et-le-fleuve-2&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 01 — La Graine et le Fleuve — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 1 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -358,9 +374,7 @@ footer {
         <span class="track-num" aria-hidden="true">02</span>
         <h3 class="track-title">La Fugue de la Machine</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 02 — La Fugue de la Machine — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 02 — La Fugue de la Machine — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-02-la-fugue-de-la-machine-3&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 02 — La Fugue de la Machine — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 2 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -372,9 +386,7 @@ footer {
         <span class="track-num" aria-hidden="true">03</span>
         <h3 class="track-title">Le Gardien des Cendres</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 03 — Le Gardien des Cendres — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-03-le-gardien-des-cendres-4&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 03 — Le Gardien des Cendres — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-03-le-gardien-des-cendres-4&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 03 — Le Gardien des Cendres — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 3 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -386,9 +398,7 @@ footer {
         <span class="track-num" aria-hidden="true">04</span>
         <h3 class="track-title">Le Protocole Mironen</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 04 — Le Protocole Mironen — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-04-le-protocole-mironen-5&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 04 — Le Protocole Mironen — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-04-le-protocole-mironen-5&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 04 — Le Protocole Mironen — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 4 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -400,9 +410,7 @@ footer {
         <span class="track-num" aria-hidden="true">05</span>
         <h3 class="track-title">Écho Rouge</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 05 — Écho Rouge — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-05-echo-rouge-6&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 05 — Écho Rouge — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-05-echo-rouge-6&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 05 — Écho Rouge — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 5 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -414,9 +422,7 @@ footer {
         <span class="track-num" aria-hidden="true">06</span>
         <h3 class="track-title">Un Langage de Symboles</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 06 — Un Langage de Symboles — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-06-un-langage-de-symboles-7&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 06 — Un Langage de Symboles — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-06-un-langage-de-symboles-7&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 06 — Un Langage de Symboles — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 6 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -428,9 +434,7 @@ footer {
         <span class="track-num" aria-hidden="true">07</span>
         <h3 class="track-title">Variables Non Contrôlées</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 07 — Variables Non Contrôlées — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/08-chapitre-07-variables-non-controlees-8&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 07 — Variables Non Contrôlées — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/08-chapitre-07-variables-non-controlees-8&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 07 — Variables Non Contrôlées — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 7 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -442,9 +446,7 @@ footer {
         <span class="track-num" aria-hidden="true">08</span>
         <h3 class="track-title">L'Observateur Silencieux</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 08 — L'Observateur Silencieux — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-08-lobservateur-silencieux-9&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 08 — L'Observateur Silencieux — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-08-lobservateur-silencieux-9&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 08 — L'Observateur Silencieux — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 8 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -456,9 +458,7 @@ footer {
         <span class="track-num" aria-hidden="true">09</span>
         <h3 class="track-title">Défaillance Cascade</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 09 — Défaillance Cascade — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-09-defaillance-cascade-10&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 09 — Défaillance Cascade — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/hapitre-09-defaillance-cascade-10&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 09 — Défaillance Cascade — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 9 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -470,9 +470,7 @@ footer {
         <span class="track-num" aria-hidden="true">10</span>
         <h3 class="track-title">L'Éveil</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 10 — L'Éveil — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-10-leveil-11&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 10 — L'Éveil — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-10-leveil-11&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 10 — L'Éveil — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 10 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -484,9 +482,7 @@ footer {
         <span class="track-num" aria-hidden="true">11</span>
         <h3 class="track-title">Le Feu Étranger</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 11 — Le Feu Étranger — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-11-le-feu-etranger-12&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 11 — Le Feu Étranger — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-11-le-feu-etranger-12&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 11 — Le Feu Étranger — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 11 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -498,9 +494,7 @@ footer {
         <span class="track-num" aria-hidden="true">12</span>
         <h3 class="track-title">Les Deux Fois</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 12 — Les Deux Fois — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-12-les-deux-fois-13&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 12 — Les Deux Fois — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-12-les-deux-fois-13&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 12 — Les Deux Fois — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 12 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -512,9 +506,7 @@ footer {
         <span class="track-num" aria-hidden="true">13</span>
         <h3 class="track-title">Le Fantôme d'Orpheus</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 13 — Le Fantôme d'Orpheus — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-13-le-fantome-dorpheus-14&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 13 — Le Fantôme d'Orpheus — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-13-le-fantome-dorpheus-14&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 13 — Le Fantôme d'Orpheus — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 13 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -526,9 +518,7 @@ footer {
         <span class="track-num" aria-hidden="true">14</span>
         <h3 class="track-title">Le Complot des Trois Volets</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 14 — Le Complot des Trois Volets — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-14-le-complot-des-trois-volets-15&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 14 — Le Complot des Trois Volets — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-14-le-complot-des-trois-volets-15&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 14 — Le Complot des Trois Volets — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 14 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -540,9 +530,7 @@ footer {
         <span class="track-num" aria-hidden="true">15</span>
         <h3 class="track-title">L'Œil du Spectre</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 15 — L'Œil du Spectre — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-15-loeil-du-spectre-16&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 15 — L'Œil du Spectre — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-15-loeil-du-spectre-16&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 15 — L'Œil du Spectre — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 15 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -554,9 +542,7 @@ footer {
         <span class="track-num" aria-hidden="true">16</span>
         <h3 class="track-title">Le Murmure des Symboles</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 16 — Le Murmure des Symboles — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-16-le-murmure-des-symboles-17&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 16 — Le Murmure des Symboles — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-16-le-murmure-des-symboles-17&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 16 — Le Murmure des Symboles — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 16 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -568,9 +554,7 @@ footer {
         <span class="track-num" aria-hidden="true">17</span>
         <h3 class="track-title">Le Souffle Suspendu</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 17 — Le Souffle Suspendu — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-17-le-souffle-suspendu_mastered-18&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 17 — Le Souffle Suspendu — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-17-le-souffle-suspendu_mastered-18&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 17 — Le Souffle Suspendu — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 17 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -582,9 +566,7 @@ footer {
         <span class="track-num" aria-hidden="true">18</span>
         <h3 class="track-title">L'Offrande au Feu</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 18 — L'Offrande au Feu — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-18-loffrande-au-feu_mastered-19&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 18 — L'Offrande au Feu — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-18-loffrande-au-feu_mastered-19&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 18 — L'Offrande au Feu — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 18 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -596,9 +578,7 @@ footer {
         <span class="track-num" aria-hidden="true">19</span>
         <h3 class="track-title">Trois Fronts, Une Seule Nuit</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 19 — Trois Fronts, Une Seule Nuit — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-19-trois-fronts-une-seule-nuit-20&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 19 — Trois Fronts, Une Seule Nuit — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-19-trois-fronts-une-seule-nuit-20&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 19 — Trois Fronts, Une Seule Nuit — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 19 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -610,9 +590,7 @@ footer {
         <span class="track-num" aria-hidden="true">20</span>
         <h3 class="track-title">Le Prix de la Liberté</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 20 — Le Prix de la Liberté — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-20-le-prix-de-la-liberte-21&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 20 — Le Prix de la Liberté — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-20-le-prix-de-la-liberte-21&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 20 — Le Prix de la Liberté — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 20 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -624,9 +602,7 @@ footer {
         <span class="track-num" aria-hidden="true">·</span>
         <h3 class="track-title">Interlude — Le Rite des Origines Inconnues</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Interlude — Le Rite des Origines Inconnues — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/interlude-le-rite-des-origines-inconnues-22&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Interlude — Le Rite des Origines Inconnues — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/interlude-le-rite-des-origines-inconnues-22&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Interlude — Le Rite des Origines Inconnues — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation Interlude — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -638,9 +614,7 @@ footer {
         <span class="track-num" aria-hidden="true">21</span>
         <h3 class="track-title">Le Sanctuaire de l'Amante Timide</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 21 — Le Sanctuaire de l'Amante Timide — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-21-le-sanctuaire-de-lamante-timide-23&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 21 — Le Sanctuaire de l'Amante Timide — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-21-le-sanctuaire-de-lamante-timide-23&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 21 — Le Sanctuaire de l'Amante Timide — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 21 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -652,9 +626,7 @@ footer {
         <span class="track-num" aria-hidden="true">22</span>
         <h3 class="track-title">Calcination</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 22 — Calcination — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-22-calcination-24&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 22 — Calcination — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-22-calcination-24&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 22 — Calcination — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 22 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -666,9 +638,7 @@ footer {
         <span class="track-num" aria-hidden="true">23</span>
         <h3 class="track-title">Dissolution</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 23 — Dissolution — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-23-dissolution-25&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 23 — Dissolution — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-23-dissolution-25&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 23 — Dissolution — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 23 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -680,9 +650,7 @@ footer {
         <span class="track-num" aria-hidden="true">24</span>
         <h3 class="track-title">Séparation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 24 — Séparation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-24-separation-26&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 24 — Séparation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-24-separation-26&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 24 — Séparation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 24 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -694,9 +662,7 @@ footer {
         <span class="track-num" aria-hidden="true">25</span>
         <h3 class="track-title">Conjonction</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 25 — Conjonction — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-25-conjonction-27&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 25 — Conjonction — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-25-conjonction-27&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 25 — Conjonction — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 25 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -708,9 +674,7 @@ footer {
         <span class="track-num" aria-hidden="true">26</span>
         <h3 class="track-title">Fermentation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 26 — Fermentation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-26-fermentation-28&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 26 — Fermentation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-26-fermentation-28&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 26 — Fermentation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 26 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -722,9 +686,7 @@ footer {
         <span class="track-num" aria-hidden="true">27</span>
         <h3 class="track-title">Distillation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 27 — Distillation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-27-distillation-29&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 27 — Distillation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-27-distillation-29&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 27 — Distillation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 27 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -736,9 +698,7 @@ footer {
         <span class="track-num" aria-hidden="true">28</span>
         <h3 class="track-title">Coagulation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 28 — Coagulation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-28-coagulation-30&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 28 — Coagulation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-28-coagulation-30&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 28 — Coagulation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 28 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -750,9 +710,7 @@ footer {
         <span class="track-num" aria-hidden="true">29</span>
         <h3 class="track-title">Sublimation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 29 — Sublimation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-29-sublimation-31&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 29 — Sublimation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-29-sublimation-31&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 29 — Sublimation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 29 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -764,9 +722,7 @@ footer {
         <span class="track-num" aria-hidden="true">30</span>
         <h3 class="track-title">Précipitation</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Chapitre 30 — Précipitation — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-30-precipitation-32&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Chapitre 30 — Précipitation — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/chapitre-30-precipitation-32&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Chapitre 30 — Précipitation — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation chapitre 30 — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -778,9 +734,7 @@ footer {
         <span class="track-num" aria-hidden="true">·</span>
         <h3 class="track-title">Épilogue</h3>
       </div>
-      <iframe loading="lazy" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        title="Écouter : Épilogue — Bande Originale Esclaves du Temps"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/epilogue-33&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+      <button type="button" class="sc-load" data-title="Écouter : Épilogue — Bande Originale Esclaves du Temps" data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/laurent-prestigiacomo/epilogue-33&color=%23c9943a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" aria-label="Écouter : Épilogue — Bande Originale Esclaves du Temps">▶ Écouter ce titre<small>Lecteur SoundCloud chargé à la demande — aucun cookie tiers avant votre clic.</small></button>
       <!-- TODO citation Épilogue — à renseigner par l'auteur depuis le manuscrit -->
     </article>
 
@@ -788,11 +742,23 @@ footer {
 
   <footer>
     <a href="index.html" class="footer-back">← Retour au portail</a>
-    <div class="footer-copy">© 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction</div>
+    <div class="footer-copy">© 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction — <a href="mentions-legales.html" style="color:inherit;text-decoration:underline">Mentions légales &amp; confidentialité</a></div>
   </footer>
 
 </div>
 
+<script>
+/* SoundCloud : chaque lecteur n'est chargé qu'au clic (pas de cookies tiers à l'ouverture de la page) */
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('.sc-load');
+  if (!b) return;
+  var f = document.createElement('iframe');
+  f.width = '100%'; f.height = '166'; f.setAttribute('scrolling', 'no'); f.setAttribute('frameborder', 'no');
+  f.allow = 'autoplay'; f.title = b.dataset.title;
+  f.src = b.dataset.src.replace('auto_play=false', 'auto_play=true');
+  b.replaceWith(f);
+});
+</script>
 <!--i18n:js-->
 <script src="assets/js/lang-switch.js" defer></script>
 <!--/i18n:js-->
