@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acheter le livre — Esclaves du Temps</title>
-<meta name="description" content="Esclaves du Temps, roman de SF dystopique de Laurent Prestigiacomo (éd. 3Cinq7, 2026). 2034 : CT Corp comprime le temps — vivre des semaines de labeur en quelques heures, une humanité dépossédée de son présent. Lisez le prologue.">
+<meta name="description" content="Esclaves du Temps, roman de SF dystopique de Laurent Prestigiacomo (éd. 3Cinq7, 2026). 2034 : CT Corp maîtrise la compression temporelle — abattre des semaines de labeur en quelques heures, une humanité dépossédée de son présent. Lisez le prologue.">
 <link rel="canonical" href="https://www.esclavesdutemps.be/acheter.html">
 
 <!-- Open Graph -->
@@ -24,6 +24,10 @@
 <meta name="twitter:title" content="Esclaves du Temps — un roman de Laurent Prestigiacomo">
 <meta name="twitter:description" content="« Et si votre vie ne durait qu'une minute ? » Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?">
 <meta name="twitter:image" content="https://www.esclavesdutemps.be/assets/video/nouvelle-vignette.jpg">
+<link rel="alternate" hreflang="fr" href="https://www.esclavesdutemps.be/acheter.html">
+<link rel="alternate" hreflang="en" href="https://www.esclavesdutemps.be/en/acheter.html">
+<link rel="alternate" hreflang="it" href="https://www.esclavesdutemps.be/it/acheter.html">
+<link rel="alternate" hreflang="x-default" href="https://www.esclavesdutemps.be/acheter.html">
 <link href="assets/fonts/gf-bb7b22cf.css" rel="stylesheet">
 <style>
 :root {
@@ -705,6 +709,17 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 #hero .scroll-cue { display:none; }
 @media (max-width:680px) { #hero { padding:40px 18px 8px; } #hero + .band { padding-top:24px; } }
 
+
+/* Bloc d'achat : prologue au-dessus, deux éditions côte à côte, même poids visuel */
+.hero-cta { display:grid; grid-template-columns:repeat(2, minmax(0, 300px)); gap:14px; justify-content:center; }
+.hero-cta .btn.primary { grid-column:1 / -1; justify-self:center; width:100%; max-width:300px; text-align:center; }
+.hero-cta .btn.buy { background:var(--gold); color:#1a1206; border-color:var(--gold); padding:14px 18px; align-items:flex-start; }
+.hero-cta .btn.buy:hover, .hero-cta .btn.buy:focus-visible { background:var(--gold2); box-shadow:0 8px 30px rgba(201,148,58,0.3); }
+.hero-cta .btn.buy .ico-book { color:#1a1206; filter:none; margin-top:2px; }
+.hero-cta .btn.buy .buy-ed, .hero-cta .btn.buy:hover .buy-ed { color:#3a2a0e; font-weight:700; }
+.hero-cta .btn.buy .buy-note { font-family:'Barlow Condensed', sans-serif; font-size:13px; letter-spacing:0.02em; text-transform:none; color:#2a1d08; line-height:1.3; margin-top:4px; }
+@media (max-width:680px) { .hero-cta { grid-template-columns:1fr; } .hero-cta .btn.primary { max-width:none; } .hero-cta .btn.buy { justify-content:flex-start; } }
+
 /* ── Contraste WCAG AA (audit 2026-11) ── */
 #footer{opacity:1;color:#8E8472}
 </style>
@@ -729,15 +744,15 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
     <p class="accroche">« Et si votre vie ne durait qu'une minute ? »</p>
     <div class="hero-cta">
       <a class="btn primary" href="prologue.html">Lire le prologue</a>
-      <a class="btn buy" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Acheter le roman</span><span class="buy-ed">Édition 3Cinq7</span></span></a>
-      <a class="btn buy" href="https://www.laurexa.be" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Acheter le roman</span><span class="buy-ed">Édition Laurexa</span></span></a>
+      <a class="btn buy" href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Précommander le roman</span><span class="buy-ed">Édition 3Cinq7</span><span class="buy-note">Broché · 1<sup>re</sup> édition épuisée<br>Nouvelle édition en précommande uniquement</span></span></a>
+      <a class="btn buy" href="https://www.laurexa.be" target="_blank" rel="noopener"><svg class="ico-book" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 7.5h7M9 11h5"/></svg><span class="buy-txt"><span class="buy-main">Acheter le roman</span><span class="buy-ed">Édition Laurexa</span><span class="buy-note">Broché et numérique<br>disponibles</span></span></a>
     </div>
     <a class="scroll-cue" href="#pitch" aria-label="Découvrir le roman">&#9662;</a>
   </header>
 
   <!-- ============ PITCH ============ -->
   <section id="pitch" class="band">
-    <p class="pitch-lead">2034. <em>CT Corp</em> a appris à comprimer le temps : vivre des semaines de labeur en quelques heures réelles, vieillir dans l'ombre pendant que le monde reste figé. Vendu comme une utopie de productivité&nbsp;— en réalité, une humanité dépossédée de son présent.</p>
+    <p class="pitch-lead">2034. <em>CT Corp</em> maîtrise la compression temporelle : abattre des semaines de labeur en quelques heures réelles mais vieillir dans l'ombre pendant que le monde reste figé. Vendu comme une utopie de productivité&nbsp;— en réalité, une humanité dépossédée de son présent.</p>
     <p class="pitch-body">Trois trajectoires s'y croisent : <strong>Kael</strong>, l'adolescent des zones grises de Lyon qui vend son temps ; <strong>Sena</strong>, hacktiviste du réseau de résistance Écho Rouge ; <strong>NAOS-9</strong>, l'intelligence de surveillance qui se met à ressentir.</p>
     <p class="pitch-line">Quand le temps devient une monnaie, la conscience est-elle un luxe… ou une arme ?</p>
     <p class="comps">Au croisement de <em>Dune</em>, <em>Ghost in the Shell</em> &amp; <em>Black Mirror</em></p>
@@ -746,7 +761,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
   <!-- ============ LE ROMAN ============ -->
   <section id="prevenir" class="band">
     <h2 class="band-title">Le roman</h2>
-    <a href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener" class="book-mockup-link" aria-label="Acheter le livre — Édition 3Cinq7">
+    <a href="https://www.la-commanderie.be/product/esclaves-du-temps" target="_blank" rel="noopener" class="book-mockup-link" aria-label="Précommander le livre — Édition 3Cinq7">
       <img src="assets/img/Roman_Mockup.webp" alt="Couverture du roman Esclaves du Temps" class="book-mockup" width="600" height="850" loading="lazy">
     </a>
     <div class="secondary-actions">
@@ -756,7 +771,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid v
 
   <!-- FOOTER -->
   <div id="footer">
-    © 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction — <a href="mentions-legales.html" style="color:inherit;text-decoration:underline">Mentions légales &amp; confidentialité</a>
+    © 2026 Laurent Prestigiacomo — Tous droits réservés — Œuvre de fiction — <a href="mentions-legales.html" style="color:inherit;text-decoration:underline">Mentions légales &amp; confidentialité</a> — <a href="acheter.html" hreflang="fr" lang="fr" style="color:inherit">FR</a> · <a href="en/acheter.html" hreflang="en" lang="en" style="color:inherit">EN</a> · <a href="it/acheter.html" hreflang="it" lang="it" style="color:inherit">IT</a>
   </div>
 
 </div>
