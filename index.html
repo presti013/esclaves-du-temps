@@ -604,12 +604,16 @@
             <div class="my-auto py-20 pointer-events-none"></div>
 
 
-            <!-- Scroll Prompt -->
-            <div class="flex flex-col items-center gap-3 animate-bounce">
-                <span class="font-mono-tech text-[11px] tracking-[0.25em] text-[#c9a24b] uppercase" data-fr="DÉFILER POUR EXPLORER LE SYSTÈME" data-en="SCROLL TO EXPLORE SYSTEM" data-it="SCORRI PER ESPLORARE IL SISTEMA">DÉFILER POUR EXPLORER LE SYSTÈME</span>
-                <div class="w-5 h-8 rounded-full border border-[#c9a24b]/45 flex justify-center p-1">
-                    <div class="w-1 h-2 rounded-full bg-[#7ad7f0]"></div>
-                </div>
+            <!-- Deux actions de même poids visuel : se procurer le roman / défiler -->
+            <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <a href="https://www.esclavesdutemps.be/acheter.html" class="hero-action inline-flex items-center justify-center gap-2.5 w-72 h-12 px-4 whitespace-nowrap rounded-lg bg-[#c9a24b] text-black font-display font-bold text-sm tracking-[0.1em] uppercase shadow-[0_0_24px_rgba(201,162,75,0.35)] hover:bg-[#e3be68] transition-colors no-underline">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M6.5 17A2.5 2.5 0 0 0 4 19.5 2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                    <span data-fr="Se procurer le roman" data-en="Get the novel" data-it="Procurati il romanzo">Se procurer le roman</span>
+                </a>
+                <a href="#archive-1" class="hero-action inline-flex items-center justify-center gap-2.5 w-72 h-12 px-4 whitespace-nowrap rounded-lg border border-[#c9a24b] bg-[#07131e]/85 text-[#e3be68] font-display font-bold text-sm tracking-[0.1em] uppercase shadow-[0_0_24px_rgba(201,162,75,0.35)] hover:border-[#e3be68] hover:text-white transition-colors no-underline">
+                    <span class="w-4 h-6 rounded-full border border-current flex justify-center pt-1" aria-hidden="true"><span class="w-0.5 h-1.5 rounded-full bg-[#7ad7f0] animate-bounce"></span></span>
+                    <span data-fr="Défiler pour explorer" data-en="Scroll to explore" data-it="Scorri per esplorare">Défiler pour explorer</span>
+                </a>
             </div>
         </section>
 
