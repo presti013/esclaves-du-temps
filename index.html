@@ -273,7 +273,8 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* Non-Overlapping Orbital Grid Layout for the 6 Hub Portals */
+        /* Grille des 7 portails : tuiles de hauteur égale */
+        .orbital-grid-desktop { grid-auto-rows: 1fr; }
         .orbital-node {
             transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -294,32 +295,22 @@
                 max-width: 1120px;
                 margin: 0 auto;
             }
-            /* Left Column (3 Portals hugging the outer ring of NAOS-9) */
-            .node-1 { grid-column: 1; grid-row: 1; transform: translateX(1.75rem); }
-            .node-1:hover { transform: translateX(1.75rem) translateY(-4px); }
-            .node-6 { grid-column: 1; grid-row: 2; }
-            .node-6:hover { transform: translateY(-4px); }
-            .node-5 { grid-column: 1; grid-row: 3; transform: translateX(1.75rem); }
-            .node-5:hover { transform: translateX(1.75rem) translateY(-4px); }
-
-            /* Center Core Window (Matches NAOS-9 outer ring diameter ~420px) */
+            /* Ordre des portails 01 → 07 : 01-03 à gauche, 04-06 à droite, 07 sous le cœur. Toutes les tuiles ont la même taille. */
+            .orbital-grid-desktop { grid-template-columns: 320px 420px 320px; grid-template-rows: repeat(4, 1fr); align-items: stretch; }
+            .orbital-grid-desktop .orbital-node { width: 320px; }
+            .node-1 { grid-column: 1; grid-row: 1; }
+            .node-2 { grid-column: 1; grid-row: 2; }
+            .node-3 { grid-column: 1; grid-row: 3; }
+            .node-4 { grid-column: 3; grid-row: 1; }
+            .node-5 { grid-column: 3; grid-row: 2; }
+            .node-6 { grid-column: 3; grid-row: 3; }
+            .node-7 { grid-column: 2; grid-row: 4; justify-self: center; margin-top: 0.5rem; }
             .orbital-core-window {
                 grid-column: 2;
                 grid-row: 1 / span 3;
-                height: 360px;
+                height: auto;
                 pointer-events: none;
             }
-
-            /* Right Column (3 Portals hugging the outer ring of NAOS-9) */
-            .node-2 { grid-column: 3; grid-row: 1; transform: translateX(-1.75rem); }
-            .node-2:hover { transform: translateX(-1.75rem) translateY(-4px); }
-            .node-3 { grid-column: 3; grid-row: 2; }
-            .node-3:hover { transform: translateY(-4px); }
-            .node-4 { grid-column: 3; grid-row: 3; transform: translateX(-1.75rem); }
-            .node-4:hover { transform: translateX(-1.75rem) translateY(-4px); }
-            /* Portail 07 : sous le cœur NAOS-9 */
-            .node-7 { grid-column: 2; grid-row: 4; margin: 1.5rem 1.5rem 0; }
-            .node-7:hover { transform: translateY(-4px); }
         }
 
         /* Custom Scrollbar */
@@ -748,7 +739,6 @@
 
             <!-- Non-overlapping Responsive Grid (Mobile: 1 col | Tablet: 2 cols | Desktop: 3 cols framing NAOS-9 Core) -->
             <div class="orbital-grid-desktop grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-6xl z-20">
-                
                 <!-- PORTAL 1: Découvrir le roman -> page acheter.html -->
                 <a href="acheter.html" class="orbital-node node-1 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
@@ -758,29 +748,6 @@
                     <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Découvrir le roman" data-en="Discover the Novel" data-it="Scopri il romanzo">Découvrir le roman</h3>
                     <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa." data-en="Read the prologue, then order the book from 3Cinq7 or Laurexa." data-it="Leggi il prologo, poi ordina il libro da 3Cinq7 o Laurexa.">Lire le prologue, puis commander l'ouvrage chez 3Cinq7 ou Laurexa.</p>
                 </a>
-
-                <!-- PORTAL 6: Portail CT-Corp -->
-                <button type="button" onclick="openModal('ctcorp')" class="orbital-node node-6 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#3ba4c7]/45 h-full">
-                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
-                        <span>[ PORTAIL 06 // INTRANET ]</span>
-                        <span>⬡</span>
-                    </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Portail CT-Corp" data-en="CT-Corp Portal" data-it="Portale CT-Corp">Portail CT-Corp</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Consulter le système officiel de Chrono-Tech Corporation." data-en="Consult the official system of Chrono-Tech Corporation." data-it="Consulta il sistema ufficiale della Chrono-Tech Corporation.">Consulter le système officiel de Chrono-Tech Corporation.</p>
-                </button>
-
-                <!-- PORTAL 5: Réseau Echo Rouge -->
-                <button type="button" onclick="openModal('echorouge')" class="orbital-node node-5 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#d92b3a]/50 h-full">
-                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
-                        <span>[ PORTAIL 05 // RÉSISTANCE ]</span>
-                        <span>⚠</span>
-                    </div>
-                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Réseau Echo Rouge" data-en="Echo Rouge Network" data-it="Rete Eco Rosso">Réseau Echo Rouge</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Accéder au terminal clandestin des insurgés du temps." data-en="Access the clandestine terminal of the time insurgents." data-it="Accedi al terminale clandestino degli insorti del tempo.">Accéder au terminal clandestin des insurgés du temps.</p>
-                </button>
-
-                <!-- Desktop Center Aperture (Keeps NAOS-9 Core clear between left & right columns) -->
-                <div class="hidden lg:block orbital-core-window" aria-hidden="true"></div>
 
                 <!-- PORTAL 2: Bande Originale (Streaming) -->
                 <button type="button" onclick="openModal('streaming')" class="orbital-node node-2 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
@@ -812,6 +779,26 @@
                     <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Transmission cryptée directe à Laurent Prestigiacomo." data-en="Direct encrypted transmission to Laurent Prestigiacomo." data-it="Trasmissione cifrata diretta a Laurent Prestigiacomo.">Transmission cryptée directe à Laurent Prestigiacomo.</p>
                 </button>
 
+                <!-- PORTAL 5: Réseau Echo Rouge -->
+                <button type="button" onclick="openModal('echorouge')" class="orbital-node node-5 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#d92b3a]/50 h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
+                        <span>[ PORTAIL 05 // RÉSISTANCE ]</span>
+                        <span>⚠</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Réseau Echo Rouge" data-en="Echo Rouge Network" data-it="Rete Eco Rosso">Réseau Echo Rouge</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Accéder au terminal clandestin des insurgés du temps." data-en="Access the clandestine terminal of the time insurgents." data-it="Accedi al terminale clandestino degli insorti del tempo.">Accéder au terminal clandestin des insurgés du temps.</p>
+                </button>
+
+                <!-- PORTAL 6: Portail CT-Corp -->
+                <button type="button" onclick="openModal('ctcorp')" class="orbital-node node-6 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#3ba4c7]/45 h-full">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
+                        <span>[ PORTAIL 06 // INTRANET ]</span>
+                        <span>⬡</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Portail CT-Corp" data-en="CT-Corp Portal" data-it="Portale CT-Corp">Portail CT-Corp</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Consulter le système officiel de Chrono-Tech Corporation." data-en="Consult the official system of Chrono-Tech Corporation." data-it="Consulta il sistema ufficiale della Chrono-Tech Corporation.">Consulter le système officiel de Chrono-Tech Corporation.</p>
+                </button>
+
                 <!-- PORTAL 7: Cycle bio-chronologique (page dédiée) -->
                 <a href="cycle-biochrono.html" id="portal-chrono" class="orbital-node node-7 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
@@ -821,6 +808,8 @@
                     <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Cycle bio-chronologique" data-en="Bio-chronological Cycle" data-it="Ciclo bio-cronologico">Cycle bio-chronologique</h3>
                     <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Faites glisser le temps sur le visage de l'auteur : de l'enfance à la sénescence." data-en="Slide time across the author's face: from childhood to old age." data-it="Fai scorrere il tempo sul volto dell'autore: dall'infanzia alla vecchiaia.">Faites glisser le temps sur le visage de l'auteur : de l'enfance à la sénescence.</p>
                 </a>
+
+                <div class="hidden lg:block orbital-core-window" aria-hidden="true"></div>
 
             </div>
         </section>
