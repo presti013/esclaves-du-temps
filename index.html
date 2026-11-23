@@ -317,61 +317,9 @@
             .node-3:hover { transform: translateY(-4px); }
             .node-4 { grid-column: 3; grid-row: 3; transform: translateX(-1.75rem); }
             .node-4:hover { transform: translateX(-1.75rem) translateY(-4px); }
-        }
-
-        /* Temporal Compression Panoramic Monolith Styles */
-        .chrono-lens-glow {
-            background: radial-gradient(
-                ellipse 26% 78% at var(--lens-x, 50%) 50%,
-                rgba(255, 255, 255, 0.04) 0%,
-                rgba(3, 8, 14, 0.58) 58%,
-                rgba(3, 8, 14, 0.90) 100%
-            );
-            transition: background 0.1s linear;
-        }
-
-        .chrono-scanline-beam {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            left: var(--lens-x, 50%);
-            transform: translateX(-50%);
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                var(--beam-color, #3ba4c7) 25%,
-                #ffffff 50%,
-                var(--beam-color, #3ba4c7) 75%,
-                transparent 100%
-            );
-            box-shadow: 0 0 22px 4px var(--beam-glow, rgba(59, 164, 199, 0.45));
-            pointer-events: none;
-        }
-
-        /* Custom Range Scrubber for Temporal Compression */
-        input[type="range"].chrono-scrubber {
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.12);
-            height: 4px;
-            border-radius: 999px;
-            outline: none;
-        }
-        input[type="range"].chrono-scrubber::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--beam-color, #e3be68);
-            border: 2px solid #ffffff;
-            box-shadow: 0 0 12px var(--beam-color, #e3be68);
-            cursor: pointer;
-            transition: transform 0.15s ease;
-        }
-        input[type="range"].chrono-scrubber::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+            /* Portail 07 : sous le cœur NAOS-9 */
+            .node-7 { grid-column: 2; grid-row: 4; margin: 1.5rem 1.5rem 0; }
+            .node-7:hover { transform: translateY(-4px); }
         }
 
         /* Custom Scrollbar */
@@ -738,6 +686,7 @@
                     <div class="p-3 rounded-lg bg-[#3ba4c7]/15 border border-[#7ad7f0]/35 font-mono-tech text-xs text-[#7ad7f0]" data-fr="> AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR..." data-en="> WARNING: ANOMALY DETECTED IN LOWER SECTOR..." data-it="> ATTENZIONE: ANOMALIA RILEVATA NEL SETTORE INFERIORE...">
                         &gt; AVERTISSEMENT : ANOMALIE DÉTECTÉE DANS LE SECTEUR INFÉRIEUR...
                     </div>
+                    <button type="button" onclick="openModal('ctcorp')" class="mt-4 w-full py-2.5 rounded-lg bg-[#3ba4c7]/20 border border-[#7ad7f0]/50 text-[#7ad7f0] hover:bg-[#3ba4c7]/35 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer" data-fr="Accéder à l'intranet CT-Corp →" data-en="Enter the CT-Corp intranet →" data-it="Accedi all'intranet CT-Corp →">Accéder à l'intranet CT-Corp →</button>
                 </div>
             </div>
         </section>
@@ -759,6 +708,7 @@
                     <div class="p-3 rounded-lg bg-[#d92b3a]/15 border border-[#d92b3a]/45 font-mono-tech text-xs text-[#ff4d5e]" data-fr="> PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS" data-en="> FIREWALL COMPROMISED // DECRYPTING FILES IN PROGRESS" data-it="> FIREWALL COMPROMESSO // DECIFRATURA DEI FILE IN CORSO">
                         &gt; PARE-FEU COMPROMIS // DÉCRYPTAGE DES DOSSIERS EN COURS
                     </div>
+                    <button type="button" onclick="openModal('echorouge')" class="mt-4 w-full py-2.5 rounded-lg bg-[#d92b3a]/20 border border-[#d92b3a]/60 text-[#ff4d5e] hover:bg-[#d92b3a]/35 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer" data-fr="Rejoindre Écho Rouge →" data-en="Join Echo Rouge →" data-it="Unisciti a Eco Rosso →">Rejoindre Écho Rouge →</button>
                 </div>
             </div>
         </section>
@@ -862,116 +812,22 @@
                     <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Transmission cryptée directe à Laurent Prestigiacomo." data-en="Direct encrypted transmission to Laurent Prestigiacomo." data-it="Trasmissione cifrata diretta a Laurent Prestigiacomo.">Transmission cryptée directe à Laurent Prestigiacomo.</p>
                 </button>
 
+                <!-- PORTAL 7: Cycle bio-chronologique (page dédiée) -->
+                <a href="cycle-biochrono.html" id="portal-chrono" class="orbital-node node-7 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
+                    <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
+                        <span>[ PORTAIL 07 // CYCLE BIOCHRONO ]</span>
+                        <span class="group-hover:translate-x-0.5 transition-transform">⧗</span>
+                    </div>
+                    <h3 class="font-display text-base sm:text-lg font-bold text-white mb-1.5" data-fr="Cycle bio-chronologique" data-en="Bio-chronological Cycle" data-it="Ciclo bio-cronologico">Cycle bio-chronologique</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-fr="Faites glisser le temps sur le visage de l'auteur : de l'enfance à la sénescence." data-en="Slide time across the author's face: from childhood to old age." data-it="Fai scorrere il tempo sul volto dell'autore: dall'infanzia alla vecchiaia.">Faites glisser le temps sur le visage de l'auteur : de l'enfance à la sénescence.</p>
+                </a>
+
             </div>
         </section>
 
-        <!-- DEDICATED FOOTER MONOLITH: BIO-CHRONOLOGICAL TEMPORAL COMPRESSION CYCLE -->
-        <section id="temporal-compression-section" class="relative z-20 pt-10 pb-14 px-4 sm:px-8 lg:px-14 bg-gradient-to-b from-transparent via-[#03080e]/95 to-[#020509]">
+        <!-- FOOTER -->
+        <section class="relative z-20 pt-10 pb-14 px-4 sm:px-8 lg:px-14">
             <div class="max-w-6xl mx-auto">
-
-                <!-- Section Header -->
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-                    <div>
-                        <div class="inline-flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.22em] text-[#e3be68] uppercase mb-2">
-                            <span class="w-2 h-2 rounded-full bg-[#e88c30] animate-ping"></span>
-                            <span data-fr="MODULE D'ANOMALIE // COMPRESSION TEMPORELLE" data-en="ANOMALY MODULE // TEMPORAL COMPRESSION" data-it="MODULO ANOMALIA // COMPRESSIONE TEMPORALE">MODULE D'ANOMALIE // COMPRESSION TEMPORELLE</span>
-                        </div>
-                        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wider" data-fr="CYCLE BIO-CHRONOLOGIQUE" data-en="BIO-CHRONOLOGICAL CYCLE" data-it="CICLO BIO-CRONOLOGICO">
-                            CYCLE BIO-CHRONOLOGIQUE
-                        </h2>
-                    </div>
-                </div>
-
-                <!-- Main Panoramic Triptych Frame -->
-                <div id="chrono-frame" class="hud-panel hud-corners rounded-2xl overflow-hidden relative border-[#c9a24b]/35 shadow-[0_20px_60px_rgba(0,0,0,0.92)]">
-                    
-                    <!-- Top Telemetry Overlay inside Panoramic Viewport -->
-                    <div class="absolute top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 z-30 flex flex-wrap items-center justify-between gap-2 pointer-events-none font-mono-tech text-[10px] sm:text-xs">
-                        <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
-                            <span class="text-slate-400" data-fr="VECTEUR:" data-en="VECTOR:" data-it="VETTORE:">VECTEUR:</span>
-                            <span id="chrono-direction-badge" class="text-[#e3be68] font-bold">GENÈSE ➔ ENTROPIE</span>
-                        </div>
-
-                        <div class="px-3 py-1 rounded-md bg-[#03080e]/85 border border-white/15 backdrop-blur-md flex items-center gap-2">
-                            <span class="text-slate-400" data-fr="DÉRIVE:" data-en="DRIFT:" data-it="DERIVA:">DÉRIVE:</span>
-                            <span id="chrono-year-readout" class="text-white font-bold">T ± 00 ANS</span>
-                        </div>
-                    </div>
-
-                    <!-- Panoramic Viewport Container -->
-                    <div class="relative w-full h-[270px] sm:h-[360px] md:h-[430px] lg:h-[480px] overflow-hidden bg-[#03080e] select-none">
-                        
-                        <!-- Moving Panoramic Image Layer -->
-                        <div id="chrono-pan-layer" class="w-full h-full will-change-transform origin-center">
-                            <img
-                                id="chrono-panoramic-img"
-                                src="assets/temporal-cycle.jpg"
-                                alt="Compression temporelle : Laurent Prestigiacomo enfant, actuel et âgé dans la salle des serveurs NAOS-9"
-                                class="w-full h-full object-cover object-center transition-filter duration-300"
-                            />
-                        </div>
-
-                        <!-- Dynamic Chrono-Lens Spotlight Vignette & Chromatic Aura -->
-                        <div id="chrono-lens-overlay" class="chrono-lens-glow absolute inset-0 z-10 pointer-events-none"></div>
-
-                        <!-- Vertical Luminous Temporal Scanner Beam -->
-                        <div id="chrono-scanner-beam" class="chrono-scanline-beam z-20"></div>
-
-                        <!-- Subtle Top & Bottom Abyssal Gradient Fades -->
-                        <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-[#03080e] to-transparent z-20 pointer-events-none"></div>
-                        <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#03080e] via-[#03080e]/75 to-transparent z-20 pointer-events-none"></div>
-
-                        <!-- Bottom-Left Era Caption Overlay -->
-                        <div class="absolute bottom-3 left-4 right-4 sm:bottom-5 sm:left-6 sm:right-6 z-30 flex flex-col sm:flex-row sm:items-end justify-between gap-2 pointer-events-none">
-                            <div>
-                                <div id="chrono-phase-code" class="font-mono-tech text-[11px] sm:text-xs font-bold tracking-[0.2em] text-[#7ad7f0] uppercase">
-                                    PHASE II // T ± 00 ANS — POINT D'ANCRAGE
-                                </div>
-                                <p id="chrono-phase-desc" class="text-xs sm:text-sm text-slate-200 max-w-xl mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]" data-fr="Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9." data-en="The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture." data-it="Il presente immediato: coscienza risvegliata nel cuore dell'architettura temporale di NAOS-9.">
-                                    Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Timeline Scrubber & 3-Era Quick Selector Footer -->
-                    <div class="bg-[#040a12]/95 border-t border-[#c9a24b]/25 px-4 sm:px-6 py-4">
-                        <div class="flex flex-col gap-3">
-                            <!-- Range Scrubber -->
-                            <div class="flex items-center gap-3">
-                                <span class="font-mono-tech text-[10px] text-[#e3be68] shrink-0">T - 44</span>
-                                <input
-                                    id="chrono-scrubber"
-                                    type="range"
-                                    min="0"
-                                    max="1000"
-                                    value="500"
-                                    aria-label="Curseur de compression temporelle"
-                                    class="chrono-scrubber w-full cursor-pointer"
-                                />
-                                <span class="font-mono-tech text-[10px] text-[#ff4d5e] shrink-0">T + 32</span>
-                            </div>
-
-                            <!-- 3 Clickable Era Buttons -->
-                            <div class="grid grid-cols-3 gap-2 sm:gap-4 font-mono-tech text-[10px] sm:text-xs">
-                                <button type="button" data-target-progress="0.16" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#c9a24b]/30 bg-[#c9a24b]/10 hover:bg-[#c9a24b]/25 text-[#e3be68] text-left transition-all cursor-pointer">
-                                    <span class="block font-bold">I. GENÈSE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T - 44 ans (enfance)" data-en="T - 44 yrs (childhood)" data-it="T - 44 anni (infanzia)">T - 44 ans (enfance)</span>
-                                </button>
-
-                                <button type="button" data-target-progress="0.50" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#3ba4c7]/35 bg-[#3ba4c7]/10 hover:bg-[#3ba4c7]/25 text-[#7ad7f0] text-center transition-all cursor-pointer">
-                                    <span class="block font-bold">II. ANCRAGE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T ± 00 ANS (PRÉSENT)" data-en="T ± 00 YRS (PRESENT)" data-it="T ± 00 ANNI (PRESENTE)">T ± 00 ANS (PRÉSENT)</span>
-                                </button>
-
-                                <button type="button" data-target-progress="0.84" class="chrono-era-btn py-2 px-2 sm:px-3 rounded-lg border border-[#d92b3a]/35 bg-[#d92b3a]/10 hover:bg-[#d92b3a]/25 text-[#ff4d5e] text-right transition-all cursor-pointer">
-                                    <span class="block font-bold">III. ENTROPIE</span>
-                                    <span class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:inline" data-fr="T + 32 ANS (SÉNESCENCE)" data-en="T + 32 YRS (FUTURE)" data-it="T + 32 ANNI (FUTURO)">T + 32 ANS (SÉNESCENCE)</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Minimal Copyright Footer -->
                 <footer class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono-tech text-[11px] text-slate-500">
@@ -1079,6 +935,8 @@
             try { localStorage.setItem('edt_lang', lang); } catch (e) {}
             const legal = document.getElementById('legal-link');
             if (legal) legal.href = (lang === 'fr' ? '' : lang + '/') + 'mentions-legales.html';
+            const chronoP = document.getElementById('portal-chrono');
+            if (chronoP) chronoP.href = 'cycle-biochrono.html?lang=' + lang;
             const prol = document.getElementById('cta-prologue');
             if (prol) prol.href = (lang === 'fr' ? '' : lang + '/') + 'prologue.html';
 
@@ -2279,216 +2137,6 @@
             modalBody.innerHTML = `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">${ok} <a href="mailto:contact@laurexa.be" class="underline">contact@laurexa.be</a>.</div>`;
         }
 
-        /* ==========================================================================
-           8. TEMPORAL COMPRESSION MODULE (PING-PONG YOUNG <-> CURRENT <-> OLD)
-           ========================================================================== */
-        (function initTemporalCompression() {
-            const imgEl = document.getElementById('chrono-panoramic-img');
-            const panLayer = document.getElementById('chrono-pan-layer');
-            const lensOverlay = document.getElementById('chrono-lens-overlay');
-            const scannerBeam = document.getElementById('chrono-scanner-beam');
-            const scrubber = document.getElementById('chrono-scrubber');
-            const dirBadge = document.getElementById('chrono-direction-badge');
-            const yearReadout = document.getElementById('chrono-year-readout');
-            const phaseCode = document.getElementById('chrono-phase-code');
-            const phaseDesc = document.getElementById('chrono-phase-desc');
-            const eraButtons = document.querySelectorAll('.chrono-era-btn');
-
-            if (!imgEl || !scrubber) return;
-
-            const fallbackTriptychSVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500">
-                    <defs>
-                        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#0a1622"/>
-                            <stop offset="30%" stop-color="#141e26"/>
-                            <stop offset="50%" stop-color="#081826"/>
-                            <stop offset="75%" stop-color="#1d1118"/>
-                            <stop offset="100%" stop-color="#2a1014"/>
-                        </linearGradient>
-                        <radialGradient id="goldAura" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#e3be68" stop-opacity="0.45"/>
-                            <stop offset="100%" stop-color="#e3be68" stop-opacity="0"/>
-                        </radialGradient>
-                        <radialGradient id="cyanAura" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#3ba4c7" stop-opacity="0.45"/>
-                            <stop offset="100%" stop-color="#3ba4c7" stop-opacity="0"/>
-                        </radialGradient>
-                        <radialGradient id="redAura" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#d92b3a" stop-opacity="0.48"/>
-                            <stop offset="100%" stop-color="#d92b3a" stop-opacity="0"/>
-                        </radialGradient>
-                    </defs>
-                    <rect width="1600" height="500" fill="url(#bgGrad)"/>
-                    <g stroke="#2a3b4c" stroke-width="2" fill="none" opacity="0.55">
-                        <path d="M0,20 Q400,110 800,35 T1600,30"/>
-                        <path d="M0,35 Q450,130 820,45 T1600,50"/>
-                        <rect x="40" y="60" width="140" height="380" rx="4"/>
-                        <rect x="1420" y="60" width="140" height="380" rx="4"/>
-                    </g>
-                    <circle cx="290" cy="240" r="190" fill="url(#goldAura)"/>
-                    <g transform="translate(290, 250)" text-anchor="middle" font-family="monospace">
-                        <circle cx="0" cy="-35" r="46" fill="#1b242c" stroke="#e3be68" stroke-width="2"/>
-                        <path d="M-65,120 C-65,45 65,45 65,120 Z" fill="#151d24" stroke="#e3be68" stroke-width="1.5"/>
-                        <text y="155" fill="#e3be68" font-size="14" letter-spacing="3">T - 44 ANS // GENÈSE</text>
-                    </g>
-                    <circle cx="800" cy="240" r="210" fill="url(#cyanAura)"/>
-                    <g transform="translate(800, 245)" text-anchor="middle" font-family="monospace">
-                        <circle cx="0" cy="-40" r="54" fill="#16232e" stroke="#7ad7f0" stroke-width="2.5"/>
-                        <path d="M-85,130 C-85,40 85,40 85,130 Z" fill="#111b24" stroke="#7ad7f0" stroke-width="2"/>
-                        <text y="162" fill="#7ad7f0" font-size="15" font-weight="bold" letter-spacing="3">T ± 00 // POINT D'ANCRAGE</text>
-                    </g>
-                    <circle cx="1310" cy="240" r="190" fill="url(#redAura)"/>
-                    <g transform="translate(1310, 250)" text-anchor="middle" font-family="monospace">
-                        <circle cx="0" cy="-35" r="50" fill="#26191d" stroke="#ff4d5e" stroke-width="2"/>
-                        <path d="M-75,125 C-75,45 75,45 75,125 Z" fill="#1f1417" stroke="#ff4d5e" stroke-width="1.5"/>
-                        <text y="155" fill="#ff4d5e" font-size="14" letter-spacing="3">T + 32 ANS // ENTROPIE</text>
-                    </g>
-                    <path d="M350,240 L520,240 L560,210 L730,210" stroke="#e3be68" stroke-width="1.5" fill="none" opacity="0.7"/>
-                    <path d="M870,220 L1030,220 L1070,255 L1245,255" stroke="#d92b3a" stroke-width="1.5" fill="none" opacity="0.75"/>
-                    <text x="800" y="472" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="12">
-                        [ PLACEZ VOTRE PHOTO SOUS assets/temporal-cycle.jpg ]
-                    </text>
-                </svg>
-            `)}`;
-
-            let fallbackAttempt = 0;
-            imgEl.onerror = () => {
-                if (fallbackAttempt === 0) {
-                    fallbackAttempt = 1;
-                    imgEl.src = 'temporal-cycle.jpg';
-                } else {
-                    imgEl.onerror = null;
-                    imgEl.src = fallbackTriptychSVG;
-                }
-            };
-
-            let progress = 0.5;
-            let direction = 1;
-            let isAutoPlaying = true;
-            let targetProgress = null;
-            let lastFrameTime = performance.now();
-
-            function updateTemporalVisuals(pct) {
-                scrubber.value = Math.round(pct * 1000);
-
-                const lensPercent = (14 + pct * 72).toFixed(2) + '%';
-                lensOverlay.style.setProperty('--lens-x', lensPercent);
-                scannerBeam.style.setProperty('--lens-x', lensPercent);
-
-                const panOffset = (0.5 - pct) * 6.5;
-                const pulseZoom = 1.07 + Math.cos((pct - 0.5) * Math.PI * 2) * 0.025;
-                panLayer.style.transform = `translate3d(${panOffset}%, 0, 0) scale(${pulseZoom})`;
-
-                const yearOffset = pct <= 0.5
-                    ? Math.round(-44 + (pct / 0.5) * 44)
-                    : Math.round(((pct - 0.5) / 0.5) * 32);
-
-                const yy = String(Math.abs(yearOffset)).padStart(2, '0'), ANS = tr('ANS', 'YRS', 'ANNI');
-                const formattedYear = yearOffset === 0
-                    ? `T ± 00 ${ANS}`
-                    : (yearOffset > 0
-                        ? `T + ${yy} ${ANS}`
-                        : `T - ${yy} ${ANS} (${tr('ENFANCE', 'CHILDHOOD', 'INFANZIA')})`);
-                yearReadout.textContent = formattedYear;
-
-                let beamColor = '#3ba4c7';
-                let beamGlow = 'rgba(59, 164, 199, 0.5)';
-
-                if (pct < 0.34) {
-                    beamColor = '#e3be68';
-                    beamGlow = 'rgba(227, 190, 104, 0.55)';
-                    phaseCode.style.color = '#e3be68';
-                    const genesisYearTag = `T - ${yy} ${tr('ans (enfance)', 'yrs (childhood)', 'anni (infanzia)')}`;
-                    phaseCode.textContent = `${tr('I. GENÈSE', 'I. GENESIS', 'I. GENESI')} — ${genesisYearTag}`;
-                    phaseDesc.textContent = tr("L'origine de la mémoire : avant que chaque seconde de vie ne devienne une valeur marchande.", "The origin of memory: before every second of life became a traded commodity.", "L'origine della memoria: prima che ogni secondo di vita diventasse una merce.");
-                } else if (pct <= 0.66) {
-                    beamColor = '#3ba4c7';
-                    beamGlow = 'rgba(59, 164, 199, 0.55)';
-                    phaseCode.style.color = '#7ad7f0';
-                    phaseCode.textContent = `${tr('PHASE II', 'PHASE II', 'FASE II')} // ${formattedYear} — ${tr("POINT D'ANCRAGE", 'ANCHOR POINT', "PUNTO D'ANCORAGGIO")}`;
-                    phaseDesc.textContent = tr("Le présent immédiat : conscience éveillée au cœur de l'architecture temporelle de NAOS-9.", "The immediate present: awakened consciousness at the heart of NAOS-9's temporal architecture.", "Il presente immediato: coscienza risvegliata nel cuore dell'architettura temporale di NAOS-9.");
-                } else {
-                    beamColor = '#d92b3a';
-                    beamGlow = 'rgba(217, 43, 58, 0.6)';
-                    phaseCode.style.color = '#ff4d5e';
-                    phaseCode.textContent = `${tr('PHASE III', 'PHASE III', 'FASE III')} // ${formattedYear} — ${tr('ENTROPIE', 'ENTROPY', 'ENTROPIA')}`;
-                    phaseDesc.textContent = tr("Accélération terminale : l'empreinte du temps comprimé sur l'enveloppe biologique.", "Terminal acceleration: the imprint of compressed time upon the biological vessel.", "Accelerazione terminale: l'impronta del tempo compresso sull'involucro biologico.");
-                }
-
-                scannerBeam.style.setProperty('--beam-color', beamColor);
-                scannerBeam.style.setProperty('--beam-glow', beamGlow);
-                scrubber.style.setProperty('--beam-color', beamColor);
-
-                if (!isAutoPlaying) {
-                    dirBadge.textContent = tr('CONTRÔLE MANUEL', 'MANUAL OVERRIDE', 'CONTROLLO MANUALE');
-                    dirBadge.style.color = '#7ad7f0';
-                } else if (direction === 1) {
-                    dirBadge.textContent = tr('GENÈSE ➔ ENTROPIE', 'GENESIS ➔ ENTROPY', 'GENESI ➔ ENTROPIA');
-                    dirBadge.style.color = '#e3be68';
-                } else {
-                    dirBadge.textContent = tr('ENTROPIE ➔ GENÈSE', 'ENTROPY ➔ GENESIS', 'ENTROPIA ➔ GENESI');
-                    dirBadge.style.color = '#ff4d5e';
-                }
-            }
-
-            function animateTemporalLoop(now) {
-                const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
-                lastFrameTime = now;
-
-                if (targetProgress !== null) {
-                    const diff = targetProgress - progress;
-                    if (Math.abs(diff) < 0.004) {
-                        progress = targetProgress;
-                        targetProgress = null;
-                    } else {
-                        progress += diff * 0.09;
-                    }
-                    updateTemporalVisuals(progress);
-                } else if (isAutoPlaying) {
-                    const speed = 0.09;
-                    progress += direction * speed * dt;
-
-                    if (progress >= 1) {
-                        progress = 1;
-                        direction = -1;
-                    } else if (progress <= 0) {
-                        progress = 0;
-                        direction = 1;
-                    }
-                    updateTemporalVisuals(progress);
-                }
-
-                requestAnimationFrame(animateTemporalLoop);
-            }
-
-            // Le curseur met le cycle en pause ; il reprend seul après 4 s d'inactivité.
-            let resumeTimer = null;
-            scrubber.addEventListener('input', (e) => {
-                isAutoPlaying = false;
-                targetProgress = null;
-                progress = parseFloat(e.target.value) / 1000;
-                updateTemporalVisuals(progress);
-                clearTimeout(resumeTimer);
-                resumeTimer = setTimeout(() => {
-                    isAutoPlaying = true;
-                    updateTemporalVisuals(progress);
-                }, 4000);
-            });
-
-            eraButtons.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const dest = parseFloat(btn.getAttribute('data-target-progress'));
-                    if (!isNaN(dest)) {
-                        direction = dest >= progress ? 1 : -1;
-                        targetProgress = dest;
-                    }
-                });
-            });
-
-            updateTemporalVisuals(progress);
-            requestAnimationFrame(animateTemporalLoop);
-        })();
     </script>
 <!--i18n:analytics-->
 <script data-goatcounter="https://presti013.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
