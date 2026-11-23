@@ -941,6 +941,7 @@
             try { localStorage.setItem('edt_lang', lang); } catch (e) {}
             const legal = document.getElementById('legal-link');
             if (legal) legal.href = (lang === 'fr' ? '' : lang + '/') + 'mentions-legales.html';
+            document.querySelectorAll('a[href$="acheter.html"]').forEach(a => { a.href = (a.href.startsWith('https://www.esclavesdutemps.be') ? 'https://www.esclavesdutemps.be/' : '') + (lang === 'fr' ? '' : lang + '/') + 'acheter.html'; });
             const chronoP = document.getElementById('portal-chrono');
             if (chronoP) chronoP.href = 'cycle-biochrono.html?lang=' + lang;
 
