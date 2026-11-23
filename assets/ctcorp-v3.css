@@ -70,7 +70,7 @@ h1, h2, h3, h4, .section-title, .hero-title, .detail-title { font-family: var(--
 .hero-stat:nth-child(3) { background: var(--lav) !important; }
 .hero-stat .number { font-family: var(--font-display) !important; font-weight: 300 !important; font-size: 48px !important; letter-spacing: -.03em; color: #fff !important; }
 .hero-stat:nth-child(3) .number { color: var(--brand) !important; }
-.hero-stat .label { font-family: var(--font-body) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 13px !important; color: rgba(230, 236, 255, .8) !important; }
+.hero-stat .label { font-family: var(--font-body) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 13px !important; color: #e6ecff !important; }
 .hero-stat:nth-child(3) .label { color: var(--ink) !important; }
 .hero-ctas { justify-content: flex-start; }
 
@@ -169,3 +169,6 @@ footer { background: transparent !important; border-top: 1px solid var(--line) !
 @media (prefers-reduced-motion: no-preference) { body::before { display: none; } }
 html { background: var(--paper) !important; }
 body { background: transparent !important; }
+
+/* Contraste WCAG AA (audit 2026-11) */
+#ticker span.up { color: #1F7A4C !important; }

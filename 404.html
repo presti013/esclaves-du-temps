@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Fragment temporel introuvable · Esclaves du Temps</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link href="/assets/fonts/gf-bb7b22cf.css" rel="stylesheet">
+<style>
+:root{--deep:#020608;--gold:#C9943A;--gold2:#E8B84B;--text:#D0C8B8;--muted:#A89F8E;--white:#F0ECE0;--cyan:#7ad7f0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:radial-gradient(ellipse at 50% 40%,#0b1a24 0%,var(--deep) 65%);color:var(--text);font-family:'Barlow Condensed',sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px 16px}
+.box{max-width:620px}
+.code{font-family:'Orbitron',monospace;font-size:clamp(72px,20vw,140px);font-weight:700;letter-spacing:.06em;color:transparent;-webkit-text-stroke:1.5px var(--gold);text-shadow:0 0 40px rgba(201,148,58,.25);line-height:1}
+.code span{display:inline-block;animation:glitch 3.2s infinite steps(1)}
+.code span:nth-child(2){animation-delay:.4s}
+@keyframes glitch{0%,92%{transform:none;opacity:1}93%{transform:translateX(-4px);opacity:.6}95%{transform:translateX(3px)}97%{opacity:.3}}
+.k{font-family:'Orbitron',monospace;font-size:12px;letter-spacing:.24em;color:var(--cyan);margin:22px 0 10px;text-transform:uppercase}
+h1{font-family:'Cinzel',serif;color:var(--white);font-size:clamp(24px,5vw,34px);margin-bottom:14px}
+p{font-size:19px;line-height:1.6;margin-bottom:30px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+a{display:inline-block;padding:12px 22px;border-radius:6px;font-family:'Orbitron',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(201,148,58,.5);color:var(--gold2)}
+a.main{background:var(--gold);color:#000;border-color:var(--gold)}
+a:hover,a:focus-visible{border-color:var(--gold2);color:var(--white)}
+a.main:hover,a.main:focus-visible{background:var(--gold2);color:#000}
+@media (prefers-reduced-motion:reduce){.code span{animation:none}}
+</style>
+</head>
+<body>
+<main class="box">
+  <div class="code" aria-hidden="true"><span>4</span><span>0</span><span>4</span></div>
+  <div class="k" id="k">NAOS-9 // Erreur de synchronisation</div>
+  <h1 id="h">Ce fragment temporel n'existe pas.</h1>
+  <p id="p">CT-Corp a peut-être compressé cette page hors du temps. Ou elle n'a jamais existé dans cette ligne temporelle.</p>
+  <div class="btns">
+    <a class="main" id="a1" href="/">Retour à l'accueil</a>
+    <a id="a2" href="/acheter.html">Découvrir le roman</a>
+  </div>
+</main>
+<script>
+(function(){
+  var l=(location.pathname.indexOf('/en/')===0)?'en':(location.pathname.indexOf('/it/')===0)?'it':null;
+  if(!l){var n=(navigator.language||'fr').slice(0,2);l=(n==='en'||n==='it')?n:'fr';}
+  var T={en:['NAOS-9 // Synchronization error','This time fragment does not exist.','CT-Corp may have compressed this page out of time. Or it never existed in this timeline.','Back to home','Discover the novel','404 — Time fragment not found · Slaves of Time'],
+         it:['NAOS-9 // Errore di sincronizzazione','Questo frammento temporale non esiste.','CT-Corp potrebbe aver compresso questa pagina fuori dal tempo. Oppure non è mai esistita in questa linea temporale.','Torna alla home','Scopri il romanzo','404 — Frammento temporale non trovato · Schiavi del Tempo']};
+  if(!T[l])return;
+  var t=T[l];document.documentElement.lang=l;
+  k.textContent=t[0];h.textContent=t[1];p.textContent=t[2];a1.textContent=t[3];a2.textContent=t[4];document.title=t[5];
+  a1.href='/?lang='+l;
+})();
+</script>
+</body>
+</html>

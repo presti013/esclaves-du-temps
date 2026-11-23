@@ -6,20 +6,26 @@
     <link rel="canonical" href="https://www.esclavesdutemps.be/">
     <title>Esclaves du Temps — Protocole NAOS-9</title>
     <meta name="description" content="Univers transmedia Esclaves du Temps. Initialisation de l'IA NAOS-9, roman, bande originale, CT-Corp, Echo Rouge et application compagnon.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Esclaves du Temps">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="Esclaves du Temps — Protocole NAOS-9">
+    <meta property="og:description" content="Univers transmedia Esclaves du Temps. Initialisation de l'IA NAOS-9, roman, bande originale, CT-Corp, Echo Rouge et application compagnon.">
+    <meta property="og:image" content="https://www.esclavesdutemps.be/assets/img/og-fr.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.esclavesdutemps.be/assets/img/og-fr.jpg">
+    <meta property="og:url" content="https://www.esclavesdutemps.be/">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: Cinzel & Cormorant Garamond (Book Cover Typography), Space Grotesk & JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="assets/fonts/gf-aee57679.css" rel="stylesheet">
     
     <!-- GSAP & ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- SoundCloud Widget API -->
-    <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script src="assets/js/gsap.min.js"></script>
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <!-- SoundCloud : lecteur et API chargés seulement au premier clic sur la musique (pas de cookies tiers à l'ouverture) -->
 
     <style>
         :root {
@@ -404,6 +410,8 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <!-- Tailwind CSS précompilé (assets/css/univers-tw.css, généré depuis index.html) -->
+    <link rel="stylesheet" href="assets/css/univers-tw.css">
 </head>
 <body class="selection:bg-[#c9a24b]/30 selection:text-white">
 
@@ -638,6 +646,18 @@
 
             <!-- Central space left open so NAOS-9 Astrolabe/Cybernetic Core shines clearly -->
             <div class="my-auto py-20 pointer-events-none"></div>
+
+
+            <!-- CTA principal visible sans défilement -->
+            <div class="relative z-10 mb-8 flex flex-wrap justify-center gap-3">
+                <a href="acheter.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#c9a24b] text-black font-display font-bold text-sm tracking-[0.14em] uppercase shadow-[0_0_24px_rgba(201,162,75,0.35)] hover:bg-[#e3be68] transition-colors no-underline">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M6.5 17A2.5 2.5 0 0 0 4 19.5 2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                    <span data-fr="Acheter le roman" data-en="Buy the novel" data-it="Acquista il romanzo">Acheter le roman</span>
+                </a>
+                <a href="prologue.html" id="cta-prologue" class="inline-flex items-center px-6 py-3 rounded-lg border border-[#c9a24b]/50 bg-[#07131e]/80 text-[#e3be68] font-display font-bold text-sm tracking-[0.14em] uppercase hover:border-[#e3be68] hover:text-white transition-colors no-underline">
+                    <span data-fr="Lire le prologue" data-en="Read the prologue" data-it="Leggi il prologo">Lire le prologue</span>
+                </a>
+            </div>
 
             <!-- Scroll Prompt -->
             <div class="flex flex-col items-center gap-3 animate-bounce">
@@ -956,6 +976,7 @@
                 <!-- Minimal Copyright Footer -->
                 <footer class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono-tech text-[11px] text-slate-500">
                     <p>© <span id="year"></span> <span data-fr="ESCLAVES DU TƎMPS" data-en="SLAVES OF TIME" data-it="SCHIAVI DEL TEMPO">ESCLAVES DU TƎMPS</span> — LAURENT PRESTIGIACOMO // LAUREXA ÉDITIONS</p>
+                    <p><a id="legal-link" href="mentions-legales.html" class="underline hover:text-[#e3be68]" data-fr="Mentions légales &amp; confidentialité" data-en="Legal notice &amp; privacy" data-it="Note legali &amp; privacy">Mentions légales &amp; confidentialité</a></p>
                     <p class="text-slate-600">PROTOCOLE NAOS-9 // SYSTÈME DE COMPRESSION TEMPORELLE ACTIF</p>
                 </footer>
             </div>
@@ -1056,6 +1077,10 @@
                 lab.classList.toggle('text-white/50', k !== lang);
             });
             try { localStorage.setItem('edt_lang', lang); } catch (e) {}
+            const legal = document.getElementById('legal-link');
+            if (legal) legal.href = (lang === 'fr' ? '' : lang + '/') + 'mentions-legales.html';
+            const prol = document.getElementById('cta-prologue');
+            if (prol) prol.href = (lang === 'fr' ? '' : lang + '/') + 'prologue.html';
 
             // (le titre du morceau en cours se met à jour en fin de fonction)
             const heroTitle = document.getElementById('hero-title');
@@ -1161,6 +1186,7 @@
         }
 
         scDrawerToggleBtn.addEventListener('click', () => {
+            scBoot();
             setDrawerOpen(scDrawer.classList.contains('hidden'));
         });
         scDrawerCloseBtn.addEventListener('click', () => setDrawerOpen(false));
@@ -1173,8 +1199,14 @@
         scIframe.scrolling = 'no';
         scIframe.frameBorder = 'no';
         scIframe.allow = 'autoplay; encrypted-media';
-        scIframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_PLAYLIST_URL)}&color=%23c9a24b&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false`;
-        scIframeHost.appendChild(scIframe);
+        const SC_IFRAME_SRC = `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_PLAYLIST_URL)}&color=%23c9a24b&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false`;
+        let scBooted = false, scPendingPlay = false;
+        function scBoot() {                       // premier geste du visiteur : on charge le lecteur et l'API SoundCloud
+            if (scBooted) return; scBooted = true;
+            scIframe.src = SC_IFRAME_SRC; scIframeHost.appendChild(scIframe);
+            const api = document.createElement('script'); api.src = 'https://w.soundcloud.com/player/api.js';
+            api.onload = initSoundCloudWidget; api.onerror = initSoundCloudWidget; document.head.appendChild(api);
+        }
 
         function loadTrackByIndex(index, autoPlay = true) {
             if (SOUNDTRACK_TRACKS.length === 0) return;
@@ -1224,7 +1256,7 @@
                     // Piste-à-piste : la liste officielle (33 titres, = CSV) fait foi ; le set SoundCloud n'en expose que quelques-uns.
                     scPlaylistMode = false;
                     scDiagLog.textContent = `✓ ${SOUNDTRACK_TRACKS.length} pistes prêtes. Cliquez sur ▶.`;
-                    loadTrackByIndex(0, false);
+                    loadTrackByIndex(0, scPendingPlay); scPendingPlay = false;
                 });
 
                 scWidget.bind(SC.Widget.Events.PLAY, () => {
@@ -1270,22 +1302,20 @@
             }
         }
 
-        if (typeof SC !== 'undefined') {
-            initSoundCloudWidget();
-        } else {
-            window.addEventListener('load', initSoundCloudWidget);
-        }
 
         audioBtn.addEventListener('click', () => {
+            scBoot();
             setDrawerOpen(true);
             if (scWidget && scReady) {
                 scWidget.toggle();
             } else {
+                scPendingPlay = true;
                 scDiagLog.textContent = '⏳ Connexion au lecteur SoundCloud en cours, cliquez directement sur ▶ dans le lecteur ci-dessus.';
             }
         });
 
         scPrevBtn.addEventListener('click', () => {
+            scBoot();
             const prevIdx = isShuffle && SOUNDTRACK_TRACKS.length > 1
                 ? Math.floor(Math.random() * SOUNDTRACK_TRACKS.length)
                 : (currentTrackIndex - 1 + SOUNDTRACK_TRACKS.length) % SOUNDTRACK_TRACKS.length;
@@ -1293,6 +1323,7 @@
         });
 
         scNextBtn.addEventListener('click', () => {
+            scBoot();
             const nextIdx = isShuffle && SOUNDTRACK_TRACKS.length > 1
                 ? Math.floor(Math.random() * SOUNDTRACK_TRACKS.length)
                 : (currentTrackIndex + 1) % SOUNDTRACK_TRACKS.length;
@@ -1300,6 +1331,7 @@
         });
 
         scTrackSelect.addEventListener('change', (e) => {
+            scBoot();
             const idx = parseInt(e.target.value, 10);
             if (!isNaN(idx)) {
                 loadTrackByIndex(idx, true);
@@ -2136,29 +2168,35 @@
                 bodyFr: `
                     <p>Une question sur l'univers d'<strong>Esclaves du Temps</strong>, une demande de presse, de salon ou de dédicace ?</p>
                     <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
-                        <input type="text" required placeholder="Votre nom / Indicatif" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <input type="email" required placeholder="Votre adresse email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <textarea rows="3" required placeholder="Votre transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="name" required maxlength="120" autocomplete="name" aria-label="Votre nom / Indicatif" placeholder="Votre nom / Indicatif" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" name="email" required maxlength="160" autocomplete="email" aria-label="Votre adresse email" placeholder="Votre adresse email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea name="message" rows="3" required maxlength="3000" aria-label="Votre transmission..." placeholder="Votre transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
                         <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Envoyer la Transmission</button>
+                        <p class="text-white/60 leading-relaxed">Le bouton ouvre votre messagerie avec le message pré-rempli. Aucune donnée n'est stockée sur ce site. Adresse directe : <a href="mailto:contact@laurexa.be" class="text-[#e3be68] underline">contact@laurexa.be</a></p>
                     </form>
                 `,
                 bodyEn: `
                     <p>Have a question about the <strong>Slaves of Time</strong> universe, press inquiry, or book signing request?</p>
                     <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
-                        <input type="text" required placeholder="Your Name / Callsign" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <input type="email" required placeholder="Your Email Address" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <textarea rows="3" required placeholder="Your transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="name" required maxlength="120" autocomplete="name" aria-label="Your Name / Callsign" placeholder="Your Name / Callsign" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" name="email" required maxlength="160" autocomplete="email" aria-label="Your Email Address" placeholder="Your Email Address" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea name="message" rows="3" required maxlength="3000" aria-label="Your transmission..." placeholder="Your transmission..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
                         <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Send Transmission</button>
+                        <p class="text-white/60 leading-relaxed">The button opens your email app with the message pre-filled. No data is stored on this site. Direct address: <a href="mailto:contact@laurexa.be" class="text-[#e3be68] underline">contact@laurexa.be</a></p>
                     </form>
                 `,
                 titleIt: 'Contatta Laurent Prestigiacomo',
                 bodyIt: `
                     <p>Una domanda sull'universo di <strong>Schiavi del Tempo</strong>, una richiesta stampa, per una fiera o una sessione di firme?</p>
                     <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono-tech text-xs">
-                        <input type="text" required placeholder="Il tuo nome / Nominativo" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <input type="email" required placeholder="Il tuo indirizzo email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
-                        <textarea rows="3" required placeholder="La tua trasmissione..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="name" required maxlength="120" autocomplete="name" aria-label="Il tuo nome / Nominativo" placeholder="Il tuo nome / Nominativo" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <input type="email" name="email" required maxlength="160" autocomplete="email" aria-label="Il tuo indirizzo email" placeholder="Il tuo indirizzo email" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]">
+                        <textarea name="message" rows="3" required maxlength="3000" aria-label="La tua trasmissione..." placeholder="La tua trasmissione..." class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white focus:outline-none focus:border-[#c9a24b]"></textarea>
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
                         <button type="submit" class="w-full py-2.5 rounded-lg bg-[#c9a24b] text-black font-bold uppercase tracking-wider hover:bg-[#e3be68] transition-colors cursor-pointer">Invia la trasmissione</button>
+                        <p class="text-white/60 leading-relaxed">Il pulsante apre la tua app di posta con il messaggio precompilato. Nessun dato viene memorizzato su questo sito. Indirizzo diretto: <a href="mailto:contact@laurexa.be" class="text-[#e3be68] underline">contact@laurexa.be</a></p>
                     </form>
                 `
             }
@@ -2228,11 +2266,17 @@
 
         function handleContactSubmit(e) {
             e.preventDefault();
-            modalBody.innerHTML = currentLang === 'it'
-                ? `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRASMISSIONE RICEVUTA DA NAOS-9. L'autore ti risponderà a breve.</div>`
-                : currentLang === 'fr'
-                ? `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION REÇUE PAR NAOS-9. L'auteur vous répondra sous peu.</div>`
-                : `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">✓ TRANSMISSION RECEIVED BY NAOS-9. The author will reply shortly.</div>`;
+            const f = e.target.elements;
+            if (f['website'] && f['website'].value) return; // pot de miel anti-robots
+            const name = f['name'].value.trim(), email = f['email'].value.trim(), msg = f['message'].value.trim();
+            const subject = tr('[Esclaves du Temps] Message de ', '[Slaves of Time] Message from ', '[Schiavi del Tempo] Messaggio da ') + name;
+            const body = msg + '\n\n— ' + name + ' <' + email + '>';
+            window.location.href = 'mailto:contact@laurexa.be?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+            const ok = tr(
+                "✓ TRANSMISSION PRÊTE. Votre messagerie s'ouvre avec le message pré-rempli : il ne reste qu'à l'envoyer. Rien ne s'ouvre ? Écrivez directement à",
+                "✓ TRANSMISSION READY. Your email app is opening with the message pre-filled: just hit send. Nothing opened? Write directly to",
+                "✓ TRASMISSIONE PRONTA. La tua app di posta si apre con il messaggio precompilato: basta inviarlo. Non si apre nulla? Scrivi direttamente a");
+            modalBody.innerHTML = `<div class="p-4 rounded-lg bg-[#c9a24b]/20 border border-[#c9a24b]/50 text-[#e3be68] font-mono-tech text-xs">${ok} <a href="mailto:contact@laurexa.be" class="underline">contact@laurexa.be</a>.</div>`;
         }
 
         /* ==========================================================================
