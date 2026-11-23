@@ -313,6 +313,23 @@
             }
         }
 
+
+        /* Icônes des portails : grand médaillon en filigrane à droite, texte au premier plan */
+        .orbital-node { position: relative; isolation: isolate; }
+        .orbital-node > *:not(.portal-icon) { position: relative; z-index: 1; }
+        .portal-icon { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+        .portal-icon img {
+            position: absolute; right: -14%; top: 50%; width: 78%; max-width: 230px; aspect-ratio: 1; transform: translateY(-50%) rotate(-6deg);
+            opacity: .26; mix-blend-mode: screen; filter: saturate(1.1);
+            -webkit-mask-image: radial-gradient(circle at center, #000 42%, transparent 70%);
+                    mask-image: radial-gradient(circle at center, #000 42%, transparent 70%);
+            transition: opacity .5s ease, transform .8s cubic-bezier(.22,1,.36,1);
+        }
+        .orbital-node:hover .portal-icon img, .orbital-node:focus-visible .portal-icon img { opacity: .55; transform: translateY(-50%) rotate(0deg) scale(1.06); }
+        .portal-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,12,20,.92) 0%, rgba(5,12,20,.7) 45%, rgba(5,12,20,0) 85%); }
+        .orbital-node::after { z-index: 2; }
+        @media (prefers-reduced-motion: reduce) { .portal-icon img { transition: none; } }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -741,6 +758,7 @@
             <div class="orbital-grid-desktop grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-6xl z-20">
                 <!-- PORTAL 1: Découvrir le roman -> page acheter.html -->
                 <a href="acheter.html" class="orbital-node node-1 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-01.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
                         <span>[ PORTAIL 01 // ÉDITION ]</span>
                         <span class="group-hover:translate-x-0.5 transition-transform">◈</span>
@@ -751,6 +769,7 @@
 
                 <!-- PORTAL 2: Bande Originale (Streaming) -->
                 <button type="button" onclick="openModal('streaming')" class="orbital-node node-2 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-02.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
                         <span>[ PORTAIL 02 // AUDIO 33 TRACKS ]</span>
                         <span>♫</span>
@@ -761,6 +780,7 @@
 
                 <!-- PORTAL 3: App Mobile NAOS-9 -->
                 <a href="https://www.esclavesdutemps.be/naos/" target="_blank" rel="noopener noreferrer" class="orbital-node node-3 hud-panel hud-corners rounded-xl p-5 block group border-[#d92b3a]/45 h-full">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-03.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
                         <span>[ PORTAIL 03 // SMARTPHONE ]</span>
                         <span class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
@@ -771,6 +791,7 @@
 
                 <!-- PORTAL 4: Contacter l'Auteur -->
                 <button type="button" onclick="openModal('contact')" class="orbital-node node-4 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-04.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
                         <span>[ PORTAIL 04 // TRANSMISSION ]</span>
                         <span>✉</span>
@@ -781,6 +802,7 @@
 
                 <!-- PORTAL 5: Réseau Echo Rouge -->
                 <button type="button" onclick="openModal('echorouge')" class="orbital-node node-5 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#d92b3a]/50 h-full">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-05.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#ff4d5e] mb-1.5">
                         <span>[ PORTAIL 05 // RÉSISTANCE ]</span>
                         <span>⚠</span>
@@ -791,6 +813,7 @@
 
                 <!-- PORTAL 6: Portail CT-Corp -->
                 <button type="button" onclick="openModal('ctcorp')" class="orbital-node node-6 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer border-[#3ba4c7]/45 h-full">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-06.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#7ad7f0] mb-1.5">
                         <span>[ PORTAIL 06 // INTRANET ]</span>
                         <span>⬡</span>
@@ -801,6 +824,7 @@
 
                 <!-- PORTAL 7: Cycle bio-chronologique (page dédiée) -->
                 <a href="cycle-biochrono.html" id="portal-chrono" class="orbital-node node-7 hud-panel hud-corners rounded-xl p-5 text-left block group cursor-pointer h-full no-underline">
+                    <span class="portal-icon" aria-hidden="true"><img src="assets/img/portal-07.webp" alt="" loading="lazy" decoding="async" width="400" height="400"></span>
                     <div class="flex items-center justify-between font-mono-tech text-[10px] text-[#e3be68] mb-1.5">
                         <span>[ PORTAIL 07 // CYCLE BIOCHRONO ]</span>
                         <span class="group-hover:translate-x-0.5 transition-transform">⧗</span>
