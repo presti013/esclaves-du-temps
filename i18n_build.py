@@ -40,6 +40,9 @@ def url_for(target, cur, page):
     return rootprefix + subdir + page
 
 def abs_url(lang, page):
+    # L'accueil FR est servi à la racine du domaine : c'est son adresse de référence.
+    if lang == "fr" and page == "index.html":
+        return BASE
     return BASE + ("" if lang == "fr" else lang + "/") + page
 
 def available(lang, page):
@@ -153,11 +156,15 @@ def inject(path, lang, page):
     # Normalise les liens internes des pages traduites (corrige les « ../ » erronés
     # des builds antérieurs) AVANT de régénérer les blocs i18n (sélecteur, etc.).
     html = rewrite_page_links(html, lang)
-    html = _replace_block(html, "style", build_style(page), "</head>", after=False)
+    own = lang == "fr" and page in OWN_SWITCH
+    if not own:
+        html = _replace_block(html, "style", build_style(page), "</head>", after=False)
     html = _replace_block(html, "hreflang", build_hreflang(page), "</head>", after=False)
-    html = _replace_block(html, "switch", build_switch(lang, page), r"<body[^>]*>", after=True)
+    if not own:
+        html = _replace_block(html, "switch", build_switch(lang, page), r"<body[^>]*>", after=True)
     html = _replace_block(html, "analytics", ANALYTICS, "</body>", after=False)
-    html = _replace_block(html, "js", js_tag(lang), "</body>", after=False)
+    if not own:
+        html = _replace_block(html, "js", js_tag(lang), "</body>", after=False)
     html = _update_meta_url(html, lang, page)
     # <html lang="..">
     html = re.sub(r'<html[^>]*\blang="[^"]*"', '<html lang="%s"' % lang, html, count=1)
@@ -215,7 +222,12 @@ def _is_full_doc(f):
 
 # Pages hors i18n (admin / outils internes) : pas de sélecteur ni de hreflang.
 # Elles embarquent l'analytics directement dans leur source.
-EXCLUDE = {"admin-stats.html"}
+# accueil-classique.html : ancienne page d'accueil gardée en sauvegarde, marquée noindex.
+EXCLUDE = {"admin-stats.html", "accueil-classique.html"}
+
+# Pages qui ont leur propre sélecteur de langue : on n'y injecte que le
+# référencement (hreflang, canonical) et l'analytics, pas le sélecteur visible.
+OWN_SWITCH = {"index.html"}
 
 PAGES_FR = [f for f in sorted(os.listdir("."))
             if f.endswith(".html") and _is_full_doc(f) and f not in EXCLUDE]
